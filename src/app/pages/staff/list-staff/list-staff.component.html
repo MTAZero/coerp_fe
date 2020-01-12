@@ -1,0 +1,292 @@
+<div class="container-fluid">
+  <app-page-title
+    title="Hồ sơ"
+    [breadcrumbItems]="breadCrumbItems"
+  ></app-page-title>
+
+  <div class="row">
+    <div class="col-xl-8">
+      <div class="card">
+        <div class="card-body">
+          <div class="row mb-2">
+            <div class="col-sm-4">
+              <form class="form-inline">
+                <div class="form-group mb-2">
+                  <label class="sr-only">Search</label>
+                  <input
+                    class="form-control"
+                    name="search"
+                    placeholder="Search..."
+                    [(ngModel)]="term"
+                  />
+                </div>
+
+                <select class="custom-select ">
+                  <option selected>Open this select menu</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
+              </form>
+            </div>
+            <div class="col-sm-8">
+              <div class="text-sm-right">
+                <button type="button" class="btn btn-info mb-2 mr-1">
+                  Import
+                </button>
+                <button type="button" class="btn btn-info mb-2 mr-1">
+                  Export
+                </button>
+                <a
+                  href="javscript: void(0);"
+                  class="btn btn-success mb-2"
+                  (click)="openModal(content)"
+                  ><i class="mdi mdi-plus-circle mr-1"></i> Thêm mới</a
+                >
+              </div>
+            </div>
+            <!-- end col-->
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-centered table-hover mb-0">
+              <thead>
+                <tr>
+                  <th>Mã nhân viên</th>
+                  <th>Họ và tên</th>
+                  <th>Tên đăng nhập</th>
+                  <th>Số điện thoại</th>
+                  <th>Email</th>
+                  <th>Chức vụ</th>
+                  <th>Só CMND</th>
+                  <th>Ngày cấp</th>
+                  <th>Trạng thái</th>
+                  <th style="width: 82px;">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let contact of paginatedContactData | filter: term">
+                  <td>
+                    {{ contact.staff_id }}
+                  </td>
+                  <td>
+                    {{ contact.name }}
+                  </td>
+                  <td>
+                    {{ contact.user_name }}
+                  </td>
+                  <td>
+                    {{ contact.phone }}
+                  </td>
+                  <td>
+                    {{ contact.email }}
+                  </td>
+                  <td>
+                    {{ contact.position }}
+                  </td>
+                  <td>
+                    {{ contact.CMND }}
+                  </td>
+                  <td>
+                    {{ contact.date }}
+                  </td>
+                  <td
+                    [style.color]="
+                      contact.status === 'Active' ? 'green' : 'red'
+                    "
+                    style="font-weight: bold;"
+                  >
+                    {{ contact.status }}
+                  </td>
+                  <td>
+                    <a href="javascript:void(0);" class="action-icon">
+                      <i class="mdi mdi-square-edit-outline"></i
+                    ></a>
+                    <a href="javascript:void(0);" class="action-icon">
+                      <i class="mdi mdi-delete"></i
+                    ></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <ul class="pagination pagination-rounded justify-content-end my-2">
+            <ngb-pagination
+              (pageChange)="onPageChange($event)"
+              [pageSize]="pageSize"
+              [(page)]="page"
+              [collectionSize]="totalSize"
+            ></ngb-pagination>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4">
+      <div class="card-box">
+        <div class="media mb-3">
+          <img
+            class="d-flex mr-3 rounded-circle avatar-lg"
+            src="assets/images/users/user-8.jpg"
+            alt="Generic placeholder image"
+          />
+          <div class="media-body">
+            <h4 class="mt-0 mb-1">Hà Thị QUyết</h4>
+            <p class="text-muted">
+              QA
+            </p>
+            <p class="text-muted">
+              035 58932561
+            </p>
+            <p class="text-muted">
+              quyet.ha@boot.ai
+            </p>
+          </div>
+        </div>
+
+        <ngb-tabset>
+          <ngb-tab title="Thông tin cá nhân">
+            <ng-template ngbTabContent>
+              <ng-template [ngTemplateOutlet]="TabContent"></ng-template>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab title="Lịch sử chăm sóc khách hàng">
+            <ng-template ngbTabContent>
+              <ng-template [ngTemplateOutlet]="TabContent"></ng-template>
+            </ng-template>
+          </ngb-tab>
+        </ngb-tabset>
+
+        <ng-template #TabContent>
+          <div class="">
+            <h4 class="font-13 text-muted text-uppercase">About Me :</h4>
+            <p class="mb-3">
+              Hi I'm Johnathn Deo,has been the industry's standard dummy text
+              ever since the 1500s, when an unknown printer took a galley of
+              type.
+            </p>
+
+            <h4 class="font-13 text-muted text-uppercase mb-1">
+              NGÀY SINH
+            </h4>
+            <p class="mb-3">March 23, 1984 (34 Years)</p>
+
+            <h4 class="font-13 text-muted text-uppercase mb-1">PHÒNG BAN</h4>
+            <p class="mb-3">Vine Corporation</p>
+
+            <h4 class="font-13 text-muted text-uppercase mb-1">NGÀY TẠO</h4>
+            <p class="mb-3">April 22, 2016</p>
+
+            <h4 class="font-13 text-muted text-uppercase mb-1">ĐỊA CHỈ</h4>
+            <p class="mb-0">Dec 13, 2017</p>
+          </div>
+        </ng-template>
+      </div>
+      <!-- end card-box-->
+    </div>
+  </div>
+</div>
+
+<!-- Contacts model  -->
+<ng-template #content role="document" let-modal="close">
+  <div class="modal-header bg-dark">
+    <h4 class="modal-title text-white">Add Contacts</h4>
+    <button
+      type="button"
+      class="close text-white"
+      aria-label="Close"
+      (click)="modal('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body p-3">
+    <div class="text-left">
+      <form (ngSubmit)="saveData()" [formGroup]="validationform">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            placeholder="Enter name"
+            formControlName="name"
+            [ngClass]="{ 'is-invalid': submitted && form.name.errors }"
+          />
+          <div *ngIf="submitted && form.name.errors" class="invalid-feedback">
+            <span *ngIf="form.name.errors.required"
+              >This value is required.</span
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <input
+            class="form-control"
+            id="email"
+            placeholder="Enter email"
+            formControlName="email"
+            [ngClass]="{ 'is-invalid': submitted && form.email.errors }"
+          />
+          <div *ngIf="submitted && form.email.errors" class="invalid-feedback">
+            <span *ngIf="form.email.errors.required"
+              >This value is required.</span
+            >
+            <span *ngIf="form.email.errors.pattern"
+              >Please enter valid email.</span
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Phone </label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter phone number"
+            formControlName="phone"
+            [ngClass]="{ 'is-invalid': submitted && form.phone.errors }"
+            minlength="10"
+          />
+          <div *ngIf="submitted && form.phone.errors" class="invalid-feedback">
+            <span *ngIf="form.phone.errors.required"
+              >This value is required.</span
+            >
+            <span *ngIf="form.phone.errors.minlength"
+              >Phone number must be 10 characters.</span
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Location </label>
+          <input
+            class="form-control"
+            placeholder="Enter location"
+            formControlName="location"
+            [ngClass]="{ 'is-invalid': submitted && form.location.errors }"
+          />
+          <div
+            *ngIf="submitted && form.location.errors"
+            class="invalid-feedback"
+          >
+            <span *ngIf="form.location.errors.required"
+              >This value is required.</span
+            >
+          </div>
+        </div>
+
+        <div class="text-right">
+          <button type="submit" class="btn btn-success">Save</button>
+          <button
+            type="button"
+            class="btn btn-danger ml-1"
+            (click)="modal('close click')"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>
