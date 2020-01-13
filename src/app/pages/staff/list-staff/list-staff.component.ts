@@ -51,19 +51,21 @@ export class ListStaffComponent implements OnInit {
     ];
     this.validationform = this.formBuilder.group({
       name: ['', [Validators.required]],
+      position: ['', [Validators.required]],
       user_name: ['', [Validators.required]],
+      status: ['', [Validators.required]],
+      password: ['', [Validators.required]],
+      gender: ['', null],
+      department: ['', [Validators.required]],
+      dob: ['', null],
       phone: ['', [Validators.required]],
+      CMND: ['', null],
       email: [
         '',
-        [
-          Validators.required,
-          Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$')
-        ]
+        [Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$')]
       ],
-      position: ['', [Validators.required]],
-      CMND: ['', [Validators.required]],
-      date: ['', [Validators.required]],
-      status: ['', [Validators.required]]
+      doi: ['', null], // date of issue of certification
+      address: ['', null]
     });
 
     /**
@@ -82,6 +84,10 @@ export class ListStaffComponent implements OnInit {
    * Modal Open
    * @param content modal content
    */
+  openLargeModal(content: string) {
+    this.modalService.open(content, { centered: true, size: 'lg' });
+  }
+
   openModal(content: string) {
     this.modalService.open(content, { centered: true });
   }

@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   NgbTabsetModule,
-  NgbAccordionModule
+  NgbAccordionModule,
+  NgbDatepickerModule
 } from '@ng-bootstrap/ng-bootstrap';
 
 import { UIModule } from '../../shared/ui/ui.module';
@@ -28,6 +29,7 @@ import { ListStaffComponent } from './list-staff/list-staff.component';
     UIModule,
     NgbTabsetModule,
     NgbAccordionModule,
+    NgbDatepickerModule,
     NgbModalModule,
     NgbPaginationModule,
     NgApexchartsModule,
