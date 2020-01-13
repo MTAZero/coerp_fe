@@ -64,38 +64,36 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let contact of paginatedContactData | filter: term">
+                <tr *ngFor="let staff of paginatedStaffData | filter: term">
                   <td>
-                    {{ contact.staff_id }}
+                    {{ staff.staff_id }}
                   </td>
                   <td>
-                    {{ contact.name }}
+                    {{ staff.name }}
                   </td>
                   <td>
-                    {{ contact.user_name }}
+                    {{ staff.user_name }}
                   </td>
                   <td>
-                    {{ contact.phone }}
+                    {{ staff.phone }}
                   </td>
                   <td>
-                    {{ contact.email }}
+                    {{ staff.email }}
                   </td>
                   <td>
-                    {{ contact.position }}
+                    {{ staff.position }}
                   </td>
                   <td>
-                    {{ contact.CMND }}
+                    {{ staff.CMND }}
                   </td>
                   <td>
-                    {{ contact.date }}
+                    {{ staff.date }}
                   </td>
                   <td
-                    [style.color]="
-                      contact.status === 'Active' ? 'green' : 'red'
-                    "
+                    [style.color]="staff.status === 'Active' ? 'green' : 'red'"
                     style="font-weight: bold;"
                   >
-                    {{ contact.status }}
+                    {{ staff.status }}
                   </td>
                   <td>
                     <a href="javascript:void(0);" class="action-icon">
@@ -104,7 +102,7 @@
                     <a
                       href="javascript:void(0);"
                       class="action-icon"
-                      (click)="openModal(deleteStaff)"
+                      (click)="openModal(deleteStaff, staff)"
                     >
                       <i class="mdi mdi-delete"></i
                     ></a>
@@ -510,13 +508,15 @@
   </div>
   <div class="modal-body p-3">
     <div class="text-center">
-      <div class="mb-3">Bạn có chắc chắn muốn xóa nhân sự đã chọn không?</div>
+      <div class="mb-3">
+        Bạn có chắc chắn muốn xóa nhân sự <b>{{ selectStaff?.name }}</b> không?
+      </div>
       <div class="text-right">
-        <button type="submit" class="btn btn-success">Có</button>
+        <button class="btn btn-success" (click)="confirmModal()">Có</button>
         <button
           type="button"
           class="btn btn-danger ml-1"
-          (click)="modal('close click')"
+          (click)="cancelModal()"
         >
           Không
         </button>

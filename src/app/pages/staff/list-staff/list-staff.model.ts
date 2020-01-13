@@ -1,4 +1,4 @@
-export interface Staffs {
+export interface Staff {
   staff_id: string;
   name: string;
   user_name: string;

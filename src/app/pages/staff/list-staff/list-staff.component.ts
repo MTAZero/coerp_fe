@@ -4,7 +4,7 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { Staffs } from './list-staff.model';
+import { Staff } from './list-staff.model';
 
 import { contactData } from './data';
 
@@ -15,7 +15,7 @@ import { contactData } from './data';
 })
 
 /**
- * Contacts component - handling the contacts with navbar and content
+ * Staffs component
  */
 export class ListStaffComponent implements OnInit {
   // bread crumb items
@@ -23,9 +23,7 @@ export class ListStaffComponent implements OnInit {
 
   submitted: boolean;
   term: any;
-  // page number
   page = 1;
-  // default page size
   pageSize = 10;
 
   // start and end index
@@ -33,8 +31,10 @@ export class ListStaffComponent implements OnInit {
   endIndex = 10;
   totalSize = 0;
 
-  paginatedContactData: Array<Staffs>;
-  contacts: Array<Staffs>;
+  paginatedStaffData: Array<Staff>;
+  selectStaff: Staff;
+  staffs: Array<Staff>;
+  modalRef: any;
   // validation form
   validationform: FormGroup;
 
@@ -68,9 +68,6 @@ export class ListStaffComponent implements OnInit {
       address: ['', null]
     });
 
-    /**
-     * Fetches Data
-     */
     this._fetchData();
   }
 
@@ -84,12 +81,26 @@ export class ListStaffComponent implements OnInit {
    * Modal Open
    * @param content modal content
    */
-  openLargeModal(content: string) {
+  openLargeModal(content: string, staff?: Staff) {
     this.modalService.open(content, { centered: true, size: 'lg' });
   }
 
-  openModal(content: string) {
-    this.modalService.open(content, { centered: true });
+  openModal(content: string, staff?: Staff) {
+    this.selectStaff = staff;
+    this.modalRef = this.modalService.open(content, { centered: true });
+    this.modalRef.result.then(res => {
+      console.log(res);
+    });
+  }
+
+  confirmModal() {
+    // console.log('ok');
+    this.modalRef.close('Ok ok');
+  }
+
+  cancelModal() {
+    // console.log('ok');
+    this.modalRef.close('Ok ok');
   }
 
   /**
@@ -105,7 +116,7 @@ export class ListStaffComponent implements OnInit {
     const status = this.validationform.get('status').value;
     const currentDate = new Date();
     if (this.validationform.valid) {
-      this.contacts.push({
+      this.staffs.push({
         staff_id: 'NV01',
         name,
         user_name: userName,
@@ -130,11 +141,8 @@ export class ListStaffComponent implements OnInit {
       this.modalService.dismissAll();
     }
     this.submitted = true;
-    this.totalSize = this.contacts.length + 1;
-    this.paginatedContactData = this.contacts.slice(
-      this.startIndex,
-      this.endIndex
-    );
+    this.totalSize = this.staffs.length + 1;
+    this.paginatedStaffData = this.staffs.slice(this.startIndex, this.endIndex);
   }
 
   /**
@@ -144,22 +152,16 @@ export class ListStaffComponent implements OnInit {
   onPageChange(page: any): void {
     this.startIndex = (page - 1) * this.pageSize;
     this.endIndex = (page - 1) * this.pageSize + this.pageSize;
-    this.paginatedContactData = this.contacts.slice(
-      this.startIndex,
-      this.endIndex
-    );
+    this.paginatedStaffData = this.staffs.slice(this.startIndex, this.endIndex);
   }
 
   private _fetchData() {
-    this.contacts = contactData;
+    this.staffs = contactData;
     // apply pagination
     this.startIndex = 0;
     this.endIndex = this.pageSize;
 
-    this.paginatedContactData = this.contacts.slice(
-      this.startIndex,
-      this.endIndex
-    );
-    this.totalSize = this.contacts.length;
+    this.paginatedStaffData = this.staffs.slice(this.startIndex, this.endIndex);
+    this.totalSize = this.staffs.length;
   }
 }
