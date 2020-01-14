@@ -7,8 +7,10 @@ const contactData = [
     email: 'quyet.ha@boot.ai',
     position: 'Tester',
     CMND: '1368998772',
-    date: '21/12/2021',
-    status: 'Active'
+    doi: '21/12/2021',
+    status: 'Active',
+    password: '12345678',
+    department: 'Phòng phát triển phần mềm'
   },
   {
     staff_id: 'NV01',
@@ -18,8 +20,10 @@ const contactData = [
     email: 'quyet.ha@boot.ai',
     position: 'Tester',
     CMND: '1368998772',
-    date: '21/12/2021',
-    status: 'Blocked'
+    doi: '21/12/2021',
+    status: 'Blocked',
+    password: '12345678',
+    department: 'Phòng phát triển phần mềm'
   },
   {
     staff_id: 'NV01',
@@ -29,8 +33,10 @@ const contactData = [
     email: 'quyet.ha@boot.ai',
     position: 'Tester',
     CMND: '1368998772',
-    date: '21/12/2021',
-    status: 'Blocked'
+    doi: '21/12/2021',
+    status: 'Blocked',
+    password: '12345678',
+    department: 'Phòng phát triển phần mềm'
   },
   {
     staff_id: 'NV01',
@@ -40,8 +46,10 @@ const contactData = [
     email: 'quyet.ha@boot.ai',
     position: 'Tester',
     CMND: '1368998772',
-    date: '21/12/2021',
-    status: 'Blocked'
+    doi: '21/12/2021',
+    status: 'Blocked',
+    password: '12345678',
+    department: 'Phòng phát triển phần mềm'
   },
   {
     staff_id: 'NV01',
@@ -51,8 +59,10 @@ const contactData = [
     email: 'quyet.ha@boot.ai',
     position: 'Tester',
     CMND: '1368998772',
-    date: '21/12/2021',
-    status: 'Blocked'
+    doi: '21/12/2021',
+    status: 'Blocked',
+    password: '12345678',
+    department: 'Phòng phát triển phần mềm'
   },
   {
     staff_id: 'NV01',
@@ -62,8 +72,10 @@ const contactData = [
     email: 'quyet.ha@boot.ai',
     position: 'Tester',
     CMND: '1368998772',
-    date: '21/12/2021',
-    status: 'Blocked'
+    doi: '21/12/2021',
+    status: 'Blocked',
+    password: '12345678',
+    department: 'Phòng phát triển phần mềm'
   },
   {
     staff_id: 'NV01',
@@ -73,8 +85,10 @@ const contactData = [
     email: 'quyet.ha@boot.ai',
     position: 'Tester',
     CMND: '1368998772',
-    date: '21/12/2021',
-    status: 'Blocked'
+    doi: '21/12/2021',
+    status: 'Blocked',
+    password: '12345678',
+    department: 'Phòng phát triển phần mềm'
   },
   {
     staff_id: 'NV01',
@@ -84,8 +98,10 @@ const contactData = [
     email: 'quyet.ha@boot.ai',
     position: 'Tester',
     CMND: '1368998772',
-    date: '21/12/2021',
-    status: 'Blocked'
+    doi: '21/12/2021',
+    status: 'Blocked',
+    password: '12345678',
+    department: 'Phòng phát triển phần mềm'
   },
   {
     staff_id: 'NV01',
@@ -95,8 +111,10 @@ const contactData = [
     email: 'quyet.ha@boot.ai',
     position: 'Tester',
     CMND: '1368998772',
-    date: '21/12/2021',
-    status: 'Blocked'
+    doi: '21/12/2021',
+    status: 'Blocked',
+    password: '12345678',
+    department: 'Phòng phát triển phần mềm'
   },
   {
     staff_id: 'NV01',
@@ -106,8 +124,10 @@ const contactData = [
     email: 'quyet.ha@boot.ai',
     position: 'Tester',
     CMND: '1368998772',
-    date: '21/12/2021',
-    status: 'Blocked'
+    doi: '21/12/2021',
+    status: 'Blocked',
+    password: '12345678',
+    department: 'Phòng phát triển phần mềm'
   },
   {
     staff_id: 'NV01',
@@ -117,8 +137,10 @@ const contactData = [
     email: 'quyet.ha@boot.ai',
     position: 'Tester',
     CMND: '1368998772',
-    date: '21/12/2021',
-    status: 'Blocked'
+    doi: '21/12/2021',
+    status: 'Blocked',
+    password: '12345678',
+    department: 'Phòng phát triển phần mềm'
   },
   {
     staff_id: 'NV01',
@@ -128,8 +150,10 @@ const contactData = [
     email: 'quyet.ha@boot.ai',
     position: 'Tester',
     CMND: '1368998772',
-    date: '21/12/2021',
-    status: 'Blocked'
+    doi: '21/12/2021',
+    status: 'Blocked',
+    password: '12345678',
+    department: 'Phòng phát triển phần mềm'
   }
 ];
 

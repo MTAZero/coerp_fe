@@ -1,0 +1,313 @@
+<div class="modal-header bg-dark">
+  <h4 class="modal-title text-white">Thêm mới nhân sự</h4>
+  <button
+    type="button"
+    class="close text-white"
+    aria-label="Close"
+    (click)="onClickCancel()"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body p-3">
+  <div class="text-left">
+    <form [formGroup]="form" class="form-horizontal">
+      <div class="form-group">
+        <label for="avatar">Ảnh chân dung</label>
+        <img
+          class="d-flex mr-3 rounded-circle avatar-lg"
+          src="assets/images/users/user-8.jpg"
+          alt="Generic placeholder image"
+        />
+      </div>
+      <div class="form-row">
+        <div class="form-group row mb-3">
+          <label class="col-4 col-form-label">Họ và tên</label>
+          <div class="col-8">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="name"
+              [ngClass]="{ 'is-invalid': submitted && form.name.errors }"
+            />
+            <div *ngIf="submitted && form.name.errors" class="invalid-feedback">
+              <span *ngIf="form.name.errors.required"
+                >This value is required.</span
+              >
+            </div>
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label class="col-4 col-form-label">Chức vụ</label>
+          <div class="col-6">
+            <select
+              class="custom-select"
+              formControlName="position"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && form.position.errors }"
+            >
+              <option value=""></option>
+              <option value="1">Giám đốc</option>
+              <option value="2">Trưởng phòng</option>
+              <option value="2">Nhân viên</option>
+            </select>
+            <div
+              *ngIf="submitted && form.position.errors"
+              class="invalid-feedback"
+            >
+              <span *ngIf="form.position.errors.required"
+                >This value is required.</span
+              >
+            </div>
+          </div>
+          <div class="col-2 pl-0">
+            <a
+              href="javscript: void(0);"
+              class="btn btn-success"
+              style="width: inherit;"
+              (click)="openModal(positionModal)"
+              ><i class="mdi mdi mdi-menu"></i
+            ></a>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group row mb-3">
+          <label class="col-4 col-form-label">Tên đăng nhập</label>
+          <div class="col-8">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="user_name"
+              [ngClass]="{ 'is-invalid': submitted && form.user_name.errors }"
+            />
+            <div
+              *ngIf="submitted && form.user_name.errors"
+              class="invalid-feedback"
+            >
+              <span *ngIf="form.user_name.errors.required"
+                >This value is required.</span
+              >
+            </div>
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label class="col-4 col-form-label">Trạng thái</label>
+          <div class="col-8">
+            <select
+              class="custom-select"
+              formControlName="status"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && form.status.errors }"
+            >
+              <option value=""></option>
+              <option value="1">Active</option>
+              <option value="2">Blocked</option>
+            </select>
+            <div
+              *ngIf="submitted && form.status.errors"
+              class="invalid-feedback"
+            >
+              <span *ngIf="form.position.status.required"
+                >This value is required.</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group row mb-3">
+          <label class="col-4 col-form-label">Mật khẩu</label>
+          <div class="col-8">
+            <input
+              type="password"
+              class="form-control"
+              formControlName="password"
+              [ngClass]="{ 'is-invalid': submitted && form.password.errors }"
+            />
+            <div
+              *ngIf="submitted && form.password.errors"
+              class="invalid-feedback"
+            >
+              <span *ngIf="form.name.password.required"
+                >This value is required.</span
+              >
+            </div>
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label class="col-4 col-form-label">Giới tính</label>
+          <div class="col-8">
+            <select
+              class="custom-select"
+              formControlName="gender"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && form.gender.errors }"
+            >
+              <option value=""></option>
+              <option value="1">Nam</option>
+              <option value="2">Nữ</option>
+              <option value="2">Giới tính khác</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group row mb-3">
+          <label for="department" class="col-4 col-form-label">Phòng ban</label>
+          <div class="col-6">
+            <select
+              class="custom-select"
+              formControlName="department"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid': submitted && form.department.errors
+              }"
+            >
+              <option value=""></option>
+              <option value="1">Phòng nhân sự</option>
+              <option value="2">Phòng tài chính</option>
+              <option value="2">Phòng phát triển phần mềm</option>
+              <option value="2">Phòng trí tuệ nhân tạo</option>
+            </select>
+            <div
+              *ngIf="submitted && form.department.errors"
+              class="invalid-feedback"
+            >
+              <span *ngIf="form.position.department.required"
+                >This value is required.</span
+              >
+            </div>
+          </div>
+          <div class="col-2 pl-0">
+            <a
+              href="javscript: void(0);"
+              class="btn btn-success"
+              style="width: inherit;"
+              (click)="openLargeModal(addStaff)"
+              ><i class="mdi mdi mdi-menu"></i
+            ></a>
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label for="dob" class="col-4 col-form-label">Ngày sinh</label>
+          <div class="col-8">
+            <div class="input-group clockpicker">
+              <input
+                ngbDatepicker
+                class="form-control"
+                autoClose="false"
+                placeholder="yyyy-mm-dd"
+                #date="ngbDatepicker"
+                formControlName="dob"
+              />
+              <div class="input-group-append" (click)="date.toggle()">
+                <span class="input-group-text"
+                  ><i class="mdi mdi-calendar"></i
+                ></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row" style="font-weight: bold;">
+        <div class="form-group">
+          Thông tin liên hệ
+        </div>
+        <div class="form-group">
+          Số CMND/ Thẻ căn cước
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group row mb-3">
+          <label class="col-4 col-form-label">Số điện thoại</label>
+          <div class="col-8">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="phone"
+              [ngClass]="{ 'is-invalid': submitted && form.phone.errors }"
+            />
+            <div
+              *ngIf="submitted && form.phone.errors"
+              class="invalid-feedback"
+            >
+              <span *ngIf="form.name.phone.required"
+                >This value is required.</span
+              >
+            </div>
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label class="col-4 col-form-label">Số CMND/ Thẻ căn cước</label>
+          <div class="col-8">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="CMND"
+              [ngClass]="{ 'is-invalid': submitted && form.name.errors }"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group row mb-3">
+          <label class="col-4 col-form-label">Email</label>
+          <div class="col-8">
+            <input
+              type="email"
+              class="form-control"
+              formControlName="email"
+              [ngClass]="{ 'is-invalid': submitted && form.email.errors }"
+            />
+            <div
+              *ngIf="submitted && form.email.errors"
+              class="invalid-feedback"
+            >
+              <span *ngIf="form.email.errors.pattern"
+                >This value is wrong format.</span
+              >
+            </div>
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label class="col-4 col-form-label">Ngày cấp</label>
+          <div class="col-8">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="doi"
+              [ngClass]="{ 'is-invalid': submitted && form.doi.errors }"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group row mb-3">
+          <label class="col-4 col-form-label">Địa chỉ</label>
+          <div class="col-8">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="address"
+              [ngClass]="{ 'is-invalid': submitted && form.address.errors }"
+            />
+          </div>
+        </div>
+        <div class="form-group"></div>
+      </div>
+      <div class="text-right">
+        <button (click)="onClickSubmit()" class="btn btn-success">
+          Lưu
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger ml-1"
+          (click)="onClickCancel()"
+        >
+          Hủy
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

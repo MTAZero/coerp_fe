@@ -1,0 +1,60 @@
+<div class="modal-header bg-dark">
+  <h4 class="modal-title text-white">Chức vụ</h4>
+  <button
+    type="button"
+    class="close text-white"
+    aria-label="Close"
+    (click)="modal('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body p-3">
+  <div class="table-responsive">
+    <table class="table table-centered table-hover mb-0">
+      <thead>
+        <tr>
+          <th>STT</th>
+          <th>Chức vụ</th>
+          <th>Năng lực</th>
+          <th>Khă năng</th>
+          <th>Quyền hạn</th>
+          <th>Nhiệm vụ</th>
+          <th>Mô tả</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <div class="text-right mt-3">
+    <button type="submit" class="btn btn-primary">Chọn</button>
+    <button
+      type="button"
+      class="btn btn-success ml-1"
+      (click)="openModal(createPositionModal)"
+    >
+      Thêm
+    </button>
+    <button
+      type="button"
+      class="btn btn-warning ml-1"
+      (click)="modal('close click')"
+    >
+      Sửa
+    </button>
+    <button
+      type="button"
+      class="btn btn-danger ml-1"
+      (click)="modal('close click')"
+    >
+      Xóa
+    </button>
+    <button
+      type="button"
+      class="btn btn-danger ml-1"
+      (click)="modal('close click')"
+    >
+      Đóng
+    </button>
+  </div>
+</div>

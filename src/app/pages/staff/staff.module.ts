@@ -19,9 +19,23 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { StaffRoutingModule } from './staff-routing.module';
 
 import { ListStaffComponent } from './list-staff/list-staff.component';
+import { ConfirmModalComponent } from './list-staff/component/confirm-modal/confirm-modal.component';
+import { StaffModalComponent } from './list-staff/component/staff-modal/staff-modal.component';
+import { ListPositionModalComponent } from './list-staff/component/list-position-modal/list-position-modal.component';
+import { PositionModalComponent } from './list-staff/component/position-modal/position-modal.component';
+import { ListDepartmentModalComponent } from './list-staff/component/list-department-modal/list-department-modal.component';
+import { DepartmentModalComponent } from './list-staff/component/department-modal/department-modal.component';
 
 @NgModule({
-  declarations: [ListStaffComponent],
+  declarations: [
+    ListStaffComponent,
+    ConfirmModalComponent,
+    StaffModalComponent,
+    ListPositionModalComponent,
+    PositionModalComponent,
+    ListDepartmentModalComponent,
+    DepartmentModalComponent
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -36,6 +50,14 @@ import { ListStaffComponent } from './list-staff/list-staff.component';
     NgbTypeaheadModule,
     StaffRoutingModule,
     Ng2SearchPipeModule
+  ],
+  entryComponents: [
+    ConfirmModalComponent,
+    StaffModalComponent,
+    ListPositionModalComponent,
+    PositionModalComponent,
+    ListDepartmentModalComponent,
+    DepartmentModalComponent
   ]
 })
 export class StaffModule {}

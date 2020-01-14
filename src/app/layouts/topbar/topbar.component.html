@@ -2,10 +2,14 @@
 <div class="navbar-custom">
   <div class="container-fluid">
     <ul class="list-unstyled topnav-menu float-right mb-0">
-
       <li class="dropdown notification-list">
         <!-- Mobile menu toggle-->
-        <a class="navbar-toggle nav-link" [ngClass]="{'open': openMobileMenu}" (click)="toggleMobileMenu($event)" href="javascript: void(0);">
+        <a
+          class="navbar-toggle nav-link"
+          [ngClass]="{ open: openMobileMenu }"
+          (click)="toggleMobileMenu($event)"
+          href="javascript: void(0);"
+        >
           <div class="lines">
             <span></span>
             <span></span>
@@ -19,7 +23,7 @@
         <form class="app-search">
           <div class="app-search-box">
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="Search...">
+              <input type="text" class="form-control" placeholder="Search..." />
               <div class="input-group-append">
                 <button class="btn" type="submit">
                   <i class="fe-search"></i>
@@ -31,56 +35,96 @@
       </li>
 
       <li class="dropdown notification-list" ngbDropdown>
-        <a class="nav-link dropdown-toggle  waves-effect waves-light" href="javascript: void(0);" role="button"
-          aria-haspopup="false" aria-expanded="false" ngbDropdownToggle id="notificationDropdown">
+        <a
+          class="nav-link dropdown-toggle  waves-effect waves-light"
+          href="javascript: void(0);"
+          role="button"
+          aria-haspopup="false"
+          aria-expanded="false"
+          ngbDropdownToggle
+          id="notificationDropdown"
+        >
           <i class="fe-bell noti-icon"></i>
-          <span class="badge badge-danger rounded-circle noti-icon-badge">4</span>
+          <span class="badge badge-danger rounded-circle noti-icon-badge"
+            >4</span
+          >
         </a>
-        <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated dropdown-lg"
-          aria-labelledby="notificationDropdown" ngbDropdownMenu>
-
+        <div
+          class="dropdown-menu dropdown-menu-right dropdown-menu-animated dropdown-lg"
+          aria-labelledby="notificationDropdown"
+          ngbDropdownMenu
+        >
           <!-- item-->
           <div class="dropdown-item noti-title" ngbDropdownItem>
             <h5 class="m-0">
               <span class="float-right">
                 <a href="javascript: void(0);" class="text-dark">
                   <small>Clear All</small>
-                </a>
-              </span>Notification
+                </a> </span
+              >Notification
             </h5>
           </div>
 
-          <div id="notification-items" class="slimscroll noti-scroll" appSlimScroll>
+          <div
+            id="notification-items"
+            class="slimscroll noti-scroll"
+            appSlimScroll
+          >
             <!-- item-->
-            <a *ngFor="let notification of notificationItems;" href="{{ notification.redirectTo }}"
-              class="dropdown-item notify-item" ngbDropdownItem>
-              <div class="notify-icon bg-soft-{{ notification.bgColor }} text-{{ notification.bgColor }}">
+            <a
+              *ngFor="let notification of notificationItems"
+              href="{{ notification.redirectTo }}"
+              class="dropdown-item notify-item"
+              ngbDropdownItem
+            >
+              <div
+                class="notify-icon bg-soft-{{ notification.bgColor }} text-{{
+                  notification.bgColor
+                }}"
+              >
                 <i class="{{ notification.icon }}"></i>
               </div>
-              <p class="notify-details">{{ notification.text }}
+              <p class="notify-details">
+                {{ notification.text }}
                 <small class="text-muted">{{ notification.subText }}</small>
               </p>
             </a>
           </div>
 
           <!-- All-->
-          <a href="javascript:void(0);" class="dropdown-item text-center text-primary notify-item notify-all">
+          <a
+            href="javascript:void(0);"
+            class="dropdown-item text-center text-primary notify-item notify-all"
+          >
             View All
           </a>
         </div>
       </li>
 
-
       <li class="dropdown notification-list" ngbDropdown>
-        <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" ngbDropdownToggle
-          id="profileDropdown" href="javascript: void(0);" role="button" aria-haspopup="false" aria-expanded="false">
-          <img src="assets/images/users/user-1.jpg" alt="user-image" class="rounded-circle">
+        <a
+          class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light"
+          ngbDropdownToggle
+          id="profileDropdown"
+          href="javascript: void(0);"
+          role="button"
+          aria-haspopup="false"
+          aria-expanded="false"
+        >
+          <img
+            src="assets/images/users/user-1.jpg"
+            alt="user-image"
+            class="rounded-circle"
+          />
           <span class="pro-user-name ml-1">
             Nik Patel <i class="mdi mdi-chevron-down"></i>
           </span>
         </a>
-        <div class="dropdown-menu dropdown-menu-right profile-dropdown" aria-labelledby="profileDropdown"
-          ngbDropdownMenu>
+        <div
+          class="dropdown-menu dropdown-menu-right profile-dropdown"
+          aria-labelledby="profileDropdown"
+          ngbDropdownMenu
+        >
           <div class="dropdown-header noti-title">
             <h6 class="text-overflow m-0">Welcome !</h6>
           </div>
@@ -106,30 +150,33 @@
           <div class="dropdown-divider"></div>
 
           <!-- item-->
-          <a href="javascript:void(0);" class="dropdown-item notify-item" (click)="logout()">
+          <a
+            href="javascript:void(0);"
+            class="dropdown-item notify-item"
+            (click)="logout()"
+          >
             <i class="fe-log-out"></i>
             <span>Logout</span>
           </a>
-
         </div>
       </li>
 
-
       <li class="dropdown notification-list">
-        <a href="javascript:void(0);" class="nav-link right-bar-toggle waves-effect waves-light"
-          (click)="toggleRightSidebar()">
+        <a
+          href="javascript:void(0);"
+          class="nav-link right-bar-toggle waves-effect waves-light"
+          (click)="toggleRightSidebar()"
+        >
           <i class="fe-settings noti-icon"></i>
         </a>
       </li>
-
-
     </ul>
 
     <!-- LOGO -->
     <div class="logo-box">
       <a href="/" class="logo text-center">
         <span class="logo-lg">
-          <img src="assets/images/logo-dark.png" alt="" height="18" />
+          <img src="assets/images/1.JPG" alt="" height="18" />
           <!-- <span class="logo-lg-text-light">Xeria</span> -->
         </span>
         <span class="logo-sm">
@@ -141,8 +188,15 @@
 
     <ul class="list-unstyled topnav-menu topnav-menu-left m-0">
       <li class="dropdown d-none d-lg-block" ngbDropdown>
-        <a class="nav-link dropdown-toggle waves-effect waves-light" href="javascript: void(0);" ngbDropdownToggle
-          id="extraMenu" role="button" aria-haspopup="false" aria-expanded="false">
+        <a
+          class="nav-link dropdown-toggle waves-effect waves-light"
+          href="javascript: void(0);"
+          ngbDropdownToggle
+          id="extraMenu"
+          role="button"
+          aria-haspopup="false"
+          aria-expanded="false"
+        >
           Create New
           <i class="mdi mdi-chevron-down"></i>
         </a>
@@ -178,7 +232,6 @@
             <i class="fe-headphones mr-1"></i>
             <span>Help & Support</span>
           </a>
-
         </div>
       </li>
     </ul>

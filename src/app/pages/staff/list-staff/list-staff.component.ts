@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-
+import { FormBuilder } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
 import { Staff } from './list-staff.model';
-
 import { contactData } from './data';
+import { ConfirmModalComponent } from './component/confirm-modal/confirm-modal.component';
+import { StaffModalComponent } from './component/staff-modal/staff-modal.component';
 
 @Component({
   selector: 'app-list-staff',
@@ -34,121 +32,55 @@ export class ListStaffComponent implements OnInit {
   paginatedStaffData: Array<Staff>;
   selectStaff: Staff;
   staffs: Array<Staff>;
-  modalRef: any;
-  // validation form
-  validationform: FormGroup;
 
   constructor(
     private modalService: NgbModal,
     public formBuilder: FormBuilder
   ) {}
   ngOnInit() {
-    // tslint:disable-next-line: max-line-length
     this.breadCrumbItems = [
       { label: 'ERP', path: '/' },
       { label: 'Nhân viên', path: '/' },
       { label: 'Danh sách nhân viên', path: '/', active: true }
     ];
-    this.validationform = this.formBuilder.group({
-      name: ['', [Validators.required]],
-      position: ['', [Validators.required]],
-      user_name: ['', [Validators.required]],
-      status: ['', [Validators.required]],
-      password: ['', [Validators.required]],
-      gender: ['', null],
-      department: ['', [Validators.required]],
-      dob: ['', null],
-      phone: ['', [Validators.required]],
-      CMND: ['', null],
-      email: [
-        '',
-        [Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$')]
-      ],
-      doi: ['', null], // date of issue of certification
-      address: ['', null]
-    });
-
     this._fetchData();
   }
 
-  /**
-   * Returns form
-   */
-  get form() {
-    return this.validationform.controls;
-  }
-  /**
-   * Modal Open
-   * @param content modal content
-   */
-  openLargeModal(content: string, staff?: Staff) {
-    this.modalService.open(content, { centered: true, size: 'lg' });
-  }
-
-  openModal(content: string, staff?: Staff) {
-    this.selectStaff = staff;
-    this.modalRef = this.modalService.open(content, { centered: true });
-    this.modalRef.result.then(res => {
-      console.log(res);
+  openStaffModal(staff?: Staff) {
+    const modalRef = this.modalService.open(StaffModalComponent, {
+      centered: true,
+      size: 'lg'
+    });
+    if (staff) {
+      modalRef.componentInstance.staff = staff;
+    }
+    modalRef.componentInstance.passEvent.subscribe(res => {
+      if (res.event) {
+        if (staff) {
+          this.updateStaff(staff, res.form);
+        } else {
+          this.createStaff(res.form);
+        }
+      }
+      modalRef.close();
     });
   }
 
-  confirmModal() {
-    // console.log('ok');
-    this.modalRef.close('Ok ok');
+  openConfirmModal() {
+    const modalRef = this.modalService.open(ConfirmModalComponent, {
+      centered: true
+    });
+    modalRef.componentInstance.title = 'Xác nhận xóa nhân sự';
+    modalRef.componentInstance.message =
+      'Bạn có chắc chắn muốn xóa nhân sự đang chọn không?';
+    modalRef.componentInstance.passEvent.subscribe(res => {
+      if (res) {
+        this.removeStaff();
+      }
+      modalRef.close();
+    });
   }
 
-  cancelModal() {
-    // console.log('ok');
-    this.modalRef.close('Ok ok');
-  }
-
-  /**
-   * save the contacts data
-   */
-  saveData() {
-    const name = this.validationform.get('name').value;
-    const userName = this.validationform.get('user_name').value;
-    const phone = this.validationform.get('phone').value;
-    const email = this.validationform.get('email').value;
-    const position = this.validationform.get('position').value;
-    const CMND = this.validationform.get('CMND').value;
-    const status = this.validationform.get('status').value;
-    const currentDate = new Date();
-    if (this.validationform.valid) {
-      this.staffs.push({
-        staff_id: 'NV01',
-        name,
-        user_name: userName,
-        phone,
-        email,
-        position,
-        CMND,
-        status,
-        date:
-          currentDate.getDate() +
-          '/' +
-          currentDate.getMonth() +
-          '/' +
-          currentDate.getFullYear()
-      });
-      this.validationform = this.formBuilder.group({
-        name: '',
-        phone: '',
-        location: '',
-        email: ''
-      });
-      this.modalService.dismissAll();
-    }
-    this.submitted = true;
-    this.totalSize = this.staffs.length + 1;
-    this.paginatedStaffData = this.staffs.slice(this.startIndex, this.endIndex);
-  }
-
-  /**
-   * Pagination onpage change
-   * @param page show the page
-   */
   onPageChange(page: any): void {
     this.startIndex = (page - 1) * this.pageSize;
     this.endIndex = (page - 1) * this.pageSize + this.pageSize;
@@ -163,5 +95,17 @@ export class ListStaffComponent implements OnInit {
 
     this.paginatedStaffData = this.staffs.slice(this.startIndex, this.endIndex);
     this.totalSize = this.staffs.length;
+  }
+
+  private createStaff(data: any) {
+    this.submitted = true;
+    this.totalSize = this.staffs.length + 1;
+    this.paginatedStaffData = this.staffs.slice(this.startIndex, this.endIndex);
+  }
+
+  private updateStaff(staff: any, data: any) {}
+
+  private removeStaff() {
+    console.log('removeStaff');
   }
 }
