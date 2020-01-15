@@ -22,29 +22,32 @@
       </div>
       <div class="form-row">
         <div class="form-group row mb-3">
-          <label class="col-4 col-form-label">Họ và tên</label>
+          <label class="col-4 col-form-label">Họ và tên <span>(*)</span></label>
           <div class="col-8">
             <input
               type="text"
               class="form-control"
               formControlName="name"
-              [ngClass]="{ 'is-invalid': submitted && form.name.errors }"
+              [ngClass]="{ 'is-invalid': submitted && formUI.name.errors }"
             />
-            <div *ngIf="submitted && form.name.errors" class="invalid-feedback">
-              <span *ngIf="form.name.errors.required"
+            <div
+              *ngIf="submitted && formUI.name.errors"
+              class="invalid-feedback"
+            >
+              <span *ngIf="formUI.name.errors.required"
                 >This value is required.</span
               >
             </div>
           </div>
         </div>
         <div class="form-group row mb-3">
-          <label class="col-4 col-form-label">Chức vụ</label>
+          <label class="col-4 col-form-label">Chức vụ <span>(*)</span></label>
           <div class="col-6">
             <select
               class="custom-select"
               formControlName="position"
               class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && form.position.errors }"
+              [ngClass]="{ 'is-invalid': submitted && formUI.position.errors }"
             >
               <option value=""></option>
               <option value="1">Giám đốc</option>
@@ -52,10 +55,10 @@
               <option value="2">Nhân viên</option>
             </select>
             <div
-              *ngIf="submitted && form.position.errors"
+              *ngIf="submitted && formUI.position.errors"
               class="invalid-feedback"
             >
-              <span *ngIf="form.position.errors.required"
+              <span *ngIf="formUI.position.errors.required"
                 >This value is required.</span
               >
             </div>
@@ -65,7 +68,7 @@
               href="javscript: void(0);"
               class="btn btn-success"
               style="width: inherit;"
-              (click)="openModal(positionModal)"
+              (click)="openPositionModal()"
               ><i class="mdi mdi mdi-menu"></i
             ></a>
           </div>
@@ -73,42 +76,46 @@
       </div>
       <div class="form-row">
         <div class="form-group row mb-3">
-          <label class="col-4 col-form-label">Tên đăng nhập</label>
+          <label class="col-4 col-form-label"
+            >Tên đăng nhập <span>(*)</span></label
+          >
           <div class="col-8">
             <input
               type="text"
               class="form-control"
               formControlName="user_name"
-              [ngClass]="{ 'is-invalid': submitted && form.user_name.errors }"
+              [ngClass]="{ 'is-invalid': submitted && formUI.user_name.errors }"
             />
             <div
-              *ngIf="submitted && form.user_name.errors"
+              *ngIf="submitted && formUI.user_name.errors"
               class="invalid-feedback"
             >
-              <span *ngIf="form.user_name.errors.required"
+              <span *ngIf="formUI.user_name.errors.required"
                 >This value is required.</span
               >
             </div>
           </div>
         </div>
         <div class="form-group row mb-3">
-          <label class="col-4 col-form-label">Trạng thái</label>
+          <label class="col-4 col-form-label"
+            >Trạng thái <span>(*)</span></label
+          >
           <div class="col-8">
             <select
               class="custom-select"
               formControlName="status"
               class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && form.status.errors }"
+              [ngClass]="{ 'is-invalid': submitted && formUI.status.errors }"
             >
               <option value=""></option>
               <option value="1">Active</option>
               <option value="2">Blocked</option>
             </select>
             <div
-              *ngIf="submitted && form.status.errors"
+              *ngIf="submitted && formUI.status.errors"
               class="invalid-feedback"
             >
-              <span *ngIf="form.position.status.required"
+              <span *ngIf="formUI.status.errors.required"
                 >This value is required.</span
               >
             </div>
@@ -117,19 +124,19 @@
       </div>
       <div class="form-row">
         <div class="form-group row mb-3">
-          <label class="col-4 col-form-label">Mật khẩu</label>
+          <label class="col-4 col-form-label">Mật khẩu <span>(*)</span></label>
           <div class="col-8">
             <input
               type="password"
               class="form-control"
               formControlName="password"
-              [ngClass]="{ 'is-invalid': submitted && form.password.errors }"
+              [ngClass]="{ 'is-invalid': submitted && formUI.password.errors }"
             />
             <div
-              *ngIf="submitted && form.password.errors"
+              *ngIf="submitted && formUI.password.errors"
               class="invalid-feedback"
             >
-              <span *ngIf="form.name.password.required"
+              <span *ngIf="formUI.password.errors.required"
                 >This value is required.</span
               >
             </div>
@@ -142,7 +149,7 @@
               class="custom-select"
               formControlName="gender"
               class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && form.gender.errors }"
+              [ngClass]="{ 'is-invalid': submitted && formUI.gender.errors }"
             >
               <option value=""></option>
               <option value="1">Nam</option>
@@ -154,14 +161,16 @@
       </div>
       <div class="form-row">
         <div class="form-group row mb-3">
-          <label for="department" class="col-4 col-form-label">Phòng ban</label>
+          <label for="department" class="col-4 col-form-label"
+            >Phòng ban <span>(*)</span></label
+          >
           <div class="col-6">
             <select
               class="custom-select"
               formControlName="department"
               class="form-control"
               [ngClass]="{
-                'is-invalid': submitted && form.department.errors
+                'is-invalid': submitted && formUI.department.errors
               }"
             >
               <option value=""></option>
@@ -171,10 +180,10 @@
               <option value="2">Phòng trí tuệ nhân tạo</option>
             </select>
             <div
-              *ngIf="submitted && form.department.errors"
+              *ngIf="submitted && formUI.department.errors"
               class="invalid-feedback"
             >
-              <span *ngIf="form.position.department.required"
+              <span *ngIf="formUI.department.errors.required"
                 >This value is required.</span
               >
             </div>
@@ -184,7 +193,7 @@
               href="javscript: void(0);"
               class="btn btn-success"
               style="width: inherit;"
-              (click)="openLargeModal(addStaff)"
+              (click)="openDepartmentModal()"
               ><i class="mdi mdi mdi-menu"></i
             ></a>
           </div>
@@ -220,19 +229,21 @@
       </div>
       <div class="form-row">
         <div class="form-group row mb-3">
-          <label class="col-4 col-form-label">Số điện thoại</label>
+          <label class="col-4 col-form-label"
+            >Số điện thoại <span>(*)</span></label
+          >
           <div class="col-8">
             <input
               type="text"
               class="form-control"
               formControlName="phone"
-              [ngClass]="{ 'is-invalid': submitted && form.phone.errors }"
+              [ngClass]="{ 'is-invalid': submitted && formUI.phone.errors }"
             />
             <div
-              *ngIf="submitted && form.phone.errors"
+              *ngIf="submitted && formUI.phone.errors"
               class="invalid-feedback"
             >
-              <span *ngIf="form.name.phone.required"
+              <span *ngIf="formUI.phone.errors.required"
                 >This value is required.</span
               >
             </div>
@@ -245,7 +256,7 @@
               type="text"
               class="form-control"
               formControlName="CMND"
-              [ngClass]="{ 'is-invalid': submitted && form.name.errors }"
+              [ngClass]="{ 'is-invalid': submitted && formUI.CMND.errors }"
             />
           </div>
         </div>
@@ -258,13 +269,13 @@
               type="email"
               class="form-control"
               formControlName="email"
-              [ngClass]="{ 'is-invalid': submitted && form.email.errors }"
+              [ngClass]="{ 'is-invalid': submitted && formUI.email.errors }"
             />
             <div
-              *ngIf="submitted && form.email.errors"
+              *ngIf="submitted && formUI.email.errors"
               class="invalid-feedback"
             >
-              <span *ngIf="form.email.errors.pattern"
+              <span *ngIf="formUI.email.errors.pattern"
                 >This value is wrong format.</span
               >
             </div>
@@ -273,12 +284,21 @@
         <div class="form-group row mb-3">
           <label class="col-4 col-form-label">Ngày cấp</label>
           <div class="col-8">
-            <input
-              type="text"
-              class="form-control"
-              formControlName="doi"
-              [ngClass]="{ 'is-invalid': submitted && form.doi.errors }"
-            />
+            <div class="input-group clockpicker">
+              <input
+                ngbDatepicker
+                class="form-control"
+                autoClose="false"
+                placeholder="yyyy-mm-dd"
+                #date="ngbDatepicker"
+                formControlName="doi"
+              />
+              <div class="input-group-append" (click)="date.toggle()">
+                <span class="input-group-text"
+                  ><i class="mdi mdi-calendar"></i
+                ></span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -290,7 +310,7 @@
               type="text"
               class="form-control"
               formControlName="address"
-              [ngClass]="{ 'is-invalid': submitted && form.address.errors }"
+              [ngClass]="{ 'is-invalid': submitted && formUI.address.errors }"
             />
           </div>
         </div>

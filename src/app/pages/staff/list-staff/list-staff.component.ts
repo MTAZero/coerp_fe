@@ -105,7 +105,5 @@ export class ListStaffComponent implements OnInit {
 
   private updateStaff(staff: any, data: any) {}
 
-  private removeStaff() {
-    console.log('removeStaff');
-  }
+  private removeStaff() {}
 }

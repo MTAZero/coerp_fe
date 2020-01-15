@@ -3,6 +3,8 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Staff } from '../../list-staff.model';
 import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
+import { ListPositionModalComponent } from '../list-position-modal/list-position-modal.component';
+import { ListDepartmentModalComponent } from '../list-department-modal/list-department-modal.component';
 
 @Component({
   selector: 'app-staff-modal',
@@ -13,7 +15,7 @@ export class StaffModalComponent implements OnInit {
   @Input() staff: Staff;
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
   form: FormGroup;
-  summitted = false;
+  submitted = false;
   constructor(public formBuilder: FormBuilder, private modalService: NgbModal) {
     this.initializeForm();
   }
@@ -24,11 +26,31 @@ export class StaffModalComponent implements OnInit {
     }
   }
 
+  openPositionModal() {
+    const modalRef = this.modalService.open(ListPositionModalComponent, {
+      centered: true,
+      size: 'lg'
+    });
+    modalRef.componentInstance.passEvent.subscribe(res => {
+      modalRef.close();
+    });
+  }
+
+  openDepartmentModal() {
+    const modalRef = this.modalService.open(ListDepartmentModalComponent, {
+      centered: true
+    });
+    modalRef.componentInstance.passEvent.subscribe(res => {
+      modalRef.close();
+    });
+  }
+
   onClickSubmit() {
-    this.summitted = true;
-    console.log(this.form.invalid);
-    console.log(this.formBuilder);
-    // this.passEvent.emit({ event: true, form: this.form.value });
+    this.submitted = true;
+
+    if (this.form.valid) {
+      this.passEvent.emit({ event: true, form: this.form.value });
+    }
   }
 
   onClickCancel() {
@@ -50,6 +72,10 @@ export class StaffModalComponent implements OnInit {
     }
   }
 
+  get formUI() {
+    return this.form.controls;
+  }
+
   private initializeForm() {
     this.form = this.formBuilder.group({
       name: ['', [Validators.required]],
@@ -59,14 +85,14 @@ export class StaffModalComponent implements OnInit {
       password: ['', [Validators.required]],
       gender: ['', null],
       department: ['', [Validators.required]],
-      dob: ['', null],
+      dob: [null, null],
       phone: ['', [Validators.required]],
       CMND: ['', null],
       email: [
         '',
         [Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$')]
       ],
-      doi: ['', null], // date of issue of certification
+      doi: [null, null], // date of issue of certification
       address: ['', null]
     });
   }

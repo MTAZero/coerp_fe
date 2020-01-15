@@ -1,0 +1,9 @@
+:host {
+    tr {
+        cursor: pointer;
+
+        &.is-selected {
+            background-color: lightgray;
+        }
+    }
+}

@@ -1,64 +1,84 @@
 <div class="modal-header bg-dark">
   <h4 class="modal-title text-white">Thêm chức vụ</h4>
-  <button
-    type="button"
-    class="close text-white"
-    aria-label="Close"
-    (click)="modal('Cross click')"
-  >
+  <button class="close text-white" aria-label="Close" (click)="onClickCancel()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<div class="modal-body p-3">
+<div class="modal-body p-3" [formGroup]="form">
   <div class="form-group row mb-3">
-    <label class="col-4 col-form-label">Họ và tên</label>
+    <label class="col-4 col-form-label">Chức vụ <span>(*)</span></label>
     <div class="col-8">
-      <input type="text" class="form-control" />
+      <input
+        type="text"
+        class="form-control"
+        formControlName="position_name"
+        [ngClass]="{ 'is-invalid': submitted && formUI.position_name.errors }"
+      />
+      <div
+        *ngIf="submitted && formUI.position_name.errors"
+        class="invalid-feedback"
+      >
+        <span *ngIf="formUI.position_name.errors.required"
+          >This value is required.</span
+        >
+      </div>
     </div>
   </div>
   <div class="form-group row mb-3">
     <label class="col-4 col-form-label">Năng lực</label>
     <div class="col-8">
-      <input type="text" class="form-control" />
+      <input
+        class="form-control"
+        formControlName="capacity"
+        [ngClass]="{ 'is-invalid': submitted && formUI.capacity.errors }"
+      />
     </div>
   </div>
   <div class="form-group row mb-3">
     <label class="col-4 col-form-label">Khả năng</label>
     <div class="col-8">
-      <input type="text" class="form-control" />
+      <input
+        class="form-control"
+        formControlName="ability"
+        [ngClass]="{ 'is-invalid': submitted && formUI.ability.errors }"
+      />
     </div>
   </div>
   <div class="form-group row mb-3">
     <label class="col-4 col-form-label">Quyền hạn</label>
     <div class="col-8">
-      <input type="text" class="form-control" />
+      <input
+        class="form-control"
+        formControlName="privilege"
+        [ngClass]="{ 'is-invalid': submitted && formUI.privilege.errors }"
+      />
     </div>
   </div>
   <div class="form-group row mb-3">
     <label class="col-4 col-form-label">Nhiệm vụ</label>
     <div class="col-8">
-      <input type="text" class="form-control" />
+      <input
+        class="form-control"
+        formControlName="mission"
+        [ngClass]="{ 'is-invalid': submitted && formUI.mission.errors }"
+      />
     </div>
   </div>
   <div class="form-group row mb-3">
     <label class="col-4 col-form-label">Mô tả</label>
     <div class="col-8">
-      <input type="text" class="form-control" />
+      <input
+        class="form-control"
+        formControlName="description"
+        [ngClass]="{ 'is-invalid': submitted && formUI.description.errors }"
+      />
     </div>
   </div>
   <div class="text-right mt-3">
-    <button
-      type="button"
-      class="btn btn-success ml-1"
-      (click)="modal('close click')"
-    >
+    <button class="btn btn-success ml-1" (click)="onClickSubmit()">
       Lưu
     </button>
-    <button
-      type="button"
-      class="btn btn-danger ml-1"
-      (click)="modal('close click')"
-    >
+    <button class="btn btn-danger ml-1" (click)="onClickCancel()">
       Hủy
     </button>
   </div>
