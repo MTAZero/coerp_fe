@@ -6,6 +6,11 @@ const routes: Routes = [
     path: 'staff',
     loadChildren: () => import('./staff/staff.module').then(m => m.StaffModule)
   },
+  {
+    path: 'customer',
+    loadChildren: () =>
+      import('./customer/customer.module').then(m => m.CustomerModule)
+  },
   { path: '', redirectTo: '/staff/list-staff', pathMatch: 'full' }
 ];
 

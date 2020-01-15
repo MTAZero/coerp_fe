@@ -1,0 +1,252 @@
+<div class="modal-header bg-dark">
+  <h4 class="modal-title text-white">Thêm mới khách hàng</h4>
+  <button
+    type="button"
+    class="close text-white"
+    aria-label="Close"
+    (click)="onClickCancel()"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body p-3">
+  <div class="text-left">
+    <form [formGroup]="form" class="form-horizontal">
+      <div class="form-group">
+        <label for="avatar">Ảnh chân dung</label>
+        <img
+          class="d-flex mr-3 rounded-circle avatar-lg"
+          src="assets/images/users/user-8.jpg"
+          alt="Generic placeholder image"
+        />
+      </div>
+      <div class="form-row">
+        <div class="form-group row mb-3">
+          <label class="col-4 col-form-label">Họ và tên <span>(*)</span></label>
+          <div class="col-8">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="customer_name"
+              [ngClass]="{
+                'is-invalid': submitted && formUI.customer_name.errors
+              }"
+            />
+            <div
+              *ngIf="submitted && formUI.customer_name.errors"
+              class="invalid-feedback"
+            >
+              <span *ngIf="formUI.customer_name.errors.required"
+                >This value is required.</span
+              >
+            </div>
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label class="col-4 col-form-label">Nguồn <span>(*)</span></label>
+          <div class="col-6">
+            <select
+              class="custom-select"
+              formControlName="source"
+              class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && formUI.source.errors }"
+            >
+              <option value=""></option>
+              <option value="1">BNI</option>
+              <option value="2">AJC</option>
+              <option value="2">ATM</option>
+            </select>
+          </div>
+          <div class="col-2 pl-0">
+            <a
+              href="javscript: void(0);"
+              class="btn btn-success"
+              style="width: inherit;"
+              (click)="openSourceModal()"
+              ><i class="mdi mdi mdi-menu"></i
+            ></a>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group row mb-3">
+          <label class="col-4 col-form-label"
+            >Số điện thoại <span>(*)</span></label
+          >
+          <div class="col-8">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="phone"
+              [ngClass]="{ 'is-invalid': submitted && formUI.phone.errors }"
+            />
+            <div
+              *ngIf="submitted && formUI.phone.errors"
+              class="invalid-feedback"
+            >
+              <span *ngIf="formUI.phone.errors.required"
+                >This value is required.</span
+              >
+            </div>
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label for="dob" class="col-4 col-form-label">Ngày sinh</label>
+          <div class="col-8">
+            <div class="input-group clockpicker">
+              <input
+                ngbDatepicker
+                class="form-control"
+                autoClose="false"
+                placeholder="yyyy-mm-dd"
+                #date="ngbDatepicker"
+                formControlName="dob"
+              />
+              <div class="input-group-append" (click)="date.toggle()">
+                <span class="input-group-text"
+                  ><i class="mdi mdi-calendar"></i
+                ></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group row mb-3">
+          <label class="col-4 col-form-label">Email <span>(*)</span></label>
+          <div class="col-8">
+            <input
+              type="email"
+              class="form-control"
+              formControlName="email"
+              [ngClass]="{ 'is-invalid': submitted && formUI.email.errors }"
+            />
+            <div
+              *ngIf="submitted && formUI.email.errors"
+              class="invalid-feedback"
+            >
+              <span *ngIf="formUI.email.errors.required"
+                >This value is required.</span
+              >
+            </div>
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label class="col-4 col-form-label">Địa chỉ</label>
+          <div class="col-8">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="address"
+              [ngClass]="{ 'is-invalid': submitted && formUI.address.errors }"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group row mb-3">
+          <label for="department" class="col-4 col-form-label"
+            >Loại khách hàng <span>(*)</span></label
+          >
+          <div class="col-6">
+            <select
+              class="custom-select"
+              formControlName="customer_type"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid': submitted && formUI.customer_type.errors
+              }"
+            >
+              <option value=""></option>
+              <option value="1">Phòng nhân sự</option>
+              <option value="2">Phòng tài chính</option>
+              <option value="2">Phòng phát triển phần mềm</option>
+              <option value="2">Phòng trí tuệ nhân tạo</option>
+            </select>
+            <div
+              *ngIf="submitted && formUI.customer_type.errors"
+              class="invalid-feedback"
+            >
+              <span *ngIf="formUI.customer_type.errors.required"
+                >This value is required.</span
+              >
+            </div>
+          </div>
+          <div class="col-2 pl-0">
+            <a
+              href="javscript: void(0);"
+              class="btn btn-success"
+              style="width: inherit;"
+              (click)="openCustomerTypeModal()"
+              ><i class="mdi mdi mdi-menu"></i
+            ></a>
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label class="col-4 col-form-label">Vị trí</label>
+          <div class="col-8">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="position"
+              [ngClass]="{ 'is-invalid': submitted && formUI.position.errors }"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group row mb-3">
+          <label for="department" class="col-4 col-form-label"
+            >Nhóm khách hàng <span>(*)</span></label
+          >
+          <div class="col-6">
+            <select
+              class="custom-select"
+              formControlName="customer_group"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid': submitted && formUI.customer_type.errors
+              }"
+            >
+              <option value=""></option>
+              <option value="1">Phòng nhân sự</option>
+              <option value="2">Phòng tài chính</option>
+              <option value="2">Phòng phát triển phần mềm</option>
+              <option value="2">Phòng trí tuệ nhân tạo</option>
+            </select>
+            <div
+              *ngIf="submitted && formUI.customer_group.errors"
+              class="invalid-feedback"
+            >
+              <span *ngIf="formUI.customer_group.errors.required"
+                >This value is required.</span
+              >
+            </div>
+          </div>
+          <div class="col-2 pl-0">
+            <a
+              href="javscript: void(0);"
+              class="btn btn-success"
+              style="width: inherit;"
+              (click)="openCustomerGroupModal()"
+              ><i class="mdi mdi mdi-menu"></i
+            ></a>
+          </div>
+        </div>
+        <div class="form-group row mb-3"></div>
+      </div>
+      <div class="text-right">
+        <button (click)="onClickSubmit()" class="btn btn-success">
+          Lưu
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger ml-1"
+          (click)="onClickCancel()"
+        >
+          Hủy
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

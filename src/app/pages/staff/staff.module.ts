@@ -13,7 +13,6 @@ import {
   NgbPaginationModule,
   NgbTypeaheadModule
 } from '@ng-bootstrap/ng-bootstrap';
-import { NgApexchartsModule } from 'ng-apexcharts';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 import { StaffRoutingModule } from './staff-routing.module';
@@ -46,7 +45,6 @@ import { DepartmentModalComponent } from './list-staff/component/department-moda
     NgbDatepickerModule,
     NgbModalModule,
     NgbPaginationModule,
-    NgApexchartsModule,
     NgbTypeaheadModule,
     StaffRoutingModule,
     Ng2SearchPipeModule

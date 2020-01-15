@@ -1,0 +1,193 @@
+<div class="container-fluid">
+  <app-page-title
+    title="Hồ sơ"
+    [breadcrumbItems]="breadCrumbItems"
+  ></app-page-title>
+
+  <div class="row">
+    <div class="col-xl-8">
+      <div class="card">
+        <div class="card-body">
+          <div class="row mb-2">
+            <div class="col-sm-4">
+              <form class="form-inline">
+                <div class="form-group mb-2">
+                  <label class="sr-only">Search</label>
+                  <input
+                    class="form-control"
+                    name="search"
+                    placeholder="Search..."
+                    [(ngModel)]="term"
+                  />
+                </div>
+
+                <select class="custom-select">
+                  <option selected>Nguồn</option>
+                  <option value="1">Active</option>
+                  <option value="2">Blocked</option>
+                </select>
+                <select class="custom-select">
+                  <option selected>Loại khách hàng</option>
+                  <option value="1">Active</option>
+                  <option value="2">Blocked</option>
+                </select>
+                <select class="custom-select">
+                  <option selected>Nhóm khách hàng</option>
+                  <option value="1">Active</option>
+                  <option value="2">Blocked</option>
+                </select>
+              </form>
+            </div>
+            <div class="col-sm-8">
+              <div class="text-sm-right">
+                <button type="button" class="btn btn-info mb-2 mr-1">
+                  Import
+                </button>
+                <button type="button" class="btn btn-info mb-2 mr-1">
+                  Export
+                </button>
+                <a
+                  href="javscript: void(0);"
+                  class="btn btn-success mb-2"
+                  (click)="openCustomerModal()"
+                  ><i class="mdi mdi-plus-circle mr-1"></i> Thêm mới</a
+                >
+              </div>
+            </div>
+            <!-- end col-->
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-centered table-hover mb-0">
+              <thead>
+                <tr>
+                  <th>Mã khách hàng</th>
+                  <th>Số điện thoại</th>
+                  <th>Tên khách hàng</th>
+                  <th>Email</th>
+                  <th>Loại khách hàng</th>
+                  <th>Nhóm khách hàng</th>
+                  <th>Địa chỉ</th>
+                  <th>Vị trí</th>
+                  <th>Tuổi</th>
+                  <th>Nguồn</th>
+                  <th>Thông tin lưu ý</th>
+                  <th>Ngày tạo</th>
+                  <th style="width: 82px;">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="let customer of paginatedCustomerData | filter: term"
+                >
+                  <td>
+                    {{ customer.customer_id }}
+                  </td>
+                  <td>
+                    {{ customer.phone }}
+                  </td>
+                  <td>
+                    {{ customer.customer_name }}
+                  </td>
+                  <td>
+                    {{ customer.email }}
+                  </td>
+                  <td>
+                    {{ customer.customer_type }}
+                  </td>
+                  <td>
+                    {{ customer.customer_group }}
+                  </td>
+                  <td>
+                    {{ customer.address }}
+                  </td>
+                  <td>
+                    {{ customer.position }}
+                  </td>
+                  <td>
+                    {{ customer.dob }}
+                  </td>
+                  <td>
+                    {{ customer.source }}
+                  </td>
+                  <td>
+                    {{ customer.note }}
+                  </td>
+                  <td>
+                    {{ customer.created_date }}
+                  </td>
+                  <td>
+                    <a
+                      href="javascript:void(0);"
+                      class="action-icon"
+                      (click)="openCustomerModal(customer)"
+                    >
+                      <i class="mdi mdi-square-edit-outline"></i
+                    ></a>
+                    <a
+                      href="javascript:void(0);"
+                      class="action-icon"
+                      (click)="openConfirmModal()"
+                    >
+                      <i class="mdi mdi-delete"></i
+                    ></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <ul class="pagination pagination-rounded justify-content-end my-2">
+            <ngb-pagination
+              (pageChange)="onPageChange($event)"
+              [pageSize]="pageSize"
+              [(page)]="page"
+              [collectionSize]="totalSize"
+            ></ngb-pagination>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4">
+      <div class="card-box">
+        <div class="media mb-3">
+          <img
+            class="d-flex mr-3 rounded-circle avatar-lg"
+            src="assets/images/users/user-8.jpg"
+            alt="Generic placeholder image"
+          />
+          <div class="media-body">
+            <h4 class="mt-0 mb-1">Hà Thị QUyết</h4>
+            <p class="text-muted">
+              QA
+            </p>
+            <p class="text-muted">
+              035 58932561
+            </p>
+            <p class="text-muted">
+              quyet.ha@boot.ai
+            </p>
+          </div>
+        </div>
+
+        <ngb-tabset>
+          <ngb-tab title="Lịch sử mua">
+            <ng-template ngbTabContent>
+              <app-purchase-history-tab></app-purchase-history-tab>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab title="Lịch sử chăm sóc">
+            <ng-template ngbTabContent>
+              <app-care-history-tab></app-care-history-tab>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab title="Địa chỉ">
+            <ng-template ngbTabContent>
+              <app-address-tab></app-address-tab>
+            </ng-template>
+          </ngb-tab>
+        </ngb-tabset>
+      </div>
+      <!-- end card-box-->
+    </div>
+  </div>
+</div>
