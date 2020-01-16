@@ -1,15 +1,17 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Service } from '../../list-service.model';
 import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
+import { ListServiceCategoryModalComponent } from '../list-service-category-modal/list-service-category-modal.component';
 
 @Component({
-  selector: 'app-addres-modal',
-  templateUrl: './addres-modal.component.html',
-  styleUrls: ['./addres-modal.component.scss']
+  selector: 'app-service-modal',
+  templateUrl: './service-modal.component.html',
+  styleUrls: ['./service-modal.component.scss']
 })
-export class AddresModalComponent implements OnInit {
-  @Input() address: any;
+export class ServiceModalComponent implements OnInit {
+  @Input() service: Service;
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
   form: FormGroup;
   submitted = false;
@@ -18,9 +20,19 @@ export class AddresModalComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.address) {
-      this.patchData(this.address);
+    if (this.service) {
+      this.patchData(this.service);
     }
+  }
+
+  openServiceCategoryModal() {
+    const modalRef = this.modalService.open(ListServiceCategoryModalComponent, {
+      centered: true,
+      size: 'lg'
+    });
+    modalRef.componentInstance.passEvent.subscribe(res => {
+      modalRef.close();
+    });
   }
 
   onClickSubmit() {
@@ -56,19 +68,21 @@ export class AddresModalComponent implements OnInit {
 
   private initializeForm() {
     this.form = this.formBuilder.group({
-      province: ['', [Validators.required]],
-      district: ['', [Validators.required]],
-      ward: ['', [Validators.required]],
-      clearAddress: ['', [Validators.required]]
+      service_type: ['', [Validators.required]],
+      service_name: ['', [Validators.required]],
+      description: ['', [Validators.required]],
+      service_category: ['', null],
+      service_price: ['', null]
     });
   }
 
-  private patchData(address: any) {
+  private patchData(service: Service) {
     this.form.patchValue({
-      province: address.province,
-      district: address.district,
-      ward: address.ward,
-      clearAddress: address.clearAddress
+      service_type: service.service_type,
+      service_name: service.service_name,
+      description: service.description,
+      service_category: service.service_category,
+      service_price: service.service_price
     });
   }
 }

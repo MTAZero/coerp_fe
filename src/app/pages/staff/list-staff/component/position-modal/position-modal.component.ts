@@ -3,6 +3,7 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Position } from '../../list-staff.model';
 import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
+
 @Component({
   selector: 'app-position-modal',
   templateUrl: './position-modal.component.html',
@@ -32,7 +33,7 @@ export class PositionModalComponent implements OnInit {
   }
 
   onClickCancel() {
-    if (!this.form.touched) {
+    if (this.form.dirty) {
       const modalRef = this.modalService.open(ConfirmModalComponent, {
         centered: true
       });

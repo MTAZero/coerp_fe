@@ -1,15 +1,16 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ServiceCategory } from '../../list-service.model';
 import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 
 @Component({
-  selector: 'app-addres-modal',
-  templateUrl: './addres-modal.component.html',
-  styleUrls: ['./addres-modal.component.scss']
+  selector: 'app-service-category-modal',
+  templateUrl: './service-category-modal.component.html',
+  styleUrls: ['./service-category-modal.component.scss']
 })
-export class AddresModalComponent implements OnInit {
-  @Input() address: any;
+export class ServiceCategoryModalComponent implements OnInit {
+  @Input() serviceCategory: ServiceCategory;
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
   form: FormGroup;
   submitted = false;
@@ -18,8 +19,8 @@ export class AddresModalComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.address) {
-      this.patchData(this.address);
+    if (this.serviceCategory) {
+      this.patchData(this.serviceCategory);
     }
   }
 
@@ -56,19 +57,15 @@ export class AddresModalComponent implements OnInit {
 
   private initializeForm() {
     this.form = this.formBuilder.group({
-      province: ['', [Validators.required]],
-      district: ['', [Validators.required]],
-      ward: ['', [Validators.required]],
-      clearAddress: ['', [Validators.required]]
+      service_category_name: ['', [Validators.required]],
+      service_category_description: ['', null]
     });
   }
 
-  private patchData(address: any) {
+  private patchData(serviceCategory: ServiceCategory) {
     this.form.patchValue({
-      province: address.province,
-      district: address.district,
-      ward: address.ward,
-      clearAddress: address.clearAddress
+      service_category_name: serviceCategory.service_category_name,
+      service_category_description: serviceCategory.service_category_description
     });
   }
 }
