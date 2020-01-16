@@ -1,3 +1,73 @@
-<p>
-  purchase-history-tab works!
-</p>
+<div class="table-responsive" *ngIf="!selectedPurchase">
+  <table class="table table-centered table-hover mb-0">
+    <thead>
+      <tr>
+        <th>Thời gian</th>
+        <th>Mã đơn hàng</th>
+        <th>Người tạo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let purchase of purchaseHistory">
+        <td>
+          {{ purchase.purchase_time }}
+        </td>
+        <td class="order-container" (click)="onClickPurchase(purchase)">
+          {{ purchase.order_id }}
+        </td>
+        <td>
+          {{ purchase.created_by }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div *ngIf="selectedPurchase">
+  <div (click)="onClickBack()" class="back-container mb-2">
+    <i class="mdi mdi-arrow-left-bold mr-1"></i>
+    Chi tiết đơn hàng
+  </div>
+  <div class="row justify-content-between mb-2">
+    <span>Số đơn hàng: {{ selectedPurchase?.order_id }}</span>
+    <span>Người tạo: {{ selectedPurchase?.created_by }}</span>
+    <span>Ngày bán: {{ selectedPurchase?.purchase_time }}</span>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-centered table-hover mb-0">
+      <thead>
+        <tr>
+          <th>Mã sản phẩm</th>
+          <th>Tên sản phẩm</th>
+          <th>Số lượng</th>
+          <th>Đơn giá</th>
+          <th>Chiết khấu</th>
+          <th>Thành tiền</th>
+          <th>Ghi chú</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of purchaseDetail">
+          <td>
+            {{ product.product_id }}
+          </td>
+          <td>
+            {{ product.product_name }}
+          </td>
+          <td>
+            {{ product.product_quantity }}
+          </td>
+          <td>
+            {{ product.price | currency: 'VND' }}
+          </td>
+          <td>{{ product.discout }}%</td>
+          <td>
+            {{ product.total | currency: 'VND' }}
+          </td>
+          <td>
+            {{ product.note }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

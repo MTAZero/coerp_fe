@@ -1,3 +1,28 @@
-<p>
-  care-history-tab works!
-</p>
+<div class="table-responsive" *ngIf="!selectedPurchase">
+  <table class="table table-centered table-hover mb-0">
+    <thead>
+      <tr>
+        <th>Thời gian</th>
+        <th>Hình thức</th>
+        <th>Ghi chú</th>
+        <th>Người chăm sóc</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let care of careHistory">
+        <td>
+          {{ care.care_time }}
+        </td>
+        <td>
+          {{ care.care_by }}
+        </td>
+        <td>
+          {{ care.note }}
+        </td>
+        <td>
+          {{ care.care_staff }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

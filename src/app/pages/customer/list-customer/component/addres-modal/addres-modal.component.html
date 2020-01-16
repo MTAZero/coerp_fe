@@ -1,0 +1,96 @@
+<div class="modal-header bg-dark">
+  <h4 class="modal-title text-white">Thêm địa chỉ</h4>
+  <button class="close text-white" aria-label="Close" (click)="onClickCancel()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body p-3" [formGroup]="form">
+  <div class="form-group row mb-3">
+    <label class="col-4 col-form-label">Tỉnh/Thành phố <span>(*)</span></label>
+    <div class="col-8">
+      <select
+        class="custom-select"
+        formControlName="province"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && formUI.province.errors }"
+      >
+        <option value=""></option>
+        <option value="1">Hà Nội</option>
+        <option value="2">Đà Nẵng</option>
+        <option value="3">TP. Hồ Chí Minh</option>
+      </select>
+      <div *ngIf="submitted && formUI.province.errors" class="invalid-feedback">
+        <span *ngIf="formUI.province.errors.required"
+          >This value is required.</span
+        >
+      </div>
+    </div>
+  </div>
+  <div class="form-group row mb-3">
+    <label class="col-4 col-form-label">Quận/Huyện <span>(*)</span></label>
+    <div class="col-8">
+      <select
+        class="custom-select"
+        formControlName="district"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && formUI.district.errors }"
+      >
+        <option value=""></option>
+        <option value="1">Hà Nội</option>
+        <option value="2">Đà Nẵng</option>
+        <option value="3">TP. Hồ Chí Minh</option>
+      </select>
+      <div *ngIf="submitted && formUI.district.errors" class="invalid-feedback">
+        <span *ngIf="formUI.district.errors.required"
+          >This value is required.</span
+        >
+      </div>
+    </div>
+  </div>
+  <div class="form-group row mb-3">
+    <label class="col-4 col-form-label">Xã/Phường <span>(*)</span></label>
+    <div class="col-8">
+      <select
+        class="custom-select"
+        formControlName="ward"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && formUI.ward.errors }"
+      >
+        <option value=""></option>
+        <option value="1">Hà Nội</option>
+        <option value="2">Đà Nẵng</option>
+        <option value="3">TP. Hồ Chí Minh</option>
+      </select>
+      <div *ngIf="submitted && formUI.ward.errors" class="invalid-feedback">
+        <span *ngIf="formUI.ward.errors.required">This value is required.</span>
+      </div>
+    </div>
+  </div>
+  <div class="form-group row mb-3">
+    <label class="col-4 col-form-label">Xã/Phường <span>(*)</span></label>
+    <div class="col-8">
+      <input
+        type="text"
+        class="form-control"
+        formControlName="clearAddress"
+        [ngClass]="{ 'is-invalid': submitted && formUI.clearAddress.errors }"
+      />
+      <div
+        *ngIf="submitted && formUI.clearAddress.errors"
+        class="invalid-feedback"
+      >
+        <span *ngIf="formUI.clearAddress.errors.required"
+          >This value is required.</span
+        >
+      </div>
+    </div>
+  </div>
+  <div class="text-right mt-3">
+    <button class="btn btn-success ml-1" (click)="onClickSubmit()">
+      Lưu
+    </button>
+    <button class="btn btn-danger ml-1" (click)="onClickCancel()">
+      Hủy
+    </button>
+  </div>
+</div>

@@ -27,6 +27,7 @@ import { ListCustomerTypeModalComponent } from './list-customer/component/list-c
 import { CustomerTypeModalComponent } from './list-customer/component/customer-type-modal/customer-type-modal.component';
 import { CustomerGroupModalComponent } from './list-customer/component/customer-group-modal/customer-group-modal.component';
 import { ListCustomerGroupModalComponent } from './list-customer/component/list-customer-group-modal/list-customer-group-modal.component';
+import { AddresModalComponent } from './list-customer/component/addres-modal/addres-modal.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { ListCustomerGroupModalComponent } from './list-customer/component/list-
     ListCustomerTypeModalComponent,
     CustomerTypeModalComponent,
     CustomerGroupModalComponent,
-    ListCustomerGroupModalComponent
+    ListCustomerGroupModalComponent,
+    AddresModalComponent
   ],
   imports: [
     CommonModule,
@@ -65,7 +67,8 @@ import { ListCustomerGroupModalComponent } from './list-customer/component/list-
     ListCustomerTypeModalComponent,
     ListCustomerGroupModalComponent,
     CustomerTypeModalComponent,
-    CustomerGroupModalComponent
+    CustomerGroupModalComponent,
+    AddresModalComponent
   ]
 })
 export class CustomerModule {}

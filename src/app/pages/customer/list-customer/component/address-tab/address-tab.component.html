@@ -1,3 +1,49 @@
-<p>
-  address-tab works!
-</p>
+<div class="row justify-content-end">
+  <a
+    href="javscript: void(0);"
+    class="btn btn-success mb-2"
+    (click)="openAddressModal()"
+    ><i class="mdi mdi-plus-circle mr-1"></i> Thêm mới</a
+  >
+</div>
+<div class="table-responsive">
+  <table class="table table-centered table-hover mb-0">
+    <thead>
+      <tr>
+        <th>Địa chỉ</th>
+        <th>Số điện thoại</th>
+        <th>Ghi chú</th>
+        <th>Thao tác</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let address of addresses">
+        <td>
+          {{ address.address }}
+        </td>
+        <td>
+          {{ address.phone }}
+        </td>
+        <td>
+          {{ address.note }}
+        </td>
+        <td>
+          <a
+            href="javascript:void(0);"
+            class="action-icon"
+            (click)="openAddressModal(address)"
+          >
+            <i class="mdi mdi-square-edit-outline"></i
+          ></a>
+          <a
+            href="javascript:void(0);"
+            class="action-icon"
+            (click)="openConfirmModal()"
+          >
+            <i class="mdi mdi-delete"></i
+          ></a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
