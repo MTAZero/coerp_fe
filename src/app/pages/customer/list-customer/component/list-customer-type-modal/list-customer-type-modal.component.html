@@ -1,3 +1,69 @@
-<p>
-  list-customer-type-modal works!
-</p>
+<div class="modal-header bg-dark">
+  <h4 class="modal-title text-white">Loại khách hàng</h4>
+  <button
+    type="button"
+    class="close text-white"
+    aria-label="Close"
+    (click)="onClickCancel()"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body p-3">
+  <div class="table-responsive">
+    <table class="table table-centered table-hover mb-0">
+      <thead>
+        <tr>
+          <th>STT</th>
+          <th>Loại khách hàng</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let customerType of customerTypes; let i = index"
+          (click)="onClickCustomerType(customerType)"
+          [ngClass]="{
+            'is-selected':
+              customerType.type_id === selectedCustomerType?.type_id
+          }"
+        >
+          <td>
+            {{ i + 1 }}
+          </td>
+          <td>
+            {{ customerType.customer_type }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="text-right mt-3">
+    <button
+      [disabled]="!selectedCustomerType"
+      class="btn btn-primary"
+      (click)="onClickChoose()"
+    >
+      Chọn
+    </button>
+    <button class="btn btn-success ml-1" (click)="openCustomerTypeModal()">
+      Thêm
+    </button>
+    <button
+      [disabled]="!selectedCustomerType"
+      class="btn btn-warning ml-1"
+      (click)="openCustomerTypeModal(customerType)"
+    >
+      Sửa
+    </button>
+    <button
+      [disabled]="!selectedCustomerType"
+      class="btn btn-danger ml-1"
+      (click)="openConfirmModal()"
+    >
+      Xóa
+    </button>
+    <button class="btn btn-danger ml-1" (click)="onClickCancel()">
+      Đóng
+    </button>
+  </div>
+</div>

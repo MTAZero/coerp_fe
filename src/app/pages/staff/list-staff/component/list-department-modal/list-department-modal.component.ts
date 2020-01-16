@@ -25,7 +25,7 @@ export class ListDepartmentModalComponent implements OnInit {
     this.passEvent.emit({ event: false });
   }
 
-  openClickChoose() {
+  onClickChoose() {
     this.passEvent.emit({ event: false });
   }
 

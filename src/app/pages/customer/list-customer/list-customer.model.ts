@@ -12,3 +12,21 @@ export interface Customer {
   created_date?: string;
   note?: string;
 }
+
+export interface Source {
+  source_id?: string;
+  source_name: string;
+  description?: string;
+}
+
+export interface CustomerType {
+  type_id?: string;
+  customer_type: string;
+}
+
+export interface CustomerGroup {
+  group_id?: string;
+  customer_group: string;
+  description?: string;
+  created_date?: string;
+}

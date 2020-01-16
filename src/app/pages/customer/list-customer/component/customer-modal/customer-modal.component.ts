@@ -63,7 +63,7 @@ export class CustomerModalComponent implements OnInit {
   }
 
   onClickCancel() {
-    if (!this.form.touched) {
+    if (this.form.dirty) {
       const modalRef = this.modalService.open(ConfirmModalComponent, {
         centered: true
       });
