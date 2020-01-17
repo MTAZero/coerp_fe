@@ -1,0 +1,68 @@
+<div class="modal-header bg-dark">
+  <h4 class="modal-title text-white">Đơn vị</h4>
+  <button
+    type="button"
+    class="close text-white"
+    aria-label="Close"
+    (click)="onClickCancel()"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body p-3">
+  <div class="table-responsive">
+    <table class="table table-centered table-hover mb-0">
+      <thead>
+        <tr>
+          <th>STT</th>
+          <th>Đơn vị</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let unit of units; let i = index"
+          (click)="onClickUnit(unit)"
+          [ngClass]="{
+            'is-selected': unit.unit_id === selectedUnit?.unit_id
+          }"
+        >
+          <td>
+            {{ i + 1 }}
+          </td>
+          <td>
+            {{ unit.unit_name }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="text-right mt-3">
+    <button
+      [disabled]="!selectedUnit"
+      class="btn btn-primary"
+      (click)="onClickChoose()"
+    >
+      Chọn
+    </button>
+    <button class="btn btn-success ml-1" (click)="openUnitModal()">
+      Thêm
+    </button>
+    <button
+      [disabled]="!selectedUnit"
+      class="btn btn-warning ml-1"
+      (click)="openUnitModal(unit)"
+    >
+      Sửa
+    </button>
+    <button
+      [disabled]="!selectedUnit"
+      class="btn btn-danger ml-1"
+      (click)="openConfirmModal()"
+    >
+      Xóa
+    </button>
+    <button class="btn btn-danger ml-1" (click)="onClickCancel()">
+      Đóng
+    </button>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+<div class="table-responsive">
+  <table class="table table-centered table-hover mb-0">
+    <thead>
+      <tr>
+        <th>Thời gian</th>
+        <th>Số đơn hàng</th>
+        <th>Số lượng</th>
+        <th>Đơn vị</th>
+        <th>Khách hàng</th>
+        <th>Người tạo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let ph of purchaseHistoryData">
+        <td>
+          {{ ph.purchase_id }}
+        </td>
+        <td>
+          {{ ph.purchase_time }}
+        </td>
+        <td>
+          {{ ph.purchase_quantity }}
+        </td>
+        <td>
+          {{ ph.unit }}
+        </td>
+        <td>
+          {{ ph.unit }}
+        </td>
+        <td>
+          {{ ph.creator }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

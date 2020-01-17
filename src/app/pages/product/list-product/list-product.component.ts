@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Service } from './list-service.model';
-import { serviceData } from './data';
+import { Product } from './list-product.model';
+import { productData } from './data';
 import { ConfirmModalComponent } from './component/confirm-modal/confirm-modal.component';
-import { ServiceModalComponent } from './component/service-modal/service-modal.component';
+import { ProductModalComponent } from './component/product-modal/product-modal.component';
 
 @Component({
-  selector: 'app-list-service',
-  templateUrl: './list-service.component.html',
-  styleUrls: ['./list-service.component.scss']
+  selector: 'app-list-product',
+  templateUrl: './list-product.component.html',
+  styleUrls: ['./list-product.component.scss']
 })
-export class ListServiceComponent implements OnInit {
+export class ListProductComponent implements OnInit {
   // bread crumb items
   breadCrumbItems: Array<{}>;
 
@@ -25,9 +25,9 @@ export class ListServiceComponent implements OnInit {
   endIndex = 10;
   totalSize = 0;
 
-  paginatedServiceData: Array<Service>;
-  selectService: Service;
-  services: Array<Service>;
+  paginatedProductData: Array<Product>;
+  selectProduct: Product;
+  products: Array<Product>;
 
   constructor(
     private modalService: NgbModal,
@@ -36,26 +36,26 @@ export class ListServiceComponent implements OnInit {
   ngOnInit() {
     this.breadCrumbItems = [
       { label: 'ERP', path: '/' },
-      { label: 'Dịch vụ', path: '/' },
-      { label: 'Danh sách dịch vụ', path: '/', active: true }
+      { label: 'Sản phẩm', path: '/' },
+      { label: 'Thông tin sản phẩm', path: '/', active: true }
     ];
     this._fetchData();
   }
 
-  openServiceModal(service?: Service) {
-    const modalRef = this.modalService.open(ServiceModalComponent, {
+  openProductModal(product?: Product) {
+    const modalRef = this.modalService.open(ProductModalComponent, {
       centered: true,
       size: 'lg'
     });
-    if (service) {
-      modalRef.componentInstance.service = service;
+    if (product) {
+      modalRef.componentInstance.product = product;
     }
     modalRef.componentInstance.passEvent.subscribe(res => {
       if (res.event) {
-        if (service) {
-          this.updateService(service, res.form);
+        if (product) {
+          this.updateProduct(product, res.form);
         } else {
-          this.createService(res.form);
+          this.createProduct(res.form);
         }
       }
       modalRef.close();
@@ -66,12 +66,12 @@ export class ListServiceComponent implements OnInit {
     const modalRef = this.modalService.open(ConfirmModalComponent, {
       centered: true
     });
-    modalRef.componentInstance.title = 'Xác nhận xóa dịch vụ';
+    modalRef.componentInstance.title = 'Xác nhận xóa sản phẩm';
     modalRef.componentInstance.message =
-      'Bạn có chắc chắn muốn xóa dịch vụ đang chọn không?';
+      'Bạn có chắc chắn muốn xóa sản phẩm đang chọn không?';
     modalRef.componentInstance.passEvent.subscribe(res => {
       if (res) {
-        this.removeService();
+        this.removeProduct();
       }
       modalRef.close();
     });
@@ -80,35 +80,35 @@ export class ListServiceComponent implements OnInit {
   onPageChange(page: any): void {
     this.startIndex = (page - 1) * this.pageSize;
     this.endIndex = (page - 1) * this.pageSize + this.pageSize;
-    this.paginatedServiceData = this.services.slice(
+    this.paginatedProductData = this.products.slice(
       this.startIndex,
       this.endIndex
     );
   }
 
   private _fetchData() {
-    this.services = serviceData;
+    this.products = productData;
     // apply pagination
     this.startIndex = 0;
     this.endIndex = this.pageSize;
 
-    this.paginatedServiceData = this.services.slice(
+    this.paginatedProductData = this.products.slice(
       this.startIndex,
       this.endIndex
     );
-    this.totalSize = this.services.length;
+    this.totalSize = this.products.length;
   }
 
-  private createService(data: any) {
+  private createProduct(data: any) {
     this.submitted = true;
-    this.totalSize = this.services.length + 1;
-    this.paginatedServiceData = this.services.slice(
+    this.totalSize = this.products.length + 1;
+    this.paginatedProductData = this.products.slice(
       this.startIndex,
       this.endIndex
     );
   }
 
-  private updateService(service: any, data: any) {}
+  private updateProduct(product: any, data: any) {}
 
-  private removeService() {}
+  private removeProduct() {}
 }

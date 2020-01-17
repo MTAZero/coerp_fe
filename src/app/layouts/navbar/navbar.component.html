@@ -14,7 +14,7 @@
                 routerLink="/staff/list-staff"
                 class="side-nav-link-ref"
                 routerLinkActive="active"
-                >Danh sách nhân sự</a
+                >Thông tin nhân sự</a
               >
             </li>
           </ul>
@@ -30,7 +30,7 @@
                 routerLink="/customer/list-customer"
                 routerLinkActive="active"
                 class="side-nav-link-ref"
-                >Danh sách khách hàng</a
+                >Thông tin khách hàng</a
               >
             </li>
           </ul>
@@ -40,6 +40,32 @@
             <i class="fe-briefcase"></i>Sản phẩm
             <div class="arrow-down"></div
           ></a>
+          <ul class="submenu">
+            <li>
+              <a
+                routerLink="/product/list-product"
+                routerLinkActive="active"
+                class="side-nav-link-ref"
+                >Thông tin sản phẩm</a
+              >
+            </li>
+            <li>
+              <a
+                routerLink="/product/list-order"
+                routerLinkActive="active"
+                class="side-nav-link-ref"
+                >Đặt hàng</a
+              >
+            </li>
+            <li>
+              <a
+                routerLink="/product/list-vendor"
+                routerLinkActive="active"
+                class="side-nav-link-ref"
+                >Nhà cung cấp</a
+              >
+            </li>
+          </ul>
         </li>
         <li class="has-submenu">
           <a href="javascript: void(0);" (click)="onMenuClick($event)">
@@ -52,7 +78,7 @@
                 routerLink="/service/list-service"
                 routerLinkActive="active"
                 class="side-nav-link-ref"
-                >Danh sách dịch vụ</a
+                >Thông tin dịch vụ</a
               >
             </li>
           </ul>

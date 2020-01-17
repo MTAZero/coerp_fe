@@ -1,0 +1,34 @@
+<div class="modal-header bg-dark">
+  <h4 class="modal-title text-white">Thêm đơn vị</h4>
+  <button class="close text-white" aria-label="Close" (click)="onClickCancel()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body p-3" [formGroup]="form">
+  <div class="form-group row mb-3">
+    <label class="col-4 col-form-label">Đơn vị <span>(*)</span></label>
+    <div class="col-8">
+      <input
+        class="form-control"
+        formControlName="unit_name"
+        [ngClass]="{ 'is-invalid': submitted && formUI.unit_name.errors }"
+      />
+      <div
+        *ngIf="submitted && formUI.unit_name.errors"
+        class="invalid-feedback"
+      >
+        <span *ngIf="formUI.unit_name.errors.required"
+          >This value is required.</span
+        >
+      </div>
+    </div>
+  </div>
+  <div class="text-right mt-3">
+    <button class="btn btn-success ml-1" (click)="onClickSubmit()">
+      Lưu
+    </button>
+    <button class="btn btn-danger ml-1" (click)="onClickCancel()">
+      Hủy
+    </button>
+  </div>
+</div>
