@@ -1,0 +1,188 @@
+<div class="modal-header bg-dark">
+  <h4 class="modal-title text-white">Thêm mới nhà cung cấp</h4>
+  <button
+    type="button"
+    class="close text-white"
+    aria-label="Close"
+    (click)="onClickCancel()"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body p-3">
+  <div class="text-left">
+    <form [formGroup]="form" class="form-horizontal" autocomplete="off">
+      <div class="form-group">
+        <label for="avatar">Ảnh chân dung</label>
+        <img
+          class="d-flex mr-3 rounded-circle avatar-lg"
+          src="assets/images/users/user-8.jpg"
+          alt="Generic placeholder image"
+        />
+      </div>
+      <div class="form-row">
+        <div class="form-group row mb-3">
+          <label class="col-4 col-form-label"
+            >Tên nhà cung cấp <span>(*)</span></label
+          >
+          <div class="col-8">
+            <input
+              class="form-control"
+              formControlName="vendor_name"
+              [ngClass]="{
+                'is-invalid': submitted && formUI.vendor_name.errors
+              }"
+            />
+            <div
+              *ngIf="submitted && formUI.vendor_name.errors"
+              class="invalid-feedback"
+            >
+              <span *ngIf="formUI.vendor_name.errors.required"
+                >This value is required.</span
+              >
+            </div>
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label class="col-4 col-form-label"
+            >Loại nhà cung cấp <span>(*)</span></label
+          >
+          <div class="col-6">
+            <select
+              class="custom-select"
+              formControlName="vendor_type"
+              class="form-control"
+              [ngClass]="{
+                'is-invalid': submitted && formUI.vendor_type.errors
+              }"
+            >
+              <option value=""></option>
+              <option value="1">Giám đốc</option>
+              <option value="2">Trưởng phòng</option>
+              <option value="2">Nhân viên</option>
+            </select>
+            <div
+              *ngIf="submitted && formUI.vendor_type.errors"
+              class="invalid-feedback"
+            >
+              <span *ngIf="formUI.vendor_type.errors.required"
+                >This value is required.</span
+              >
+            </div>
+          </div>
+          <div class="col-2 pl-0">
+            <a
+              href="javscript: void(0);"
+              class="btn btn-success"
+              style="width: inherit;"
+              (click)="openVendorTypeModal()"
+              ><i class="mdi mdi mdi-menu"></i
+            ></a>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group row mb-3">
+          <label class="col-4 col-form-label">Địa chỉ <span>(*)</span></label>
+          <div class="col-8">
+            <input
+              class="form-control"
+              formControlName="vendor_address"
+              [ngClass]="{
+                'is-invalid': submitted && formUI.vendor_address.errors
+              }"
+            />
+            <div
+              *ngIf="submitted && formUI.vendor_address.errors"
+              class="invalid-feedback"
+            >
+              <span *ngIf="formUI.vendor_address.errors.required"
+                >This value is required.</span
+              >
+            </div>
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label class="col-4 col-form-label"
+            >Tên người liên hệ <span>(*)</span></label
+          >
+          <div class="col-8">
+            <input
+              class="form-control"
+              formControlName="vendor_contact_name"
+              [ngClass]="{
+                'is-invalid': submitted && formUI.vendor_contact_name.errors
+              }"
+            />
+            <div
+              *ngIf="submitted && formUI.vendor_contact_name.errors"
+              class="invalid-feedback"
+            >
+              <span *ngIf="formUI.vendor_contact_name.errors.required"
+                >This value is required.</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group row mb-3">
+          <label class="col-4 col-form-label"
+            >Số điện thoại <span>(*)</span></label
+          >
+          <div class="col-8">
+            <input
+              class="form-control"
+              formControlName="vendor_phone"
+              [ngClass]="{
+                'is-invalid': submitted && formUI.vendor_phone.errors
+              }"
+            />
+            <div
+              *ngIf="submitted && formUI.vendor_phone.errors"
+              class="invalid-feedback"
+            >
+              <span *ngIf="formUI.vendor_phone.errors.required"
+                >This value is required.</span
+              >
+            </div>
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label class="col-4 col-form-label"
+            >SĐT người liên hệ <span>(*)</span></label
+          >
+          <div class="col-8">
+            <input
+              class="form-control"
+              formControlName="vendor_contact_phone"
+              [ngClass]="{
+                'is-invalid': submitted && formUI.vendor_contact_phone.errors
+              }"
+            />
+            <div
+              *ngIf="submitted && formUI.vendor_contact_phone.errors"
+              class="invalid-feedback"
+            >
+              <span *ngIf="formUI.vendor_contact_phone.errors.required"
+                >This value is required.</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-right">
+        <button (click)="onClickSubmit()" class="btn btn-success">
+          Lưu
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger ml-1"
+          (click)="onClickCancel()"
+        >
+          Hủy
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
