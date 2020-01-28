@@ -1,0 +1,10 @@
+{
+    "/api": {
+        "target": "http://27.72.147.222:1230",
+        "secure": false,
+        "logLevel": "debug",
+        "pathRewrite": {
+            "^/api": ""
+        }
+    }
+}

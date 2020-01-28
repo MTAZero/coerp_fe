@@ -45,7 +45,7 @@ export class ListOrderComponent implements OnInit {
   openOrderModal(order?: Order) {
     const modalRef = this.modalService.open(OrderModalComponent, {
       centered: true,
-      size: 'lg'
+      size: 'xl'
     });
     if (order) {
       modalRef.componentInstance.order = order;

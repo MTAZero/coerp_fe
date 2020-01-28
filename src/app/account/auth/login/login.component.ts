@@ -11,20 +11,23 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, AfterViewInit {
-
   loginForm: FormGroup;
   submitted = false;
   returnUrl: string;
   error = '';
   loading = false;
 
-  constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router,
-              private authenticationService: AuthenticationService) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router,
+    private authenticationService: AuthenticationService
+  ) {}
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
+      password: ['', Validators.required]
     });
 
     // reset login status
@@ -41,7 +44,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   // convenience getter for easy access to form fields
-  get f() { return this.loginForm.controls; }
+  get f() {
+    return this.loginForm.controls;
+  }
 
   /**
    * On submit form
@@ -55,7 +60,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
     }
 
     this.loading = true;
-    this.authenticationService.login(this.f.email.value, this.f.password.value)
+    this.authenticationService
+      .login(this.f.email.value, this.f.password.value)
       .pipe(first())
       .subscribe(
         data => {
@@ -64,6 +70,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
         error => {
           this.error = error;
           this.loading = false;
-        });
+        }
+      );
   }
 }

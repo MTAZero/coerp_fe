@@ -1,3 +1,198 @@
-<p>
-  order-modal works!
-</p>
+<div class="modal-header bg-dark">
+  <h4 class="modal-title text-white">Thêm mới đơn hàng</h4>
+  <button
+    type="button"
+    class="close text-white"
+    aria-label="Close"
+    (click)="onClickCancel()"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body p-3">
+  <div class="row">
+    <div class="col-xl-3 border">
+      <div class="title-section mt-2">Thông tin khách hàng</div>
+      <div class="form-group mb-2">
+        <label class="sr-only">Search</label>
+        <input class="form-control" placeholder="Search..." />
+      </div>
+      <div class="form-row row mb-3">
+        <label class="col-4 col-form-label">Họ và tên</label>
+        <div class="col-8">
+          <input class="form-control" />
+        </div>
+      </div>
+      <div class="form-row row mb-3">
+        <label class="col-4 col-form-label">Số điện thoại</label>
+        <div class="col-8">
+          <input class="form-control" />
+        </div>
+      </div>
+      <div class="form-row row mb-3">
+        <label class="col-4 col-form-label">Email</label>
+        <div class="col-8">
+          <input class="form-control" />
+        </div>
+      </div>
+      <div class="form-row row mb-3">
+        <label class="col-4 col-form-label">Loại khách hàng</label>
+        <div class="col-8">
+          <select class="custom-select" class="form-control">
+            <option value=""></option>
+            <option value="1">Giám đốc</option>
+            <option value="2">Trưởng phòng</option>
+            <option value="2">Nhân viên</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row row mb-3">
+        <label class="col-4 col-form-label">Nhóm khách hàng</label>
+        <div class="col-8">
+          <select class="custom-select" class="form-control">
+            <option value=""></option>
+            <option value="1">Giám đốc</option>
+            <option value="2">Trưởng phòng</option>
+            <option value="2">Nhân viên</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-9 border">
+      <div class="title-section mt-2">Thông tin sản phẩm</div>
+      <div class="form-row row mb-3">
+        <label class="col-3 col-form-label">Tìm kiếm sản phẩm</label>
+        <div class="col-9">
+          <div class="form-group mb-2">
+            <label class="sr-only">Search</label>
+            <input class="form-control" placeholder="Search..." />
+          </div>
+        </div>
+      </div>
+      <div class="table-responsive mb-3">
+        <table class="table table-centered table-hover mb-0">
+          <thead>
+            <tr>
+              <th>STT</th>
+              <th>Mã sản phẩm</th>
+              <th>Tên sản phẩm</th>
+              <th>Đơn vị</th>
+              <th>Đơn giá</th>
+              <th>Số lượng</th>
+              <th>Khuyến mại</th>
+              <th>Thành tiền</th>
+              <th style="width: 85px;">Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                1
+              </td>
+              <td>
+                SP01
+              </td>
+              <td>
+                Product
+              </td>
+              <td>
+                gói
+              </td>
+              <td>
+                120.000
+              </td>
+              <td>
+                3
+              </td>
+              <td>
+                0
+              </td>
+              <td>
+                240.000
+              </td>
+              <td>
+                <a
+                  href="javascript:void(0);"
+                  class="action-icon"
+                  (click)="openConfirmModal()"
+                >
+                  <i class="mdi mdi-delete"></i
+                ></a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="form-row">
+        <div class="form-group row mb-3"></div>
+        <div class="form-group row mb-3">
+          <label class="col-4 col-form-label">Chiết khấu</label>
+          <div class="col-8">
+            <input class="form-control" />
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group row mb-3"></div>
+        <div class="form-group row mb-3">
+          <label class="col-4 col-form-label">Phí vận chuyển</label>
+          <div class="col-8">
+            <input class="form-control" />
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group row mb-3"></div>
+        <div class="form-group row mb-3 justify-content-center">
+          <label class="col-form-label">Phí vận chuyển: 240.000đ</label>
+        </div>
+      </div>
+      <div class="title-section">Thanh toán</div>
+      <div class="form-row">
+        <div class="form-group row mb-3">
+          <label class="col-6 col-form-label">Phương thức thanh toán</label>
+          <div class="col-6">
+            <select class="custom-select" class="form-control">
+              <option value=""></option>
+              <option value="1">Giám đốc</option>
+              <option value="2">Trưởng phòng</option>
+              <option value="2">Nhân viên</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label class="col-6 col-form-label">Trạng thái thanh toán</label>
+          <div class="col-6">
+            <select class="custom-select" class="form-control">
+              <option value=""></option>
+              <option value="1">Giám đốc</option>
+              <option value="2">Trưởng phòng</option>
+              <option value="2">Nhân viên</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group row mb-3">
+          <label
+            class="col-6 col-form-label"
+            style="color: red; font-weight: bold;"
+            >Tình trạng đơn hàng</label
+          >
+          <div class="col-6">
+            <input class="form-control" />
+          </div>
+        </div>
+        <div class="form-group row mb-3"></div>
+      </div>
+    </div>
+  </div>
+  <div class="text-right mt-1">
+    <button (click)="onClickSubmit()" class="btn btn-success">
+      Lưu
+    </button>
+    <button type="button" class="btn btn-danger ml-1" (click)="onClickCancel()">
+      Hủy
+    </button>
+  </div>
+</div>
