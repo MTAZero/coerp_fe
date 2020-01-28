@@ -29,6 +29,9 @@ import { ConfirmModalComponent as VendorConfirm } from './list-vendor/component/
 import { ListVendorTypeModalComponent } from './list-vendor/component/list-vendor-type-modal/list-vendor-type-modal.component';
 import { VendorTypeModalComponent } from './list-vendor/component/vendor-type-modal/vendor-type-modal.component';
 import { VendorModalComponent } from './list-vendor/component/vendor-modal/vendor-modal.component';
+import { ListOrderComponent } from './list-order/list-order.component';
+import { ConfirmModalComponent as OrderConfirm } from './list-order/component/confirm-modal/confirm-modal.component';
+import { OrderModalComponent } from './list-order/component/order-modal/order-modal.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +48,10 @@ import { VendorModalComponent } from './list-vendor/component/vendor-modal/vendo
     VendorConfirm,
     ListVendorTypeModalComponent,
     VendorTypeModalComponent,
-    VendorModalComponent
+    VendorModalComponent,
+    ListOrderComponent,
+    OrderConfirm,
+    OrderModalComponent
   ],
   imports: [
     CommonModule,
@@ -72,7 +78,9 @@ import { VendorModalComponent } from './list-vendor/component/vendor-modal/vendo
     VendorConfirm,
     ListVendorTypeModalComponent,
     VendorTypeModalComponent,
-    VendorModalComponent
+    VendorModalComponent,
+    OrderConfirm,
+    OrderModalComponent
   ]
 })
 export class ProductModule {}

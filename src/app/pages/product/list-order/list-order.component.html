@@ -1,0 +1,117 @@
+<div class="container-fluid">
+  <app-page-title
+    title="Đặt hàng"
+    [breadcrumbItems]="breadCrumbItems"
+  ></app-page-title>
+
+  <div class="row">
+    <div class="card">
+      <div class="card-body">
+        <div class="row mb-2">
+          <div class="col-sm-4">
+            <form class="form-inline">
+              <div class="form-group mb-2">
+                <label class="sr-only">Search</label>
+                <input
+                  class="form-control"
+                  name="search"
+                  placeholder="Search..."
+                  [(ngModel)]="term"
+                />
+              </div>
+
+              <select class="custom-select">
+                <option selected>Phương thức thanh toán</option>
+                <option value="1">AirPay</option>
+                <option value="2">ViettelPay</option>
+              </select>
+            </form>
+          </div>
+          <div class="col-sm-8">
+            <div class="text-sm-right">
+              <button type="button" class="btn btn-info mb-2 mr-1">
+                Export
+              </button>
+              <a
+                href="javscript: void(0);"
+                class="btn btn-success mb-2"
+                (click)="openOrderModal()"
+                ><i class="mdi mdi-plus-circle mr-1"></i> Thêm đơn hàng</a
+              >
+            </div>
+          </div>
+          <!-- end col-->
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-centered table-hover mb-0">
+            <thead>
+              <tr>
+                <th>Mã đơn hàng</th>
+                <th>Ngày đặt hàng</th>
+                <th>Trạng thái thanh toán</th>
+                <th>Tổng tiền</th>
+                <th>Phương thức thanh toán</th>
+                <th>Tình trạng đơn hàng</th>
+                <th style="width: 105px;">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let order of paginatedOrderData | filter: term">
+                <td>
+                  {{ order.order_id }}
+                </td>
+                <td>
+                  {{ order.order_date }}
+                </td>
+                <td>
+                  {{ order.payment_status }}
+                </td>
+                <td>
+                  {{ order.order_total }}
+                </td>
+                <td>
+                  {{ order.payment_method }}
+                </td>
+                <td>
+                  {{ order.order_status }}
+                </td>
+                <td>
+                  <a
+                    href="javascript:void(0);"
+                    class="action-icon"
+                    (click)="openOrderModal(order)"
+                  >
+                    <i class="mdi mdi-eye"></i
+                  ></a>
+                  <a
+                    href="javascript:void(0);"
+                    class="action-icon"
+                    (click)="openOrderModal(order)"
+                  >
+                    <i class="mdi mdi-square-edit-outline"></i
+                  ></a>
+                  <a
+                    href="javascript:void(0);"
+                    class="action-icon"
+                    (click)="openConfirmModal()"
+                  >
+                    <i class="mdi mdi-delete"></i
+                  ></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <ul class="pagination pagination-rounded justify-content-end my-2">
+          <ngb-pagination
+            (pageChange)="onPageChange($event)"
+            [pageSize]="pageSize"
+            [(page)]="page"
+            [collectionSize]="totalSize"
+          ></ngb-pagination>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

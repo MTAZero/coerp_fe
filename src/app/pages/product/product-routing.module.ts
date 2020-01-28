@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { ListProductComponent } from './list-product/list-product.component';
 import { ListVendorComponent } from './list-vendor/list-vendor.component';
+import { ListOrderComponent } from './list-order/list-order.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,10 @@ const routes: Routes = [
   {
     path: 'list-vendor',
     component: ListVendorComponent
+  },
+  {
+    path: 'list-order',
+    component: ListOrderComponent
   }
 ];
 
