@@ -18,6 +18,20 @@
     .custom-control {
         padding-bottom: 0.5rem;
     }
+
+    label {
+        display: flex;
+        white-space: pre;
+
+        select {
+            margin: 0 10px;
+        }
+    }
+
+    .form-check-inline {
+        align-items: baseline;
+        margin-right: 2rem;
+    }
 }
 
 ::ng-deep .form-row {

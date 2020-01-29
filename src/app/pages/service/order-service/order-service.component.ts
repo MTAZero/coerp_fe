@@ -5,7 +5,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGrigPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import bootstrapPlugin from '@fullcalendar/bootstrap';
-import { EventInput } from '@fullcalendar/core';
+import { EventInput, compareByFieldSpec } from '@fullcalendar/core';
 import { Event } from './event.model';
 import { category, calendarEvents, selectionTime } from './data';
 import { ConfirmModalComponent } from './component/confirm-modal/confirm-modal.component';
@@ -49,7 +49,12 @@ export class OrderServiceComponent implements OnInit {
   calendarWeekends: any;
   // show events
   calendarEvents: EventInput[];
+
+  // Set selections of time
   selectionTime: any[];
+
+  // Set repeat
+  repeat = '';
 
   constructor(
     private modalService: NgbModal,
@@ -111,6 +116,18 @@ export class OrderServiceComponent implements OnInit {
    */
   get form() {
     return this.formData.controls;
+  }
+
+  onChangeRepeatCheckbox(e) {
+    if (e.target.checked) {
+      this.repeat = 'day';
+    } else {
+      this.repeat = '';
+    }
+  }
+
+  onChangeRepeatSelect(e) {
+    this.repeat = e.target.value;
   }
 
   /**
