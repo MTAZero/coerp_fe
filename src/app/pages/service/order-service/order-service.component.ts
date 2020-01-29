@@ -89,23 +89,11 @@ export class OrderServiceComponent implements OnInit {
     this._fetchData();
   }
 
-  openServiceModal() {
+  openOrderServiceModal(event: any) {
     const modalRef = this.modalService.open(OrderServiceModalComponent, {
       centered: true,
       size: 'lg'
     });
-    modalRef.componentInstance.passEvent.subscribe(res => {
-      modalRef.close();
-    });
-  }
-
-  openConfirmModal() {
-    const modalRef = this.modalService.open(ConfirmModalComponent, {
-      centered: true
-    });
-    modalRef.componentInstance.title = 'Xác nhận xóa lịch đặt dịch vụ';
-    modalRef.componentInstance.message =
-      'Bạn có chắc chắn muốn xóa lịch đặt dịch vụ đang chọn không?';
     modalRef.componentInstance.passEvent.subscribe(res => {
       modalRef.close();
     });
@@ -128,35 +116,6 @@ export class OrderServiceComponent implements OnInit {
 
   onChangeRepeatSelect(e) {
     this.repeat = e.target.value;
-  }
-
-  /**
-   * Open Event Modal
-   * @param content modal content
-   * @param event calendar event
-   */
-  openModal(content: any, event: any) {
-    this.newEventDate = event.date;
-    this.modalService.open(content);
-  }
-
-  /**
-   * Open Event Modal For Edit
-   * @param editcontent modal content
-   * @param event calendar event
-   */
-  openEditModal(editcontent: any, event: any) {
-    this.formEditData = this.formBuilder.group({
-      editTitle: event.event.title
-    });
-    // tslint:disable-next-line: max-line-length
-    this.editEvent = {
-      id: event.event.id,
-      title: event.event.title,
-      start: event.event.start,
-      classNames: event.event.classNames
-    };
-    this.modalService.open(editcontent);
   }
 
   /**

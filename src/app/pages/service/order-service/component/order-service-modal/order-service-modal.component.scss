@@ -1,0 +1,39 @@
+:host {
+    span {
+        color: red
+    }
+
+    .form-inline {
+        align-items: baseline;
+        flex-flow: row;
+    }
+
+    .title-section {
+        color: red;
+        margin-bottom: 1.5em;
+        font-weight: bold;
+    }
+
+    .form-group-custom {
+        width: 20%;
+        margin-top: 29px;
+    }
+
+    .custom-control {
+        padding-bottom: 0.5rem;
+    }
+
+    label {
+        display: flex;
+        white-space: pre;
+
+        select {
+            margin: 0 10px;
+        }
+    }
+
+    .form-check-inline {
+        align-items: baseline;
+        margin-right: 2rem;
+    }
+}
