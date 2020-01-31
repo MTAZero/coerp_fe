@@ -60,6 +60,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
     }
 
     this.loading = true;
+    this.authenticationService.getAll().subscribe(res => {
+      console.log(res);
+    });
     this.authenticationService
       .login(this.f.email.value, this.f.password.value)
       .pipe(first())
