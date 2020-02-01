@@ -14,9 +14,6 @@ import { SlimscrollDirective } from './slimscroll.directive';
 import { CountToDirective } from './count-to.directive';
 import { PreloaderComponent } from './preloader/preloader.component';
 import { PagetitleComponent } from './pagetitle/pagetitle.component';
-import { PortletComponent } from './portlet/portlet.component';
-import { EmaillistComponent } from './emaillist/emaillist.component';
-import { WidgetComponent } from './widget/widget.component';
 
 @NgModule({
   // tslint:disable-next-line: max-line-length
@@ -24,10 +21,7 @@ import { WidgetComponent } from './widget/widget.component';
     SlimscrollDirective,
     CountToDirective,
     PreloaderComponent,
-    PagetitleComponent,
-    PortletComponent,
-    EmaillistComponent,
-    WidgetComponent
+    PagetitleComponent
   ],
   imports: [
     CommonModule,
@@ -43,10 +37,7 @@ import { WidgetComponent } from './widget/widget.component';
     SlimscrollDirective,
     CountToDirective,
     PreloaderComponent,
-    PagetitleComponent,
-    PortletComponent,
-    EmaillistComponent,
-    WidgetComponent
+    PagetitleComponent
   ]
 })
 export class UIModule {}

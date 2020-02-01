@@ -5,6 +5,9 @@ import { Staff } from './list-staff.model';
 import { contactData } from './data';
 import { ConfirmModalComponent } from './component/confirm-modal/confirm-modal.component';
 import { StaffModalComponent } from './component/staff-modal/staff-modal.component';
+import { StaffService } from '../../../core/services/api/staff.service';
+import { takeUntil, catchError } from 'rxjs/operators';
+import { Observable, Subject, of } from 'rxjs';
 
 @Component({
   selector: 'app-list-staff',
@@ -16,6 +19,7 @@ import { StaffModalComponent } from './component/staff-modal/staff-modal.compone
  * Staffs component
  */
 export class ListStaffComponent implements OnInit {
+  private destroyed$ = new Subject();
   // bread crumb items
   breadCrumbItems: Array<{}>;
 
@@ -35,15 +39,26 @@ export class ListStaffComponent implements OnInit {
 
   constructor(
     private modalService: NgbModal,
+    private staffService: StaffService,
     public formBuilder: FormBuilder
   ) {}
   ngOnInit() {
     this.breadCrumbItems = [
       { label: 'ERP', path: '/' },
-      { label: 'Nhân viên', path: '/' },
-      { label: 'Danh sách nhân viên', path: '/', active: true }
+      { label: 'Nhân sự', path: '/' },
+      { label: 'Danh sách nhân sự', path: '/', active: true }
     ];
     this._fetchData();
+
+    const test$ = this.staffService
+      .loadStaffPaged({
+        pagenumber: 0,
+        pagesize: 10
+      })
+      .pipe(takeUntil(this.destroyed$));
+    test$.subscribe(res => {
+      console.log(res);
+    });
   }
 
   openStaffModal(staff?: Staff) {

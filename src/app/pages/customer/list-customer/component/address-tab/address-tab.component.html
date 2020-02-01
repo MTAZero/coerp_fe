@@ -1,8 +1,5 @@
 <div class="row justify-content-end">
-  <a
-    href="javscript: void(0);"
-    class="btn btn-success mb-2"
-    (click)="openAddressModal()"
+  <a class="btn btn-success mb-2 button-link" (click)="openAddressModal()"
     ><i class="mdi mdi-plus-circle mr-1"></i> Thêm mới</a
   >
 </div>
@@ -29,17 +26,12 @@
         </td>
         <td>
           <a
-            href="javascript:void(0);"
-            class="action-icon"
+            class="action-icon button-link"
             (click)="openAddressModal(address)"
           >
             <i class="mdi mdi-square-edit-outline"></i
           ></a>
-          <a
-            href="javascript:void(0);"
-            class="action-icon"
-            (click)="openConfirmModal()"
-          >
+          <a class="action-icon button-link" (click)="openConfirmModal()">
             <i class="mdi mdi-delete"></i
           ></a>
         </td>

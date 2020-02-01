@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <app-page-title
-    title="Hồ sơ"
+    title="Nhân viên"
     [breadcrumbItems]="breadCrumbItems"
   ></app-page-title>
 
@@ -37,8 +37,7 @@
                   Export
                 </button>
                 <a
-                  href="javscript: void(0);"
-                  class="btn btn-success mb-2"
+                  class="btn btn-success mb-2 button-link"
                   (click)="openStaffModal()"
                   ><i class="mdi mdi-plus-circle mr-1"></i> Thêm mới</a
                 >
@@ -51,7 +50,7 @@
             <table class="table table-centered table-hover mb-0">
               <thead>
                 <tr>
-                  <th>Mã nhân viên</th>
+                  <th>MNV</th>
                   <th>Họ và tên</th>
                   <th>Tên đăng nhập</th>
                   <th>Số điện thoại</th>
@@ -97,15 +96,13 @@
                   </td>
                   <td>
                     <a
-                      href="javascript:void(0);"
-                      class="action-icon"
+                      class="action-icon button-link"
                       (click)="openStaffModal(staff)"
                     >
                       <i class="mdi mdi-square-edit-outline"></i
                     ></a>
                     <a
-                      href="javascript:void(0);"
-                      class="action-icon"
+                      class="action-icon button-link"
                       (click)="openConfirmModal()"
                     >
                       <i class="mdi mdi-delete"></i

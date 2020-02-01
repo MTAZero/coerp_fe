@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <app-page-title
-    title="Hồ sơ"
+    title="Sản phẩm"
     [breadcrumbItems]="breadCrumbItems"
   ></app-page-title>
 
@@ -37,8 +37,7 @@
                   Export
                 </button>
                 <a
-                  href="javscript: void(0);"
-                  class="btn btn-success mb-2"
+                  class="btn btn-success mb-2 button-link"
                   (click)="openProductModal()"
                   ><i class="mdi mdi-plus-circle mr-1"></i> Thêm mới</a
                 >
@@ -106,15 +105,13 @@
                   </td>
                   <td>
                     <a
-                      href="javascript:void(0);"
-                      class="action-icon"
+                      class="action-icon button-link"
                       (click)="openProductModal(product)"
                     >
                       <i class="mdi mdi-square-edit-outline"></i
                     ></a>
                     <a
-                      href="javascript:void(0);"
-                      class="action-icon"
+                      class="action-icon button-link"
                       (click)="openConfirmModal()"
                     >
                       <i class="mdi mdi-delete"></i

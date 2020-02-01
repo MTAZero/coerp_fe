@@ -16,6 +16,7 @@ import {
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 import { StaffRoutingModule } from './staff-routing.module';
+import { ApiModule } from '../../core/services/api/api.module';
 
 import { ListStaffComponent } from './list-staff/list-staff.component';
 import { ConfirmModalComponent } from './list-staff/component/confirm-modal/confirm-modal.component';
@@ -47,7 +48,8 @@ import { DepartmentModalComponent } from './list-staff/component/department-moda
     NgbPaginationModule,
     NgbTypeaheadModule,
     StaffRoutingModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,
+    ApiModule
   ],
   entryComponents: [
     ConfirmModalComponent,
