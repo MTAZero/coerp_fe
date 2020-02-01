@@ -3,15 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   NgbTabsetModule,
-  NgbAccordionModule,
   NgbDatepickerModule
 } from '@ng-bootstrap/ng-bootstrap';
 
 import { UIModule } from '../../shared/ui/ui.module';
 import {
   NgbModalModule,
-  NgbPaginationModule,
-  NgbTypeaheadModule
+  NgbPaginationModule
 } from '@ng-bootstrap/ng-bootstrap';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { CustomerRoutingModule } from './customer-routing.module';
@@ -52,11 +50,9 @@ import { AddresModalComponent } from './list-customer/component/addres-modal/add
     ReactiveFormsModule,
     UIModule,
     NgbTabsetModule,
-    NgbAccordionModule,
     NgbDatepickerModule,
     NgbModalModule,
     NgbPaginationModule,
-    NgbTypeaheadModule,
     Ng2SearchPipeModule
   ],
   entryComponents: [

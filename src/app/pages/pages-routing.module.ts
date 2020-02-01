@@ -3,6 +3,11 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: 'dashboard',
+    loadChildren: () =>
+      import('./dashboard/dashboard.module').then(m => m.DashboardModule)
+  },
+  {
     path: 'staff',
     loadChildren: () => import('./staff/staff.module').then(m => m.StaffModule)
   },
@@ -21,7 +26,12 @@ const routes: Routes = [
     loadChildren: () =>
       import('./service/service.module').then(m => m.ServiceModule)
   },
-  { path: '', redirectTo: '/staff/list-staff', pathMatch: 'full' }
+  {
+    path: 'ticket',
+    loadChildren: () =>
+      import('./ticket/ticket.module').then(m => m.TicketModule)
+  },
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full' }
 ];
 
 @NgModule({

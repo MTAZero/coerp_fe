@@ -3,15 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   NgbTabsetModule,
-  NgbAccordionModule,
   NgbDatepickerModule
 } from '@ng-bootstrap/ng-bootstrap';
 
 import { UIModule } from '../../shared/ui/ui.module';
 import {
   NgbModalModule,
-  NgbPaginationModule,
-  NgbTypeaheadModule
+  NgbPaginationModule
 } from '@ng-bootstrap/ng-bootstrap';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
@@ -42,11 +40,9 @@ import { DepartmentModalComponent } from './list-staff/component/department-moda
     ReactiveFormsModule,
     UIModule,
     NgbTabsetModule,
-    NgbAccordionModule,
     NgbDatepickerModule,
     NgbModalModule,
     NgbPaginationModule,
-    NgbTypeaheadModule,
     StaffRoutingModule,
     Ng2SearchPipeModule,
     ApiModule

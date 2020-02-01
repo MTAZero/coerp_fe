@@ -3,15 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   NgbTabsetModule,
-  NgbAccordionModule,
   NgbDatepickerModule
 } from '@ng-bootstrap/ng-bootstrap';
 
 import { UIModule } from '../../shared/ui/ui.module';
 import {
   NgbModalModule,
-  NgbPaginationModule,
-  NgbTypeaheadModule
+  NgbPaginationModule
 } from '@ng-bootstrap/ng-bootstrap';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { FullCalendarModule } from '@fullcalendar/angular';
@@ -44,11 +42,9 @@ import { ConfirmModalComponent as OrderServiceConfirm } from './order-service/co
     ReactiveFormsModule,
     UIModule,
     NgbTabsetModule,
-    NgbAccordionModule,
     NgbDatepickerModule,
     NgbModalModule,
     NgbPaginationModule,
-    NgbTypeaheadModule,
     ServiceRoutingModule,
     Ng2SearchPipeModule,
     FullCalendarModule
