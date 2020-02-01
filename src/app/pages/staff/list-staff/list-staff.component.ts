@@ -8,6 +8,7 @@ import { StaffModalComponent } from './component/staff-modal/staff-modal.compone
 import { StaffService } from '../../../core/services/api/staff.service';
 import { takeUntil, catchError } from 'rxjs/operators';
 import { Observable, Subject, of } from 'rxjs';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-list-staff',
@@ -25,17 +26,13 @@ export class ListStaffComponent implements OnInit {
 
   submitted: boolean;
   term: any;
-  page = 1;
-  pageSize = 10;
 
-  // start and end index
-  startIndex = 1;
-  endIndex = 10;
+  page = 0;
+  pageSize = 10;
   totalSize = 0;
 
-  paginatedStaffData: Array<Staff>;
-  selectStaff: Staff;
-  staffs: Array<Staff>;
+  selectedStaff = null;
+  staffs: any;
 
   constructor(
     private modalService: NgbModal,
@@ -49,16 +46,18 @@ export class ListStaffComponent implements OnInit {
       { label: 'Danh sách nhân sự', path: '/', active: true }
     ];
     this._fetchData();
+  }
 
-    const test$ = this.staffService
-      .loadStaffPaged({
-        pagenumber: 0,
-        pagesize: 10
-      })
-      .pipe(takeUntil(this.destroyed$));
-    test$.subscribe(res => {
-      console.log(res);
-    });
+  onClickStaff(staff: any) {
+    if (isNullOrUndefined(this.selectedStaff)) {
+      this.selectedStaff = staff;
+    } else {
+      if (this.selectedStaff.sta_id !== staff.sta_id) {
+        this.selectedStaff = staff;
+      } else {
+        this.selectedStaff = null;
+      }
+    }
   }
 
   openStaffModal(staff?: Staff) {
@@ -97,26 +96,26 @@ export class ListStaffComponent implements OnInit {
   }
 
   onPageChange(page: any): void {
-    this.startIndex = (page - 1) * this.pageSize;
-    this.endIndex = (page - 1) * this.pageSize + this.pageSize;
-    this.paginatedStaffData = this.staffs.slice(this.startIndex, this.endIndex);
+    // console.log(page);
   }
 
   private _fetchData() {
-    this.staffs = contactData;
-    // apply pagination
-    this.startIndex = 0;
-    this.endIndex = this.pageSize;
-
-    this.paginatedStaffData = this.staffs.slice(this.startIndex, this.endIndex);
-    this.totalSize = this.staffs.length;
+    const staff$ = this.staffService
+      .loadStaffPaged({
+        pagenumber: this.page,
+        pagesize: this.pageSize
+      })
+      .pipe(takeUntil(this.destroyed$));
+    staff$.subscribe((res: any) => {
+      if (res) {
+        console.log(res);
+        this.totalSize = res.Data.TotalNumberOfPages;
+        this.staffs = res.Data.Results;
+      }
+    });
   }
 
-  private createStaff(data: any) {
-    this.submitted = true;
-    this.totalSize = this.staffs.length + 1;
-    this.paginatedStaffData = this.staffs.slice(this.startIndex, this.endIndex);
-  }
+  private createStaff(data: any) {}
 
   private updateStaff(staff: any, data: any) {}
 

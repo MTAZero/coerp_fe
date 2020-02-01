@@ -5,7 +5,7 @@
   ></app-page-title>
 
   <div class="row">
-    <div class="col-xl-8">
+    <div [ngClass]="selectedStaff ? 'col-xl-8' : 'col-xl'">
       <div class="card">
         <div class="card-body">
           <div class="row mb-2">
@@ -51,58 +51,54 @@
               <thead>
                 <tr>
                   <th>MNV</th>
-                  <th>Họ và tên</th>
                   <th>Tên đăng nhập</th>
                   <th>Số điện thoại</th>
                   <th>Email</th>
                   <th>Chức vụ</th>
-                  <th>Só CMND</th>
-                  <th>Ngày cấp</th>
+
                   <th>Trạng thái</th>
                   <th style="width: 82px;">Thao tác</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let staff of paginatedStaffData | filter: term">
+                <tr
+                  *ngFor="let staff of staffs | filter: term"
+                  (click)="onClickStaff(staff)"
+                  [ngClass]="{
+                    'is-selected': staff.sta_id === selectedStaff?.sta_id
+                  }"
+                >
                   <td>
-                    {{ staff.staff_id }}
+                    {{ staff.sta_code }}
                   </td>
                   <td>
-                    {{ staff.name }}
+                    {{ staff.sta_username }}
                   </td>
                   <td>
-                    {{ staff.user_name }}
+                    {{ staff.sta_mobile }}
                   </td>
                   <td>
-                    {{ staff.phone }}
+                    {{ staff.sta_email }}
                   </td>
                   <td>
-                    {{ staff.email }}
+                    {{ staff.position_id }}
                   </td>
-                  <td>
-                    {{ staff.position }}
-                  </td>
-                  <td>
-                    {{ staff.CMND }}
-                  </td>
-                  <td>
-                    {{ staff.doi }}
-                  </td>
+
                   <td
                     [style.color]="staff.status === 'Active' ? 'green' : 'red'"
                     style="font-weight: bold;"
                   >
-                    {{ staff.status }}
+                    {{ staff.sta_status }}
                   </td>
                   <td>
                     <a
-                      class="action-icon button-link"
+                      class="action-icon table-button-link"
                       (click)="openStaffModal(staff)"
                     >
                       <i class="mdi mdi-square-edit-outline"></i
                     ></a>
                     <a
-                      class="action-icon button-link"
+                      class="action-icon table-button-link"
                       (click)="openConfirmModal()"
                     >
                       <i class="mdi mdi-delete"></i
@@ -123,7 +119,7 @@
         </div>
       </div>
     </div>
-    <div class="col-xl-4">
+    <div class="col-xl-4" *ngIf="selectedStaff">
       <div class="card-box">
         <div class="media mb-3">
           <img
@@ -132,15 +128,15 @@
             alt="Generic placeholder image"
           />
           <div class="media-body">
-            <h4 class="mt-0 mb-1">Hà Thị QUyết</h4>
+            <h4 class="mt-0 mb-1">{{ selectedStaff?.sta_fullname }}</h4>
             <p class="text-muted">
               QA
             </p>
             <p class="text-muted">
-              035 58932561
+              {{ selectedStaff?.sta_mobile }}
             </p>
             <p class="text-muted">
-              quyet.ha@boot.ai
+              {{ selectedStaff?.sta_email }}
             </p>
           </div>
         </div>
@@ -162,24 +158,26 @@
           <div class="">
             <h4 class="font-13 text-muted text-uppercase">About Me :</h4>
             <p class="mb-3">
-              Hi I'm Johnathn Deo,has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type.
+              {{ selectedStaff.sta_aboutme }}
             </p>
 
             <h4 class="font-13 text-muted text-uppercase mb-1">
               NGÀY SINH
             </h4>
-            <p class="mb-3">March 23, 1984 (34 Years)</p>
+            <p class="mb-3">
+              {{ selectedStaff.sta_birthday | date: 'MMMM dd, yyyy' }}
+            </p>
 
             <h4 class="font-13 text-muted text-uppercase mb-1">PHÒNG BAN</h4>
-            <p class="mb-3">Vine Corporation</p>
+            <p class="mb-3">{{ selectedStaff.department_id }}</p>
 
             <h4 class="font-13 text-muted text-uppercase mb-1">NGÀY TẠO</h4>
-            <p class="mb-3">April 22, 2016</p>
+            <p class="mb-3">
+              {{ selectedStaff.sta_created_date | date: 'dd/MM/yyyy' }}
+            </p>
 
             <h4 class="font-13 text-muted text-uppercase mb-1">ĐỊA CHỈ</h4>
-            <p class="mb-0">Dec 13, 2017</p>
+            <p class="mb-0">{{ selectedStaff.sta_address }}</p>
           </div>
         </ng-template>
       </div>
