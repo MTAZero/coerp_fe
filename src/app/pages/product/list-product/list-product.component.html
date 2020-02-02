@@ -5,7 +5,7 @@
   ></app-page-title>
 
   <div class="row">
-    <div class="col-xl-8">
+    <div [ngClass]="selectedProduct ? 'col-xl-8' : 'col-xl'">
       <div class="card">
         <div class="card-body">
           <div class="row mb-2">
@@ -66,7 +66,14 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let product of paginatedProductData | filter: term">
+                <tr
+                  *ngFor="let product of paginatedProductData | filter: term"
+                  (click)="onClickProduct(product)"
+                  [ngClass]="{
+                    'is-selected':
+                      product.product_id === selectedProduct?.product_id
+                  }"
+                >
                   <td>
                     {{ product.product_id }}
                   </td>
@@ -132,7 +139,7 @@
         </div>
       </div>
     </div>
-    <div class="col-xl-4">
+    <div class="col-xl-4" *ngIf="selectedProduct">
       <div class="card-box">
         <div class="media mb-3">
           <img
@@ -141,7 +148,7 @@
             alt="Generic placeholder image"
           />
           <div class="media-body">
-            <h4 class="mt-0 mb-1">Tên sản phẩm</h4>
+            <h4 class="mt-0 mb-1">{{ selectedProduct.product_name }}</h4>
             <p class="text-muted">
               Ngày cập nhật: 01/01/2019
             </p>

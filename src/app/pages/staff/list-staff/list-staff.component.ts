@@ -2,12 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Staff } from './list-staff.model';
-import { contactData } from './data';
 import { ConfirmModalComponent } from './component/confirm-modal/confirm-modal.component';
 import { StaffModalComponent } from './component/staff-modal/staff-modal.component';
 import { StaffService } from '../../../core/services/api/staff.service';
-import { takeUntil, catchError } from 'rxjs/operators';
-import { Observable, Subject, of } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import { isNullOrUndefined } from 'util';
 
 @Component({
@@ -71,9 +70,9 @@ export class ListStaffComponent implements OnInit {
     modalRef.componentInstance.passEvent.subscribe(res => {
       if (res.event) {
         if (staff) {
-          this.updateStaff(staff, res.form);
+          this.updateStaff();
         } else {
-          this.createStaff(res.form);
+          this.createStaff();
         }
       }
       modalRef.close();
@@ -95,7 +94,7 @@ export class ListStaffComponent implements OnInit {
     });
   }
 
-  onPageChange(page: any): void {
+  onPageChange(): void {
     // console.log(page);
   }
 
@@ -115,9 +114,9 @@ export class ListStaffComponent implements OnInit {
     });
   }
 
-  private createStaff(data: any) {}
+  private createStaff() {}
 
-  private updateStaff(staff: any, data: any) {}
+  private updateStaff() {}
 
   private removeStaff() {}
 }

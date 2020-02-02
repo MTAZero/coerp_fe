@@ -5,6 +5,7 @@ import { Product } from './list-product.model';
 import { productData } from './data';
 import { ConfirmModalComponent } from './component/confirm-modal/confirm-modal.component';
 import { ProductModalComponent } from './component/product-modal/product-modal.component';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-list-product',
@@ -26,7 +27,7 @@ export class ListProductComponent implements OnInit {
   totalSize = 0;
 
   paginatedProductData: Array<Product>;
-  selectProduct: Product;
+  selectedProduct: Product;
   products: Array<Product>;
 
   constructor(
@@ -40,6 +41,18 @@ export class ListProductComponent implements OnInit {
       { label: 'Thông tin sản phẩm', path: '/', active: true }
     ];
     this._fetchData();
+  }
+
+  onClickProduct(product: any) {
+    if (isNullOrUndefined(this.selectedProduct)) {
+      this.selectedProduct = product;
+    } else {
+      if (this.selectedProduct.product_id !== product.product_id) {
+        this.selectedProduct = product;
+      } else {
+        this.selectedProduct = null;
+      }
+    }
   }
 
   openProductModal(product?: Product) {

@@ -5,6 +5,7 @@ import { Service } from './list-service.model';
 import { serviceData } from './data';
 import { ConfirmModalComponent } from './component/confirm-modal/confirm-modal.component';
 import { ServiceModalComponent } from './component/service-modal/service-modal.component';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-list-service',
@@ -26,7 +27,7 @@ export class ListServiceComponent implements OnInit {
   totalSize = 0;
 
   paginatedServiceData: Array<Service>;
-  selectService: Service;
+  selectedService: Service;
   services: Array<Service>;
 
   constructor(
@@ -40,6 +41,18 @@ export class ListServiceComponent implements OnInit {
       { label: 'Danh sách dịch vụ', path: '/', active: true }
     ];
     this._fetchData();
+  }
+
+  onClickService(service: any) {
+    if (isNullOrUndefined(this.selectedService)) {
+      this.selectedService = service;
+    } else {
+      if (this.selectedService.service_id !== service.service_id) {
+        this.selectedService = service;
+      } else {
+        this.selectedService = null;
+      }
+    }
   }
 
   openServiceModal(service?: Service) {

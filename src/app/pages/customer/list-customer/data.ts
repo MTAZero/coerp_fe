@@ -8,7 +8,7 @@ import {
 const customerData: Customer[] = [
   {
     customer_id: 'KH01',
-    customer_name: 'Hà Thị Quyết',
+    customer_name: 'Nguyễn Văn A',
     source: 'BNI',
     phone: '0355893261',
     dob: '01/01/1990',
@@ -21,8 +21,8 @@ const customerData: Customer[] = [
     note: 'Không'
   },
   {
-    customer_id: 'KH01',
-    customer_name: 'Hà Thị Quyết',
+    customer_id: 'KH02',
+    customer_name: 'Nguyễn Văn B',
     source: 'BNI',
     phone: '0355893261',
     dob: '01/01/1990',
@@ -35,8 +35,8 @@ const customerData: Customer[] = [
     note: 'Không'
   },
   {
-    customer_id: 'KH01',
-    customer_name: 'Hà Thị Quyết',
+    customer_id: 'KH03',
+    customer_name: 'Nguyễn Văn C',
     source: 'BNI',
     phone: '0355893261',
     dob: '01/01/1990',
@@ -49,8 +49,8 @@ const customerData: Customer[] = [
     note: 'Không'
   },
   {
-    customer_id: 'KH01',
-    customer_name: 'Hà Thị Quyết',
+    customer_id: 'KH04',
+    customer_name: 'Nguyễn Văn D',
     source: 'BNI',
     phone: '0355893261',
     dob: '01/01/1990',

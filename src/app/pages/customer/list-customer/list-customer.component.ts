@@ -5,6 +5,7 @@ import { Customer } from './list-customer.model';
 import { customerData } from './data';
 import { CustomerModalComponent } from './component/customer-modal/customer-modal.component';
 import { ConfirmModalComponent } from './component/confirm-modal/confirm-modal.component';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-list-customer',
@@ -26,7 +27,7 @@ export class ListCustomerComponent implements OnInit {
   totalSize = 0;
 
   paginatedCustomerData: Array<Customer>;
-  selectCustomer: Customer;
+  selectedCustomer: Customer;
   customers: Array<Customer>;
 
   constructor(
@@ -40,6 +41,18 @@ export class ListCustomerComponent implements OnInit {
       { label: 'Danh sách khách hàng', path: '/', active: true }
     ];
     this._fetchData();
+  }
+
+  onClickCustomer(customer: any) {
+    if (isNullOrUndefined(this.selectedCustomer)) {
+      this.selectedCustomer = customer;
+    } else {
+      if (this.selectedCustomer.customer_id !== customer.customer_id) {
+        this.selectedCustomer = customer;
+      } else {
+        this.selectedCustomer = null;
+      }
+    }
   }
 
   openCustomerModal(customer?: Customer) {

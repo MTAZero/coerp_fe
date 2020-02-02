@@ -3,6 +3,14 @@
         align-items: baseline;
         flex-flow: row;
     }
+
+    tr {
+        cursor: pointer;
+
+        &.is-selected {
+            background-color: lightgray;
+        }
+    }
 }
 
 ::ng-deep .form-row {
