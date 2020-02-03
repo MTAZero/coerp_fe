@@ -10,8 +10,15 @@ import {
 import { TicketSortableDirective } from './ticket/ticket-sortable.directive';
 import { SupportRoutingModule } from './support-routing.module';
 import { DownloadComponent } from './download/download.component';
+import { PricingComponent } from './pricing/pricing.component';
+
 @NgModule({
-  declarations: [TicketComponent, TicketSortableDirective, DownloadComponent],
+  declarations: [
+    TicketComponent,
+    TicketSortableDirective,
+    DownloadComponent,
+    PricingComponent
+  ],
   imports: [
     CommonModule,
     SupportRoutingModule,
