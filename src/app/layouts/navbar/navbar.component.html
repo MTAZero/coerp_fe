@@ -3,11 +3,14 @@
     <div id="navigation" [ngbCollapse]="!showMobileMenu">
       <!-- Navigation Menu-->
       <ul class="navigation-menu">
+        <!-- Dashboard menu -->
         <li class="has-submenu">
           <a routerLink="/dashboard" routerLinkActive="active">
             <i class="fe-bar-chart"></i>Bảng tin</a
           >
         </li>
+
+        <!-- Staff menu -->
         <li class="has-submenu">
           <a href="javascript: void(0);" (click)="onMenuClick($event)">
             <i class="fe-airplay"></i>Nhân sự
@@ -24,12 +27,19 @@
             </li>
           </ul>
         </li>
+
+        <!-- Customer menu -->
         <li class="has-submenu">
           <a href="javascript: void(0);" (click)="onMenuClick($event)">
             <i class="fe-grid"></i>Khách hàng
             <div class="arrow-down"></div
           ></a>
           <ul class="submenu">
+            <li>
+              <a href="javascript: void(0);" class="side-nav-link-ref"
+                >Nhóm khách hàng</a
+              >
+            </li>
             <li>
               <a
                 routerLink="/customer/list-customer"
@@ -38,40 +48,94 @@
                 >Thông tin khách hàng</a
               >
             </li>
+            <li>
+              <a href="javascript: void(0);" class="side-nav-link-ref"
+                >Chăm sóc khách hàng</a
+              >
+            </li>
           </ul>
         </li>
+
+        <!-- Marketing menu -->
         <li class="has-submenu">
           <a href="javascript: void(0);" (click)="onMenuClick($event)">
-            <i class="fe-briefcase"></i>Sản phẩm
+            <i class="fe-grid"></i>Marketing
+            <div class="arrow-down"></div
+          ></a>
+          <ul class="submenu">
+            <li class="has-submenu">
+              <a href="javascript: void(0);" (click)="onMenuClick($event)"
+                >Email
+                <div class="arrow-down"></div
+              ></a>
+              <ul class="submenu">
+                <li>
+                  <a href="javascript: void(0);" class="side-nav-link-ref"
+                    >Mẫu Email</a
+                  >
+                </li>
+                <li>
+                  <a href="javascript: void(0);" class="side-nav-link-ref"
+                    >Chiến dịch Email</a
+                  >
+                </li>
+                <li>
+                  <a href="javascript: void(0);" class="side-nav-link-ref"
+                    >Thống kê</a
+                  >
+                </li>
+              </ul>
+            </li>
+            <li class="has-submenu">
+              <a href="javascript: void(0);" (click)="onMenuClick($event)"
+                >SMS
+                <div class="arrow-down"></div
+              ></a>
+              <ul class="submenu">
+                <li>
+                  <a href="javascript: void(0);" class="side-nav-link-ref"
+                    >Mẫu SMS</a
+                  >
+                </li>
+                <li>
+                  <a href="javascript: void(0);" class="side-nav-link-ref"
+                    >Chiến dịch SMS</a
+                  >
+                </li>
+                <li>
+                  <a href="javascript: void(0);" class="side-nav-link-ref"
+                    >Thống kê</a
+                  >
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Vendor menu -->
+        <li class="has-submenu">
+          <a href="javascript: void(0);" (click)="onMenuClick($event)">
+            <i class="fe-grid"></i>Nhà cung cấp
             <div class="arrow-down"></div
           ></a>
           <ul class="submenu">
             <li>
               <a
-                routerLink="/product/list-product"
+                routerLink="/vendor/list-vendor"
                 routerLinkActive="active"
                 class="side-nav-link-ref"
-                >Thông tin sản phẩm</a
+                >Thông tin nhà cung cấp</a
               >
             </li>
             <li>
-              <a
-                routerLink="/product/list-order"
-                routerLinkActive="active"
-                class="side-nav-link-ref"
-                >Đặt hàng</a
-              >
-            </li>
-            <li>
-              <a
-                routerLink="/product/list-vendor"
-                routerLinkActive="active"
-                class="side-nav-link-ref"
-                >Nhà cung cấp</a
+              <a href="javascript: void(0);" class="side-nav-link-ref"
+                >Giao dịch với nhà cung cấp</a
               >
             </li>
           </ul>
         </li>
+
+        <!-- Service menu -->
         <li class="has-submenu">
           <a href="javascript: void(0);" (click)="onMenuClick($event)">
             <i class="fe-grid"></i>Dịch vụ
@@ -92,6 +156,80 @@
                 routerLinkActive="active"
                 class="side-nav-link-ref"
                 >Đặt dịch vụ</a
+              >
+            </li>
+            <li>
+              <a href="javascript: void(0);" class="side-nav-link-ref"
+                >Báo cáo & Thống kê</a
+              >
+            </li>
+          </ul>
+        </li>
+
+        <!-- Commerce menu -->
+        <li class="has-submenu">
+          <a href="javascript: void(0);" (click)="onMenuClick($event)">
+            <i class="fe-briefcase"></i>Thương mại
+            <div class="arrow-down"></div
+          ></a>
+          <ul class="submenu">
+            <li>
+              <a
+                routerLink="/product/list-product"
+                routerLinkActive="active"
+                class="side-nav-link-ref"
+                >Thông tin sản phẩm</a
+              >
+            </li>
+            <li>
+              <a
+                routerLink="/product/list-order"
+                routerLinkActive="active"
+                class="side-nav-link-ref"
+                >Đặt hàng</a
+              >
+            </li>
+            <li>
+              <a href="javascript: void(0);" class="side-nav-link-ref"
+                >Báo cáo & Thống kê</a
+              >
+            </li>
+          </ul>
+        </li>
+
+        <!-- Asset menu -->
+        <li class="has-submenu">
+          <a href="javascript: void(0);" (click)="onMenuClick($event)">
+            <i class="fe-briefcase"></i>Tài sản
+            <div class="arrow-down"></div
+          ></a>
+          <ul class="submenu">
+            <li>
+              <a href="javascript: void(0);" class="side-nav-link-ref"
+                >Quản lý tài sản</a
+              >
+            </li>
+          </ul>
+        </li>
+
+        <!-- Mail menu -->
+        <li class="has-submenu">
+          <a href="javascript: void(0);" (click)="onMenuClick($event)">
+            <i class="fe-briefcase"></i>Văn thư
+            <div class="arrow-down"></div
+          ></a>
+          <ul class="submenu">
+            <li>
+              <a
+                routerLink="/mail/mail-inbox"
+                routerLinkActive="active"
+                class="side-nav-link-ref"
+                >Văn thư đến</a
+              >
+            </li>
+            <li>
+              <a href="javascript: void(0);" class="side-nav-link-ref"
+                >Văn thư đi</a
               >
             </li>
           </ul>

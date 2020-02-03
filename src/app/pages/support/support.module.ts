@@ -1,21 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TicketComponent } from './ticket.component';
-import { TicketRoutingModule } from './ticket-routing.module';
+import { TicketComponent } from './ticket/ticket.component';
 import { UIModule } from '../../shared/ui/ui.module';
 import { FormsModule } from '@angular/forms';
-
 import {
   NgbTypeaheadModule,
   NgbPaginationModule
 } from '@ng-bootstrap/ng-bootstrap';
-import { TicketSortableDirective } from './ticket-sortable.directive';
-
+import { TicketSortableDirective } from './ticket/ticket-sortable.directive';
+import { SupportRoutingModule } from './support-routing.module';
+import { DownloadComponent } from './download/download.component';
 @NgModule({
-  declarations: [TicketComponent, TicketSortableDirective],
+  declarations: [TicketComponent, TicketSortableDirective, DownloadComponent],
   imports: [
     CommonModule,
-    TicketRoutingModule,
+    SupportRoutingModule,
     UIModule,
     CommonModule,
     UIModule,
@@ -24,4 +23,4 @@ import { TicketSortableDirective } from './ticket-sortable.directive';
     NgbTypeaheadModule
   ]
 })
-export class TicketModule {}
+export class SupportModule {}

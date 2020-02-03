@@ -49,12 +49,13 @@ export class AuthenticationService {
       'grant_type=password&username=' + username + '&password=' + password;
 
     return this.http.post(`http://27.72.147.222:1230/token`, bodyTest, {
-      headers: new HttpHeaders()
-        .set('Content-Type', 'application/json')
-        .set(
-          'Authorization',
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json; charset=utf-8',
+        'Access-Control-Allow-Origin': '*',
+        'Cache-Control': 'no-cache',
+        Authorization:
           'BASIC RE9UTkVUOjVDNTFBQkUxLTY4MjgtNERBMS04NzBDLURCRTVDRjg5M0M1OQ=='
-        )
+      })
     });
     // .pipe(
     //   map(user => {
@@ -75,6 +76,7 @@ export class AuthenticationService {
     return this.http.get(`http://27.72.147.222:1230/api/staffs/all`, {
       headers: new HttpHeaders().set(
         'Authorization',
+        // tslint:disable-next-line:max-line-length
         'Bearer p_mGIdC0dpZODEknjmxnnKypBMYNQJ3tqEL-Inswxbntqb5HMcGaXlD61UBg_g8b3g39DgauK-N3RihXk8eKHj7CigTyLSf7Jv6f4k_3Mg49gJ-oAOexOClWOmrfwcwDxiP3G9HqGERysiaGzgwh-VQIOJz-oSQrJDjCOnmal6eHrBqxoKwt63HVfDRJ5QhHdVw8-szNn_PwPwQZvsqaRG20lutDgls0Ck_Jvi7Cse-YcEEtfvnuw4xJKreWc353fTpeGweBnhBUmo1UIUYBD2d4IUAizoTtr2jTy0oIdN8OI4A-qBBzq1jHl2AYyi5vIfahFFOa4-ZNinyr1QWFdqt5-Ve5MIUycp0NlfDsl2UyZ2g_EbOwuU0vSfrPtjfHqFkD61YAyiMet8RMUUxx1A'
       )
     });

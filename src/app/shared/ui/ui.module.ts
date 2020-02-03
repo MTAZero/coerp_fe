@@ -15,6 +15,8 @@ import { CountToDirective } from './count-to.directive';
 import { PreloaderComponent } from './preloader/preloader.component';
 import { PagetitleComponent } from './pagetitle/pagetitle.component';
 import { PortletComponent } from './portlet/portlet.component';
+import { EmaillistComponent } from './emaillist/emaillist.component';
+import { WidgetComponent } from './widget/widget.component';
 
 @NgModule({
   // tslint:disable-next-line: max-line-length
@@ -23,7 +25,9 @@ import { PortletComponent } from './portlet/portlet.component';
     CountToDirective,
     PreloaderComponent,
     PagetitleComponent,
-    PortletComponent
+    PortletComponent,
+    EmaillistComponent,
+    WidgetComponent
   ],
   imports: [
     CommonModule,
@@ -40,7 +44,9 @@ import { PortletComponent } from './portlet/portlet.component';
     CountToDirective,
     PreloaderComponent,
     PagetitleComponent,
-    PortletComponent
+    PortletComponent,
+    EmaillistComponent,
+    WidgetComponent
   ]
 })
 export class UIModule {}

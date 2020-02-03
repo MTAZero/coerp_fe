@@ -30,7 +30,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.breadCrumbItems = [
-      { label: 'UBold', path: '/' },
+      { label: 'ERP', path: '/' },
       { label: 'Bảng tin', path: '/', active: true }
     ];
 

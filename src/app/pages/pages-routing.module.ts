@@ -27,9 +27,23 @@ const routes: Routes = [
       import('./service/service.module').then(m => m.ServiceModule)
   },
   {
-    path: 'ticket',
+    path: 'support',
     loadChildren: () =>
-      import('./ticket/ticket.module').then(m => m.TicketModule)
+      import('./support/support.module').then(m => m.SupportModule)
+  },
+  {
+    path: 'enterprise',
+    loadChildren: () =>
+      import('./enterprise/enterprise.module').then(m => m.EnterpriseModule)
+  },
+  {
+    path: 'vendor',
+    loadChildren: () =>
+      import('./vendor/vendor.module').then(m => m.VendorModule)
+  },
+  {
+    path: 'mail',
+    loadChildren: () => import('./mail/mail.module').then(m => m.MailModule)
   },
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' }
 ];

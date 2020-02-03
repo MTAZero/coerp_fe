@@ -100,7 +100,7 @@
         </div>
       </li>
 
-      <li class="dropdown notification-list" ngbDropdown>
+      <li class="dropdown notification-list" ngbDropdown style="width: 202px;">
         <a
           class="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light"
           ngbDropdownToggle
@@ -116,7 +116,7 @@
             class="rounded-circle"
           />
           <span class="pro-user-name ml-1">
-            Nik Patel <i class="mdi mdi-chevron-down"></i>
+            Trần Nam Trung <i class="mdi mdi-chevron-down"></i>
           </span>
         </a>
         <div
@@ -131,19 +131,25 @@
           <!-- item-->
           <a class="dropdown-item notify-item table-button-link">
             <i class="fe-user"></i>
-            <span>My Account</span>
+            <span>Trang tin của tôi</span>
           </a>
 
           <!-- item-->
           <a class="dropdown-item notify-item table-button-link">
             <i class="fe-settings"></i>
-            <span>Settings</span>
+            <span>Thay đổi mật khẩu</span>
           </a>
 
           <!-- item-->
           <a class="dropdown-item notify-item table-button-link">
-            <i class="fe-lock"></i>
-            <span>Lock Screen</span>
+            <i class="fe-activity"></i>
+            <span>Phiên hoạt động</span>
+          </a>
+
+          <!-- item-->
+          <a class="dropdown-item notify-item table-button-link">
+            <i class="fe-volume-1"></i>
+            <span>Thông báo từ hệ thống</span>
           </a>
 
           <div class="dropdown-divider"></div>
@@ -154,7 +160,7 @@
             (click)="logout()"
           >
             <i class="fe-log-out"></i>
-            <span>Logout</span>
+            <span>Đăng xuất</span>
           </a>
         </div>
       </li>
@@ -198,20 +204,65 @@
           <i class="mdi mdi-chevron-down"></i>
         </a>
         <div class="dropdown-menu" ngbDropdownMenu aria-labelledby="extraMenu">
-          <!-- item-->
           <a
             class="dropdown-item table-button-link"
-            routerLink="/ticket"
+            routerLink="/support/ticket"
             routerLinkActive="active"
           >
             <i class="fe-credit-card mr-1"></i>
             <span>Tickets</span>
           </a>
-
-          <!-- item-->
+          <a class="dropdown-item table-button-link">
+            <i class="fe-file-text mr-1"></i>
+            <span>Khảo sát</span>
+          </a>
           <a class="dropdown-item table-button-link">
             <i class="fe-settings mr-1"></i>
             <span>Cấu hình</span>
+          </a>
+          <a
+            class="dropdown-item table-button-link"
+            routerLink="/support/download"
+            routerLinkActive="active"
+          >
+            <i class="fe-download mr-1"></i>
+            <span>Download</span>
+          </a>
+          <a class="dropdown-item table-button-link">
+            <i class="fe-help-circle mr-1"></i>
+            <span>Hướng dẫn</span>
+          </a>
+        </div>
+      </li>
+      <li class="dropdown d-none d-lg-block" ngbDropdown>
+        <a
+          class="nav-link dropdown-toggle waves-effect waves-light"
+          href="javascript: void(0);"
+          ngbDropdownToggle
+          id="extraMenu"
+          role="button"
+          aria-haspopup="false"
+          aria-expanded="false"
+        >
+          Doanh nghiệp
+          <i class="mdi mdi-chevron-down"></i>
+        </a>
+        <div class="dropdown-menu" ngbDropdownMenu aria-labelledby="extraMenu">
+          <a class="dropdown-item table-button-link">
+            <span>Phòng ban</span>
+          </a>
+          <a
+            class="dropdown-item table-button-link"
+            routerLink="/enterprise/project"
+            routerLinkActive="active"
+          >
+            <span>Dự án</span>
+          </a>
+          <a class="dropdown-item table-button-link">
+            <span>Kho hàng</span>
+          </a>
+          <a class="dropdown-item table-button-link">
+            <span>Doanh thu</span>
           </a>
         </div>
       </li>

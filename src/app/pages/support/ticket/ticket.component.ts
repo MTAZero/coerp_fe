@@ -47,9 +47,9 @@ export class TicketComponent implements OnInit {
 
   ngOnInit() {
     this.breadCrumbItems = [
-      { label: 'UBold', path: '/' },
-      { label: 'Apps', path: '/' },
-      { label: 'Tickets', path: '/', active: true }
+      { label: 'ERP', path: '/' },
+      { label: 'Hỗ trợ', path: '/' },
+      { label: 'Thẻ ưu đãi', path: '/', active: true }
     ];
 
     /**
