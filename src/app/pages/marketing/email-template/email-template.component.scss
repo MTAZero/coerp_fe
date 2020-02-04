@@ -7,6 +7,15 @@
     .card {
         width: 100%;
     }
+
+    .title {
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .sub-title {
+        font-weight: bold;
+    }
 }
 
 ::ng-deep .form-row {

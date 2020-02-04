@@ -3,8 +3,8 @@ import { FormBuilder } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Template } from './list-template.model';
 import { templateData } from './data';
-// import { ConfirmModalComponent } from './component/confirm-modal/confirm-modal.component';
-// import { TemplateModalComponent } from './component/template-modal/template-modal.component';
+import { ConfirmModalComponent } from './component/confirm-modal/confirm-modal.component';
+import { EmailTemplateModalComponent } from './component/email-template-modal/email-template-modal.component';
 
 @Component({
   selector: 'app-email-template',
@@ -26,8 +26,10 @@ export class EmailTemplateComponent implements OnInit {
   totalSize = 0;
 
   paginatedTemplateData: Array<Template>;
-  selectTemplate: Template;
   templates: Array<Template>;
+
+  viewChanged = true;
+  selectedTemplate: Template;
 
   constructor(
     private modalService: NgbModal,
@@ -43,38 +45,28 @@ export class EmailTemplateComponent implements OnInit {
   }
 
   openTemplateModal(template?: Template) {
-    //   const modalRef = this.modalService.open(TemplateModalComponent, {
-    //     centered: true,
-    //     size: 'xl'
-    //   });
-    //   if (template) {
-    //     modalRef.componentInstance.template = template;
-    //   }
-    //   modalRef.componentInstance.passEvent.subscribe(res => {
-    //     if (res.event) {
-    //       if (template) {
-    //         this.updateTemplate(template, res.form);
-    //       } else {
-    //         this.createTemplate(res.form);
-    //       }
-    //     }
-    //     modalRef.close();
-    //   });
+    const modalRef = this.modalService.open(EmailTemplateModalComponent, {
+      centered: true,
+      size: 'xl'
+    });
+    if (template) {
+      modalRef.componentInstance.template = template;
+    }
+    modalRef.componentInstance.passEvent.subscribe(res => {
+      modalRef.close();
+    });
   }
 
   openConfirmModal() {
-    //   const modalRef = this.modalService.open(ConfirmModalComponent, {
-    //     centered: true
-    //   });
-    //   modalRef.componentInstance.title = 'Xác nhận xóa nhà đơn hàng';
-    //   modalRef.componentInstance.message =
-    //     'Bạn có chắc chắn muốn xóa đơn hàng đang chọn không?';
-    //   modalRef.componentInstance.passEvent.subscribe(res => {
-    //     if (res) {
-    //       this.removeTemplate();
-    //     }
-    //     modalRef.close();
-    //   });
+    const modalRef = this.modalService.open(ConfirmModalComponent, {
+      centered: true
+    });
+    modalRef.componentInstance.title = 'Xác nhận xóa mẫu email';
+    modalRef.componentInstance.message =
+      'Bạn có chắc chắn muốn xóa mẫu email đang chọn không?';
+    modalRef.componentInstance.passEvent.subscribe(res => {
+      modalRef.close();
+    });
   }
 
   onPageChange(page: any): void {
@@ -84,6 +76,20 @@ export class EmailTemplateComponent implements OnInit {
       this.startIndex,
       this.endIndex
     );
+  }
+
+  onChangeView(template: any, isBack: any) {
+    if (!template && !isBack) {
+      this.viewChanged = true;
+    }
+
+    if (!template && isBack) {
+      this.viewChanged = false;
+    }
+
+    if (template && !isBack) {
+      this.viewChanged = true;
+    }
   }
 
   private _fetchData() {
