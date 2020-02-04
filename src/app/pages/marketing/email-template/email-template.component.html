@@ -1,0 +1,79 @@
+<div class="container-fluid">
+  <app-page-title
+    title="Mẫu Email"
+    [breadcrumbItems]="breadCrumbItems"
+  ></app-page-title>
+
+  <div class="row">
+    <div class="card">
+      <div class="card-body">
+        <div class="col-sm-12">
+          <div class="text-sm-right">
+            <a
+              class="btn btn-success mb-2 button-link"
+              (click)="openTemplateModal()"
+              ><i class="mdi mdi-plus-circle mr-1"></i> Thêm mới</a
+            >
+          </div>
+          <!-- end col-->
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-centered table-hover mb-0">
+            <thead>
+              <tr>
+                <th>Tên mẫu</th>
+                <th>Ngày tạo</th>
+                <th>Người tạo</th>
+                <th>Ngày sửa</th>
+                <th>Người sửa</th>
+                <th style="width: 85px;">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let template of paginatedTemplateData">
+                <td>
+                  {{ template.template_name }}
+                </td>
+                <td>
+                  {{ template.created_date }}
+                </td>
+                <td>
+                  {{ template.created_by }}
+                </td>
+                <td>
+                  {{ template.updated_date }}
+                </td>
+                <td>
+                  {{ template.updated_by }}
+                </td>
+                <td>
+                  <a
+                    class="action-icon table-button-link"
+                    (click)="openTemplateModal(template)"
+                  >
+                    <i class="mdi mdi-square-edit-outline"></i
+                  ></a>
+                  <a
+                    class="action-icon table-button-link"
+                    (click)="openConfirmModal()"
+                  >
+                    <i class="mdi mdi-delete"></i
+                  ></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <ul class="pagination pagination-rounded justify-content-end my-2">
+          <ngb-pagination
+            (pageChange)="onPageChange($event)"
+            [pageSize]="pageSize"
+            [(page)]="page"
+            [collectionSize]="totalSize"
+          ></ngb-pagination>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

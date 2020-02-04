@@ -1,0 +1,18 @@
+:host {
+    .form-inline {
+        align-items: baseline;
+        flex-flow: row;
+    }
+
+    .card {
+        width: 100%;
+    }
+}
+
+::ng-deep .form-row {
+    justify-content: space-around;
+
+    .form-group {
+        width: 50%;
+    }
+}

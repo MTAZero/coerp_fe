@@ -6,8 +6,8 @@ import timeGrigPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import bootstrapPlugin from '@fullcalendar/bootstrap';
 import { EventInput, compareByFieldSpec } from '@fullcalendar/core';
-import { Event } from './event.model';
-import { category, calendarEvents, selectionTime } from './data';
+import { Event, Widget } from './event.model';
+import { category, calendarEvents, selectionTime, widgetData } from './data';
 import { ConfirmModalComponent } from './component/confirm-modal/confirm-modal.component';
 import { OrderServiceModalComponent } from './component/order-service-modal/order-service-modal.component';
 
@@ -55,6 +55,7 @@ export class OrderServiceComponent implements OnInit {
 
   // Set repeat
   repeat = '';
+  widgetData: Widget[];
 
   constructor(
     private modalService: NgbModal,
@@ -97,6 +98,10 @@ export class OrderServiceComponent implements OnInit {
     modalRef.componentInstance.passEvent.subscribe(res => {
       modalRef.close();
     });
+  }
+
+  onHoverEvent(event: any) {
+    console.log(event.event._def.title);
   }
 
   /**
@@ -181,6 +186,7 @@ export class OrderServiceComponent implements OnInit {
    * Fetches the required data
    */
   private _fetchData() {
+    this.widgetData = widgetData;
     // Event category
     this.category = category;
     // Calender Event Data

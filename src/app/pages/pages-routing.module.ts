@@ -17,14 +17,28 @@ const routes: Routes = [
       import('./customer/customer.module').then(m => m.CustomerModule)
   },
   {
-    path: 'product',
+    path: 'marketing',
     loadChildren: () =>
-      import('./product/product.module').then(m => m.ProductModule)
+      import('./marketing/marketing.module').then(m => m.MarketingModule)
+  },
+  {
+    path: 'vendor',
+    loadChildren: () =>
+      import('./vendor/vendor.module').then(m => m.VendorModule)
   },
   {
     path: 'service',
     loadChildren: () =>
       import('./service/service.module').then(m => m.ServiceModule)
+  },
+  {
+    path: 'mail',
+    loadChildren: () => import('./mail/mail.module').then(m => m.MailModule)
+  },
+  {
+    path: 'product',
+    loadChildren: () =>
+      import('./product/product.module').then(m => m.ProductModule)
   },
   {
     path: 'support',
@@ -35,15 +49,6 @@ const routes: Routes = [
     path: 'enterprise',
     loadChildren: () =>
       import('./enterprise/enterprise.module').then(m => m.EnterpriseModule)
-  },
-  {
-    path: 'vendor',
-    loadChildren: () =>
-      import('./vendor/vendor.module').then(m => m.VendorModule)
-  },
-  {
-    path: 'mail',
-    loadChildren: () => import('./mail/mail.module').then(m => m.MailModule)
   },
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' }
 ];
