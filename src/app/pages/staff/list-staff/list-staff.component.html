@@ -81,14 +81,14 @@
                     {{ staff.sta_email }}
                   </td>
                   <td>
-                    {{ staff.position_id }}
+                    {{ staff.position_name }}
                   </td>
 
                   <td
-                    [style.color]="staff.status === 'Active' ? 'green' : 'red'"
+                    [style.color]="staff.sta_status === 1 ? 'green' : 'red'"
                     style="font-weight: bold;"
                   >
-                    {{ staff.sta_status }}
+                    {{ staff.sta_status === 1 ? 'Active' : 'Blocked' }}
                   </td>
                   <td>
                     <a
@@ -169,7 +169,7 @@
             </p>
 
             <h4 class="font-13 text-muted text-uppercase mb-1">PHÒNG BAN</h4>
-            <p class="mb-3">{{ selectedStaff.department_id }}</p>
+            <p class="mb-3">{{ selectedStaff.department_name }}</p>
 
             <h4 class="font-13 text-muted text-uppercase mb-1">NGÀY TẠO</h4>
             <p class="mb-3">

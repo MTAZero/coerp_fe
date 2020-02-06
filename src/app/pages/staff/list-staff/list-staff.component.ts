@@ -70,7 +70,7 @@ export class ListStaffComponent implements OnInit {
     modalRef.componentInstance.passEvent.subscribe(res => {
       if (res.event) {
         if (staff) {
-          this.updateStaff();
+          this.updateStaff(staff, res.form);
         } else {
           this.createStaff();
         }
@@ -107,7 +107,6 @@ export class ListStaffComponent implements OnInit {
       .pipe(takeUntil(this.destroyed$));
     staff$.subscribe((res: any) => {
       if (res) {
-        console.log(res);
         this.totalSize = res.Data.TotalNumberOfPages;
         this.staffs = res.Data.Results;
       }
@@ -116,7 +115,18 @@ export class ListStaffComponent implements OnInit {
 
   private createStaff() {}
 
-  private updateStaff() {}
+  private updateStaff(current: any, updated: any) {
+    console.log(current, updated);
+
+    const updateStaff$ = this.staffService
+      .updateStaff({ sta_id: current.sta_id }, updated)
+      .pipe(takeUntil(this.destroyed$));
+    updateStaff$.subscribe((res: any) => {
+      if (res) {
+        console.log(res);
+      }
+    });
+  }
 
   private removeStaff() {}
 }

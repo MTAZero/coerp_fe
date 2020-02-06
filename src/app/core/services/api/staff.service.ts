@@ -7,7 +7,7 @@ const router = {
   get_all_page: `/api/staffs/page`,
   create: `/api/staffs/create`,
   update: `/api/staffs/update`,
-  delete: `/api/staffs/delete/{staffId}`,
+  delete: `/api/staffs/delete/{sta_id}`,
   get_staff_free: `/api/staffs/get_staff_free`
 };
 
@@ -30,7 +30,7 @@ export class StaffService {
 
   updateStaff(
     filter?: {
-      staffId: any;
+      sta_id: any;
     },
     data?: any
   ) {

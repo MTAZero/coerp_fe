@@ -1,9 +1,11 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { first } from 'rxjs/operators';
+import { StorageService } from '../../../core/services/common/storage.service';
 
-import { AuthenticationService } from '../../../core/services/auth.service';
+import { AuthenticationService } from '../../../core/services/common/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subject, of } from 'rxjs';
+import { takeUntil, catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -11,6 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, AfterViewInit {
+  private destroyed$ = new Subject();
   loginForm: FormGroup;
   submitted = false;
   returnUrl: string;
@@ -21,12 +24,13 @@ export class LoginComponent implements OnInit, AfterViewInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
+    private storageService: StorageService,
     private authenticationService: AuthenticationService
   ) {}
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
+      username: ['', [Validators.required]],
       password: ['', Validators.required]
     });
 
@@ -59,21 +63,25 @@ export class LoginComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    this.loading = true;
-    this.authenticationService.getAll().subscribe(res => {
-      console.log(res);
-    });
-    this.authenticationService
-      .login(this.f.email.value, this.f.password.value)
-      .pipe(first())
-      .subscribe(
-        data => {
+    const login$ = this.authenticationService
+      .login(this.f.username.value, this.f.password.value)
+      .pipe(takeUntil(this.destroyed$), catchError(this.catchError));
+
+    login$.subscribe((res: any) => {
+      if (res) {
+        if (res && res.access_token && res.userName) {
+          this.storageService.setItem('access_token', res.access_token);
+          this.storageService.setItem('userName', res.userName);
           this.router.navigate([this.returnUrl]);
-        },
-        error => {
-          this.error = error;
-          this.loading = false;
         }
-      );
+      }
+      if (typeof res !== 'object') {
+        this.error = res;
+      }
+    });
+  }
+
+  private catchError(err) {
+    return of(err);
   }
 }

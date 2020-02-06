@@ -1,10 +1,14 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Staff } from '../../list-staff.model';
+import { NgbModal, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 import { ListPositionModalComponent } from '../list-position-modal/list-position-modal.component';
 import { ListDepartmentModalComponent } from '../list-department-modal/list-department-modal.component';
+import { PositionService } from '../../../../../core/services/api/position.service';
+import { DepartmentService } from '../../../../../core/services/api/department.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-staff-modal',
@@ -12,12 +16,23 @@ import { ListDepartmentModalComponent } from '../list-department-modal/list-depa
   styleUrls: ['./staff-modal.component.scss']
 })
 export class StaffModalComponent implements OnInit {
-  @Input() staff: Staff;
+  private destroyed$ = new Subject();
+  @Input() staff: any;
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
   form: FormGroup;
   submitted = false;
-  constructor(public formBuilder: FormBuilder, private modalService: NgbModal) {
+
+  positions: any;
+  departments: any;
+
+  constructor(
+    public formBuilder: FormBuilder,
+    private modalService: NgbModal,
+    private departmentService: DepartmentService,
+    private positionService: PositionService
+  ) {
     this.initializeForm();
+    this._fetchData();
   }
 
   ngOnInit() {
@@ -49,6 +64,8 @@ export class StaffModalComponent implements OnInit {
     this.submitted = true;
 
     if (this.form.valid) {
+      console.log(this.form.controls.dob.value);
+      console.log(this._convertNgbDateToDate(this.form.controls.dob.value));
       this.passEvent.emit({ event: true, form: this.form.value });
     }
   }
@@ -97,21 +114,54 @@ export class StaffModalComponent implements OnInit {
     });
   }
 
-  private patchData(staff: Staff) {
+  private patchData(staff: any) {
+    console.log(staff);
     this.form.patchValue({
-      name: staff.name,
-      user_name: staff.user_name,
-      phone: staff.phone,
-      email: staff.email,
-      position: staff.position,
-      CMND: staff.CMND,
-      doi: staff.doi,
-      status: staff.status,
-      password: staff.password,
-      department: staff.department,
-      gender: staff.gender,
-      dob: staff.dob,
-      address: staff.address
+      name: staff.sta_fullname,
+      user_name: staff.sta_username,
+      phone: staff.sta_mobile,
+      email: staff.sta_email,
+      position: staff.position_name,
+      CMND: staff.sta_identity_card,
+      doi: this._convertDateToNgbDate(staff.sta_identity_card_date),
+      status: staff.sta_status,
+      password: staff.sta_password,
+      department: staff.department_name,
+      gender: staff.sta_sex,
+      dob: this._convertDateToNgbDate(staff.sta_birthday),
+      address: staff.sta_address
     });
+  }
+
+  private _fetchData() {
+    const positions$ = this.positionService
+      .loadAllPosition()
+      .pipe(takeUntil(this.destroyed$));
+    positions$.subscribe((res: any) => {
+      if (res && res.Data) {
+        this.positions = res.Data;
+      }
+    });
+
+    const department$ = this.departmentService
+      .loadAllDepartment()
+      .pipe(takeUntil(this.destroyed$));
+    department$.subscribe((res: any) => {
+      if (res && res.Data) {
+        this.departments = res.Data;
+      }
+    });
+  }
+
+  private _convertDateToNgbDate(date: any) {
+    const year = moment(date).year();
+    const month = moment(date).month() + 1;
+    const day = moment(date).date();
+
+    return new NgbDate(year, month, day);
+  }
+
+  private _convertNgbDateToDate(ngbDate: any) {
+    return new Date(ngbDate.year, ngbDate.month, ngbDate.day);
   }
 }
