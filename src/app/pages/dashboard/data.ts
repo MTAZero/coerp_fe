@@ -1,10 +1,10 @@
-import { ChartType } from './dashboard2.model';
+import { ChartType, Order } from './dashboard2.model';
 
 const widget = [
   {
     icon: 'fe-aperture',
     value: '12145',
-    text: 'Income status',
+    text: 'Tổng doanh thu',
     color: 'blue',
     progressValue: 60
   },
@@ -12,137 +12,25 @@ const widget = [
     icon: 'fe-shopping-cart',
     value: '1576',
     // tslint:disable-next-line:quotemark
-    text: "January's Sales",
+    text: 'Tổng doanh thu tháng',
     color: 'success',
     progressValue: 49
   },
   {
     icon: 'fe-bar-chart-2',
     value: '8947',
-    text: 'Payouts',
+    text: 'Tổng doanh thu tuần',
     color: 'warning',
     progressValue: 18
   },
   {
     icon: 'fe-cpu',
     value: '178',
-    text: 'Available Stores',
+    text: 'Tổng doanh thu ngày',
     color: 'info',
     progressValue: 74
   }
 ];
-
-const lifetimeSalesAreaChart: ChartType = {
-  toolbar: {
-    show: false
-  },
-  series: [
-    {
-      name: 'Desktop',
-      data: [0, 23, 43, 35, 44, 45, 56, 37, 40]
-    },
-    {
-      name: 'Laptop',
-      data: [25, 23, 26, 24, 25, 32, 30, 24, 19]
-    }
-  ],
-  colors: ['#00acc1', '#f1556c'],
-  height: 250,
-  type: 'area',
-  stroke: {
-    curve: 'straight',
-    width: 1
-  },
-  dataLabels: {
-    enabled: false
-  },
-  sparkline: {
-    enabled: true
-  },
-  grid: {
-    show: false,
-    padding: {
-      top: 40,
-      left: 0,
-      right: 0,
-      bottom: 0
-    }
-  },
-  legend: {
-    show: false
-  },
-  tooltip: {
-    x: {
-      show: false
-    },
-    y: {
-      title: {
-        text: undefined
-      }
-    },
-    marker: {
-      show: false
-    }
-  },
-  xaxis: {
-    labels: {
-      show: false
-    },
-    axisBorder: {
-      show: false
-    },
-    lines: {
-      show: false
-    }
-  }
-};
-
-const incomeAmountsLineChart: ChartType = {
-  toolbar: {
-    show: false
-  },
-  height: 250,
-  type: 'bar',
-  colors: ['#00acc1'],
-  dataLabels: {
-    enabled: false
-  },
-  sparkline: {
-    enabled: true
-  },
-  grid: {
-    show: false,
-    padding: {
-      top: 40,
-      left: 0,
-      right: 0,
-      bottom: 0
-    }
-  },
-  legend: {
-    show: false
-  },
-  tooltip: {
-    x: {
-      show: false
-    }
-  },
-  stroke: {
-    show: true,
-    width: 1 // thickness of the lines
-  },
-  series: [
-    {
-      name: 'Revenue',
-      data: [70, 90, 100, 140, 50, 80, 130, 90, 80, 130, 140, 90, 100, 75]
-    }
-  ],
-  plotOptions: {
-    bar: {
-      columnWidth: '50%'
-    }
-  }
-};
 
 const totalUsersPieChart: ChartType = {
   type: 'pie',
@@ -251,10 +139,236 @@ const productData = [
   }
 ];
 
+const projectionBarChart: ChartType = {
+  labels: [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec'
+  ],
+  datasets: [
+    {
+      label: 'Sales Analytics',
+      backgroundColor: '#4a81d4',
+      borderColor: '#4a81d4',
+      hoverBackgroundColor: '#4a81d4',
+      hoverBorderColor: '#1abc9c',
+      data: [65, 59, 80, 81, 56, 89, 40, 32, 65, 59, 80, 81]
+    },
+    {
+      label: 'Dollar Rate',
+      backgroundColor: '#e3eaef',
+      borderColor: '#e3eaef',
+      hoverBackgroundColor: '#e3eaef',
+      hoverBorderColor: '#e3eaef',
+      data: [89, 40, 32, 65, 59, 80, 81, 56, 89, 40, 65, 59]
+    }
+  ],
+  options: {
+    maintainAspectRatio: false,
+    legend: {
+      display: false
+    },
+    scales: {
+      yAxes: [
+        {
+          gridLines: {
+            display: false
+          },
+          stacked: false,
+          ticks: {
+            stepSize: 20
+          }
+        }
+      ],
+      xAxes: [
+        {
+          barPercentage: 0.7,
+          categoryPercentage: 0.5,
+          stacked: false,
+          gridLines: {
+            color: 'rgba(0,0,0,0.01)'
+          }
+        }
+      ]
+    }
+  }
+};
+
+const salesMixedChart: ChartType = {
+  chart: {
+    height: 330,
+    type: 'line',
+    padding: {
+      right: 0,
+      left: 0
+    },
+    stacked: false,
+    toolbar: {
+      show: false
+    }
+  },
+  stroke: {
+    width: [0, 2, 4],
+    curve: 'straight'
+  },
+  plotOptions: {
+    bar: {
+      columnWidth: '50%'
+    }
+  },
+  colors: ['#1abc9c', '#e3eaef', '#4a81d4'],
+  series: [
+    {
+      name: 'Direct Sales',
+      type: 'column',
+      data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30]
+    },
+    {
+      name: 'Email Marketing',
+      type: 'area',
+      data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43]
+    },
+    {
+      name: 'Marketplaces',
+      type: 'line',
+      data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39]
+    }
+  ],
+  fill: {
+    opacity: [0.85, 0.25, 1],
+    gradient: {
+      inverseColors: false,
+      shade: 'light',
+      type: 'vertical',
+      opacityFrom: 0.85,
+      opacityTo: 0.55,
+      stops: [0, 100, 100, 100]
+    }
+  },
+  // tslint:disable-next-line: max-line-length
+  labels: [
+    '01/01/2003',
+    '02/01/2003',
+    '03/01/2003',
+    '04/01/2003',
+    '05/01/2003',
+    '06/01/2003',
+    '07/01/2003',
+    '08/01/2003',
+    '09/01/2003',
+    '10/01/2003',
+    '11/01/2003'
+  ],
+  markers: {
+    size: 0
+  },
+  legend: {
+    show: false
+  },
+  xaxis: {
+    type: 'datetime',
+    axisBorder: {
+      show: false
+    },
+    axisTicks: {
+      show: false
+    }
+  },
+  yaxis: {
+    title: {
+      text: ''
+    }
+  },
+  tooltip: {
+    shared: true,
+    intersect: false,
+    y: {
+      formatter(y) {
+        if (typeof y !== 'undefined') {
+          return y.toFixed(0) + ' points';
+        }
+        return y;
+      }
+    }
+  },
+  grid: {
+    borderColor: '#f1f3fa'
+  }
+};
+
+const orderData: Order[] = [
+  {
+    order_id: 'OR01',
+    order_date: 'Hút bụi chung cư',
+    payment_status: 'Trần Văn Nam',
+    order_total: 'Nguyễn Tiến Độ',
+    payment_method: 'Đã xác nhận với khách hàng',
+    order_status: '01-02-2020'
+  },
+  {
+    order_id: 'OR02',
+    order_date: 'Hút bụi chung cư',
+    payment_status: 'Trần Văn Nam',
+    order_total: 'Nguyễn Tiến Độ',
+    payment_method: 'Đã xác nhận với khách hàng',
+    order_status: '01-02-2020'
+  },
+  {
+    order_id: 'OR03',
+    order_date: 'Hút bụi chung cư',
+    payment_status: 'Trần Văn Nam',
+    order_total: 'Nguyễn Tiến Độ',
+    payment_method: 'Đã xác nhận với khách hàng',
+    order_status: '01-02-2020'
+  }
+];
+
+const order = [
+  {
+    id: 'MH123',
+    product: 'Sâm  Nấm  Linh chi',
+    total: 1234,
+    status: 'Đã giao hàng',
+    date: '22-10-2020'
+  },
+  {
+    id: 'MH123',
+    product: 'Sâm  Nấm  Linh chi',
+    total: 1234,
+    status: 'Đã giao hàng',
+    date: '22-10-2020'
+  },
+  {
+    id: 'MH123',
+    product: 'Sâm  Nấm  Linh chi',
+    total: 1234,
+    status: 'Đã giao hàng',
+    date: '22-10-2020'
+  },
+  {
+    id: 'MH123',
+    product: 'Sâm  Nấm  Linh chi',
+    total: 1234,
+    status: 'Đã giao hàng',
+    date: '22-10-2020'
+  }
+];
+
 export {
   widget,
-  lifetimeSalesAreaChart,
-  incomeAmountsLineChart,
   totalUsersPieChart,
-  productData
+  productData,
+  projectionBarChart,
+  salesMixedChart,
+  orderData,
+  order
 };

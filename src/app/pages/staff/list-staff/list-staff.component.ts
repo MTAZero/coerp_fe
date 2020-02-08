@@ -94,8 +94,9 @@ export class ListStaffComponent implements OnInit {
     });
   }
 
-  onPageChange(): void {
-    // console.log(page);
+  onPageChange(page: number): void {
+    this.page = page - 1;
+    this._fetchData();
   }
 
   private _fetchData() {
@@ -107,7 +108,7 @@ export class ListStaffComponent implements OnInit {
       .pipe(takeUntil(this.destroyed$));
     staff$.subscribe((res: any) => {
       if (res) {
-        this.totalSize = res.Data.TotalNumberOfPages;
+        this.totalSize = res.Data.TotalNumberOfRecords;
         this.staffs = res.Data.Results;
       }
     });

@@ -4,10 +4,12 @@ import { Widget, Sellingproduct, ChartType } from './dashboard2.model';
 
 import {
   widget,
-  lifetimeSalesAreaChart,
-  incomeAmountsLineChart,
+  projectionBarChart,
   totalUsersPieChart,
-  productData
+  salesMixedChart,
+  productData,
+  orderData,
+  order
 } from './data';
 
 @Component({
@@ -19,12 +21,17 @@ export class DashboardComponent implements OnInit {
   // bread crumb items
   breadCrumbItems: Array<{}>;
 
+  page = 1;
+  pageSize = 10;
+  totalSize = 0;
+
   widget: Widget[];
   productData: Sellingproduct[];
-
-  lifetimeSalesAreaChart: ChartType;
-  incomeAmountsLineChart: ChartType;
+  projectionBarChart: ChartType;
+  salesMixedChart: ChartType;
   totalUsersPieChart: ChartType;
+  paginatedOrderData: any;
+  orders: any;
 
   constructor() {}
 
@@ -47,15 +54,22 @@ export class DashboardComponent implements OnInit {
     console.log('Data refresh requested');
   }
 
+  onPageChange(page: any): void {}
+
   /**
    * fetches the dashboard-2 data
    */
   private _fetchData() {
     this.widget = widget;
 
-    this.lifetimeSalesAreaChart = lifetimeSalesAreaChart;
-    this.incomeAmountsLineChart = incomeAmountsLineChart;
+    this.projectionBarChart = projectionBarChart;
     this.totalUsersPieChart = totalUsersPieChart;
+    this.salesMixedChart = salesMixedChart;
     this.productData = productData;
+
+    this.paginatedOrderData = orderData;
+    this.totalSize = this.paginatedOrderData.length;
+
+    this.orders = order;
   }
 }

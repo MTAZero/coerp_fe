@@ -66,6 +66,10 @@ export class StaffModalComponent implements OnInit {
     if (this.form.valid) {
       console.log(this.form.controls.dob.value);
       console.log(this._convertNgbDateToDate(this.form.controls.dob.value));
+      const data = this.form.value;
+      data.dob = this._convertNgbDateToDate(data.dob);
+      data.doi = this._convertNgbDateToDate(data.doi);
+      console.log(data);
       this.passEvent.emit({ event: true, form: this.form.value });
     }
   }
@@ -95,7 +99,7 @@ export class StaffModalComponent implements OnInit {
 
   private initializeForm() {
     this.form = this.formBuilder.group({
-      name: ['', [Validators.required]],
+      sta_fullname: ['', [Validators.required]],
       position: ['', [Validators.required]],
       user_name: ['', [Validators.required]],
       status: ['', [Validators.required]],
@@ -115,21 +119,22 @@ export class StaffModalComponent implements OnInit {
   }
 
   private patchData(staff: any) {
-    console.log(staff);
     this.form.patchValue({
-      name: staff.sta_fullname,
-      user_name: staff.sta_username,
-      phone: staff.sta_mobile,
-      email: staff.sta_email,
-      position: staff.position_name,
-      CMND: staff.sta_identity_card,
-      doi: this._convertDateToNgbDate(staff.sta_identity_card_date),
-      status: staff.sta_status,
-      password: staff.sta_password,
-      department: staff.department_name,
-      gender: staff.sta_sex,
-      dob: this._convertDateToNgbDate(staff.sta_birthday),
-      address: staff.sta_address
+      sta_fullname: staff.sta_fullname,
+      sta_username: staff.sta_username,
+      sta_mobile: staff.sta_mobile,
+      sta_email: staff.sta_email,
+      position_name: staff.position_name,
+      sta_identity_card: staff.sta_identity_card,
+      sta_identity_card_date: this._convertDateToNgbDate(
+        staff.sta_identity_card_date
+      ),
+      sta_status: staff.sta_status,
+      sta_password: staff.sta_password,
+      department_name: staff.department_name,
+      sta_sex: staff.sta_sex,
+      sta_birthday: this._convertDateToNgbDate(staff.sta_birthday),
+      sta_address: staff.sta_address
     });
   }
 
