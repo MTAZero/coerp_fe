@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { EmailTemplateComponent } from './email-template/email-template.component';
 import { SmsTemplateComponent } from './sms-template/sms-template.component';
+import { EmailCampaignComponent } from './email-campaign/email-campaign.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,10 @@ const routes: Routes = [
   {
     path: 'sms-template',
     component: SmsTemplateComponent
+  },
+  {
+    path: 'email-campaign',
+    component: EmailCampaignComponent
   }
 ];
 

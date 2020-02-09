@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { TicketComponent } from './ticket/ticket.component';
 import { DownloadComponent } from './download/download.component';
 import { PricingComponent } from './pricing/pricing.component';
+import { MyProfileComponent } from './my-profile/my-profile.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,10 @@ const routes: Routes = [
   {
     path: 'pricing',
     component: PricingComponent
+  },
+  {
+    path: 'my-profile',
+    component: MyProfileComponent
   }
 ];
 

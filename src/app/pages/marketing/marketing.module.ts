@@ -4,7 +4,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UIModule } from '../../shared/ui/ui.module';
 import {
   NgbModalModule,
-  NgbPaginationModule
+  NgbPaginationModule,
+  NgbDropdownModule
 } from '@ng-bootstrap/ng-bootstrap';
 import { NgxEditorModule } from 'ngx-editor';
 import { MarketingRoutingModule } from './marketing-routing.module';
@@ -15,6 +16,9 @@ import { SmsTemplateComponent } from './sms-template/sms-template.component';
 import { SmsTemplateModalComponent } from './sms-template/component/sms-template-modal/sms-template-modal.component';
 import { ConfirmModalComponent as SmsTemplateConfirm } from './sms-template/component/confirm-modal/confirm-modal.component';
 import { ViewSmsTemplateModalComponent } from './sms-template/component/view-sms-template-modal/view-sms-template-modal.component';
+import { EmailCampaignComponent } from './email-campaign/email-campaign.component';
+import { ListCustomerModalComponent } from './email-campaign/component/list-customer-modal/list-customer-modal.component';
+import { ListEmailModalComponent } from './email-campaign/component/list-email-modal/list-email-modal.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +28,10 @@ import { ViewSmsTemplateModalComponent } from './sms-template/component/view-sms
     SmsTemplateComponent,
     SmsTemplateModalComponent,
     SmsTemplateConfirm,
-    ViewSmsTemplateModalComponent
+    ViewSmsTemplateModalComponent,
+    EmailCampaignComponent,
+    ListCustomerModalComponent,
+    ListEmailModalComponent
   ],
   imports: [
     CommonModule,
@@ -35,14 +42,17 @@ import { ViewSmsTemplateModalComponent } from './sms-template/component/view-sms
     UIModule,
     NgbModalModule,
     NgbPaginationModule,
-    NgxEditorModule
+    NgxEditorModule,
+    NgbDropdownModule
   ],
   entryComponents: [
     EmailTemplateConfirm,
     EmailTemplateModalComponent,
     SmsTemplateModalComponent,
     SmsTemplateConfirm,
-    ViewSmsTemplateModalComponent
+    ViewSmsTemplateModalComponent,
+    ListCustomerModalComponent,
+    ListEmailModalComponent
   ]
 })
 export class MarketingModule {}

@@ -1,0 +1,48 @@
+<div class="modal-header bg-dark">
+  <h4 class="modal-title text-white">Danh sách mẫu Email</h4>
+  <button
+    type="button"
+    class="close text-white"
+    aria-label="Close"
+    (click)="onClickCancel()"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body p-3">
+  <div class="table-responsive">
+    <table class="table table-centered table-hover mb-0">
+      <thead>
+        <tr>
+          <th>Tên mẫu</th>
+          <th>Người tạo</th>
+          <th>Ngày tạo</th>
+          <th>Người sửa</th>
+          <th>Ngày sửa</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let customer of customerData; let i = index"
+          (click)="onClickEmail()"
+        >
+          <td>
+            {{ customer.name }}
+          </td>
+          <td>
+            {{ customer.create_by }}
+          </td>
+          <td>
+            {{ customer.create_date }}
+          </td>
+          <td>
+            {{ customer.update_by }}
+          </td>
+          <td>
+            {{ customer.update_date }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

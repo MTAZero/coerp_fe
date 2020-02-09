@@ -8,19 +8,25 @@ import {
   NgbPaginationModule,
   NgbTooltipModule,
   NgbModalModule,
-  NgbDatepickerModule
+  NgbDatepickerModule,
+  NgbTabsetModule,
+  NgbProgressbarModule
 } from '@ng-bootstrap/ng-bootstrap';
+import { ChartsModule } from 'ng2-charts';
+import { NgApexchartsModule } from 'ng-apexcharts';
 import { TicketSortableDirective } from './ticket/ticket-sortable.directive';
 import { SupportRoutingModule } from './support-routing.module';
 import { DownloadComponent } from './download/download.component';
 import { PricingComponent } from './pricing/pricing.component';
+import { MyProfileComponent } from './my-profile/my-profile.component';
 
 @NgModule({
   declarations: [
     TicketComponent,
     TicketSortableDirective,
     DownloadComponent,
-    PricingComponent
+    PricingComponent,
+    MyProfileComponent
   ],
   imports: [
     CommonModule,
@@ -33,7 +39,12 @@ import { PricingComponent } from './pricing/pricing.component';
     NgbTypeaheadModule,
     NgbTooltipModule,
     NgbModalModule,
-    NgbDatepickerModule
+    NgbDatepickerModule,
+    NgbTabsetModule,
+    NgbProgressbarModule,
+    NgApexchartsModule,
+    ChartsModule,
+    NgbPaginationModule
   ]
 })
 export class SupportModule {}
