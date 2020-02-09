@@ -5,7 +5,7 @@ import {
   NgbTabsetModule,
   NgbDatepickerModule
 } from '@ng-bootstrap/ng-bootstrap';
-
+import { NgApexchartsModule } from 'ng-apexcharts';
 import { UIModule } from '../../shared/ui/ui.module';
 import {
   NgbModalModule,
@@ -26,6 +26,7 @@ import { CustomerTypeModalComponent } from './list-customer/component/customer-t
 import { CustomerGroupModalComponent } from './list-customer/component/customer-group-modal/customer-group-modal.component';
 import { ListCustomerGroupModalComponent } from './list-customer/component/list-customer-group-modal/list-customer-group-modal.component';
 import { AddresModalComponent } from './list-customer/component/addres-modal/addres-modal.component';
+import { CustomerGroupComponent } from './customer-group/customer-group.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { AddresModalComponent } from './list-customer/component/addres-modal/add
     CustomerTypeModalComponent,
     CustomerGroupModalComponent,
     ListCustomerGroupModalComponent,
-    AddresModalComponent
+    AddresModalComponent,
+    CustomerGroupComponent
   ],
   imports: [
     CommonModule,
@@ -53,7 +55,8 @@ import { AddresModalComponent } from './list-customer/component/addres-modal/add
     NgbDatepickerModule,
     NgbModalModule,
     NgbPaginationModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,
+    NgApexchartsModule
   ],
   entryComponents: [
     CustomerModalComponent,

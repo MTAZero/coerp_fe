@@ -54,13 +54,15 @@ function sort(
  */
 function matches(ticket: TableData, term: string) {
   return (
-    ticket.name.toLowerCase().includes(term) ||
-    ticket.subject.toLowerCase().includes(term) ||
-    ticket.createddate.toLowerCase().includes(term) ||
+    ticket.title.toLowerCase().includes(term) ||
+    ticket.category.toLowerCase().includes(term) ||
+    ticket.des.toLowerCase().includes(term) ||
     ticket.priority.toLowerCase().includes(term) ||
-    ticket.id.toLowerCase().includes(term) ||
-    ticket.duedate.toLowerCase().includes(term) ||
-    ticket.status.toLowerCase().includes(term)
+    ticket.category.toLowerCase().includes(term) ||
+    ticket.created_date.toLowerCase().includes(term) ||
+    ticket.expired_date.toLowerCase().includes(term) ||
+    ticket.status.toLowerCase().includes(term) ||
+    ticket.id.toLowerCase().includes(term)
   );
 }
 

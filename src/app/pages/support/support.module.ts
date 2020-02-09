@@ -5,7 +5,10 @@ import { UIModule } from '../../shared/ui/ui.module';
 import { FormsModule } from '@angular/forms';
 import {
   NgbTypeaheadModule,
-  NgbPaginationModule
+  NgbPaginationModule,
+  NgbTooltipModule,
+  NgbModalModule,
+  NgbDatepickerModule
 } from '@ng-bootstrap/ng-bootstrap';
 import { TicketSortableDirective } from './ticket/ticket-sortable.directive';
 import { SupportRoutingModule } from './support-routing.module';
@@ -27,7 +30,10 @@ import { PricingComponent } from './pricing/pricing.component';
     UIModule,
     FormsModule,
     NgbPaginationModule,
-    NgbTypeaheadModule
+    NgbTypeaheadModule,
+    NgbTooltipModule,
+    NgbModalModule,
+    NgbDatepickerModule
   ]
 })
 export class SupportModule {}

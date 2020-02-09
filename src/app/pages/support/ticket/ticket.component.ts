@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { Observable } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { CardData, TableData } from './ticket.model';
 
@@ -40,7 +41,7 @@ export class TicketComponent implements OnInit {
     TicketSortableDirective
   >;
 
-  constructor(public service: TicketService) {
+  constructor(public service: TicketService, private modalService: NgbModal) {
     this.tickets$ = service.tickets$;
     this.total$ = service.total$;
   }
@@ -49,7 +50,7 @@ export class TicketComponent implements OnInit {
     this.breadCrumbItems = [
       { label: 'ERP', path: '/' },
       { label: 'Hỗ trợ', path: '/' },
-      { label: 'Thẻ ưu đãi', path: '/', active: true }
+      { label: 'Tickets', path: '/', active: true }
     ];
 
     /**
@@ -72,6 +73,14 @@ export class TicketComponent implements OnInit {
     });
     this.service.sortColumn = column;
     this.service.sortDirection = direction;
+  }
+
+  /**
+   * Modal Open
+   * @param content modal content
+   */
+  openModal(content: string) {
+    this.modalService.open(content, { centered: true, size: 'lg' });
   }
 
   private _fetchData() {

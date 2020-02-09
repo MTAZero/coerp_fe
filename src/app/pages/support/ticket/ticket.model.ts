@@ -1,26 +1,26 @@
 // Card Data
 export interface CardData {
-    icon: string;
-    tickets: number;
-    title: string;
-    text: string;
+  icon: string;
+  tickets: number;
+  title: string;
+  text: string;
 }
 
 // Table Data
 export interface TableData {
-    id: string;
-    requestuser: string;
-    name: string;
-    subject: string;
-    assignuser: string;
-    priority: string;
-    status: string;
-    createddate: string;
-    duedate: string;
+  id: string;
+  title: string;
+  category: string;
+  des: string;
+  priority: string;
+  creator: string;
+  created_date: string;
+  expired_date: string;
+  status: string;
 }
 
 // Search Data
 export interface SearchResult {
-    tickets: TableData[];
-    total: number;
+  tickets: TableData[];
+  total: number;
 }

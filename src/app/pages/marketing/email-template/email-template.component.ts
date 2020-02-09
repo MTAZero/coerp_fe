@@ -28,7 +28,7 @@ export class EmailTemplateComponent implements OnInit {
   paginatedTemplateData: Array<Template>;
   templates: Array<Template>;
 
-  viewChanged = true;
+  viewChanged = false;
   selectedTemplate: Template;
 
   constructor(
