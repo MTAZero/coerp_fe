@@ -65,8 +65,8 @@ export class SmsTemplateModalComponent implements OnInit {
     });
   }
 
-  onClickField(field) {
-    this.contentValue += `[${field.value}]`;
+  onClickField(field: any) {
+    this.contentValue += `{{${field.value}}}`;
   }
 
   get formUI() {

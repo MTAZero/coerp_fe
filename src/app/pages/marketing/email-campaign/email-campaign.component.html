@@ -93,10 +93,14 @@
                   <span
                     class="star-toggle far fa-star text-{{ email.text }}"
                   ></span>
-                  <a href="" class="title">{{ email.title }}</a>
+                  <a href="javascript: void(0);" class="title">{{
+                    email.title
+                  }}</a>
                 </div>
                 <div class="col-mail col-mail-2">
-                  <a href="" class="subject">{{ email.subject }} </a>
+                  <a href="javascript: void(0);" class="subject"
+                    >{{ email.subject }}
+                  </a>
                   <div class="date">{{ email.date | date: 'MMM d' }}</div>
                 </div>
               </li>
@@ -191,7 +195,7 @@
                     <i class="mdi mdi-delete"></i>
                   </button>
                   <button class="btn btn-primary waves-effect waves-light ml-1">
-                    <span>Send</span> <i class="mdi mdi-send ml-2"></i>
+                    <span>Gửi</span> <i class="mdi mdi-send ml-2"></i>
                   </button>
                 </div>
               </div>

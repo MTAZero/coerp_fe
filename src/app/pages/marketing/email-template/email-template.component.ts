@@ -19,6 +19,7 @@ export class EmailTemplateComponent implements OnInit {
   term: any;
   page = 1;
   pageSize = 10;
+  editorValue = '';
 
   // start and end index
   startIndex = 1;
@@ -90,6 +91,10 @@ export class EmailTemplateComponent implements OnInit {
     if (template && !isBack) {
       this.viewChanged = true;
     }
+  }
+
+  onClickField(value: string) {
+    this.editorValue += `{{${value}}}`;
   }
 
   private _fetchData() {

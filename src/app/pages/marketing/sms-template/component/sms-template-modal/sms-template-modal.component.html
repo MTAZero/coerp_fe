@@ -35,12 +35,13 @@
       </div>
       <div class="form-row">
         <div class="form-group row mb-3" style="width: 100%">
-          <label class="col-2 col-form-label">Nội dung <span>*</span></label>
+          <label class="col-2 col-form-label">Nội dung <span>(*)</span></label>
           <div class="col-10">
             <textarea
               rows="10"
+              name="content"
               style="width: 100%;"
-              [value]="contentValue"
+              [(ngModel)]="contentValue"
             ></textarea>
           </div>
         </div>

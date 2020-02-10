@@ -16,6 +16,11 @@
     .sub-title {
         font-weight: bold;
     }
+
+    .badge {
+        cursor: pointer;
+        font-size: 80%;
+    }
 }
 
 ::ng-deep .form-row {

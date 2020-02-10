@@ -8,7 +8,7 @@ const opportunityData = [
     created_date: '15-09-2019',
     des:
       // tslint:disable-next-line:max-line-length
-      'We are focused on driving efficiency into every aspect of the vehicle design—everything from cabin heating to driver ergonomics to drivetrain design has been optimized for time and energy," said R.J. Scaringe, CEO of Rivian. "And then the echo effect of this, of causing other logistics players in this space to also look at how they drive up efficiency within their fleet, will have a very large impact'
+      'Chúng tôi tập trung vào hiệu quả lái xe vào mọi khía cạnh của thiết kế xe. Tất cả mọi thứ, từ sưởi cabin đến công thái học cho đến thiết kế hệ thống truyền động đã được tối ưu hóa về thời gian và năng lượng, "RJ Scaringe, CEO của Rivian nói." Và sau đó là hiệu ứng tiếng vang của điều này, khiến cho những người chơi hậu cần khác trong không gian này cũng nhìn vào cách họ tăng hiệu quả trong đội tàu của họ, sẽ có tác động rất lớn'
   },
   {
     company: 'assets/images/companies/airbnb.png',
@@ -17,7 +17,7 @@ const opportunityData = [
     created_date: '15-09-2019',
     des:
       // tslint:disable-next-line:max-line-length
-      'We are focused on driving efficiency into every aspect of the vehicle design—everything from cabin heating to driver ergonomics to drivetrain design has been optimized for time and energy," said R.J. Scaringe, CEO of Rivian. "And then the echo effect of this, of causing other logistics players in this space to also look at how they drive up efficiency within their fleet, will have a very large impact'
+      'Chúng tôi tập trung vào hiệu quả lái xe vào mọi khía cạnh của thiết kế xe. Tất cả mọi thứ, từ sưởi cabin đến công thái học cho đến thiết kế hệ thống truyền động đã được tối ưu hóa về thời gian và năng lượng, "RJ Scaringe, CEO của Rivian nói." Và sau đó là hiệu ứng tiếng vang của điều này, khiến cho những người chơi hậu cần khác trong không gian này cũng nhìn vào cách họ tăng hiệu quả trong đội tàu của họ, sẽ có tác động rất lớn'
   },
   {
     company: 'assets/images/companies/apple.png',
@@ -26,7 +26,7 @@ const opportunityData = [
     created_date: '15-09-2019',
     des:
       // tslint:disable-next-line:max-line-length
-      'We are focused on driving efficiency into every aspect of the vehicle design—everything from cabin heating to driver ergonomics to drivetrain design has been optimized for time and energy," said R.J. Scaringe, CEO of Rivian. "And then the echo effect of this, of causing other logistics players in this space to also look at how they drive up efficiency within their fleet, will have a very large impact'
+      'Chúng tôi tập trung vào hiệu quả lái xe vào mọi khía cạnh của thiết kế xe. Tất cả mọi thứ, từ sưởi cabin đến công thái học cho đến thiết kế hệ thống truyền động đã được tối ưu hóa về thời gian và năng lượng, "RJ Scaringe, CEO của Rivian nói." Và sau đó là hiệu ứng tiếng vang của điều này, khiến cho những người chơi hậu cần khác trong không gian này cũng nhìn vào cách họ tăng hiệu quả trong đội tàu của họ, sẽ có tác động rất lớn'
   },
   {
     company: 'assets/images/companies/cisco.png',
@@ -35,7 +35,7 @@ const opportunityData = [
     created_date: '15-09-2019',
     des:
       // tslint:disable-next-line:max-line-length
-      'We are focused on driving efficiency into every aspect of the vehicle design—everything from cabin heating to driver ergonomics to drivetrain design has been optimized for time and energy," said R.J. Scaringe, CEO of Rivian. "And then the echo effect of this, of causing other logistics players in this space to also look at how they drive up efficiency within their fleet, will have a very large impact'
+      'Chúng tôi tập trung vào hiệu quả lái xe vào mọi khía cạnh của thiết kế xe. Tất cả mọi thứ, từ sưởi cabin đến công thái học cho đến thiết kế hệ thống truyền động đã được tối ưu hóa về thời gian và năng lượng, "RJ Scaringe, CEO của Rivian nói." Và sau đó là hiệu ứng tiếng vang của điều này, khiến cho những người chơi hậu cần khác trong không gian này cũng nhìn vào cách họ tăng hiệu quả trong đội tàu của họ, sẽ có tác động rất lớn'
   }
 ];
 

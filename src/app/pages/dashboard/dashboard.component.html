@@ -153,7 +153,7 @@
             <table class="table table-centered table-hover mb-0">
               <thead>
                 <tr>
-                  <th>Mã đơn</th>
+                  <th>MĐ</th>
                   <th>Nội dung phê duyệt</th>
                   <th>Người gửi</th>
                   <th>Người nhận</th>
@@ -248,10 +248,10 @@
             <table class="table table-centered table-hover mb-0">
               <thead>
                 <tr>
-                  <th>Mã đơn hàng</th>
+                  <th>MĐH</th>
                   <th>Sản phẩm</th>
                   <th>Tổng tiền</th>
-                  <th>Trạng thái đơn hàng</th>
+                  <th>Trạng thái</th>
                   <th>Ngày bán</th>
                 </tr>
               </thead>
@@ -267,7 +267,9 @@
                     {{ order.total }}
                   </td>
                   <td>
-                    {{ order.status }}
+                    <span class="badge badge-secondary badge-success">
+                      {{ order.status }}</span
+                    >
                   </td>
                   <td>
                     {{ order.date }}
