@@ -1,0 +1,112 @@
+<div class="container-fluid">
+  <app-page-title
+    title="Chiến dịch SMS"
+    [breadcrumbItems]="breadCrumbItems"
+  ></app-page-title>
+
+  <div class="row">
+    <div class="col-xl">
+      <div class="card">
+        <div class="card-body">
+          <div class="row mb-2">
+            <div class="col-sm-4">
+              <form class="form-inline">
+                <div class="form-group mb-2">
+                  <label class="sr-only">Search</label>
+                  <input
+                    class="form-control"
+                    name="search"
+                    placeholder="Search..."
+                    [(ngModel)]="term"
+                  />
+                </div>
+              </form>
+            </div>
+            <div class="col-sm-8">
+              <div class="text-sm-right">
+                <a
+                  class="btn btn-success mb-2 button-link"
+                  (click)="openSmsCampaignModal()"
+                  ><i class="mdi mdi-plus-circle mr-1"></i> Thêm mới</a
+                >
+              </div>
+            </div>
+            <!-- end col-->
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-centered table-hover mb-0">
+              <thead>
+                <tr>
+                  <th>Nội dung</th>
+                  <th>Gửi đi</th>
+                  <th>Thành công</th>
+                  <th>Chi phí</th>
+                  <th>Thời gian gửi</th>
+                  <th>Trạng thái</th>
+                  <th>Đối tượng</th>
+                  <th>Đầu số</th>
+                  <th>Người gửi</th>
+                  <th style="width: 85px;">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let sms of smsData">
+                  <td>
+                    {{ sms.content }}
+                  </td>
+                  <td>
+                    {{ sms.sent }}
+                  </td>
+                  <td>
+                    {{ sms.success }}
+                  </td>
+                  <td>
+                    {{ sms.cost }}
+                  </td>
+                  <td>
+                    {{ sms.time }}
+                  </td>
+                  <td>
+                    {{ sms.status }}
+                  </td>
+                  <td>
+                    {{ sms.target }}
+                  </td>
+                  <td>
+                    {{ sms.mobile_code }}
+                  </td>
+                  <td>
+                    {{ sms.sender }}
+                  </td>
+                  <td>
+                    <a
+                      class="action-icon table-button-link"
+                      (click)="openSmsCampaignModal(template)"
+                    >
+                      <i class="mdi mdi-square-edit-outline"></i
+                    ></a>
+                    <a
+                      class="action-icon table-button-link"
+                      (click)="openConfirmModal()"
+                    >
+                      <i class="mdi mdi-delete"></i
+                    ></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <ul class="pagination pagination-rounded justify-content-end my-2">
+            <ngb-pagination
+              (pageChange)="onPageChange($event)"
+              [pageSize]="pageSize"
+              [(page)]="page"
+              [collectionSize]="totalSize"
+            ></ngb-pagination>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

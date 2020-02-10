@@ -17,8 +17,13 @@ import { SmsTemplateModalComponent } from './sms-template/component/sms-template
 import { ConfirmModalComponent as SmsTemplateConfirm } from './sms-template/component/confirm-modal/confirm-modal.component';
 import { ViewSmsTemplateModalComponent } from './sms-template/component/view-sms-template-modal/view-sms-template-modal.component';
 import { EmailCampaignComponent } from './email-campaign/email-campaign.component';
-import { ListCustomerModalComponent } from './email-campaign/component/list-customer-modal/list-customer-modal.component';
+import { ListCustomerModalComponent as EmailCustomer } from './email-campaign/component/list-customer-modal/list-customer-modal.component';
 import { ListEmailModalComponent } from './email-campaign/component/list-email-modal/list-email-modal.component';
+import { SmsCampaignComponent } from './sms-campaign/sms-campaign.component';
+import { ListSmsModalComponent } from './sms-campaign/component/list-sms-modal/list-sms-modal.component';
+import { ListCustomerModalComponent as SmsCustomer } from './sms-campaign/component/list-customer-modal/list-customer-modal.component';
+import { ConfirmModalComponent as SmsCampaignConfirm } from './sms-campaign/component/confirm-modal/confirm-modal.component';
+import { SmsCampaignModalComponent } from './sms-campaign/component/sms-campaign-modal/sms-campaign-modal.component';
 
 @NgModule({
   declarations: [
@@ -30,8 +35,13 @@ import { ListEmailModalComponent } from './email-campaign/component/list-email-m
     SmsTemplateConfirm,
     ViewSmsTemplateModalComponent,
     EmailCampaignComponent,
-    ListCustomerModalComponent,
-    ListEmailModalComponent
+    EmailCustomer,
+    ListEmailModalComponent,
+    SmsCampaignComponent,
+    ListSmsModalComponent,
+    SmsCustomer,
+    SmsCampaignConfirm,
+    SmsCampaignModalComponent
   ],
   imports: [
     CommonModule,
@@ -51,8 +61,12 @@ import { ListEmailModalComponent } from './email-campaign/component/list-email-m
     SmsTemplateModalComponent,
     SmsTemplateConfirm,
     ViewSmsTemplateModalComponent,
-    ListCustomerModalComponent,
-    ListEmailModalComponent
+    EmailCustomer,
+    ListEmailModalComponent,
+    SmsCustomer,
+    SmsCampaignConfirm,
+    SmsCampaignModalComponent,
+    ListSmsModalComponent
   ]
 })
 export class MarketingModule {}

@@ -1,5 +1,5 @@
 <div class="modal-header bg-dark">
-  <h4 class="modal-title text-white">Thêm mới mẫu SMS</h4>
+  <h4 class="modal-title text-white">Thêm mới chiến dịch SMS</h4>
   <button
     type="button"
     class="close text-white"
@@ -14,34 +14,43 @@
     <form>
       <div class="form-row">
         <div class="form-group row mb-3" style="width: 100%">
-          <label class="col-2 col-form-label">Tên mẫu <span>(*)</span></label>
-          <div class="col-10"><input class="form-control" /></div>
+          <label class="col-2 col-form-label">Đến</label>
+          <div class="col-10">
+            <div class="input-group" style="margin-bottom: 1rem;">
+              <input type="text" class="form-control" placeholder="Đến" />
+              <div class="input-group-append">
+                <button
+                  class="btn btn-primary"
+                  type="button"
+                  (click)="openCustomerModal()"
+                >
+                  Danh sách khách hàng
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+
       <div class="form-row">
         <div class="form-group row mb-3" style="width: 100%">
-          <label class="col-2 col-form-label">Chọn trường</label>
+          <label class="col-2 col-form-label">Chọn</label>
           <div class="col-10">
             <button
-              *ngFor="let field of listField"
               type="button"
               class="btn btn-xs btn-primary mr-1"
-              (click)="onClickField(field)"
+              (click)="openSmsModal()"
             >
-              {{ field.name }}
+              Mẫu SMS
             </button>
           </div>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group row mb-3" style="width: 100%">
-          <label class="col-2 col-form-label">Nội dung <span>*</span></label>
+          <label class="col-2 col-form-label">Nội dung <span>(*)</span></label>
           <div class="col-10">
-            <textarea
-              rows="10"
-              style="width: 100%;"
-              [value]="contentValue"
-            ></textarea>
+            <textarea rows="10" style="width: 100%;"></textarea>
           </div>
         </div>
       </div>
@@ -55,16 +64,15 @@
       </div>
 
       <div class="text-right">
-        <button type="button" class="btn btn-success">Lưu</button>
-        <button type="button" class="btn btn-success ml-1">
-          Lưu và Thêm mới
+        <button type="button" class="btn btn-danger" (click)="onClickCancel()">
+          Hủy
         </button>
         <button
           type="button"
-          class="btn btn-danger ml-1"
+          class="btn btn-success ml-1"
           (click)="onClickCancel()"
         >
-          Hủy
+          Gửi SMS
         </button>
       </div>
     </form>

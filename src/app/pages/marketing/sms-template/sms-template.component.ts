@@ -85,6 +85,7 @@ export class SmsTemplateComponent implements OnInit {
 
   private _fetchData() {
     this.templates = templateData;
+    this.totalSize = templateData.length;
   }
 
   private createTemplate() {}
