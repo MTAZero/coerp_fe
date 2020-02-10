@@ -10,7 +10,7 @@
                 <img src="assets/images/1.JPG" alt="" height="22" />
               </a>
               <p class="text-muted mb-4 mt-3">
-                Enter your username and password to access admin panel.
+                Nhập tên đăng nhập và mật khẩu để truy cập trang quản trị
               </p>
             </div>
 
@@ -26,14 +26,14 @@
               }}</ngb-alert>
 
               <div class="form-group mb-3">
-                <label for="username">Username</label>
+                <label for="username">Tên đăng nhập</label>
 
                 <input
                   formControlName="username"
                   class="form-control"
                   [ngClass]="{ 'is-invalid': submitted && f.username.errors }"
                   id="username"
-                  placeholder="Username"
+                  placeholder="Tên đăng nhập"
                 />
 
                 <div
@@ -41,13 +41,13 @@
                   class="invalid-feedback"
                 >
                   <div *ngIf="f.username.errors.required">
-                    Username is required
+                    Trường tên đăng nhập không được để trống
                   </div>
                 </div>
               </div>
 
               <div class="form-group mb-3">
-                <label for="password">Password</label>
+                <label for="password">Mật khẩu</label>
 
                 <input
                   type="password"
@@ -55,7 +55,7 @@
                   class="form-control"
                   [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
                   id="password"
-                  placeholder="Password"
+                  placeholder="Mật khẩu"
                 />
 
                 <div
@@ -63,14 +63,14 @@
                   class="invalid-feedback"
                 >
                   <div *ngIf="f.password.errors.required">
-                    Password is required
+                    Trường mật khẩu không được để trống
                   </div>
                 </div>
               </div>
 
               <div class="form-group mb-0 text-center">
                 <button class="btn btn-primary btn-block" type="submit">
-                  Log In
+                  Đăng nhập
                 </button>
               </div>
             </form>
@@ -83,13 +83,7 @@
           <div class="col-12 text-center">
             <p>
               <a routerLink="/account/reset-password" class="text-white-50 ml-1"
-                >Forgot your password?</a
-              >
-            </p>
-            <p class="text-white-50">
-              Don't have an account?
-              <a routerLink="/account/signup" class="text-white ml-1"
-                ><b>Sign Up</b></a
+                >Quên mật khẩu?</a
               >
             </p>
           </div>
@@ -106,6 +100,6 @@
 <!-- end page -->
 
 <footer class="footer footer-alt">
-  2019-2020 Copy Right by
+  2019-2020 Bản quyền thuộc
   <a href="" class="text-white-50">CoERP</a>
 </footer>
