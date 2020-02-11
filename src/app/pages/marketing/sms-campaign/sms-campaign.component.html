@@ -16,7 +16,7 @@
                   <input
                     class="form-control"
                     name="search"
-                    placeholder="Search..."
+                    placeholder="Tìm kiếm..."
                     [(ngModel)]="term"
                   />
                 </div>
@@ -71,7 +71,9 @@
                     {{ sms.status }}
                   </td>
                   <td>
-                    {{ sms.target }}
+                    <span class="badge badge-danger">
+                      {{ sms.target }}
+                    </span>
                   </td>
                   <td>
                     {{ sms.mobile_code }}

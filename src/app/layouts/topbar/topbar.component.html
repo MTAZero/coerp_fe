@@ -23,7 +23,7 @@
         <form class="app-search">
           <div class="app-search-box">
             <div class="input-group">
-              <input class="form-control" placeholder="Search..." />
+              <input class="form-control" placeholder="Tìm kiếm..." />
               <div class="input-group-append">
                 <button class="btn" type="submit">
                   <i class="fe-search"></i>
@@ -59,9 +59,9 @@
             <h5 class="m-0">
               <span class="float-right">
                 <a href="javascript: void(0);" class="text-dark">
-                  <small>Clear All</small>
+                  <small>Xóa tất cả</small>
                 </a> </span
-              >Notification
+              >Thông báo
             </h5>
           </div>
 
@@ -95,7 +95,7 @@
           <a
             class="dropdown-item text-center text-primary notify-item notify-all table-button-link"
           >
-            View All
+            Xem tất cả
           </a>
         </div>
       </li>
@@ -171,7 +171,7 @@
       <li class="dropdown notification-list">
         <a
           class="nav-link right-bar-toggle waves-effect waves-light table-button-link"
-          (click)="toggleRightSidebar()"
+          href="javascript: void(0)"
         >
           <i class="fe-settings noti-icon"></i>
         </a>
@@ -223,11 +223,7 @@
             <i class="fe-settings mr-1"></i>
             <span>Cấu hình</span>
           </a>
-          <a
-            class="dropdown-item table-button-link"
-            routerLink="/support/download"
-            routerLinkActive="active"
-          >
+          <a class="dropdown-item table-button-link">
             <i class="fe-download mr-1"></i>
             <span>Download</span>
           </a>

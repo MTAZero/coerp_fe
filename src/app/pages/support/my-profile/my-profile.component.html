@@ -381,229 +381,251 @@
           </ngb-tab>
           <ngb-tab title="Cập nhật thông tin">
             <ng-template ngbTabContent>
-              <!-- comment box -->
-              <form action="#" class="comment-area-box mt-2 mb-3">
-                <span class="input-icon">
-                  <textarea
-                    rows="3"
-                    class="form-control"
-                    placeholder="Viết bài..."
-                  ></textarea>
-                </span>
-                <div class="comment-area-btn">
-                  <div class="float-right">
-                    <button
-                      type="submit"
-                      class="btn btn-sm btn-dark waves-effect waves-light"
-                    >
-                      Đăng
-                    </button>
+              <div class="tab-pane" id="settings">
+                <form>
+                  <h5 class="mb-3 text-uppercase bg-light p-2">
+                    <i class="mdi mdi-account-circle mr-1"></i> Thông tin cá
+                    nhân
+                  </h5>
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="firstname">Họ</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="firstname"
+                          placeholder="Nhập họ"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="lastname">Tên</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="lastname"
+                          placeholder="Nhập tên"
+                        />
+                      </div>
+                    </div>
+                    <!-- end col -->
                   </div>
-                  <div>
-                    <a
-                      href="javascript: void(0)"
-                      class="btn btn-sm btn-light text-black-50"
-                      ><i class="far fa-user"></i
-                    ></a>
-                    <a
-                      href="javascript: void(0)"
-                      class="btn btn-sm btn-light text-black-50"
-                      ><i class="fa fa-map-marker-alt"></i
-                    ></a>
-                    <a
-                      href="javascript: void(0)"
-                      class="btn btn-sm btn-light text-black-50"
-                      ><i class="fa fa-camera"></i
-                    ></a>
-                    <a
-                      href="javascript: void(0)"
-                      class="btn btn-sm btn-light text-black-50"
-                      ><i class="far fa-smile"></i
-                    ></a>
+                  <!-- end row -->
+
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="form-group">
+                        <label for="userbio">Mô tả</label>
+                        <textarea
+                          class="form-control"
+                          id="userbio"
+                          rows="4"
+                        ></textarea>
+                      </div>
+                    </div>
+                    <!-- end col -->
                   </div>
-                </div>
-              </form>
-              <!-- end comment box -->
+                  <!-- end row -->
 
-              <!-- Story Box-->
-              <div class="border border-light p-2 mb-3">
-                <div class="media">
-                  <img
-                    class="mr-2 avatar-sm rounded-circle"
-                    src="assets/images/users/user-3.jpg"
-                    alt="Generic placeholder image"
-                  />
-                  <div class="media-body">
-                    <h5 class="m-0">TrungTN</h5>
-                    <p class="text-muted"><small>khoảng 2 phút trước</small></p>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="useremail">Địa chỉ Email</label>
+                        <input
+                          type="email"
+                          class="form-control"
+                          id="useremail"
+                          placeholder="Nhập email"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="userpassword">Mật khẩu</label>
+                        <input
+                          type="password"
+                          class="form-control"
+                          id="userpassword"
+                          placeholder="Nhập mật khẩu"
+                        />
+                      </div>
+                    </div>
+                    <!-- end col -->
                   </div>
-                </div>
-                <p>
-                  Tuổi trẻ này mình cùng nhau, khoác vai đi từ sáng tới đêm!!!
-                </p>
+                  <!-- end row -->
 
-                <img
-                  src="assets/images/small/img-1.jpg"
-                  alt="post-img"
-                  class="rounded mr-1"
-                  height="60"
-                />
-                <img
-                  src="assets/images/small/img-2.jpg"
-                  alt="post-img"
-                  class="rounded mr-1"
-                  height="60"
-                />
-                <img
-                  src="assets/images/small/img-3.jpg"
-                  alt="post-img"
-                  class="rounded"
-                  height="60"
-                />
-
-                <div class="mt-2">
-                  <a
-                    href="javascript: void(0);"
-                    class="btn btn-sm btn-link text-muted"
-                    ><i class="mdi mdi-reply"></i> Phản hồi</a
-                  >
-                  <a
-                    href="javascript: void(0);"
-                    class="btn btn-sm btn-link text-muted"
-                    ><i class="mdi mdi-heart-outline"></i> Thích</a
-                  >
-                  <a
-                    href="javascript: void(0);"
-                    class="btn btn-sm btn-link text-muted"
-                    ><i class="mdi mdi-share-variant"></i> Chia sẻ</a
-                  >
-                </div>
-              </div>
-
-              <!-- Story Box-->
-              <div class="border border-light p-2 mb-3">
-                <div class="media">
-                  <img
-                    class="mr-2 avatar-sm rounded-circle"
-                    src="assets/images/users/user-4.jpg"
-                    alt="Generic placeholder image"
-                  />
-                  <div class="media-body">
-                    <h5 class="m-0">QuyetHT</h5>
-                    <p class="text-muted"><small>khoảng 1 giờ trước</small></p>
+                  <h5 class="mb-3 text-uppercase bg-light p-2">
+                    <i class="mdi mdi-office-building mr-1"></i> Thông tin công
+                    ty
+                  </h5>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="companyname">Tên công ty</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="companyname"
+                          placeholder="Nhập công ty"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="cwebsite">Website</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="cwebsite"
+                          placeholder="Nhập website"
+                        />
+                      </div>
+                    </div>
+                    <!-- end col -->
                   </div>
-                </div>
-                <div class="font-16 text-center font-italic text-dark">
-                  <i class="mdi mdi-format-quote-open font-20"></i> Hãy mơ những
-                  gì bạn muốn mơ, đó là cái đẹp của tâm trí con người . Hãy làm
-                  những gì bạn muốn làm, đó là sức mạnh của con người. Hãy tin
-                  vào chính mình, hãy thách thức giới hạn của mình, đó là sự can
-                  đảm mang tới thành công
-                </div>
+                  <!-- end row -->
 
-                <div class="post-user-comment-box">
-                  <div class="media">
-                    <img
-                      class="mr-2 avatar-sm rounded-circle"
-                      src="assets/images/users/user-3.jpg"
-                      alt="Generic placeholder image"
-                    />
-                    <div class="media-body">
-                      <h5 class="mt-0">
-                        TrungTN
-                        <small class="text-muted">5 giờ trước</small>
-                      </h5>
-                      Không ghi tên tác giả à :3
-
-                      <br />
-                      <a
-                        href="javascript: void(0);"
-                        class="text-muted font-13 d-inline-block mt-2"
-                        ><i class="mdi mdi-reply"></i> Phản hồi</a
-                      >
-
-                      <div class="media mt-3">
-                        <a class="pr-2" href="javascript: void(0)">
-                          <img
-                            src="assets/images/users/user-4.jpg"
-                            class="avatar-sm rounded-circle"
-                            alt="Generic placeholder image"
+                  <h5 class="mb-3 text-uppercase bg-light p-2">
+                    <i class="mdi mdi-earth mr-1"></i>
+                    Mạng xã hội
+                  </h5>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="social-fb">Facebook</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"
+                              ><i class="fab fa-facebook-square"></i
+                            ></span>
+                          </div>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="social-fb"
+                            placeholder="Url"
                           />
-                        </a>
-                        <div class="media-body">
-                          <h5 class="mt-0">
-                            QuyetHT
-                            <small class="text-muted">3 giờ trước</small>
-                          </h5>
-                          Bernard Edmonds anh ơi
                         </div>
                       </div>
                     </div>
-                  </div>
-
-                  <div class="media mt-2">
-                    <a class="pr-2" href="javascript: void(0)">
-                      <img
-                        src="assets/images/users/user-1.jpg"
-                        class="rounded-circle"
-                        alt="Generic placeholder image"
-                        height="31"
-                      />
-                    </a>
-                    <div class="media-body">
-                      <input
-                        type="text"
-                        id="simpleinput"
-                        class="form-control border-0 form-control-sm"
-                        placeholder="Thêm bình luận"
-                      />
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="social-tw">Twitter</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"
+                              ><i class="fab fa-twitter"></i
+                            ></span>
+                          </div>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="social-tw"
+                            placeholder="Username"
+                          />
+                        </div>
+                      </div>
                     </div>
+                    <!-- end col -->
                   </div>
-                </div>
+                  <!-- end row -->
 
-                <div class="mt-2">
-                  <a
-                    href="javascript: void(0);"
-                    class="btn btn-sm btn-link text-danger"
-                    ><i class="mdi mdi-heart"></i> Thích (28)</a
-                  >
-                  <a
-                    href="javascript: void(0);"
-                    class="btn btn-sm btn-link text-muted"
-                    ><i class="mdi mdi-share-variant"></i> Chia sẻ</a
-                  >
-                </div>
-              </div>
-
-              <!-- Story Box-->
-              <div class="border border-light p-2 mb-3">
-                <div class="media">
-                  <img
-                    class="mr-2 avatar-sm rounded-circle"
-                    src="assets/images/users/user-6.jpg"
-                    alt="Generic placeholder image"
-                  />
-                  <div class="media-body">
-                    <h5 class="m-0">SyNC</h5>
-                    <p class="text-muted"><small>15 giờ trước</small></p>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="social-insta">Instagram</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"
+                              ><i class="fab fa-instagram"></i
+                            ></span>
+                          </div>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="social-insta"
+                            placeholder="Url"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="social-lin">Linkedin</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"
+                              ><i class="fab fa-linkedin"></i
+                            ></span>
+                          </div>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="social-lin"
+                            placeholder="Url"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <!-- end col -->
                   </div>
-                </div>
-                <p>
-                  Game mới >"<
-                </p>
+                  <!-- end row -->
 
-                <iframe
-                  src="https://player.vimeo.com/video/87993762"
-                  height="300"
-                  class="img-fluid border-0"
-                ></iframe>
-              </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="social-sky">Skype</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"
+                              ><i class="fab fa-skype"></i
+                            ></span>
+                          </div>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="social-sky"
+                            placeholder="@username"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="social-gh">Github</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"
+                              ><i class="fab fa-github"></i
+                            ></span>
+                          </div>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="social-gh"
+                            placeholder="Username"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <!-- end col -->
+                  </div>
+                  <!-- end row -->
 
-              <div class="text-center">
-                <a href="javascript:void(0);" class="text-danger"
-                  ><i class="mdi mdi-spin mdi-loading mr-1"></i> Tải thêm
-                </a>
+                  <div class="text-right">
+                    <button
+                      type="submit"
+                      class="btn btn-success waves-effect waves-light mt-2"
+                    >
+                      <i class="mdi mdi-content-save"></i> Lưu
+                    </button>
+                  </div>
+                </form>
               </div>
+              <!-- end settings content-->
             </ng-template>
           </ngb-tab>
         </ngb-tabset>

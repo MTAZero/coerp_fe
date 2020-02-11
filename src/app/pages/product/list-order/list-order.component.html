@@ -15,7 +15,7 @@
                 <input
                   class="form-control"
                   name="search"
-                  placeholder="Search..."
+                  placeholder="Tìm kiếm..."
                   [(ngModel)]="term"
                 />
               </div>
@@ -30,7 +30,7 @@
           <div class="col-sm-8">
             <div class="text-sm-right">
               <button type="button" class="btn btn-info mb-2 mr-1">
-                Export
+                Xuất
               </button>
               <a
                 class="btn btn-success mb-2 button-link"
@@ -46,7 +46,7 @@
           <table class="table table-centered table-hover mb-0">
             <thead>
               <tr>
-                <th>Mã đơn hàng</th>
+                <th>MĐH</th>
                 <th>Ngày đặt hàng</th>
                 <th>Trạng thái thanh toán</th>
                 <th>Tổng tiền</th>
@@ -73,7 +73,15 @@
                   {{ order.payment_method }}
                 </td>
                 <td>
-                  {{ order.order_status }}
+                  <span
+                    class="badge"
+                    [ngClass]="
+                      order.order_status === 'Đang vận chuyển'
+                        ? 'badge-warning'
+                        : 'badge-success'
+                    "
+                    >{{ order.order_status }}
+                  </span>
                 </td>
                 <td>
                   <a
