@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Staff } from './list-staff.model';
 import { ConfirmModalComponent } from './component/confirm-modal/confirm-modal.component';
 import { StaffModalComponent } from './component/staff-modal/staff-modal.component';
 import { StaffService } from '../../../core/services/api/staff.service';
@@ -59,27 +58,29 @@ export class ListStaffComponent implements OnInit {
     }
   }
 
-  openStaffModal(staff?: Staff) {
+  openStaffModal(staff?: any) {
     const modalRef = this.modalService.open(StaffModalComponent, {
       centered: true,
       size: 'lg'
     });
+
     if (staff) {
       modalRef.componentInstance.staff = staff;
     }
     modalRef.componentInstance.passEvent.subscribe(res => {
       if (res.event) {
         if (staff) {
-          this.updateStaff(staff, res.form);
+          this._updateStaff(res.form);
         } else {
-          this.createStaff();
+          this._createStaff(res.form);
         }
+      } else {
+        modalRef.close();
       }
-      modalRef.close();
     });
   }
 
-  openConfirmModal() {
+  openConfirmModal(staff?: any) {
     const modalRef = this.modalService.open(ConfirmModalComponent, {
       centered: true
     });
@@ -88,9 +89,10 @@ export class ListStaffComponent implements OnInit {
       'Bạn có chắc chắn muốn xóa nhân sự đang chọn không?';
     modalRef.componentInstance.passEvent.subscribe(res => {
       if (res) {
-        this.removeStaff();
+        this._removeStaff(staff);
+      } else {
+        modalRef.close();
       }
-      modalRef.close();
     });
   }
 
@@ -114,20 +116,42 @@ export class ListStaffComponent implements OnInit {
     });
   }
 
-  private createStaff() {}
-
-  private updateStaff(current: any, updated: any) {
-    console.log(current, updated);
-
-    const updateStaff$ = this.staffService
-      .updateStaff({ sta_id: current.sta_id }, updated)
+  private _createStaff(data: any) {
+    const createStaff$ = this.staffService
+      .createStaff(data)
       .pipe(takeUntil(this.destroyed$));
-    updateStaff$.subscribe((res: any) => {
-      if (res) {
-        console.log(res);
+    createStaff$.subscribe((res: any) => {
+      if (res.Code === 200) {
+        this.page--;
+        this._fetchData();
+        this.modalService.dismissAll();
       }
     });
   }
 
-  private removeStaff() {}
+  private _updateStaff(updated: any) {
+    const updateStaff$ = this.staffService
+      .updateStaff(updated)
+      .pipe(takeUntil(this.destroyed$));
+    updateStaff$.subscribe((res: any) => {
+      if (res.Code === 200) {
+        this.page--;
+        this._fetchData();
+        this.modalService.dismissAll();
+      }
+    });
+  }
+
+  private _removeStaff(staff: any) {
+    const removeStaff$ = this.staffService
+      .removeStaff({ staffId: staff.sta_id })
+      .pipe(takeUntil(this.destroyed$));
+    removeStaff$.subscribe((res: any) => {
+      if (res.Code === 200) {
+        this.page--;
+        this._fetchData();
+        this.modalService.dismissAll();
+      }
+    });
+  }
 }

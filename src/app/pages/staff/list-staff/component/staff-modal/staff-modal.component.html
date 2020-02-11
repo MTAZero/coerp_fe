@@ -1,5 +1,7 @@
 <div class="modal-header bg-dark">
-  <h4 class="modal-title text-white">Thêm mới nhân sự</h4>
+  <h4 class="modal-title text-white">
+    {{ !staff ? 'Thêm mới' : 'Cập nhật' }} nhân sự
+  </h4>
   <button
     type="button"
     class="close text-white"
@@ -26,14 +28,16 @@
           <div class="col-8">
             <input
               class="form-control"
-              formControlName="name"
-              [ngClass]="{ 'is-invalid': submitted && formUI.name.errors }"
+              formControlName="sta_fullname"
+              [ngClass]="{
+                'is-invalid': submitted && formUI.sta_fullname.errors
+              }"
             />
             <div
-              *ngIf="submitted && formUI.name.errors"
+              *ngIf="submitted && formUI.sta_fullname.errors"
               class="invalid-feedback"
             >
-              <span *ngIf="formUI.name.errors.required"
+              <span *ngIf="formUI.sta_fullname.errors.required"
                 >This value is required.</span
               >
             </div>
@@ -44,19 +48,21 @@
           <div class="col-6">
             <select
               class="custom-select"
-              formControlName="position"
+              formControlName="position_id"
               class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && formUI.position.errors }"
+              [ngClass]="{
+                'is-invalid': submitted && formUI.position_id.errors
+              }"
             >
-              <option *ngFor="let pos of positions" [value]="pos.pos_name">{{
+              <option *ngFor="let pos of positions" [value]="pos.pos_id">{{
                 pos.pos_name
               }}</option>
             </select>
             <div
-              *ngIf="submitted && formUI.position.errors"
+              *ngIf="submitted && formUI.position_id.errors"
               class="invalid-feedback"
             >
-              <span *ngIf="formUI.position.errors.required"
+              <span *ngIf="formUI.position_id.errors.required"
                 >This value is required.</span
               >
             </div>
@@ -79,14 +85,16 @@
           <div class="col-8">
             <input
               class="form-control"
-              formControlName="user_name"
-              [ngClass]="{ 'is-invalid': submitted && formUI.user_name.errors }"
+              formControlName="sta_username"
+              [ngClass]="{
+                'is-invalid': submitted && formUI.sta_username.errors
+              }"
             />
             <div
-              *ngIf="submitted && formUI.user_name.errors"
+              *ngIf="submitted && formUI.sta_username.errors"
               class="invalid-feedback"
             >
-              <span *ngIf="formUI.user_name.errors.required"
+              <span *ngIf="formUI.sta_username.errors.required"
                 >This value is required.</span
               >
             </div>
@@ -99,18 +107,20 @@
           <div class="col-8">
             <select
               class="custom-select"
-              formControlName="status"
+              formControlName="sta_status"
               class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && formUI.status.errors }"
+              [ngClass]="{
+                'is-invalid': submitted && formUI.sta_status.errors
+              }"
             >
-              <option value="1">Active</option>
-              <option value="2">Blocked</option>
+              <option value="0">Khóa</option>
+              <option value="1">Kích hoạt</option>
             </select>
             <div
-              *ngIf="submitted && formUI.status.errors"
+              *ngIf="submitted && formUI.sta_status.errors"
               class="invalid-feedback"
             >
-              <span *ngIf="formUI.status.errors.required"
+              <span *ngIf="formUI.sta_status.errors.required"
                 >This value is required.</span
               >
             </div>
@@ -124,14 +134,16 @@
             <input
               type=""
               class="form-control"
-              formControlName="password"
-              [ngClass]="{ 'is-invalid': submitted && formUI.password.errors }"
+              formControlName="sta_password"
+              [ngClass]="{
+                'is-invalid': submitted && formUI.sta_password.errors
+              }"
             />
             <div
-              *ngIf="submitted && formUI.password.errors"
+              *ngIf="submitted && formUI.sta_password.errors"
               class="invalid-feedback"
             >
-              <span *ngIf="formUI.password.errors.required"
+              <span *ngIf="formUI.sta_password.errors.required"
                 >This value is required.</span
               >
             </div>
@@ -142,12 +154,12 @@
           <div class="col-8">
             <select
               class="custom-select"
-              formControlName="gender"
+              formControlName="sta_sex"
               class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && formUI.gender.errors }"
+              [ngClass]="{ 'is-invalid': submitted && formUI.sta_sex.errors }"
             >
-              <option value="1">Nam</option>
-              <option value="2">Nữ</option>
+              <option value="0">Nam</option>
+              <option value="1">Nữ</option>
               <option value="2">Giới tính khác</option>
             </select>
           </div>
@@ -161,21 +173,21 @@
           <div class="col-6">
             <select
               class="custom-select"
-              formControlName="department"
+              formControlName="department_id"
               class="form-control"
               [ngClass]="{
-                'is-invalid': submitted && formUI.department.errors
+                'is-invalid': submitted && formUI.department_id.errors
               }"
             >
-              <option *ngFor="let dep of departments" [value]="dep.de_name">{{
+              <option *ngFor="let dep of departments" [value]="dep.de_id">{{
                 dep.de_name
               }}</option>
             </select>
             <div
-              *ngIf="submitted && formUI.department.errors"
+              *ngIf="submitted && formUI.department_id.errors"
               class="invalid-feedback"
             >
-              <span *ngIf="formUI.department.errors.required"
+              <span *ngIf="formUI.department_id.errors.required"
                 >This value is required.</span
               >
             </div>
@@ -199,7 +211,7 @@
                 autoClose="false"
                 placeholder="yyyy-mm-dd"
                 #date="ngbDatepicker"
-                formControlName="dob"
+                formControlName="sta_birthday"
               />
               <div class="input-group-append" (click)="date.toggle()">
                 <span class="input-group-text"
@@ -226,14 +238,16 @@
           <div class="col-8">
             <input
               class="form-control"
-              formControlName="phone"
-              [ngClass]="{ 'is-invalid': submitted && formUI.phone.errors }"
+              formControlName="sta_mobile"
+              [ngClass]="{
+                'is-invalid': submitted && formUI.sta_mobile.errors
+              }"
             />
             <div
-              *ngIf="submitted && formUI.phone.errors"
+              *ngIf="submitted && formUI.sta_mobile.errors"
               class="invalid-feedback"
             >
-              <span *ngIf="formUI.phone.errors.required"
+              <span *ngIf="formUI.sta_mobile.errors.required"
                 >This value is required.</span
               >
             </div>
@@ -244,8 +258,10 @@
           <div class="col-8">
             <input
               class="form-control"
-              formControlName="CMND"
-              [ngClass]="{ 'is-invalid': submitted && formUI.CMND.errors }"
+              formControlName="sta_identity_card"
+              [ngClass]="{
+                'is-invalid': submitted && formUI.sta_identity_card.errors
+              }"
             />
           </div>
         </div>
@@ -257,14 +273,14 @@
             <input
               type="email"
               class="form-control"
-              formControlName="email"
-              [ngClass]="{ 'is-invalid': submitted && formUI.email.errors }"
+              formControlName="sta_email"
+              [ngClass]="{ 'is-invalid': submitted && formUI.sta_email.errors }"
             />
             <div
-              *ngIf="submitted && formUI.email.errors"
+              *ngIf="submitted && formUI.sta_email.errors"
               class="invalid-feedback"
             >
-              <span *ngIf="formUI.email.errors.pattern"
+              <span *ngIf="formUI.sta_email.errors.pattern"
                 >This value is wrong format.</span
               >
             </div>
@@ -280,7 +296,7 @@
                 autoClose="false"
                 placeholder="yyyy-mm-dd"
                 #date="ngbDatepicker"
-                formControlName="doi"
+                formControlName="sta_identity_card_date"
               />
               <div class="input-group-append" (click)="date.toggle()">
                 <span class="input-group-text"
@@ -297,12 +313,14 @@
           <div class="col-8">
             <input
               class="form-control"
-              formControlName="address"
-              [ngClass]="{ 'is-invalid': submitted && formUI.address.errors }"
+              formControlName="sta_address"
+              [ngClass]="{
+                'is-invalid': submitted && formUI.sta_address.errors
+              }"
             />
           </div>
         </div>
-        <div class="form-group"></div>
+        <div class="form-group row"></div>
       </div>
       <div class="text-right">
         <button

@@ -31,10 +31,10 @@
             <div class="col-sm-8">
               <div class="text-sm-right">
                 <button type="button" class="btn btn-info mb-2 mr-1">
-                  Import
+                  Nhập
                 </button>
                 <button type="button" class="btn btn-info mb-2 mr-1">
-                  Export
+                  Xuất
                 </button>
                 <a
                   class="btn btn-success mb-2 button-link"
@@ -84,11 +84,15 @@
                     {{ staff.position_name }}
                   </td>
 
-                  <td
-                    [style.color]="staff.sta_status === 1 ? 'green' : 'red'"
-                    style="font-weight: bold;"
-                  >
-                    {{ staff.sta_status === 1 ? 'Active' : 'Blocked' }}
+                  <td>
+                    <span
+                      [ngClass]="
+                        staff.sta_status === 1
+                          ? 'badge badge-success'
+                          : 'badge badge-danger'
+                      "
+                      >{{ staff.sta_status === 1 ? 'Kích hoạt' : 'Khóa' }}
+                    </span>
                   </td>
                   <td>
                     <a
@@ -99,7 +103,7 @@
                     ></a>
                     <a
                       class="action-icon table-button-link"
-                      (click)="openConfirmModal()"
+                      (click)="openConfirmModal(staff)"
                     >
                       <i class="mdi mdi-delete"></i
                     ></a>

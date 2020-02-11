@@ -58,6 +58,15 @@ export class ApiService {
       .pipe(map(this.extractData));
   }
 
+  // api put method
+  putFormData(uri: string, data?: any, params?: HttpParams) {
+    return this.httpClient
+      .put(this.apiUrl + uri, data, {
+        params
+      })
+      .pipe(map(this.extractData));
+  }
+
   // put blob
   putDownloadFile(uri: string, data?: any, params?: HttpParams) {
     return this.httpClient.put(this.apiUrl + uri, data, {

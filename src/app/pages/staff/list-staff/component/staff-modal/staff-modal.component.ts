@@ -64,13 +64,12 @@ export class StaffModalComponent implements OnInit {
     this.submitted = true;
 
     if (this.form.valid) {
-      console.log(this.form.controls.dob.value);
-      console.log(this._convertNgbDateToDate(this.form.controls.dob.value));
       const data = this.form.value;
-      data.dob = this._convertNgbDateToDate(data.dob);
-      data.doi = this._convertNgbDateToDate(data.doi);
-      console.log(data);
-      this.passEvent.emit({ event: true, form: this.form.value });
+      data.sta_birthday = this._convertNgbDateToDate(data.sta_birthday);
+      data.sta_identity_card_date = this._convertNgbDateToDate(
+        data.sta_identity_card_date
+      );
+      this.passEvent.emit({ event: true, form: data });
     }
   }
 
@@ -99,39 +98,41 @@ export class StaffModalComponent implements OnInit {
 
   private initializeForm() {
     this.form = this.formBuilder.group({
+      sta_id: ['', null],
       sta_fullname: ['', [Validators.required]],
-      position: ['', [Validators.required]],
-      user_name: ['', [Validators.required]],
-      status: ['', [Validators.required]],
-      password: ['', [Validators.required]],
-      gender: ['', null],
-      department: ['', [Validators.required]],
-      dob: [null, null],
-      phone: ['', [Validators.required]],
-      CMND: ['', null],
-      email: [
+      position_id: ['', [Validators.required]],
+      sta_username: ['', [Validators.required]],
+      sta_status: ['', [Validators.required]],
+      sta_password: ['', [Validators.required]],
+      sta_sex: ['', null],
+      department_id: ['', [Validators.required]],
+      sta_birthday: [null, null],
+      sta_mobile: ['', [Validators.required]],
+      sta_identity_card: ['', null],
+      sta_email: [
         '',
         [Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$')]
       ],
-      doi: [null, null], // date of issue of certification
-      address: ['', null]
+      sta_identity_card_date: [null, null], // date of issue of certification
+      sta_address: ['', null]
     });
   }
 
   private patchData(staff: any) {
     this.form.patchValue({
+      sta_id: staff.sta_id,
       sta_fullname: staff.sta_fullname,
       sta_username: staff.sta_username,
       sta_mobile: staff.sta_mobile,
       sta_email: staff.sta_email,
-      position_name: staff.position_name,
+      position_id: staff.position_id,
       sta_identity_card: staff.sta_identity_card,
       sta_identity_card_date: this._convertDateToNgbDate(
         staff.sta_identity_card_date
       ),
       sta_status: staff.sta_status,
       sta_password: staff.sta_password,
-      department_name: staff.department_name,
+      department_id: staff.department_id,
       sta_sex: staff.sta_sex,
       sta_birthday: this._convertDateToNgbDate(staff.sta_birthday),
       sta_address: staff.sta_address
@@ -159,14 +160,20 @@ export class StaffModalComponent implements OnInit {
   }
 
   private _convertDateToNgbDate(date: any) {
+    if (!date) {
+      return null;
+    }
     const year = moment(date).year();
     const month = moment(date).month() + 1;
     const day = moment(date).date();
-
     return new NgbDate(year, month, day);
   }
 
   private _convertNgbDateToDate(ngbDate: any) {
-    return new Date(ngbDate.year, ngbDate.month, ngbDate.day);
+    if (!ngbDate) {
+      return '';
+    }
+    const newDate = new Date(ngbDate.year, ngbDate.month, ngbDate.day);
+    return moment(newDate).format();
   }
 }
