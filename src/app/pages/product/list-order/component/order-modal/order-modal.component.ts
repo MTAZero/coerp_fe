@@ -44,4 +44,9 @@ export class OrderModalComponent implements OnInit {
       this.passEvent.emit({ event: false });
     }
   }
+
+  onBackClick() {}
+  onNextClick() {}
+  onSubmitClick() {}
+  onPrintClick() {}
 }

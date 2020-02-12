@@ -9,7 +9,8 @@ import {
 import { UIModule } from '../../shared/ui/ui.module';
 import {
   NgbModalModule,
-  NgbPaginationModule
+  NgbPaginationModule,
+  NgbProgressbarModule
 } from '@ng-bootstrap/ng-bootstrap';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { ListProductComponent } from './list-product/list-product.component';
@@ -61,7 +62,8 @@ import { OrderModalComponent } from './list-order/component/order-modal/order-mo
     NgbModalModule,
     NgbPaginationModule,
     ProductRoutingModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,
+    NgbProgressbarModule
   ],
   entryComponents: [
     ProductModalComponent,
