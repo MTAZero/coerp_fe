@@ -24,7 +24,7 @@ export function isNotEmpty(args: any): boolean {
 export function mapToHttpParamsQuery(params: Object) {
   let httpParams: HttpParams = new HttpParams();
   for (const property in params) {
-    if (params.hasOwnProperty(property) && isNotEmpty(params[property])) {
+    if (params.hasOwnProperty(property)) {
       httpParams = httpParams.set(property, params[property]);
     }
   }

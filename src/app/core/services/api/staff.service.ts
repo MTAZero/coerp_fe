@@ -9,6 +9,7 @@ import {
 const router = {
   get_all: `/api/staffs/all`,
   get_all_page: `/api/staffs/page`,
+  search: '/api/staffs/search-active-name',
   create: `/api/staffs/create`,
   update: `/api/staffs/update`,
   delete: `/api/staffs/delete`,
@@ -26,6 +27,16 @@ export class StaffService {
   loadStaffPaged(filter?: { pagesize: number; pagenumber: number }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.get_all_page, params);
+  }
+
+  searchStaff(filter?: {
+    pageNumber: number;
+    pageSize: number;
+    status: number;
+    name: string;
+  }) {
+    const params = mapToHttpParamsQuery(filter);
+    return this.httpClient.get(router.search, params);
   }
 
   createStaff(data: any) {

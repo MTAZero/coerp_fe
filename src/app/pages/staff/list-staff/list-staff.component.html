@@ -12,19 +12,24 @@
             <div class="col-sm-4">
               <form class="form-inline">
                 <div class="form-group mb-2">
-                  <label class="sr-only">Search</label>
                   <input
                     class="form-control"
-                    name="search"
-                    placeholder="Search..."
-                    [(ngModel)]="term"
+                    name="text"
+                    placeholder="Tìm kiếm..."
+                    [(ngModel)]="textSearch"
+                    (input)="onChangeFilter()"
                   />
                 </div>
 
-                <select class="custom-select">
-                  <option selected>Trạng thái</option>
-                  <option value="1">Active</option>
-                  <option value="2">Blocked</option>
+                <select
+                  class="custom-select"
+                  name="select"
+                  [(ngModel)]="statusSearch"
+                  (change)="onChangeFilter()"
+                >
+                  <option value="">Trạng thái</option>
+                  <option value="1">Kích hoạt</option>
+                  <option value="0">Khóa</option>
                 </select>
               </form>
             </div>

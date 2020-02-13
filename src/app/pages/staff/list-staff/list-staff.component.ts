@@ -13,18 +13,14 @@ import { isNullOrUndefined } from 'util';
   templateUrl: './list-staff.component.html',
   styleUrls: ['./list-staff.component.scss']
 })
-
-/**
- * Staffs component
- */
 export class ListStaffComponent implements OnInit {
   private destroyed$ = new Subject();
-  // bread crumb items
   breadCrumbItems: Array<{}>;
 
   submitted: boolean;
-  term: any;
 
+  textSearch = '';
+  statusSearch = '';
   page = 0;
   pageSize = 10;
   totalSize = 0;
@@ -37,6 +33,7 @@ export class ListStaffComponent implements OnInit {
     private staffService: StaffService,
     public formBuilder: FormBuilder
   ) {}
+
   ngOnInit() {
     this.breadCrumbItems = [
       { label: 'ERP', path: '/' },
@@ -101,11 +98,18 @@ export class ListStaffComponent implements OnInit {
     this._fetchData();
   }
 
+  onChangeFilter() {
+    this.page--;
+    this._fetchData();
+  }
+
   private _fetchData() {
     const staff$ = this.staffService
-      .loadStaffPaged({
-        pagenumber: this.page,
-        pagesize: this.pageSize
+      .searchStaff({
+        pageNumber: this.page,
+        pageSize: this.pageSize,
+        name: this.textSearch,
+        status: this.statusSearch
       })
       .pipe(takeUntil(this.destroyed$));
     staff$.subscribe((res: any) => {
