@@ -1,44 +1,57 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api-service';
-import { mapToHttpParamsQuery, fmt } from '../../helpers/helpers';
+import { mapToHttpParamsQuery, mapToFormData } from '../../helpers/helpers';
 
 const router = {
-  get_all: `/api/customers/all`,
-  get_all_page: `/api/customers/page`,
+  get_all_page: `/api/customers/search`,
   create: `/api/customers/create`,
   update: `/api/customers/update`,
-  delete: `/api/customers/delete/{customerId}`
+  delete: `/api/customers/delete`,
+  source: `/api/sources/all`,
+  type: `/api/customers/type`,
+  group: `/api/customer-groups/all`
 };
 
 @Injectable()
 export class CustomerService {
   constructor(private httpClient: ApiService) {}
 
-  loadAllCustomer() {
-    return this.httpClient.get(router.get_all);
-  }
-
-  loadCustomerPaged(filter?: { pagesize: number; pagenumber: number }) {
+  loadCustomer(filter?: {
+    pageNumber: any;
+    pageSize: any;
+    source_id: any;
+    cu_type: any;
+    customer_group_id: any;
+    name: any;
+  }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.get_all_page, params);
   }
 
   createCustomer(data: any) {
-    return this.httpClient.post(router.create, data);
+    const formData = mapToFormData(data);
+    return this.httpClient.post(router.create, formData);
   }
 
-  updateCustomer(
-    filter?: {
-      customerId: any;
-    },
-    data?: any
-  ) {
+  updateCustomer(data?: any) {
+    const formData = mapToFormData(data);
+    return this.httpClient.putFormData(router.update, formData);
+  }
+
+  removeCustomer(filter?: { customerId: number }) {
     const params = mapToHttpParamsQuery(filter);
-    return this.httpClient.put(router.update, data, params);
+    return this.httpClient.delete(router.delete, params);
   }
 
-  removeCustomer(customerId: any) {
-    const uri = fmt(router.update, { customerId });
-    return this.httpClient.delete(uri);
+  loadSourceFilter() {
+    return this.httpClient.get(router.source);
+  }
+
+  loadTypeFilter() {
+    return this.httpClient.get(router.type);
+  }
+
+  loadGroupFilter() {
+    return this.httpClient.get(router.group);
   }
 }

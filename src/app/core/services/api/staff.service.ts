@@ -32,7 +32,7 @@ export class StaffService {
   searchStaff(filter?: {
     pageNumber: number;
     pageSize: number;
-    status: number;
+    status: string;
     name: string;
   }) {
     const params = mapToHttpParamsQuery(filter);

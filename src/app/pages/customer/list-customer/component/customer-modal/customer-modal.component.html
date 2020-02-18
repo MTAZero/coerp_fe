@@ -1,5 +1,7 @@
 <div class="modal-header bg-dark">
-  <h4 class="modal-title text-white">Thêm mới khách hàng</h4>
+  <h4 class="modal-title text-white">
+    {{ !customer ? 'Thêm mới' : 'Cập nhật' }} khách hàng
+  </h4>
   <button
     type="button"
     class="close text-white"
@@ -26,16 +28,16 @@
           <div class="col-8">
             <input
               class="form-control"
-              formControlName="customer_name"
+              formControlName="cu_fullname"
               [ngClass]="{
-                'is-invalid': submitted && formUI.customer_name.errors
+                'is-invalid': submitted && formUI.cu_fullname.errors
               }"
             />
             <div
-              *ngIf="submitted && formUI.customer_name.errors"
+              *ngIf="submitted && formUI.cu_fullname.errors"
               class="invalid-feedback"
             >
-              <span *ngIf="formUI.customer_name.errors.required"
+              <span *ngIf="formUI.cu_fullname.errors.required"
                 >This value is required.</span
               >
             </div>
@@ -46,15 +48,22 @@
           <div class="col-6">
             <select
               class="custom-select"
-              formControlName="source"
+              formControlName="source_id"
               class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && formUI.source.errors }"
+              [ngClass]="{ 'is-invalid': submitted && formUI.source_id.errors }"
             >
-              <option value=""></option>
-              <option value="1">BNI</option>
-              <option value="2">AJC</option>
-              <option value="2">ATM</option>
+              <option *ngFor="let source of sources" [value]="source.src_id">{{
+                source.src_name
+              }}</option>
             </select>
+            <div
+              *ngIf="submitted && formUI.source_id.errors"
+              class="invalid-feedback"
+            >
+              <span *ngIf="formUI.source_id.errors.required"
+                >This value is required.</span
+              >
+            </div>
           </div>
           <div class="col-2 pl-0">
             <a
@@ -74,14 +83,14 @@
           <div class="col-8">
             <input
               class="form-control"
-              formControlName="phone"
-              [ngClass]="{ 'is-invalid': submitted && formUI.phone.errors }"
+              formControlName="cu_mobile"
+              [ngClass]="{ 'is-invalid': submitted && formUI.cu_mobile.errors }"
             />
             <div
-              *ngIf="submitted && formUI.phone.errors"
+              *ngIf="submitted && formUI.cu_mobile.errors"
               class="invalid-feedback"
             >
-              <span *ngIf="formUI.phone.errors.required"
+              <span *ngIf="formUI.cu_mobile.errors.required"
                 >This value is required.</span
               >
             </div>
@@ -97,7 +106,7 @@
                 autoClose="false"
                 placeholder="yyyy-mm-dd"
                 #date="ngbDatepicker"
-                formControlName="dob"
+                formControlName="cu_birthday"
               />
               <div class="input-group-append" (click)="date.toggle()">
                 <span class="input-group-text"
@@ -115,14 +124,14 @@
             <input
               type="email"
               class="form-control"
-              formControlName="email"
-              [ngClass]="{ 'is-invalid': submitted && formUI.email.errors }"
+              formControlName="cu_email"
+              [ngClass]="{ 'is-invalid': submitted && formUI.cu_email.errors }"
             />
             <div
-              *ngIf="submitted && formUI.email.errors"
+              *ngIf="submitted && formUI.cu_email.errors"
               class="invalid-feedback"
             >
-              <span *ngIf="formUI.email.errors.required"
+              <span *ngIf="formUI.cu_email.errors.required"
                 >This value is required.</span
               >
             </div>
@@ -131,11 +140,7 @@
         <div class="form-group row mb-3">
           <label class="col-4 col-form-label">Địa chỉ</label>
           <div class="col-8">
-            <input
-              class="form-control"
-              formControlName="address"
-              [ngClass]="{ 'is-invalid': submitted && formUI.address.errors }"
-            />
+            <input class="form-control" formControlName="cu_address" />
           </div>
         </div>
       </div>
@@ -147,23 +152,21 @@
           <div class="col-6">
             <select
               class="custom-select"
-              formControlName="customer_type"
+              formControlName="cu_type"
               class="form-control"
               [ngClass]="{
-                'is-invalid': submitted && formUI.customer_type.errors
+                'is-invalid': submitted && formUI.cu_type.errors
               }"
             >
-              <option value=""></option>
-              <option value="1">Phòng nhân sự</option>
-              <option value="2">Phòng tài chính</option>
-              <option value="2">Phòng phát triển phần mềm</option>
-              <option value="2">Phòng trí tuệ nhân tạo</option>
+              <option *ngFor="let type of types" [value]="type.id">{{
+                type.name
+              }}</option>
             </select>
             <div
-              *ngIf="submitted && formUI.customer_type.errors"
+              *ngIf="submitted && formUI.cu_type.errors"
               class="invalid-feedback"
             >
-              <span *ngIf="formUI.customer_type.errors.required"
+              <span *ngIf="formUI.cu_type.errors.required"
                 >This value is required.</span
               >
             </div>
@@ -180,11 +183,7 @@
         <div class="form-group row mb-3">
           <label class="col-4 col-form-label">Vị trí</label>
           <div class="col-8">
-            <input
-              class="form-control"
-              formControlName="position"
-              [ngClass]="{ 'is-invalid': submitted && formUI.position.errors }"
-            />
+            <input class="form-control" formControlName="cu_geocoding" />
           </div>
         </div>
       </div>
@@ -196,23 +195,21 @@
           <div class="col-6">
             <select
               class="custom-select"
-              formControlName="customer_group"
+              formControlName="customer_group_id"
               class="form-control"
               [ngClass]="{
-                'is-invalid': submitted && formUI.customer_type.errors
+                'is-invalid': submitted && formUI.customer_group_id.errors
               }"
             >
-              <option value=""></option>
-              <option value="1">Phòng nhân sự</option>
-              <option value="2">Phòng tài chính</option>
-              <option value="2">Phòng phát triển phần mềm</option>
-              <option value="2">Phòng trí tuệ nhân tạo</option>
+              <option *ngFor="let group of groups" [value]="group.cg_id">{{
+                group.cg_name
+              }}</option>
             </select>
             <div
-              *ngIf="submitted && formUI.customer_group.errors"
+              *ngIf="submitted && formUI.customer_group_id.errors"
               class="invalid-feedback"
             >
-              <span *ngIf="formUI.customer_group.errors.required"
+              <span *ngIf="formUI.customer_group_id.errors.required"
                 >This value is required.</span
               >
             </div>
