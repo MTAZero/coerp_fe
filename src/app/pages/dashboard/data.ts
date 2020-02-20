@@ -32,6 +32,70 @@ const widget = [
   }
 ];
 
+const basicColumChart: ChartType = {
+  chart: {
+    height: 380,
+    type: 'bar',
+    toolbar: {
+      show: false
+    }
+  },
+  plotOptions: {
+    bar: {
+      horizontal: false,
+      endingShape: 'rounded',
+      columnWidth: '55%'
+    }
+  },
+  dataLabels: {
+    enabled: false
+  },
+  stroke: {
+    show: true,
+    width: 2,
+    colors: ['transparent']
+  },
+  colors: ['#3bafda', '#1abc9c', '#CED4DC'],
+  series: [
+    {
+      name: 'Lợi nhuận ròng',
+      data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
+    },
+    {
+      name: 'Doanh thu',
+      data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
+    }
+  ],
+  xaxis: {
+    categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct']
+  },
+  legend: {
+    offsetY: -10
+  },
+  yaxis: {
+    title: {
+      text: '$ (nghìn)'
+    }
+  },
+  fill: {
+    opacity: 1
+  },
+  grid: {
+    row: {
+      colors: ['transparent', 'transparent'], // takes an array which will be repeated on columns
+      opacity: 0.2
+    },
+    borderColor: '#f1f3fa'
+  },
+  tooltip: {
+    y: {
+      formatter(val) {
+        return '$ ' + val + ' nghìn';
+      }
+    }
+  }
+};
+
 const totalUsersPieChart: ChartType = {
   type: 'pie',
   series: [20, 40, 30, 10],
@@ -40,7 +104,7 @@ const totalUsersPieChart: ChartType = {
       expandOnClick: false
     }
   },
-  height: 250,
+  height: 310,
   piechartcolor: ['#00acc1', '#4b88e4', '#e3eaef', '#fd7e14'],
   dataLabels: {
     enabled: false
@@ -139,73 +203,9 @@ const productData = [
   }
 ];
 
-const projectionBarChart: ChartType = {
-  labels: [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec'
-  ],
-  datasets: [
-    {
-      label: 'Sales Analytics',
-      backgroundColor: '#4a81d4',
-      borderColor: '#4a81d4',
-      hoverBackgroundColor: '#4a81d4',
-      hoverBorderColor: '#1abc9c',
-      data: [65, 59, 80, 81, 56, 89, 40, 32, 65, 59, 80, 81]
-    },
-    {
-      label: 'Dollar Rate',
-      backgroundColor: '#e3eaef',
-      borderColor: '#e3eaef',
-      hoverBackgroundColor: '#e3eaef',
-      hoverBorderColor: '#e3eaef',
-      data: [89, 40, 32, 65, 59, 80, 81, 56, 89, 40, 65, 59]
-    }
-  ],
-  options: {
-    maintainAspectRatio: false,
-    legend: {
-      display: false
-    },
-    scales: {
-      yAxes: [
-        {
-          gridLines: {
-            display: false
-          },
-          stacked: false,
-          ticks: {
-            stepSize: 20
-          }
-        }
-      ],
-      xAxes: [
-        {
-          barPercentage: 0.7,
-          categoryPercentage: 0.5,
-          stacked: false,
-          gridLines: {
-            color: 'rgba(0,0,0,0.01)'
-          }
-        }
-      ]
-    }
-  }
-};
-
 const salesMixedChart: ChartType = {
   chart: {
-    height: 330,
+    height: 390,
     type: 'line',
     padding: {
       right: 0,
@@ -366,8 +366,8 @@ const order = [
 export {
   widget,
   totalUsersPieChart,
+  basicColumChart,
   productData,
-  projectionBarChart,
   salesMixedChart,
   orderData,
   order

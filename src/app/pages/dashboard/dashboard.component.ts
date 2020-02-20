@@ -4,7 +4,7 @@ import { Widget, Sellingproduct, ChartType } from './dashboard2.model';
 
 import {
   widget,
-  projectionBarChart,
+  basicColumChart,
   totalUsersPieChart,
   salesMixedChart,
   productData,
@@ -27,9 +27,9 @@ export class DashboardComponent implements OnInit {
 
   widget: Widget[];
   productData: Sellingproduct[];
-  projectionBarChart: ChartType;
   salesMixedChart: ChartType;
   totalUsersPieChart: ChartType;
+  basicColumChart: ChartType;
   paginatedOrderData: any;
   orders: any;
 
@@ -54,7 +54,7 @@ export class DashboardComponent implements OnInit {
     console.log('Data refresh requested');
   }
 
-  onPageChange(page: any): void {}
+  onPageChange(): void {}
 
   /**
    * fetches the dashboard-2 data
@@ -62,8 +62,8 @@ export class DashboardComponent implements OnInit {
   private _fetchData() {
     this.widget = widget;
 
-    this.projectionBarChart = projectionBarChart;
     this.totalUsersPieChart = totalUsersPieChart;
+    this.basicColumChart = basicColumChart;
     this.salesMixedChart = salesMixedChart;
     this.productData = productData;
 

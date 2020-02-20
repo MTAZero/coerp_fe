@@ -9,8 +9,8 @@
       <div class="card">
         <div class="card-body">
           <div class="row mb-2">
-            <div class="col-sm-4">
-              <form class="form-inline">
+            <div class="col-lg-8">
+              <form class="form-inline row">
                 <div class="form-group mb-2">
                   <input
                     class="form-control"
@@ -20,44 +20,48 @@
                     (input)="onChangeFilter()"
                   />
                 </div>
-                <select
-                  class="custom-select"
-                  name="source"
-                  [(ngModel)]="sourceSearch"
-                  (change)="onChangeFilter()"
-                >
-                  <option value="">Nguồn</option>
-                  <option
-                    *ngFor="let source of sources"
-                    [value]="source.src_id"
-                    >{{ source.src_name }}</option
+                <div class="col-lg-auto mb-2">
+                  <select
+                    class="custom-select"
+                    name="source"
+                    [(ngModel)]="sourceSearch"
+                    (change)="onChangeFilter()"
                   >
-                </select>
-                <select
-                  class="custom-select"
-                  name="type"
-                  [(ngModel)]="typeSearch"
-                  (change)="onChangeFilter()"
-                >
-                  <option value="">Loại khách hàng</option>
-                  <option *ngFor="let type of types" [value]="type.id">{{
-                    type.name
-                  }}</option>
-                </select>
-                <select
-                  class="custom-select"
-                  name="group"
-                  [(ngModel)]="groupSearch"
-                  (change)="onChangeFilter()"
-                >
-                  <option value="">Nhóm khách hàng</option>
-                  <option *ngFor="let group of groups" [value]="group.cg_id">{{
-                    group.cg_name
-                  }}</option>
-                </select>
+                    <option value="">Nguồn</option>
+                    <option
+                      *ngFor="let source of sources"
+                      [value]="source.src_id"
+                      >{{ source.src_name }}</option
+                    >
+                  </select>
+                  <select
+                    class="custom-select"
+                    name="type"
+                    [(ngModel)]="typeSearch"
+                    (change)="onChangeFilter()"
+                  >
+                    <option value="">Loại khách hàng</option>
+                    <option *ngFor="let type of types" [value]="type.id">{{
+                      type.name
+                    }}</option>
+                  </select>
+                  <select
+                    class="custom-select"
+                    name="group"
+                    [(ngModel)]="groupSearch"
+                    (change)="onChangeFilter()"
+                  >
+                    <option value="">Nhóm khách hàng</option>
+                    <option
+                      *ngFor="let group of groups"
+                      [value]="group.cg_id"
+                      >{{ group.cg_name }}</option
+                    >
+                  </select>
+                </div>
               </form>
             </div>
-            <div class="col-sm-8">
+            <div class="col-lg-4">
               <div class="text-sm-right">
                 <button type="button" class="btn btn-info mb-2 mr-1">
                   Nhập

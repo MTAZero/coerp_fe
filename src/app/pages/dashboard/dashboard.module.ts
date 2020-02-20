@@ -12,7 +12,6 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 
 import { DashboardComponent } from './dashboard.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
-import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [DashboardComponent],
@@ -22,7 +21,6 @@ import { ChartsModule } from 'ng2-charts';
     UIModule,
     NgbProgressbarModule,
     NgApexchartsModule,
-    ChartsModule,
     NgbPaginationModule
   ]
 })
