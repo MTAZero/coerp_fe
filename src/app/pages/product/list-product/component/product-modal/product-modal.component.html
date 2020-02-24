@@ -1,5 +1,7 @@
 <div class="modal-header bg-dark">
-  <h4 class="modal-title text-white">Thêm mới sản phẩm</h4>
+  <h4 class="modal-title text-white">
+    {{ !product ? 'Thêm mới' : 'Cập nhật' }} sản phẩm
+  </h4>
   <button
     type="button"
     class="close text-white"
@@ -28,16 +30,16 @@
           <div class="col-8">
             <input
               class="form-control"
-              formControlName="product_name"
+              formControlName="pu_name"
               [ngClass]="{
-                'is-invalid': submitted && formUI.product_name.errors
+                'is-invalid': submitted && formUI.pu_name.errors
               }"
             />
             <div
-              *ngIf="submitted && formUI.product_name.errors"
+              *ngIf="submitted && formUI.pu_name.errors"
               class="invalid-feedback"
             >
-              <span *ngIf="formUI.product_name.errors.required"
+              <span *ngIf="formUI.pu_name.errors.required"
                 >This value is required.</span
               >
             </div>
@@ -48,20 +50,19 @@
           <div class="col-8">
             <select
               class="custom-select"
-              formControlName="unit"
+              formControlName="pu_unit"
               class="form-control"
-              [ngClass]="{ 'is-invalid': submitted && formUI.unit.errors }"
+              [ngClass]="{ 'is-invalid': submitted && formUI.pu_unit.errors }"
             >
-              <option value=""></option>
-              <option value="1">Giám đốc</option>
-              <option value="2">Trưởng phòng</option>
-              <option value="2">Nhân viên</option>
+              <option *ngFor="let unit of units" [value]="unit.id">{{
+                unit.name
+              }}</option>
             </select>
             <div
-              *ngIf="submitted && formUI.unit.errors"
+              *ngIf="submitted && formUI.pu_unit.errors"
               class="invalid-feedback"
             >
-              <span *ngIf="formUI.unit.errors.required"
+              <span *ngIf="formUI.pu_unit.errors.required"
                 >This value is required.</span
               >
             </div>
@@ -82,14 +83,16 @@
           <div class="col-8">
             <input
               class="form-control"
-              formControlName="quantity"
-              [ngClass]="{ 'is-invalid': submitted && formUI.quantity.errors }"
+              formControlName="pu_quantity"
+              [ngClass]="{
+                'is-invalid': submitted && formUI.pu_quantity.errors
+              }"
             />
             <div
-              *ngIf="submitted && formUI.quantity.errors"
+              *ngIf="submitted && formUI.pu_quantity.errors"
               class="invalid-feedback"
             >
-              <span *ngIf="formUI.quantity.errors.required"
+              <span *ngIf="formUI.pu_quantity.errors.required"
                 >This value is required.</span
               >
             </div>
@@ -102,21 +105,23 @@
           <div class="col-8">
             <select
               class="custom-select"
-              formControlName="product_type"
+              formControlName="product_category_id"
               class="form-control"
               [ngClass]="{
-                'is-invalid': submitted && formUI.product_type.errors
+                'is-invalid': submitted && formUI.product_category_id.errors
               }"
             >
-              <option value=""></option>
-              <option value="1">Active</option>
-              <option value="2">Blocked</option>
+              <option
+                *ngFor="let category of categories"
+                [value]="category.id"
+                >{{ category.name }}</option
+              >
             </select>
             <div
-              *ngIf="submitted && formUI.product_type.errors"
+              *ngIf="submitted && formUI.product_category_id.errors"
               class="invalid-feedback"
             >
-              <span *ngIf="formUI.product_type.errors.required"
+              <span *ngIf="formUI.product_category_id.errors.required"
                 >This value is required.</span
               >
             </div>
@@ -137,14 +142,16 @@
           <div class="col-8">
             <input
               class="form-control"
-              formControlName="in_price"
-              [ngClass]="{ 'is-invalid': submitted && formUI.in_price.errors }"
+              formControlName="pu_buy_price"
+              [ngClass]="{
+                'is-invalid': submitted && formUI.pu_buy_price.errors
+              }"
             />
             <div
-              *ngIf="submitted && formUI.in_price.errors"
+              *ngIf="submitted && formUI.pu_buy_price.errors"
               class="invalid-feedback"
             >
-              <span *ngIf="formUI.in_price.errors.required"
+              <span *ngIf="formUI.pu_buy_price.errors.required"
                 >This value is required.</span
               >
             </div>
@@ -157,21 +164,23 @@
           <div class="col-8">
             <select
               class="custom-select"
-              formControlName="vendor"
+              formControlName="provider_id"
               class="form-control"
               [ngClass]="{
-                'is-invalid': submitted && formUI.vendor.errors
+                'is-invalid': submitted && formUI.provider_id.errors
               }"
             >
-              <option value=""></option>
-              <option value="1">Active</option>
-              <option value="2">Blocked</option>
+              <option
+                *ngFor="let supplier of suppliers"
+                [value]="supplier.id"
+                >{{ supplier.name }}</option
+              >
             </select>
             <div
-              *ngIf="submitted && formUI.vendor.errors"
+              *ngIf="submitted && formUI.provider_id.errors"
               class="invalid-feedback"
             >
-              <span *ngIf="formUI.vendor.errors.required"
+              <span *ngIf="formUI.provider_id.errors.required"
                 >This value is required.</span
               >
             </div>
@@ -186,14 +195,16 @@
           <div class="col-8">
             <input
               class="form-control"
-              formControlName="out_price"
-              [ngClass]="{ 'is-invalid': submitted && formUI.out_price.errors }"
+              formControlName="pu_sale_price"
+              [ngClass]="{
+                'is-invalid': submitted && formUI.pu_sale_price.errors
+              }"
             />
             <div
-              *ngIf="submitted && formUI.out_price.errors"
+              *ngIf="submitted && formUI.pu_sale_price.errors"
               class="invalid-feedback"
             >
-              <span *ngIf="formUI.out_price.errors.required"
+              <span *ngIf="formUI.pu_sale_price.errors.required"
                 >This value is required.</span
               >
             </div>
@@ -209,7 +220,7 @@
                 autoClose="false"
                 placeholder="yyyy-mm-dd"
                 #date="ngbDatepicker"
-                formControlName="expired_date"
+                formControlName="pu_expired_date"
               />
               <div class="input-group-append" (click)="date.toggle()">
                 <span class="input-group-text"
@@ -228,14 +239,14 @@
           <div class="col-8">
             <input
               class="form-control"
-              formControlName="tax"
-              [ngClass]="{ 'is-invalid': submitted && formUI.tax.errors }"
+              formControlName="pu_tax"
+              [ngClass]="{ 'is-invalid': submitted && formUI.pu_tax.errors }"
             />
             <div
-              *ngIf="submitted && formUI.tax.errors"
+              *ngIf="submitted && formUI.pu_tax.errors"
               class="invalid-feedback"
             >
-              <span *ngIf="formUI.tax.errors.required"
+              <span *ngIf="formUI.pu_tax.errors.required"
                 >This value is required.</span
               >
             </div>
@@ -246,8 +257,8 @@
           <div class="col-8">
             <input
               class="form-control"
-              formControlName="weight"
-              [ngClass]="{ 'is-invalid': submitted && formUI.weight.errors }"
+              formControlName="pu_weight"
+              [ngClass]="{ 'is-invalid': submitted && formUI.pu_weight.errors }"
             />
           </div>
         </div>
@@ -260,8 +271,10 @@
           <div class="col-8">
             <input
               class="form-control"
-              formControlName="promotion"
-              [ngClass]="{ 'is-invalid': submitted && formUI.promotion.errors }"
+              formControlName="pu_saleoff"
+              [ngClass]="{
+                'is-invalid': submitted && formUI.pu_saleoff.errors
+              }"
             />
           </div>
         </div>
@@ -279,9 +292,9 @@
           <div class="col-10">
             <input
               class="form-control"
-              formControlName="short_description"
+              formControlName="pu_short_description"
               [ngClass]="{
-                'is-invalid': submitted && formUI.short_description.errors
+                'is-invalid': submitted && formUI.pu_short_description.errors
               }"
             />
           </div>
@@ -293,9 +306,9 @@
           <div class="col-10">
             <input
               class="form-control"
-              formControlName="full_description"
+              formControlName="pu_description"
               [ngClass]="{
-                'is-invalid': submitted && formUI.full_description.errors
+                'is-invalid': submitted && formUI.pu_description.errors
               }"
             />
           </div>

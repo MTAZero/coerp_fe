@@ -1,10 +1,13 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Product } from '../../list-product.model';
+import { NgbModal, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 import { ListUnitModalComponent } from '../list-unit-modal/list-unit-modal.component';
 import { ListProductTypeModalComponent } from '../list-product-type-modal/list-product-type-modal.component';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import * as moment from 'moment';
+import { ProductService } from 'src/app/core/services/api/product.service';
 
 @Component({
   selector: 'app-product-modal',
@@ -12,12 +15,23 @@ import { ListProductTypeModalComponent } from '../list-product-type-modal/list-p
   styleUrls: ['./product-modal.component.scss']
 })
 export class ProductModalComponent implements OnInit {
-  @Input() product: Product;
+  private destroyed$ = new Subject();
+  @Input() product: any;
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
   form: FormGroup;
   submitted = false;
-  constructor(public formBuilder: FormBuilder, private modalService: NgbModal) {
+
+  categories: any;
+  units: any;
+  suppliers: any;
+
+  constructor(
+    public formBuilder: FormBuilder,
+    private modalService: NgbModal,
+    private productService: ProductService
+  ) {
     this.initializeForm();
+    this._fetchFilter();
   }
 
   ngOnInit() {
@@ -50,7 +64,9 @@ export class ProductModalComponent implements OnInit {
     this.submitted = true;
 
     if (this.form.valid) {
-      this.passEvent.emit({ event: true, form: this.form.value });
+      const data = this.form.value;
+      data.pu_expired_date = this._convertNgbDateToDate(data.pu_expired_date);
+      this.passEvent.emit({ event: true, form: data });
     }
   }
 
@@ -79,37 +95,84 @@ export class ProductModalComponent implements OnInit {
 
   private initializeForm() {
     this.form = this.formBuilder.group({
-      product_name: ['', [Validators.required]],
-      quantity: ['', [Validators.required]],
-      in_price: ['', [Validators.required]],
-      out_price: ['', [Validators.required]],
-      tax: ['', [Validators.required]],
-      promotion: ['', null],
-      unit: ['', [Validators.required]],
-      product_type: [null, [Validators.required]],
-      vendor: ['', [Validators.required]],
-      expired_date: [null, null],
-      weight: ['', null],
-      short_description: ['', null],
-      full_description: ['', null]
+      pu_id: ['', null],
+      pu_name: ['', [Validators.required]],
+      pu_quantity: ['', [Validators.required]],
+      pu_buy_price: ['', [Validators.required]],
+      pu_sale_price: ['', [Validators.required]],
+      pu_saleoff: ['', null],
+      pu_short_description: ['', null],
+      pu_description: ['', null],
+      pu_unit: ['', [Validators.required]],
+      product_category_id: [null, [Validators.required]],
+      provider_id: ['', [Validators.required]],
+      pu_tax: ['', [Validators.required]],
+      pu_expired_date: [null, null],
+      pu_weight: ['', null]
     });
   }
 
-  private patchData(product: Product) {
+  private patchData(product: any) {
+    console.log(product);
     this.form.patchValue({
-      product_name: product.product_name,
-      quantity: product.quantity,
-      in_price: product.in_price,
-      out_price: product.out_price,
-      tax: product.tax,
-      promotion: product.promotion,
-      unit: product.unit,
-      product_type: product.product_type,
-      vendor: product.vendor,
-      expired_date: product.expired_date,
-      weight: product.weight,
-      short_description: product.short_description,
-      full_description: product.full_description
+      pu_id: product.pu_id,
+      pu_name: product.pu_name,
+      pu_quantity: product.pu_quantity,
+      pu_buy_price: product.pu_buy_price,
+      pu_sale_price: product.pu_sale_price,
+      pu_saleoff: product.pu_saleoff,
+      pu_short_description: product.pu_short_description,
+      pu_description: product.pu_description,
+      pu_unit: product.pu_unit_id,
+      product_category_id: product.product_category_id,
+      provider_id: product.provider_id,
+      pu_tax: product.pu_tax,
+      pu_expired_date: this._convertDateToNgbDate(product.pu_expired_date),
+      pu_weight: product.pu_weight
     });
+  }
+
+  private _fetchFilter() {
+    const category$ = this.productService
+      .loadCategory()
+      .pipe(takeUntil(this.destroyed$));
+
+    category$.subscribe((res: any) => {
+      this.categories = res.Data;
+    });
+
+    const supplier$ = this.productService
+      .loadSupplier()
+      .pipe(takeUntil(this.destroyed$));
+
+    supplier$.subscribe((res: any) => {
+      this.suppliers = res.Data;
+    });
+
+    const unit$ = this.productService
+      .loadUnit()
+      .pipe(takeUntil(this.destroyed$));
+
+    unit$.subscribe((res: any) => {
+      this.units = res.Data;
+    });
+  }
+
+  private _convertDateToNgbDate(date: any) {
+    if (!date) {
+      return null;
+    }
+    const year = moment(date).year();
+    const month = moment(date).month() + 1;
+    const day = moment(date).date();
+    return new NgbDate(year, month, day);
+  }
+
+  private _convertNgbDateToDate(ngbDate: any) {
+    if (!ngbDate) {
+      return '';
+    }
+    const newDate = new Date(ngbDate.year, ngbDate.month, ngbDate.day);
+    return moment(newDate).format();
   }
 }

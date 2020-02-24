@@ -1,44 +1,55 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api-service';
-import { mapToHttpParamsQuery, fmt } from '../../helpers/helpers';
+import { mapToHttpParamsQuery, mapToFormData } from '../../helpers/helpers';
 
 const router = {
-  get_all: `/api/products/all`,
-  get_all_page: `/api/products/page`,
+  get_all_page: `/api/products/search`,
   create: `/api/products/create`,
   update: `/api/products/update`,
-  delete: `/api/products/delete/{productId}`
+  delete: `/api/products/delete`,
+  category: `/api/product-categorys/get-name`,
+  supplier: `/api/suppliers/get-name`,
+  unit: `/api/products/unit`
 };
 
 @Injectable()
 export class ProductService {
   constructor(private httpClient: ApiService) {}
 
-  loadAllProduct() {
-    return this.httpClient.get(router.get_all);
-  }
-
-  loadProductPaged(filter?: { pagesize: number; pagenumber: number }) {
+  loadProduct(filter?: {
+    pageNumber: any;
+    pageSize: any;
+    search_name: any;
+    category_id: any;
+  }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.get_all_page, params);
   }
 
   createProduct(data: any) {
-    return this.httpClient.post(router.create, data);
+    const formData = mapToFormData(data);
+    return this.httpClient.post(router.create, formData);
   }
 
-  updateProduct(
-    filter?: {
-      productId: any;
-    },
-    data?: any
-  ) {
+  updateProduct(data?: any) {
+    const formData = mapToFormData(data);
+    return this.httpClient.putFormData(router.update, formData);
+  }
+
+  removeProduct(filter?: { productId: number }) {
     const params = mapToHttpParamsQuery(filter);
-    return this.httpClient.put(router.update, data, params);
+    return this.httpClient.delete(router.delete, params);
   }
 
-  removeProduct(productId: any) {
-    const uri = fmt(router.update, { productId });
-    return this.httpClient.delete(uri);
+  loadCategory() {
+    return this.httpClient.get(router.category);
+  }
+
+  loadSupplier() {
+    return this.httpClient.get(router.supplier);
+  }
+
+  loadUnit() {
+    return this.httpClient.get(router.unit);
   }
 }

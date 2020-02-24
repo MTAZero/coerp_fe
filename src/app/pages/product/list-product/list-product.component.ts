@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Product } from './list-product.model';
-import { productData } from './data';
 import { ConfirmModalComponent } from './component/confirm-modal/confirm-modal.component';
 import { ProductModalComponent } from './component/product-modal/product-modal.component';
 import { isNullOrUndefined } from 'util';
+import { ProductService } from '../../../core/services/api/product.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-list-product',
@@ -13,26 +14,25 @@ import { isNullOrUndefined } from 'util';
   styleUrls: ['./list-product.component.scss']
 })
 export class ListProductComponent implements OnInit {
-  // bread crumb items
+  private destroyed$ = new Subject();
   breadCrumbItems: Array<{}>;
 
   submitted: boolean;
-  term: any;
-  page = 1;
-  pageSize = 10;
+  categories: any;
 
-  // start and end index
-  startIndex = 1;
-  endIndex = 10;
+  textSearch = '';
+  categorySearch = '';
+  page = 0;
+  pageSize = 10;
   totalSize = 0;
 
-  paginatedProductData: Array<Product>;
-  selectedProduct: Product;
-  products: Array<Product>;
+  selectedProduct = null;
+  products: any;
 
   constructor(
     private modalService: NgbModal,
-    public formBuilder: FormBuilder
+    public formBuilder: FormBuilder,
+    private productService: ProductService
   ) {}
   ngOnInit() {
     this.breadCrumbItems = [
@@ -41,13 +41,14 @@ export class ListProductComponent implements OnInit {
       { label: 'Thông tin sản phẩm', path: '/', active: true }
     ];
     this._fetchData();
+    this._fetchFilter();
   }
 
   onClickProduct(product: any) {
     if (isNullOrUndefined(this.selectedProduct)) {
       this.selectedProduct = product;
     } else {
-      if (this.selectedProduct.product_id !== product.product_id) {
+      if (this.selectedProduct.pu_id !== product.pu_id) {
         this.selectedProduct = product;
       } else {
         this.selectedProduct = null;
@@ -55,7 +56,7 @@ export class ListProductComponent implements OnInit {
     }
   }
 
-  openProductModal(product?: Product) {
+  openProductModal(product?: any) {
     const modalRef = this.modalService.open(ProductModalComponent, {
       centered: true,
       size: 'lg'
@@ -66,16 +67,16 @@ export class ListProductComponent implements OnInit {
     modalRef.componentInstance.passEvent.subscribe(res => {
       if (res.event) {
         if (product) {
-          this.updateProduct(product, res.form);
+          this._updateProduct(res.form);
         } else {
-          this.createProduct(res.form);
+          this._createProduct(res.form);
         }
       }
       modalRef.close();
     });
   }
 
-  openConfirmModal() {
+  openConfirmModal(product?: any) {
     const modalRef = this.modalService.open(ConfirmModalComponent, {
       centered: true
     });
@@ -84,44 +85,85 @@ export class ListProductComponent implements OnInit {
       'Bạn có chắc chắn muốn xóa sản phẩm đang chọn không?';
     modalRef.componentInstance.passEvent.subscribe(res => {
       if (res) {
-        this.removeProduct();
+        this._removeProduct(product);
       }
       modalRef.close();
     });
   }
 
-  onPageChange(page: any): void {
-    this.startIndex = (page - 1) * this.pageSize;
-    this.endIndex = (page - 1) * this.pageSize + this.pageSize;
-    this.paginatedProductData = this.products.slice(
-      this.startIndex,
-      this.endIndex
-    );
+  onPageChange(page: number): void {
+    this.page = page - 1;
+    this._fetchData();
+  }
+
+  onChangeFilter() {
+    this.page--;
+    this._fetchData();
   }
 
   private _fetchData() {
-    this.products = productData;
-    // apply pagination
-    this.startIndex = 0;
-    this.endIndex = this.pageSize;
-
-    this.paginatedProductData = this.products.slice(
-      this.startIndex,
-      this.endIndex
-    );
-    this.totalSize = this.products.length;
+    const product$ = this.productService
+      .loadProduct({
+        pageNumber: this.page,
+        pageSize: this.pageSize,
+        search_name: this.textSearch,
+        category_id: this.categorySearch
+      })
+      .pipe(takeUntil(this.destroyed$));
+    product$.subscribe((res: any) => {
+      if (res) {
+        this.totalSize = res.Data.TotalNumberOfRecords;
+        this.products = res.Data.Results;
+      }
+    });
   }
 
-  private createProduct(data: any) {
-    this.submitted = true;
-    this.totalSize = this.products.length + 1;
-    this.paginatedProductData = this.products.slice(
-      this.startIndex,
-      this.endIndex
-    );
+  private _fetchFilter() {
+    const category$ = this.productService
+      .loadCategory()
+      .pipe(takeUntil(this.destroyed$));
+
+    category$.subscribe((res: any) => {
+      this.categories = res.Data;
+    });
   }
 
-  private updateProduct(product: any, data: any) {}
+  private _createProduct(data: any) {
+    const createProduct$ = this.productService
+      .createProduct(data)
+      .pipe(takeUntil(this.destroyed$));
+    createProduct$.subscribe((res: any) => {
+      if (res.Code === 200) {
+        this.page--;
+        this._fetchData();
+        this.modalService.dismissAll();
+      }
+    });
+  }
 
-  private removeProduct() {}
+  private _updateProduct(updated: any) {
+    const updateProduct$ = this.productService
+      .updateProduct(updated)
+      .pipe(takeUntil(this.destroyed$));
+    updateProduct$.subscribe((res: any) => {
+      if (res.Code === 200) {
+        this.page--;
+        this._fetchData();
+        this.modalService.dismissAll();
+      }
+    });
+  }
+
+  private _removeProduct(product: any) {
+    const removeProduct$ = this.productService
+      .removeProduct({ productId: product.pu_id })
+      .pipe(takeUntil(this.destroyed$));
+    removeProduct$.subscribe((res: any) => {
+      if (res.Code === 200) {
+        this.page--;
+        this._fetchData();
+        this.modalService.dismissAll();
+      }
+    });
+  }
 }
