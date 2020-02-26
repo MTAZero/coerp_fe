@@ -1,5 +1,5 @@
 <div class="container-fluid">
-  <app-page-title title="Đặt hàng" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+  <app-page-title title="Giao dịch khách hàng" [breadcrumbItems]="breadCrumbItems"></app-page-title>
 
   <div class="row">
     <div class="card">
@@ -16,17 +16,6 @@
                   (input)="onChangeFilter()"
                 />
               </div>
-
-              <select
-                class="custom-select"
-                name="category"
-                [(ngModel)]="paymentMethodSearch"
-                (change)="onChangeFilter()"
-              >
-                <option value="">Phương thức thanh toán</option>
-                <option value="1">AirPay</option>
-                <option value="2">ViettelPay</option>
-              </select>
             </form>
           </div>
           <div class="col-md-5">
@@ -34,61 +23,70 @@
               <button type="button" class="btn btn-info mb-2 mr-1">
                 Xuất
               </button>
-              <a class="btn btn-success mb-2 button-link" (click)="openOrderModal()"
-                ><i class="mdi mdi-plus-circle mr-1"></i> Thêm đơn hàng</a
+              <a class="btn btn-success mb-2 button-link" (click)="openCustomerCareModal()"
+                ><i class="mdi mdi-plus-circle mr-1"></i> Thêm mới</a
               >
             </div>
           </div>
-          <!-- end col-->
         </div>
 
         <div class="table-responsive">
           <table class="table table-centered table-hover mb-0">
             <thead>
               <tr>
-                <th>MĐH</th>
-                <th>Ngày đặt hàng</th>
-                <th>Trạng thái thanh toán</th>
-                <th>Tổng tiền</th>
-                <th>Phương thức thanh toán</th>
-                <th>Tình trạng đơn hàng</th>
+                <th>STT</th>
+                <th>Tiêu đề</th>
+                <th>Nội dung</th>
+                <th>Đánh giá</th>
+                <th>Loại giao dịch</th>
+                <th>Kết quả</th>
+                <th>Mức độ ưu tiên</th>
+                <th>Phụ trách</th>
+                <th>Khách hàng</th>
+                <th>Trạng thái</th>
                 <th style="width: 105px;">Thao tác</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let order of orders">
+              <tr *ngFor="let care of customerCares; let i = index">
                 <td>
-                  {{ order.cuo_code }}
+                  {{ i + 1 }}
                 </td>
                 <td>
-                  {{ order.cuo_date }}
+                  {{ care.title }}
                 </td>
                 <td>
-                  {{ order.cuo_payment_status }}
+                  {{ care.content }}
                 </td>
                 <td>
-                  {{ order.cuo_total_price }}
+                  {{ care.rate }}
                 </td>
                 <td>
-                  {{ order.cuo_payment_type }}
+                  {{ care.type }}
                 </td>
                 <td>
-                  <span
-                    class="badge"
-                    [ngClass]="
-                      order.order_status === 'Đang vận chuyển' ? 'badge-warning' : 'badge-success'
-                    "
-                    >{{ order.cuo_status }}
-                  </span>
+                  {{ care.result }}
                 </td>
                 <td>
-                  <a class="action-icon table-button-link" (click)="openOrderModal(order)">
+                  {{ care.priority }}
+                </td>
+                <td>
+                  {{ care.assignee }}
+                </td>
+                <td>
+                  {{ care.customer }}
+                </td>
+                <td>
+                  {{ care.status }}
+                </td>
+                <td>
+                  <a class="action-icon table-button-link" (click)="openCustomerCareModal(care)">
                     <i class="mdi mdi-eye"></i
                   ></a>
-                  <a class="action-icon table-button-link" (click)="openOrderModal(order)">
+                  <a class="action-icon table-button-link" (click)="openCustomerCareModal(care)">
                     <i class="mdi mdi-square-edit-outline"></i
                   ></a>
-                  <a class="action-icon table-button-link" (click)="openConfirmModal()">
+                  <a class="action-icon table-button-link" (click)="openConfirmModal(care)">
                     <i class="mdi mdi-delete"></i
                   ></a>
                 </td>

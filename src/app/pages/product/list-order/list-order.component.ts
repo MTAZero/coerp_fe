@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Order } from './list-order.model';
-import { orderData } from './data';
 import { ConfirmModalComponent } from './component/confirm-modal/confirm-modal.component';
 import { OrderModalComponent } from './component/order-modal/order-modal.component';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { OrderService } from '../../../core/services/api/order.service';
 
 @Component({
   selector: 'app-list-order',
@@ -12,26 +13,24 @@ import { OrderModalComponent } from './component/order-modal/order-modal.compone
   styleUrls: ['./list-order.component.scss']
 })
 export class ListOrderComponent implements OnInit {
-  // bread crumb items
+  private destroyed$ = new Subject();
   breadCrumbItems: Array<{}>;
 
   submitted: boolean;
-  term: any;
-  page = 1;
-  pageSize = 10;
+  paymentMethods: any;
 
-  // start and end index
-  startIndex = 1;
-  endIndex = 10;
+  textSearch = '';
+  paymentMethodSearch = '';
+  page = 0;
+  pageSize = 10;
   totalSize = 0;
 
-  paginatedOrderData: Array<Order>;
-  selectOrder: Order;
-  orders: Array<Order>;
+  orders: any;
 
   constructor(
     private modalService: NgbModal,
-    public formBuilder: FormBuilder
+    public formBuilder: FormBuilder,
+    private orderService: OrderService
   ) {}
   ngOnInit() {
     this.breadCrumbItems = [
@@ -40,9 +39,10 @@ export class ListOrderComponent implements OnInit {
       { label: 'Đặt hàng', path: '/', active: true }
     ];
     this._fetchData();
+    // this._fetchFilter();
   }
 
-  openOrderModal(order?: Order) {
+  openOrderModal(order?: any) {
     const modalRef = this.modalService.open(OrderModalComponent, {
       centered: true,
       size: 'xl'
@@ -53,53 +53,96 @@ export class ListOrderComponent implements OnInit {
     modalRef.componentInstance.passEvent.subscribe(res => {
       if (res.event) {
         if (order) {
-          this.updateOrder(order, res.form);
+          this._updateOrder(res.form);
         } else {
-          this.createOrder(res.form);
+          this._createOrder(res.form);
         }
       }
       modalRef.close();
     });
   }
 
-  openConfirmModal() {
+  openConfirmModal(order?: any) {
     const modalRef = this.modalService.open(ConfirmModalComponent, {
       centered: true
     });
     modalRef.componentInstance.title = 'Xác nhận xóa nhà đơn hàng';
-    modalRef.componentInstance.message =
-      'Bạn có chắc chắn muốn xóa đơn hàng đang chọn không?';
+    modalRef.componentInstance.message = 'Bạn có chắc chắn muốn xóa đơn hàng đang chọn không?';
     modalRef.componentInstance.passEvent.subscribe(res => {
       if (res) {
-        this.removeOrder();
+        this._removeOrder(order);
       }
       modalRef.close();
     });
   }
 
-  onPageChange(page: any): void {
-    this.startIndex = (page - 1) * this.pageSize;
-    this.endIndex = (page - 1) * this.pageSize + this.pageSize;
-    this.paginatedOrderData = this.orders.slice(this.startIndex, this.endIndex);
+  onPageChange(page: number): void {
+    this.page = page - 1;
+    this._fetchData();
+  }
+
+  onChangeFilter() {
+    this.page--;
+    this._fetchData();
   }
 
   private _fetchData() {
-    this.orders = orderData;
-    // apply pagination
-    this.startIndex = 0;
-    this.endIndex = this.pageSize;
-
-    this.paginatedOrderData = this.orders.slice(this.startIndex, this.endIndex);
-    this.totalSize = this.orders.length;
+    const order$ = this.orderService
+      .loadOrder({
+        pageNumber: this.page,
+        pageSize: this.pageSize,
+        payment_type_id: this.paymentMethodSearch,
+        code: this.textSearch
+      })
+      .pipe(takeUntil(this.destroyed$));
+    order$.subscribe((res: any) => {
+      if (res) {
+        this.totalSize = res.Data.TotalNumberOfRecords;
+        this.orders = res.Data.Results;
+      }
+    });
   }
 
-  private createOrder(data: any) {
-    this.submitted = true;
-    this.totalSize = this.orders.length + 1;
-    this.paginatedOrderData = this.orders.slice(this.startIndex, this.endIndex);
+  private _fetchFilter() {
+    const paymentMethod$ = this.orderService.loadPaymentMethod().pipe(takeUntil(this.destroyed$));
+
+    paymentMethod$.subscribe((res: any) => {
+      this.paymentMethods = res.Data;
+    });
   }
 
-  private updateOrder(order: any, data: any) {}
+  private _createOrder(data: any) {
+    const createOrder$ = this.orderService.createOrder(data).pipe(takeUntil(this.destroyed$));
+    createOrder$.subscribe((res: any) => {
+      if (res.Code === 200) {
+        this.page--;
+        this._fetchData();
+        this.modalService.dismissAll();
+      }
+    });
+  }
 
-  private removeOrder() {}
+  private _updateOrder(updated: any) {
+    const updateOrder$ = this.orderService.updateOrder(updated).pipe(takeUntil(this.destroyed$));
+    updateOrder$.subscribe((res: any) => {
+      if (res.Code === 200) {
+        this.page--;
+        this._fetchData();
+        this.modalService.dismissAll();
+      }
+    });
+  }
+
+  private _removeOrder(order: any) {
+    const removeOrder$ = this.orderService
+      .removeOrder({ customer_orderId: order.cuo_id })
+      .pipe(takeUntil(this.destroyed$));
+    removeOrder$.subscribe((res: any) => {
+      if (res.Code === 200) {
+        this.page--;
+        this._fetchData();
+        this.modalService.dismissAll();
+      }
+    });
+  }
 }

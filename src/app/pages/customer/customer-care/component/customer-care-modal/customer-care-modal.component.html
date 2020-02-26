@@ -1,0 +1,193 @@
+<div class="modal-header bg-dark">
+  <h4 class="modal-title text-white">Giao dịch khách hàng</h4>
+  <button type="button" class="close text-white" aria-label="Close" (click)="onClickCancel()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body p-3">
+  <!-- #6658dd -->
+  <div class="row mt-2">
+    <div class="col-lg-6">
+      <form class="form-inline">
+        <div class="form-group">
+          <input type="search" class="form-control" placeholder="Tìm kiếm..." name="search" />
+        </div>
+      </form>
+    </div>
+    <div class="col-lg-6">
+      <div class="text-lg-right mt-3 mt-lg-0">
+        <a href="javascript: void(0);" class="btn btn-danger mr-1">Hủy</a>
+        <a href="javascript: void(0);" class="btn btn-success"
+          ><i class="mdi mdi-plus-circle mr-1"></i> Thêm mới</a
+        >
+      </div>
+    </div>
+    <!-- end col-->
+  </div>
+  <div class="table-responsive border mb-2 mt-2">
+    <table class="table table-centered table-hover mb-0">
+      <thead>
+        <tr>
+          <th>Địa chỉ chi tiết</th>
+          <th>Xã/Phường</th>
+          <th>Quận/Huyện</th>
+          <th>Tỉnh/Thành phố</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            CC 361 Số 60 Hoàng Quốc Việt
+          </td>
+          <td>
+            Nghĩa Đô
+          </td>
+          <td>
+            Cầu Giấy
+          </td>
+          <td>
+            Hà Nội
+          </td>
+        </tr>
+        <tr>
+          <td>
+            CC 361 Số 60 Hoàng Quốc Việt
+          </td>
+          <td>
+            Nghĩa Đô
+          </td>
+          <td>
+            Cầu Giấy
+          </td>
+          <td>
+            Hà Nội
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <h5>Lịch sử mua hàng</h5>
+  <div class="table-responsive border mb-2 mt-2">
+    <table class="table table-centered table-hover mb-0">
+      <thead>
+        <tr>
+          <th>Địa chỉ chi tiết</th>
+          <th>Xã/Phường</th>
+          <th>Quận/Huyện</th>
+          <th>Tỉnh/Thành phố</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            CC 361 Số 60 Hoàng Quốc Việt
+          </td>
+          <td>
+            Nghĩa Đô
+          </td>
+          <td>
+            Cầu Giấy
+          </td>
+          <td>
+            Hà Nội
+          </td>
+        </tr>
+        <tr>
+          <td>
+            CC 361 Số 60 Hoàng Quốc Việt
+          </td>
+          <td>
+            Nghĩa Đô
+          </td>
+          <td>
+            Cầu Giấy
+          </td>
+          <td>
+            Hà Nội
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label>Tiêu đề</label>
+        <input class="form-control" placeholder="" />
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label>Loại giao dịch</label>
+        <select class="custom-select">
+          <option value="">Gọi điện thoại</option>
+          <option value="1">Gặp mặt trực tiếp</option>
+          <option value="2">Gửi Email</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label>Mức độ ưu tiên</label>
+        <select class="custom-select">
+          <option value="">Cao nhất</option>
+          <option value="1">Trung bình</option>
+          <option value="2">Thấp</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label>Nội dung</label>
+        <textarea rows="3" class="form-control"></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label>Đánh giá</label>
+        <input class="form-control" placeholder="" />
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label>Người giao việc</label>
+        <input class="form-control" placeholder="" />
+      </div>
+    </div>
+    <div class="col-md-3 d-flex align-items-start">
+      <div class="form-group">
+        <label>Người phụ trách</label>
+        <input class="form-control" placeholder="" />
+      </div>
+      <button
+        type="button"
+        class="btn btn-info mb-2 mr-1"
+        style="font-size: x-large; padding: 0 0.45rem; margin-left: 5px; margin-top: 29px;"
+      >
+        <i class="mdi mdi-swap-horizontal"></i>
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label>Kết quả</label>
+        <input class="form-control" placeholder="" />
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label>Trạng thái</label>
+        <select class="custom-select">
+          <option value="">Chưa thực hiện</option>
+          <option value="1">Đã giải quyết</option>
+          <option value="2">Đã hoàn thành</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>

@@ -4,12 +4,12 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 
 @Component({
-  selector: 'app-order-modal',
-  templateUrl: './order-modal.component.html',
-  styleUrls: ['./order-modal.component.scss']
+  selector: 'app-customer-care-modal',
+  templateUrl: './customer-care-modal.component.html',
+  styleUrls: ['./customer-care-modal.component.scss']
 })
-export class OrderModalComponent implements OnInit {
-  @Input() order: any;
+export class CustomerCareModalComponent implements OnInit {
+  @Input() customerCare: any;
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
   submitted = false;
   constructor(public formBuilder: FormBuilder, private modalService: NgbModal) {}
