@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AddresModalComponent } from '../addres-modal/addres-modal.component';
+import { AddressModalComponent } from '../address-modal/address-modal.component';
 import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 
 @Component({
@@ -34,7 +34,7 @@ export class AddressTabComponent implements OnInit {
   ngOnInit() {}
 
   openAddressModal(address?: any) {
-    const modalRef = this.modalService.open(AddresModalComponent, {
+    const modalRef = this.modalService.open(AddressModalComponent, {
       centered: true
     });
     if (address) {

@@ -62,6 +62,7 @@ import { CustomerCareModalComponent } from './customer-care/component/customer-c
     CustomerModalComponent,
     ListCustomerGroupModalComponent,
     ListSourceModalComponent,
+    ListCustomerConfirm,
     SourceModalComponent,
     ListCustomerTypeModalComponent,
     ListCustomerGroupModalComponent,

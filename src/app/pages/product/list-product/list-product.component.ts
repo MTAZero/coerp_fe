@@ -62,6 +62,7 @@ export class ListProductComponent implements OnInit {
       size: 'lg'
     });
     if (product) {
+      this.onClickProduct(product);
       modalRef.componentInstance.product = product;
     }
     modalRef.componentInstance.passEvent.subscribe(res => {
@@ -80,9 +81,9 @@ export class ListProductComponent implements OnInit {
     const modalRef = this.modalService.open(ConfirmModalComponent, {
       centered: true
     });
+    this.onClickProduct(product);
     modalRef.componentInstance.title = 'Xác nhận xóa sản phẩm';
-    modalRef.componentInstance.message =
-      'Bạn có chắc chắn muốn xóa sản phẩm đang chọn không?';
+    modalRef.componentInstance.message = 'Bạn có chắc chắn muốn xóa sản phẩm đang chọn không?';
     modalRef.componentInstance.passEvent.subscribe(res => {
       if (res) {
         this._removeProduct(product);
@@ -119,9 +120,7 @@ export class ListProductComponent implements OnInit {
   }
 
   private _fetchFilter() {
-    const category$ = this.productService
-      .loadCategory()
-      .pipe(takeUntil(this.destroyed$));
+    const category$ = this.productService.loadCategory().pipe(takeUntil(this.destroyed$));
 
     category$.subscribe((res: any) => {
       this.categories = res.Data;
@@ -129,9 +128,7 @@ export class ListProductComponent implements OnInit {
   }
 
   private _createProduct(data: any) {
-    const createProduct$ = this.productService
-      .createProduct(data)
-      .pipe(takeUntil(this.destroyed$));
+    const createProduct$ = this.productService.createProduct(data).pipe(takeUntil(this.destroyed$));
     createProduct$.subscribe((res: any) => {
       if (res.Code === 200) {
         this.page--;

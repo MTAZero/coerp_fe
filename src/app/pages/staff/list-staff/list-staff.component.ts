@@ -62,6 +62,7 @@ export class ListStaffComponent implements OnInit {
     });
 
     if (staff) {
+      this.onClickStaff(staff);
       modalRef.componentInstance.staff = staff;
     }
     modalRef.componentInstance.passEvent.subscribe(res => {
@@ -81,9 +82,9 @@ export class ListStaffComponent implements OnInit {
     const modalRef = this.modalService.open(ConfirmModalComponent, {
       centered: true
     });
+    this.onClickStaff(staff);
     modalRef.componentInstance.title = 'Xác nhận xóa nhân sự';
-    modalRef.componentInstance.message =
-      'Bạn có chắc chắn muốn xóa nhân sự đang chọn không?';
+    modalRef.componentInstance.message = 'Bạn có chắc chắn muốn xóa nhân sự đang chọn không?';
     modalRef.componentInstance.passEvent.subscribe(res => {
       if (res) {
         this._removeStaff(staff);
@@ -121,9 +122,7 @@ export class ListStaffComponent implements OnInit {
   }
 
   private _createStaff(data: any) {
-    const createStaff$ = this.staffService
-      .createStaff(data)
-      .pipe(takeUntil(this.destroyed$));
+    const createStaff$ = this.staffService.createStaff(data).pipe(takeUntil(this.destroyed$));
     createStaff$.subscribe((res: any) => {
       if (res.Code === 200) {
         this.page--;
@@ -134,9 +133,7 @@ export class ListStaffComponent implements OnInit {
   }
 
   private _updateStaff(updated: any) {
-    const updateStaff$ = this.staffService
-      .updateStaff(updated)
-      .pipe(takeUntil(this.destroyed$));
+    const updateStaff$ = this.staffService.updateStaff(updated).pipe(takeUntil(this.destroyed$));
     updateStaff$.subscribe((res: any) => {
       if (res.Code === 200) {
         this.page--;

@@ -1,8 +1,5 @@
 <div class="container-fluid">
-  <app-page-title
-    title="Nhân viên"
-    [breadcrumbItems]="breadCrumbItems"
-  ></app-page-title>
+  <app-page-title title="Nhân viên" [breadcrumbItems]="breadCrumbItems"></app-page-title>
 
   <div class="row">
     <div [ngClass]="selectedStaff ? 'col-xl-8' : 'col-xl'">
@@ -41,9 +38,7 @@
                 <button type="button" class="btn btn-info mb-2 mr-1">
                   Xuất
                 </button>
-                <a
-                  class="btn btn-success mb-2 button-link"
-                  (click)="openStaffModal()"
+                <a class="btn btn-success mb-2 button-link" (click)="openStaffModal()"
                   ><i class="mdi mdi-plus-circle mr-1"></i> Thêm mới</a
                 >
               </div>
@@ -67,7 +62,7 @@
               </thead>
               <tbody>
                 <tr
-                  *ngFor="let staff of staffs | filter: term"
+                  *ngFor="let staff of staffs"
                   (click)="onClickStaff(staff)"
                   [ngClass]="{
                     'is-selected': staff.sta_id === selectedStaff?.sta_id
@@ -92,24 +87,16 @@
                   <td>
                     <span
                       [ngClass]="
-                        staff.sta_status === 1
-                          ? 'badge badge-success'
-                          : 'badge badge-danger'
+                        staff.sta_status === 1 ? 'badge badge-success' : 'badge badge-danger'
                       "
                       >{{ staff.sta_status === 1 ? 'Kích hoạt' : 'Khóa' }}
                     </span>
                   </td>
                   <td>
-                    <a
-                      class="action-icon table-button-link"
-                      (click)="openStaffModal(staff)"
-                    >
+                    <a class="action-icon table-button-link" (click)="openStaffModal(staff)">
                       <i class="mdi mdi-square-edit-outline"></i
                     ></a>
-                    <a
-                      class="action-icon table-button-link"
-                      (click)="openConfirmModal(staff)"
-                    >
+                    <a class="action-icon table-button-link" (click)="openConfirmModal(staff)">
                       <i class="mdi mdi-delete"></i
                     ></a>
                   </td>
@@ -153,42 +140,15 @@
         <ngb-tabset>
           <ngb-tab title="Thông tin cá nhân">
             <ng-template ngbTabContent>
-              <ng-template [ngTemplateOutlet]="TabContent"></ng-template>
+              <app-profile-tab [selectedStaff]="selectedStaff"></app-profile-tab>
             </ng-template>
           </ngb-tab>
-          <ngb-tab title="Lịch sử chăm sóc khách hàng">
+          <ngb-tab title="Địa chỉ phụ trách">
             <ng-template ngbTabContent>
-              <ng-template [ngTemplateOutlet]="TabContent"></ng-template>
+              <app-address-tab></app-address-tab>
             </ng-template>
           </ngb-tab>
         </ngb-tabset>
-
-        <ng-template #TabContent>
-          <div class="">
-            <h4 class="font-13 text-muted text-uppercase">About Me :</h4>
-            <p class="mb-3">
-              {{ selectedStaff.sta_aboutme }}
-            </p>
-
-            <h4 class="font-13 text-muted text-uppercase mb-1">
-              NGÀY SINH
-            </h4>
-            <p class="mb-3">
-              {{ selectedStaff.sta_birthday | date: 'MMMM dd, yyyy' }}
-            </p>
-
-            <h4 class="font-13 text-muted text-uppercase mb-1">PHÒNG BAN</h4>
-            <p class="mb-3">{{ selectedStaff.department_name }}</p>
-
-            <h4 class="font-13 text-muted text-uppercase mb-1">NGÀY TẠO</h4>
-            <p class="mb-3">
-              {{ selectedStaff.sta_created_date | date: 'dd/MM/yyyy' }}
-            </p>
-
-            <h4 class="font-13 text-muted text-uppercase mb-1">ĐỊA CHỈ</h4>
-            <p class="mb-0">{{ selectedStaff.sta_address }}</p>
-          </div>
-        </ng-template>
       </div>
       <!-- end card-box-->
     </div>

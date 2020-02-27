@@ -30,10 +30,7 @@ export class ListServiceComponent implements OnInit {
   selectedService: Service;
   services: Array<Service>;
 
-  constructor(
-    private modalService: NgbModal,
-    public formBuilder: FormBuilder
-  ) {}
+  constructor(private modalService: NgbModal, public formBuilder: FormBuilder) {}
   ngOnInit() {
     this.breadCrumbItems = [
       { label: 'ERP', path: '/' },
@@ -61,6 +58,7 @@ export class ListServiceComponent implements OnInit {
       size: 'lg'
     });
     if (service) {
+      this.onClickService(service);
       modalRef.componentInstance.service = service;
     }
     modalRef.componentInstance.passEvent.subscribe(res => {
@@ -75,16 +73,16 @@ export class ListServiceComponent implements OnInit {
     });
   }
 
-  openConfirmModal() {
+  openConfirmModal(service?: any) {
     const modalRef = this.modalService.open(ConfirmModalComponent, {
       centered: true
     });
+    this.onClickService(service);
     modalRef.componentInstance.title = 'Xác nhận xóa dịch vụ';
-    modalRef.componentInstance.message =
-      'Bạn có chắc chắn muốn xóa dịch vụ đang chọn không?';
+    modalRef.componentInstance.message = 'Bạn có chắc chắn muốn xóa dịch vụ đang chọn không?';
     modalRef.componentInstance.passEvent.subscribe(res => {
       if (res) {
-        this.removeService();
+        this.removeService(service);
       }
       modalRef.close();
     });
@@ -93,10 +91,7 @@ export class ListServiceComponent implements OnInit {
   onPageChange(page: any): void {
     this.startIndex = (page - 1) * this.pageSize;
     this.endIndex = (page - 1) * this.pageSize + this.pageSize;
-    this.paginatedServiceData = this.services.slice(
-      this.startIndex,
-      this.endIndex
-    );
+    this.paginatedServiceData = this.services.slice(this.startIndex, this.endIndex);
   }
 
   private _fetchData() {
@@ -105,23 +100,17 @@ export class ListServiceComponent implements OnInit {
     this.startIndex = 0;
     this.endIndex = this.pageSize;
 
-    this.paginatedServiceData = this.services.slice(
-      this.startIndex,
-      this.endIndex
-    );
+    this.paginatedServiceData = this.services.slice(this.startIndex, this.endIndex);
     this.totalSize = this.services.length;
   }
 
   private createService(data: any) {
     this.submitted = true;
     this.totalSize = this.services.length + 1;
-    this.paginatedServiceData = this.services.slice(
-      this.startIndex,
-      this.endIndex
-    );
+    this.paginatedServiceData = this.services.slice(this.startIndex, this.endIndex);
   }
 
   private updateService(service: any, data: any) {}
 
-  private removeService() {}
+  private removeService(service: any) {}
 }

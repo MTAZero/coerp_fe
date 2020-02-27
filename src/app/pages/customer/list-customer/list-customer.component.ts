@@ -66,6 +66,7 @@ export class ListCustomerComponent implements OnInit {
       size: 'lg'
     });
     if (customer) {
+      this.onClickCustomer(customer);
       modalRef.componentInstance.customer = customer;
     }
     modalRef.componentInstance.passEvent.subscribe(res => {
@@ -84,9 +85,9 @@ export class ListCustomerComponent implements OnInit {
     const modalRef = this.modalService.open(ConfirmModalComponent, {
       centered: true
     });
+    this.onClickCustomer(customer);
     modalRef.componentInstance.title = 'Xác nhận xóa khách hàng';
-    modalRef.componentInstance.message =
-      'Bạn có chắc chắn muốn xóa khách hàng đang chọn không?';
+    modalRef.componentInstance.message = 'Bạn có chắc chắn muốn xóa khách hàng đang chọn không?';
     modalRef.componentInstance.passEvent.subscribe(res => {
       if (res) {
         this._removeCustomer(customer);
@@ -125,25 +126,19 @@ export class ListCustomerComponent implements OnInit {
   }
 
   private _fetchFilter() {
-    const sources$ = this.customerService
-      .loadSourceFilter()
-      .pipe(takeUntil(this.destroyed$));
+    const sources$ = this.customerService.loadSourceFilter().pipe(takeUntil(this.destroyed$));
 
     sources$.subscribe((res: any) => {
       this.sources = res.Data;
     });
 
-    const type$ = this.customerService
-      .loadTypeFilter()
-      .pipe(takeUntil(this.destroyed$));
+    const type$ = this.customerService.loadTypeFilter().pipe(takeUntil(this.destroyed$));
 
     type$.subscribe((res: any) => {
       this.types = res.Data.Results;
     });
 
-    const group$ = this.customerService
-      .loadGroupFilter()
-      .pipe(takeUntil(this.destroyed$));
+    const group$ = this.customerService.loadGroupFilter().pipe(takeUntil(this.destroyed$));
 
     group$.subscribe((res: any) => {
       this.groups = res.Data;

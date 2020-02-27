@@ -1,17 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {
-  NgbTabsetModule,
-  NgbDatepickerModule
-} from '@ng-bootstrap/ng-bootstrap';
+import { NgbTabsetModule, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { UIModule } from '../../shared/ui/ui.module';
-import {
-  NgbModalModule,
-  NgbPaginationModule
-} from '@ng-bootstrap/ng-bootstrap';
-import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { NgbModalModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { StaffRoutingModule } from './staff-routing.module';
 import { ApiModule } from '../../core/services/api/api.module';
@@ -23,6 +16,9 @@ import { ListPositionModalComponent } from './list-staff/component/list-position
 import { PositionModalComponent } from './list-staff/component/position-modal/position-modal.component';
 import { ListDepartmentModalComponent } from './list-staff/component/list-department-modal/list-department-modal.component';
 import { DepartmentModalComponent } from './list-staff/component/department-modal/department-modal.component';
+import { ProfileTabComponent } from './list-staff/component/profile-tab/profile-tab.component';
+import { AddressTabComponent } from './list-staff/component/address-tab/address-tab.component';
+import { AddressModalComponent } from './list-staff/component/address-modal/address-modal.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +28,10 @@ import { DepartmentModalComponent } from './list-staff/component/department-moda
     ListPositionModalComponent,
     PositionModalComponent,
     ListDepartmentModalComponent,
-    DepartmentModalComponent
+    DepartmentModalComponent,
+    ProfileTabComponent,
+    AddressTabComponent,
+    AddressModalComponent
   ],
   imports: [
     CommonModule,
@@ -44,7 +43,6 @@ import { DepartmentModalComponent } from './list-staff/component/department-moda
     NgbModalModule,
     NgbPaginationModule,
     StaffRoutingModule,
-    Ng2SearchPipeModule,
     ApiModule
   ],
   entryComponents: [
@@ -53,7 +51,8 @@ import { DepartmentModalComponent } from './list-staff/component/department-moda
     ListPositionModalComponent,
     PositionModalComponent,
     ListDepartmentModalComponent,
-    DepartmentModalComponent
+    DepartmentModalComponent,
+    AddressModalComponent
   ]
 })
 export class StaffModule {}

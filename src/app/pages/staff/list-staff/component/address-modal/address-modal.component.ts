@@ -7,11 +7,11 @@ import { Subject } from 'rxjs';
 import { AddressService } from '../../../../../core/services/api/address.service';
 
 @Component({
-  selector: 'app-addres-modal',
-  templateUrl: './addres-modal.component.html',
-  styleUrls: ['./addres-modal.component.scss']
+  selector: 'app-address-modal',
+  templateUrl: './address-modal.component.html',
+  styleUrls: ['./address-modal.component.scss']
 })
-export class AddresModalComponent implements OnInit {
+export class AddressModalComponent implements OnInit {
   private destroyed$ = new Subject();
   @Input() address: any;
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
