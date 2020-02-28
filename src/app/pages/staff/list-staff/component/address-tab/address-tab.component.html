@@ -18,19 +18,19 @@
     <tbody>
       <tr *ngFor="let address of addresses">
         <td>
-          {{ address.note }}
+          {{ address.unl_province }}
         </td>
         <td>
-          {{ address.note }}
+          {{ address.unl_district }}
         </td>
         <td>
-          {{ address.note }}
+          {{ address.unl_ward }}
         </td>
         <td>
-          {{ address.note }}
+          {{ address.unl_detail }}
         </td>
         <td>
-          {{ address.note }}
+          {{ address.unl_note }}
         </td>
         <td>
           <a class="action-icon table-button-link" (click)="openAddressModal(address)">
@@ -40,6 +40,9 @@
             <i class="mdi mdi-delete"></i
           ></a>
         </td>
+      </tr>
+      <tr *ngIf="!addresses || addresses.length === 0">
+        <td colspan="6">Không có dữ liệu địa chỉ</td>
       </tr>
     </tbody>
   </table>

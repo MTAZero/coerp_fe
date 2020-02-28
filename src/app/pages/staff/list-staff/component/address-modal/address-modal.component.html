@@ -10,17 +10,17 @@
     <div class="col-8">
       <select
         class="custom-select"
-        formControlName="province"
+        formControlName="unl_province"
         class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && formUI.province.errors }"
+        [ngClass]="{ 'is-invalid': submitted && formUI.unl_province.errors }"
         (change)="onChangeProvince($event)"
       >
-        <option *ngFor="let province of provinces" [value]="province.id">{{
+        <option *ngFor="let province of provinces" [value]="province.name">{{
           province.name
         }}</option>
       </select>
-      <div *ngIf="submitted && formUI.province.errors" class="invalid-feedback">
-        <span *ngIf="formUI.province.errors.required">This value is required.</span>
+      <div *ngIf="submitted && formUI.unl_province.errors" class="invalid-feedback">
+        <span *ngIf="formUI.unl_province.errors.required">This value is required.</span>
       </div>
     </div>
   </div>
@@ -29,17 +29,17 @@
     <div class="col-8">
       <select
         class="custom-select"
-        formControlName="district"
+        formControlName="unl_district"
         class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && formUI.district.errors }"
+        [ngClass]="{ 'is-invalid': submitted && formUI.unl_district.errors }"
         (change)="onChangeDistrict($event)"
       >
-        <option *ngFor="let district of districts" [value]="district.id">{{
+        <option *ngFor="let district of districts" [value]="district.name">{{
           district.name
         }}</option>
       </select>
-      <div *ngIf="submitted && formUI.district.errors" class="invalid-feedback">
-        <span *ngIf="formUI.district.errors.required">This value is required.</span>
+      <div *ngIf="submitted && formUI.unl_district.errors" class="invalid-feedback">
+        <span *ngIf="formUI.unl_district.errors.required">This value is required.</span>
       </div>
     </div>
   </div>
@@ -48,14 +48,14 @@
     <div class="col-8">
       <select
         class="custom-select"
-        formControlName="ward"
+        formControlName="unl_ward"
         class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && formUI.ward.errors }"
+        [ngClass]="{ 'is-invalid': submitted && formUI.unl_ward.errors }"
       >
-        <option *ngFor="let ward of wards" [value]="ward.id">{{ ward.name }}</option>
+        <option *ngFor="let ward of wards" [value]="ward.name">{{ ward.name }}</option>
       </select>
-      <div *ngIf="submitted && formUI.ward.errors" class="invalid-feedback">
-        <span *ngIf="formUI.ward.errors.required">This value is required.</span>
+      <div *ngIf="submitted && formUI.unl_ward.errors" class="invalid-feedback">
+        <span *ngIf="formUI.unl_ward.errors.required">This value is required.</span>
       </div>
     </div>
   </div>
@@ -64,18 +64,18 @@
     <div class="col-8">
       <input
         class="form-control"
-        formControlName="detail"
-        [ngClass]="{ 'is-invalid': submitted && formUI.detail.errors }"
+        formControlName="unl_detail"
+        [ngClass]="{ 'is-invalid': submitted && formUI.unl_detail.errors }"
       />
-      <div *ngIf="submitted && formUI.detail.errors" class="invalid-feedback">
-        <span *ngIf="formUI.detail.errors.required">This value is required.</span>
+      <div *ngIf="submitted && formUI.unl_detail.errors" class="invalid-feedback">
+        <span *ngIf="formUI.detunl_detailail.errors.required">This value is required.</span>
       </div>
     </div>
   </div>
   <div class="form-group row mb-3">
     <label class="col-4 col-form-label">Ghi chú</label>
     <div class="col-8">
-      <input class="form-control" formControlName="note" />
+      <input class="form-control" formControlName="unl_note" />
     </div>
   </div>
   <div class="text-right mt-3">

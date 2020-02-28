@@ -17,8 +17,6 @@ export class ListStaffComponent implements OnInit {
   private destroyed$ = new Subject();
   breadCrumbItems: Array<{}>;
 
-  submitted: boolean;
-
   textSearch = '';
   statusSearch = '';
   page = 0;

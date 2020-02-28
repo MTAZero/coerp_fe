@@ -1,37 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddressModalComponent } from '../address-modal/address-modal.component';
 import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
+import { StaffService } from '../../../../../core/services/api/staff.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-address-tab',
   templateUrl: './address-tab.component.html',
   styleUrls: ['./address-tab.component.scss']
 })
-export class AddressTabComponent implements OnInit {
-  addresses = [
-    {
-      address_id: 'ADD01',
-      address: '1 Phạm Văn Đồng, Cầu Giấy, Hà Nội',
-      phone: '0922111403',
-      note: ''
-    },
-    {
-      address_id: 'ADD02',
-      address: '210 Hoàng Quốc Việt, Cầu Giấy, Hà Nội',
-      phone: '0123890222',
-      note: ''
-    },
-    {
-      address_id: 'ADD03',
-      address: '14 Cầu Giấy, Cầu Giấy, Hà Nội',
-      phone: '0922111403',
-      note: ''
-    }
-  ];
-  constructor(private modalService: NgbModal) {}
+export class AddressTabComponent implements OnInit, OnChanges {
+  @Input() staffId: any;
+  private destroyed$ = new Subject();
 
-  ngOnInit() {}
+  addresses: any;
+  constructor(private modalService: NgbModal, private staffService: StaffService) {}
+
+  ngOnInit() {
+    this._fetchData();
+  }
+
+  ngOnChanges() {
+    this._fetchData();
+  }
 
   openAddressModal(address?: any) {
     const modalRef = this.modalService.open(AddressModalComponent, {
@@ -66,9 +59,50 @@ export class AddressTabComponent implements OnInit {
     });
   }
 
-  private _createAddress(data: any) {}
+  private _fetchData() {
+    const address$ = this.staffService
+      .loadStaffInfo({
+        id: this.staffId
+      })
+      .pipe(takeUntil(this.destroyed$));
+    address$.subscribe((res: any) => {
+      if (res) {
+        this.addresses = res.Data.list_address;
+        console.log(this.addresses);
+      }
+    });
+  }
+  private _createAddress(data: any) {
+    const createAddress$ = this.staffService.createStaff(data).pipe(takeUntil(this.destroyed$));
+    createAddress$.subscribe((res: any) => {
+      if (res.Code === 200) {
+        this._fetchData();
+        this.modalService.dismissAll();
+      }
+    });
+  }
 
-  private _updateAddress(data: any) {}
+  private _updateAddress(updated: any) {
+    const updateAddress$ = this.staffService
+      .updateUndertakenLocation(updated)
+      .pipe(takeUntil(this.destroyed$));
+    updateAddress$.subscribe((res: any) => {
+      if (res.Code === 200) {
+        this._fetchData();
+        this.modalService.dismissAll();
+      }
+    });
+  }
 
-  private _removeAddress(address: any) {}
+  private _removeAddress(address: any) {
+    const removeAddress$ = this.staffService
+      .removeUndertakenLocation({ undertakenlocationId: address.unl_id })
+      .pipe(takeUntil(this.destroyed$));
+    removeAddress$.subscribe((res: any) => {
+      if (res.Code === 200) {
+        this._fetchData();
+        this.modalService.dismissAll();
+      }
+    });
+  }
 }

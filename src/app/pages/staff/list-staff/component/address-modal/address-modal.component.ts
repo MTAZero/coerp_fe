@@ -78,21 +78,21 @@ export class AddressModalComponent implements OnInit {
 
   private initializeForm() {
     this.form = this.formBuilder.group({
-      province: ['', [Validators.required]],
-      district: ['', [Validators.required]],
-      ward: ['', [Validators.required]],
-      detail: ['', [Validators.required]],
-      note: ['', null]
+      unl_province: ['', [Validators.required]],
+      unl_district: ['', [Validators.required]],
+      unl_ward: ['', [Validators.required]],
+      unl_detail: ['', [Validators.required]],
+      unl_note: ['', null]
     });
   }
 
   private patchData(address: any) {
     this.form.patchValue({
-      province: address.province,
-      district: address.district,
-      ward: address.ward,
-      detail: address.detail,
-      note: address.note
+      unl_province: address.unl_province,
+      unl_district: address.unl_district,
+      unl_ward: address.unl_ward,
+      unl_detail: address.unl_detail,
+      unl_note: address.unl_note
     });
   }
 
