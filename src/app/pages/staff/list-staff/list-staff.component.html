@@ -145,7 +145,11 @@
           </ngb-tab>
           <ngb-tab title="Địa chỉ phụ trách">
             <ng-template ngbTabContent>
-              <app-address-tab [staffId]="selectedStaff?.sta_id"></app-address-tab>
+              <app-address-tab
+                [listAddress]="selectedStaff?.list_address"
+                [staffId]="selectedStaff?.sta_id"
+                (formSubmit)="onChangeAddress($event)"
+              ></app-address-tab>
             </ng-template>
           </ngb-tab>
         </ngb-tabset>

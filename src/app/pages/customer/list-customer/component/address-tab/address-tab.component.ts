@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddresModalComponent } from '../addres-modal/addres-modal.component';
 import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
+import { CustomerService } from '../../../../../core/services/api/customer.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-address-tab',
@@ -9,27 +12,11 @@ import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component'
   styleUrls: ['./address-tab.component.scss']
 })
 export class AddressTabComponent implements OnInit {
-  addresses = [
-    {
-      address_id: 'ADD01',
-      address: '1 Phạm Văn Đồng, Cầu Giấy, Hà Nội',
-      phone: '0922111403',
-      note: ''
-    },
-    {
-      address_id: 'ADD02',
-      address: '210 Hoàng Quốc Việt, Cầu Giấy, Hà Nội',
-      phone: '0123890222',
-      note: ''
-    },
-    {
-      address_id: 'ADD03',
-      address: '14 Cầu Giấy, Cầu Giấy, Hà Nội',
-      phone: '0922111403',
-      note: ''
-    }
-  ];
-  constructor(private modalService: NgbModal) {}
+  @Input() listAddress: any;
+  @Input() customerId: any;
+  @Output() formSubmit: any = new EventEmitter();
+  private destroyed$ = new Subject();
+  constructor(private modalService: NgbModal, private customerService: CustomerService) {}
 
   ngOnInit() {}
 
@@ -37,6 +24,7 @@ export class AddressTabComponent implements OnInit {
     const modalRef = this.modalService.open(AddresModalComponent, {
       centered: true
     });
+    modalRef.componentInstance.customerId = this.customerId;
     if (address) {
       modalRef.componentInstance.address = address;
     }
@@ -66,9 +54,39 @@ export class AddressTabComponent implements OnInit {
     });
   }
 
-  private _createAddress(data: any) {}
+  private _createAddress(data: any) {
+    const createAddress$ = this.customerService
+      .createShipAddress(data)
+      .pipe(takeUntil(this.destroyed$));
+    createAddress$.subscribe((res: any) => {
+      if (res.Code === 200) {
+        this.formSubmit.emit({ reload: true });
+        this.modalService.dismissAll();
+      }
+    });
+  }
 
-  private _updateAddress(data: any) {}
+  private _updateAddress(updated: any) {
+    const updateAddress$ = this.customerService
+      .updateShipAddress(updated)
+      .pipe(takeUntil(this.destroyed$));
+    updateAddress$.subscribe((res: any) => {
+      if (res.Code === 200) {
+        this.formSubmit.emit({ reload: true });
+        this.modalService.dismissAll();
+      }
+    });
+  }
 
-  private _removeAddress(address: any) {}
+  private _removeAddress(address: any) {
+    const removeAddress$ = this.customerService
+      .removeShipAddress({ shipaddressId: address.sha_id })
+      .pipe(takeUntil(this.destroyed$));
+    removeAddress$.subscribe((res: any) => {
+      if (res.Code === 200) {
+        this.formSubmit.emit({ reload: true });
+        this.modalService.dismissAll();
+      }
+    });
+  }
 }

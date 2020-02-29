@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { OrderService } from '../../../../../core/services/api/order.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-purchase-history-tab',
@@ -6,66 +9,31 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./purchase-history-tab.component.scss']
 })
 export class PurchaseHistoryTabComponent implements OnInit {
-  purchaseHistory = [
-    {
-      purchase_id: 'PUR01',
-      purchase_time: '12/01/2020',
-      order_id: 'DH01',
-      created_by: 'Nguyen Van A'
-    },
-    {
-      purchase_id: 'PUR02',
-      purchase_time: '15/01/2020',
-      order_id: 'DH02',
-      created_by: 'Nguyen Van B'
-    },
-    {
-      purchase_id: 'PUR03',
-      purchase_time: '20/01/2020',
-      order_id: 'DH03',
-      created_by: 'Nguyen Van CS'
-    }
-  ];
+  @Input() listCustomerOrder: any;
+  private destroyed$ = new Subject();
 
-  purchaseDetail = [
-    {
-      product_id: 'PRO01',
-      product_name: 'Chivas',
-      product_quantity: 20,
-      price: 1000000,
-      discout: 10,
-      total: 10000000,
-      note: ''
-    },
-    {
-      product_id: 'PRO02',
-      product_name: 'Chivas',
-      product_quantity: 20,
-      price: 1000000,
-      discout: 10,
-      total: 10000000,
-      note: ''
-    },
-    {
-      product_id: 'PRO03',
-      product_name: 'Chivas',
-      product_quantity: 20,
-      price: 1000000,
-      discout: 10,
-      total: 10000000,
-      note: ''
-    }
-  ];
-  selectedPurchase = null;
-  constructor() {}
+  orderDetail: any;
+  selectedOrder = null;
+  constructor(private orderService: OrderService) {}
 
   ngOnInit() {}
 
-  onClickPurchase(purchase: any) {
-    this.selectedPurchase = purchase;
+  onClickOrder(order: any) {
+    this.selectedOrder = order;
+    this._loadOrderDetail(order.cuo_id);
   }
 
   onClickBack() {
-    this.selectedPurchase = null;
+    this.selectedOrder = null;
+    this.orderDetail = null;
+  }
+
+  private _loadOrderDetail(id: any) {
+    const orderDetail$ = this.orderService.loadOrderById({ id }).pipe(takeUntil(this.destroyed$));
+    orderDetail$.subscribe((res: any) => {
+      if (res.Code === 200) {
+        this.orderDetail = res.Data;
+      }
+    });
   }
 }

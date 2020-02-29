@@ -106,7 +106,14 @@ export class ListCustomerComponent implements OnInit {
     this._fetchData();
   }
 
-  private _fetchData() {
+  onChange(event) {
+    if (event.reload) {
+      this.page--;
+      this._fetchData(this.selectedCustomer);
+    }
+  }
+
+  private _fetchData(selected?: any) {
     const customer$ = this.customerService
       .loadCustomer({
         pageNumber: this.page,
@@ -121,6 +128,10 @@ export class ListCustomerComponent implements OnInit {
       if (res) {
         this.totalSize = res.Data.TotalNumberOfRecords;
         this.customers = res.Data.Results;
+
+        if (selected) {
+          this.selectedCustomer = this.customers.find(item => item.cu_id === selected.cu_id);
+        }
       }
     });
   }

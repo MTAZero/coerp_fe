@@ -102,7 +102,14 @@ export class ListStaffComponent implements OnInit {
     this._fetchData();
   }
 
-  private _fetchData() {
+  onChangeAddress(event) {
+    if (event.reload) {
+      this.page--;
+      this._fetchData(this.selectedStaff);
+    }
+  }
+
+  private _fetchData(selected?: any) {
     const staff$ = this.staffService
       .searchStaff({
         pageNumber: this.page,
@@ -115,6 +122,10 @@ export class ListStaffComponent implements OnInit {
       if (res) {
         this.totalSize = res.Data.TotalNumberOfRecords;
         this.staffs = res.Data.Results;
+
+        if (selected) {
+          this.selectedStaff = this.staffs.find(item => item.sta_id === selected.sta_id);
+        }
       }
     });
   }

@@ -9,7 +9,10 @@ const router = {
   delete: `/api/customers/delete`,
   source: `/api/sources/all`,
   type: `/api/customers/type`,
-  group: `/api/customer-groups/all`
+  group: `/api/customer-groups/all`,
+  create_location: `/api/ship-addresss/create`,
+  update_location: `/api/ship-addresss/update`,
+  delete_location: `/api/ship-addresss/delete`
 };
 
 @Injectable()
@@ -53,5 +56,20 @@ export class CustomerService {
 
   loadGroupFilter() {
     return this.httpClient.get(router.group);
+  }
+
+  createShipAddress(data: any) {
+    const formData = mapToFormData(data);
+    return this.httpClient.post(router.create_location, formData);
+  }
+
+  updateShipAddress(data?: any) {
+    const formData = mapToFormData(data);
+    return this.httpClient.putFormData(router.update_location, formData);
+  }
+
+  removeShipAddress(filter?: { shipaddressId: number }) {
+    const params = mapToHttpParamsQuery(filter);
+    return this.httpClient.delete(router.delete_location, params);
   }
 }

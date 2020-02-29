@@ -1,8 +1,5 @@
 <div class="container-fluid">
-  <app-page-title
-    title="Khách hàng"
-    [breadcrumbItems]="breadCrumbItems"
-  ></app-page-title>
+  <app-page-title title="Khách hàng" [breadcrumbItems]="breadCrumbItems"></app-page-title>
 
   <div class="row">
     <div [ngClass]="selectedCustomer ? 'col-xl-8' : 'col-xl'">
@@ -28,11 +25,9 @@
                     (change)="onChangeFilter()"
                   >
                     <option value="">Nguồn</option>
-                    <option
-                      *ngFor="let source of sources"
-                      [value]="source.src_id"
-                      >{{ source.src_name }}</option
-                    >
+                    <option *ngFor="let source of sources" [value]="source.src_id">{{
+                      source.src_name
+                    }}</option>
                   </select>
                   <select
                     class="custom-select"
@@ -41,9 +36,7 @@
                     (change)="onChangeFilter()"
                   >
                     <option value="">Loại khách hàng</option>
-                    <option *ngFor="let type of types" [value]="type.id">{{
-                      type.name
-                    }}</option>
+                    <option *ngFor="let type of types" [value]="type.id">{{ type.name }}</option>
                   </select>
                   <select
                     class="custom-select"
@@ -52,11 +45,9 @@
                     (change)="onChangeFilter()"
                   >
                     <option value="">Nhóm khách hàng</option>
-                    <option
-                      *ngFor="let group of groups"
-                      [value]="group.cg_id"
-                      >{{ group.cg_name }}</option
-                    >
+                    <option *ngFor="let group of groups" [value]="group.cg_id">{{
+                      group.cg_name
+                    }}</option>
                   </select>
                 </div>
               </form>
@@ -69,9 +60,7 @@
                 <button type="button" class="btn btn-info mb-2 mr-1">
                   Xuất
                 </button>
-                <a
-                  class="btn btn-success mb-2 button-link"
-                  (click)="openCustomerModal()"
+                <a class="btn btn-success mb-2 button-link" (click)="openCustomerModal()"
                   ><i class="mdi mdi-plus-circle mr-1"></i> Thêm mới</a
                 >
               </div>
@@ -141,16 +130,10 @@
                     {{ customer.cu_create_date }}
                   </td>
                   <td>
-                    <a
-                      class="action-icon table-button-link"
-                      (click)="openCustomerModal(customer)"
-                    >
+                    <a class="action-icon table-button-link" (click)="openCustomerModal(customer)">
                       <i class="mdi mdi-square-edit-outline"></i
                     ></a>
-                    <a
-                      class="action-icon table-button-link"
-                      (click)="openConfirmModal(customer)"
-                    >
+                    <a class="action-icon table-button-link" (click)="openConfirmModal(customer)">
                       <i class="mdi mdi-delete"></i
                     ></a>
                   </td>
@@ -194,7 +177,9 @@
         <ngb-tabset>
           <ngb-tab title="Lịch sử mua">
             <ng-template ngbTabContent>
-              <app-purchase-history-tab></app-purchase-history-tab>
+              <app-purchase-history-tab
+                [listCustomerOrder]="selectedCustomer?.list_customer_order"
+              ></app-purchase-history-tab>
             </ng-template>
           </ngb-tab>
           <ngb-tab title="Lịch sử chăm sóc">
@@ -202,9 +187,13 @@
               <app-care-history-tab></app-care-history-tab>
             </ng-template>
           </ngb-tab>
-          <ngb-tab title="Địa chỉ">
+          <ngb-tab title="Địa chỉ nhận hàng">
             <ng-template ngbTabContent>
-              <app-address-tab></app-address-tab>
+              <app-address-tab
+                [listAddress]="selectedCustomer?.list_address"
+                [customerId]="selectedCustomer?.cu_id"
+                (formSubmit)="onChange($event)"
+              ></app-address-tab>
             </ng-template>
           </ngb-tab>
         </ngb-tabset>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddressModalComponent } from '../address-modal/address-modal.component';
 import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
@@ -11,25 +11,22 @@ import { Subject } from 'rxjs';
   templateUrl: './address-tab.component.html',
   styleUrls: ['./address-tab.component.scss']
 })
-export class AddressTabComponent implements OnInit, OnChanges {
+export class AddressTabComponent implements OnInit {
+  @Input() listAddress: any;
   @Input() staffId: any;
+  @Output() formSubmit: any = new EventEmitter();
   private destroyed$ = new Subject();
 
   addresses: any;
   constructor(private modalService: NgbModal, private staffService: StaffService) {}
 
-  ngOnInit() {
-    this._fetchData();
-  }
-
-  ngOnChanges() {
-    this._fetchData();
-  }
+  ngOnInit() {}
 
   openAddressModal(address?: any) {
     const modalRef = this.modalService.open(AddressModalComponent, {
       centered: true
     });
+    modalRef.componentInstance.staffId = this.staffId;
     if (address) {
       modalRef.componentInstance.address = address;
     }
@@ -59,24 +56,13 @@ export class AddressTabComponent implements OnInit, OnChanges {
     });
   }
 
-  private _fetchData() {
-    const address$ = this.staffService
-      .loadStaffInfo({
-        id: this.staffId
-      })
-      .pipe(takeUntil(this.destroyed$));
-    address$.subscribe((res: any) => {
-      if (res) {
-        this.addresses = res.Data.list_address;
-        console.log(this.addresses);
-      }
-    });
-  }
   private _createAddress(data: any) {
-    const createAddress$ = this.staffService.createStaff(data).pipe(takeUntil(this.destroyed$));
+    const createAddress$ = this.staffService
+      .createUndertakenLocation(data)
+      .pipe(takeUntil(this.destroyed$));
     createAddress$.subscribe((res: any) => {
       if (res.Code === 200) {
-        this._fetchData();
+        this.formSubmit.emit({ reload: true });
         this.modalService.dismissAll();
       }
     });
@@ -88,7 +74,7 @@ export class AddressTabComponent implements OnInit, OnChanges {
       .pipe(takeUntil(this.destroyed$));
     updateAddress$.subscribe((res: any) => {
       if (res.Code === 200) {
-        this._fetchData();
+        this.formSubmit.emit({ reload: true });
         this.modalService.dismissAll();
       }
     });
@@ -100,7 +86,7 @@ export class AddressTabComponent implements OnInit, OnChanges {
       .pipe(takeUntil(this.destroyed$));
     removeAddress$.subscribe((res: any) => {
       if (res.Code === 200) {
-        this._fetchData();
+        this.formSubmit.emit({ reload: true });
         this.modalService.dismissAll();
       }
     });

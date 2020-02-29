@@ -16,7 +16,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let address of addresses">
+      <tr *ngFor="let address of listAddress">
         <td>
           {{ address.unl_province }}
         </td>
@@ -41,7 +41,7 @@
           ></a>
         </td>
       </tr>
-      <tr *ngIf="!addresses || addresses.length === 0">
+      <tr *ngIf="listAddress.length === 0">
         <td colspan="6">Không có dữ liệu địa chỉ</td>
       </tr>
     </tbody>

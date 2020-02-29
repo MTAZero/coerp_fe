@@ -4,6 +4,7 @@ import { mapToHttpParamsQuery, mapToFormData } from '../../helpers/helpers';
 
 const router = {
   get_all_page: `/api/customer-orders/search`,
+  get_by_id: `/api/customer-orders/infor`,
   create: `/api/customer-orders/create`,
   update: `/api/customer-orders/update`,
   delete: `/api/customer_orders/delete`,
@@ -36,5 +37,10 @@ export class OrderService {
 
   loadPaymentMethod() {
     return this.httpClient.get(router.payment_method);
+  }
+
+  loadOrderById(filter?: { id: number }) {
+    const params = mapToHttpParamsQuery(filter);
+    return this.httpClient.get(router.get_by_id, params);
   }
 }

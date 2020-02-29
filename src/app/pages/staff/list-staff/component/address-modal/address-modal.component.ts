@@ -14,6 +14,7 @@ import { AddressService } from '../../../../../core/services/api/address.service
 export class AddressModalComponent implements OnInit {
   private destroyed$ = new Subject();
   @Input() address: any;
+  @Input() staffId: any;
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
   form: FormGroup;
   submitted = false;
@@ -32,6 +33,7 @@ export class AddressModalComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.form.patchValue({ staff_id: this.staffId });
     if (this.address) {
       this.patchData(this.address);
     }
@@ -65,11 +67,13 @@ export class AddressModalComponent implements OnInit {
   }
 
   onChangeProvince(e) {
-    this._loadDistrict(e.target.value);
+    const districtId = this.provinces.find(item => item.name === e.target.value).id;
+    this._loadDistrict(districtId);
   }
 
   onChangeDistrict(e) {
-    this._loadWard(e.target.value);
+    const wardId = this.districts.find(item => item.name === e.target.value).id;
+    this._loadWard(wardId);
   }
 
   get formUI() {
@@ -78,16 +82,19 @@ export class AddressModalComponent implements OnInit {
 
   private initializeForm() {
     this.form = this.formBuilder.group({
+      staff_id: ['', null],
+      unl_id: ['', null],
       unl_province: ['', [Validators.required]],
       unl_district: ['', [Validators.required]],
       unl_ward: ['', [Validators.required]],
-      unl_detail: ['', [Validators.required]],
+      unl_detail: ['', null],
       unl_note: ['', null]
     });
   }
 
   private patchData(address: any) {
     this.form.patchValue({
+      unl_id: address.unl_id,
       unl_province: address.unl_province,
       unl_district: address.unl_district,
       unl_ward: address.unl_ward,
@@ -101,33 +108,54 @@ export class AddressModalComponent implements OnInit {
     province$.subscribe((res: any) => {
       if (res && res.Data) {
         this.provinces = res.Data;
-        this.form.patchValue({ province: res.Data[0].id });
-        this._loadDistrict(res.Data[0].id);
+
+        if (this.address) {
+          this.form.patchValue({ unl_province: this.address.unl_province });
+          const provinceId = this.provinces.find(item => item.name === this.address.unl_province)
+            .id;
+          this._loadDistrict(provinceId, true);
+        } else {
+          this.form.patchValue({ unl_province: res.Data[0].name });
+          this._loadDistrict(res.Data[0].id);
+        }
       }
     });
   }
 
-  private _loadDistrict(provinceId: any) {
+  private _loadDistrict(provinceId: any, isFirst = false) {
     const district$ = this.addressService
       .loadDistrict({ province_id: provinceId })
       .pipe(takeUntil(this.destroyed$));
     district$.subscribe((res: any) => {
       if (res && res.Data) {
         this.districts = res.Data;
-        this.form.patchValue({ district: res.Data[0].id });
-        this._loadWard(res.Data[0].id);
+
+        if (this.address && isFirst) {
+          this.form.patchValue({ unl_district: this.address.unl_district });
+          const districtId = this.districts.find(item => item.name === this.address.unl_district)
+            .id;
+          this._loadWard(districtId, true);
+        } else {
+          this.form.patchValue({ unl_district: res.Data[0].name });
+          this._loadWard(res.Data[0].id);
+        }
       }
     });
   }
 
-  private _loadWard(districtId: any) {
+  private _loadWard(districtId: any, isFirst = false) {
     const ward$ = this.addressService
       .loadWard({ district_id: districtId })
       .pipe(takeUntil(this.destroyed$));
     ward$.subscribe((res: any) => {
       if (res && res.Data) {
         this.wards = res.Data;
-        this.form.patchValue({ ward: res.Data[0].id });
+
+        if (this.address && isFirst) {
+          this.form.patchValue({ unl_ward: this.address.unl_ward });
+        } else {
+          this.form.patchValue({ unl_ward: res.Data[0].name });
+        }
       }
     });
   }

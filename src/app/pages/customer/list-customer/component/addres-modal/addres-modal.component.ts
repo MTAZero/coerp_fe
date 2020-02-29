@@ -14,6 +14,7 @@ import { AddressService } from '../../../../../core/services/api/address.service
 export class AddresModalComponent implements OnInit {
   private destroyed$ = new Subject();
   @Input() address: any;
+  @Input() customerId: any;
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
   form: FormGroup;
   submitted = false;
@@ -32,6 +33,7 @@ export class AddresModalComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.form.patchValue({ customer_id: this.customerId });
     if (this.address) {
       this.patchData(this.address);
     }
@@ -65,11 +67,13 @@ export class AddresModalComponent implements OnInit {
   }
 
   onChangeProvince(e) {
-    this._loadDistrict(e.target.value);
+    const districtId = this.provinces.find(item => item.name === e.target.value).id;
+    this._loadDistrict(districtId);
   }
 
   onChangeDistrict(e) {
-    this._loadWard(e.target.value);
+    const wardId = this.districts.find(item => item.name === e.target.value).id;
+    this._loadWard(wardId);
   }
 
   get formUI() {
@@ -78,21 +82,24 @@ export class AddresModalComponent implements OnInit {
 
   private initializeForm() {
     this.form = this.formBuilder.group({
-      province: ['', [Validators.required]],
-      district: ['', [Validators.required]],
-      ward: ['', [Validators.required]],
-      detail: ['', [Validators.required]],
-      note: ['', null]
+      customer_id: ['', null],
+      sha_id: ['', null],
+      sha_province: ['', [Validators.required]],
+      sha_district: ['', [Validators.required]],
+      sha_ward: ['', [Validators.required]],
+      sha_detail: ['', null],
+      sha_note: ['', null]
     });
   }
 
   private patchData(address: any) {
     this.form.patchValue({
-      province: address.province,
-      district: address.district,
-      ward: address.ward,
-      detail: address.detail,
-      note: address.note
+      sha_id: address.sha_id,
+      sha_province: address.sha_province,
+      sha_district: address.sha_district,
+      sha_ward: address.sha_ward,
+      sha_detail: address.sha_detail,
+      sha_note: address.sha_note
     });
   }
 
@@ -101,33 +108,54 @@ export class AddresModalComponent implements OnInit {
     province$.subscribe((res: any) => {
       if (res && res.Data) {
         this.provinces = res.Data;
-        this.form.patchValue({ province: res.Data[0].id });
-        this._loadDistrict(res.Data[0].id);
+
+        if (this.address) {
+          this.form.patchValue({ sha_province: this.address.sha_province });
+          const provinceId = this.provinces.find(item => item.name === this.address.sha_province)
+            .id;
+          this._loadDistrict(provinceId, true);
+        } else {
+          this.form.patchValue({ sha_province: res.Data[0].name });
+          this._loadDistrict(res.Data[0].id);
+        }
       }
     });
   }
 
-  private _loadDistrict(provinceId: any) {
+  private _loadDistrict(provinceId: any, isFirst = false) {
     const district$ = this.addressService
       .loadDistrict({ province_id: provinceId })
       .pipe(takeUntil(this.destroyed$));
     district$.subscribe((res: any) => {
       if (res && res.Data) {
         this.districts = res.Data;
-        this.form.patchValue({ district: res.Data[0].id });
-        this._loadWard(res.Data[0].id);
+
+        if (this.address && isFirst) {
+          this.form.patchValue({ sha_district: this.address.sha_district });
+          const districtId = this.districts.find(item => item.name === this.address.sha_district)
+            .id;
+          this._loadWard(districtId, true);
+        } else {
+          this.form.patchValue({ sha_district: res.Data[0].name });
+          this._loadWard(res.Data[0].id);
+        }
       }
     });
   }
 
-  private _loadWard(districtId: any) {
+  private _loadWard(districtId: any, isFirst = false) {
     const ward$ = this.addressService
       .loadWard({ district_id: districtId })
       .pipe(takeUntil(this.destroyed$));
     ward$.subscribe((res: any) => {
       if (res && res.Data) {
         this.wards = res.Data;
-        this.form.patchValue({ ward: res.Data[0].id });
+
+        if (this.address && isFirst) {
+          this.form.patchValue({ sha_ward: this.address.sha_ward });
+        } else {
+          this.form.patchValue({ sha_ward: res.Data[0].name });
+        }
       }
     });
   }

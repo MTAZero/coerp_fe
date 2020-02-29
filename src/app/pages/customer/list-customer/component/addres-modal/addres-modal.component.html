@@ -1,5 +1,5 @@
 <div class="modal-header bg-dark">
-  <h4 class="modal-title text-white">Thêm địa chỉ</h4>
+  <h4 class="modal-title text-white">{{ address ? 'Sửa' : 'Thêm' }} địa chỉ</h4>
   <button class="close text-white" aria-label="Close" (click)="onClickCancel()">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -10,17 +10,17 @@
     <div class="col-8">
       <select
         class="custom-select"
-        formControlName="province"
+        formControlName="sha_province"
         class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && formUI.province.errors }"
+        [ngClass]="{ 'is-invalid': submitted && formUI.sha_province.errors }"
         (change)="onChangeProvince($event)"
       >
-        <option *ngFor="let province of provinces" [value]="province.id">{{
+        <option *ngFor="let province of provinces" [value]="province.name">{{
           province.name
         }}</option>
       </select>
-      <div *ngIf="submitted && formUI.province.errors" class="invalid-feedback">
-        <span *ngIf="formUI.province.errors.required">This value is required.</span>
+      <div *ngIf="submitted && formUI.sha_province.errors" class="invalid-feedback">
+        <span *ngIf="formUI.sha_province.errors.required">This value is required.</span>
       </div>
     </div>
   </div>
@@ -29,17 +29,17 @@
     <div class="col-8">
       <select
         class="custom-select"
-        formControlName="district"
+        formControlName="sha_district"
         class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && formUI.district.errors }"
+        [ngClass]="{ 'is-invalid': submitted && formUI.sha_district.errors }"
         (change)="onChangeDistrict($event)"
       >
-        <option *ngFor="let district of districts" [value]="district.id">{{
+        <option *ngFor="let district of districts" [value]="district.name">{{
           district.name
         }}</option>
       </select>
-      <div *ngIf="submitted && formUI.district.errors" class="invalid-feedback">
-        <span *ngIf="formUI.district.errors.required">This value is required.</span>
+      <div *ngIf="submitted && formUI.sha_district.errors" class="invalid-feedback">
+        <span *ngIf="formUI.sha_district.errors.required">This value is required.</span>
       </div>
     </div>
   </div>
@@ -48,34 +48,27 @@
     <div class="col-8">
       <select
         class="custom-select"
-        formControlName="ward"
+        formControlName="sha_ward"
         class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && formUI.ward.errors }"
+        [ngClass]="{ 'is-invalid': submitted && formUI.sha_ward.errors }"
       >
-        <option *ngFor="let ward of wards" [value]="ward.id">{{ ward.name }}</option>
+        <option *ngFor="let ward of wards" [value]="ward.name">{{ ward.name }}</option>
       </select>
-      <div *ngIf="submitted && formUI.ward.errors" class="invalid-feedback">
-        <span *ngIf="formUI.ward.errors.required">This value is required.</span>
+      <div *ngIf="submitted && formUI.sha_ward.errors" class="invalid-feedback">
+        <span *ngIf="formUI.sha_ward.errors.required">This value is required.</span>
       </div>
     </div>
   </div>
   <div class="form-group row mb-3">
-    <label class="col-4 col-form-label">Chi tiết <span>(*)</span></label>
+    <label class="col-4 col-form-label">Chi tiết</label>
     <div class="col-8">
-      <input
-        class="form-control"
-        formControlName="detail"
-        [ngClass]="{ 'is-invalid': submitted && formUI.detail.errors }"
-      />
-      <div *ngIf="submitted && formUI.detail.errors" class="invalid-feedback">
-        <span *ngIf="formUI.detail.errors.required">This value is required.</span>
-      </div>
+      <input class="form-control" formControlName="sha_detail" />
     </div>
   </div>
   <div class="form-group row mb-3">
     <label class="col-4 col-form-label">Ghi chú</label>
     <div class="col-8">
-      <input class="form-control" formControlName="note" />
+      <input class="form-control" formControlName="sha_note" />
     </div>
   </div>
   <div class="text-right mt-3">
