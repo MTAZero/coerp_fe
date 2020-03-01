@@ -146,7 +146,7 @@ export class ListCustomerComponent implements OnInit {
     const type$ = this.customerService.loadTypeFilter().pipe(takeUntil(this.destroyed$));
 
     type$.subscribe((res: any) => {
-      this.types = res.Data.Results;
+      this.types = res.Data;
     });
 
     const group$ = this.customerService.loadGroupFilter().pipe(takeUntil(this.destroyed$));

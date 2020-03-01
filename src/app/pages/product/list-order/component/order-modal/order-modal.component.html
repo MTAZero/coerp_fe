@@ -1,5 +1,7 @@
 <div class="modal-header bg-dark">
-  <h4 class="modal-title text-white">Thêm mới đơn hàng</h4>
+  <h4 class="modal-title text-white">
+    {{ !order ? 'Thêm mới' : isView ? 'Xem' : 'Cập nhật' }} đơn hàng
+  </h4>
   <button type="button" class="close text-white" aria-label="Close" (click)="onClickCancel()">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -227,7 +229,7 @@
     [striped]="true"
     [animated]="true"
   ></ngb-progressbar>
-  <div class="row mt-2">
+  <div class="row mt-2" *ngIf="!isView">
     <div class="col-md-8">
       <form class="form-inline">
         <div class="form-group">
@@ -237,56 +239,48 @@
     </div>
   </div>
   <h5 class="mb-3 text-uppercase bg-light p-2">
-    <i class="mdi mdi-account-circle mr-1"></i> Thông tin cá nhân
+    <i class="mdi mdi-account-circle mr-1"></i> Thông tin đơn hàng
   </h5>
   <div class="table-responsive border mb-2">
     <table class="table table-centered table-hover mb-0">
       <thead>
         <tr>
           <th>Tên sản phẩm</th>
-          <th>Ảnh</th>
           <th>Số lượng</th>
           <th>Đơn giá</th>
           <th>Giảm giá</th>
           <th>Tổng</th>
+          <th *ngIf="!isView">Thao tác</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr *ngFor="let product of listProduct">
           <td>
-            Sâm hươu Nga
-          </td>
-          <td></td>
-          <td>
-            2
+            {{ product.pu_name }}
           </td>
           <td>
-            1.200.000
+            {{ product.op_quantity }}
           </td>
           <td>
-            0
+            {{ product.pu_unit }}
           </td>
           <td>
-            2.400.000
+            {{ product.op_discount }}
+          </td>
+          <td>
+            {{ product.op_quantity }}
+          </td>
+          <td *ngIf="!isView">
+            <a class="action-icon table-button-link" (click)="openConfirmModal(product)">
+              <i class="mdi mdi-square-edit-outline"></i
+            ></a>
+            <a class="action-icon table-button-link" (click)="openConfirmModal(product)">
+              <i class="mdi mdi-delete"></i
+            ></a>
           </td>
         </tr>
-        <tr>
-          <td>
-            Sâm hươu Nga
-          </td>
-          <td></td>
-          <td>
-            2
-          </td>
-          <td>
-            1.200.000
-          </td>
-          <td>
-            0
-          </td>
-          <td>
-            2.400.000
-          </td>
+        <tr *ngIf="listProduct.length === 0">
+          <td colspan="6">Không có dữ liệu địa chỉ</td>
         </tr>
       </tbody>
     </table>

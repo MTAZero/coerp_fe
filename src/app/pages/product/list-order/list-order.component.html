@@ -24,8 +24,9 @@
                 (change)="onChangeFilter()"
               >
                 <option value="">Phương thức thanh toán</option>
-                <option value="1">AirPay</option>
-                <option value="2">ViettelPay</option>
+                <option *ngFor="let item of paymentMethods" [value]="item.id">{{
+                  item.name
+                }}</option>
               </select>
             </form>
           </div>
@@ -82,7 +83,7 @@
                   </span>
                 </td>
                 <td>
-                  <a class="action-icon table-button-link" (click)="openOrderModal(order)">
+                  <a class="action-icon table-button-link" (click)="openOrderModal(order, true)">
                     <i class="mdi mdi-eye"></i
                   ></a>
                   <a class="action-icon table-button-link" (click)="openOrderModal(order)">

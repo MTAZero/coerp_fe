@@ -39,16 +39,17 @@ export class ListOrderComponent implements OnInit {
       { label: 'Đặt hàng', path: '/', active: true }
     ];
     this._fetchData();
-    // this._fetchFilter();
+    this._fetchFilter();
   }
 
-  openOrderModal(order?: any) {
+  openOrderModal(order?: any, isView = false) {
     const modalRef = this.modalService.open(OrderModalComponent, {
       centered: true,
       size: 'xl'
     });
     if (order) {
       modalRef.componentInstance.order = order;
+      modalRef.componentInstance.isView = isView;
     }
     modalRef.componentInstance.passEvent.subscribe(res => {
       if (res.event) {

@@ -8,7 +8,7 @@ const router = {
   create: `/api/customer-orders/create`,
   update: `/api/customer-orders/update`,
   delete: `/api/customer_orders/delete`,
-  payment_method: ``
+  payment_method: `/api/customer-orders/get-all-payment`
 };
 
 @Injectable()
