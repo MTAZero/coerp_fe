@@ -34,7 +34,7 @@
     [striped]="true"
     [animated]="true"
   ></ngb-progressbar>
-  <div class="row mt-2">
+  <div class="row mt-2" *ngIf="!isView">
     <div class="col-lg-8">
       <form class="form-inline row">
         <div class="form-group col-sm-auto">
@@ -62,159 +62,190 @@
         >
       </div>
     </div>
-    <!-- end col-->
   </div>
   <h5 class="mb-3 text-uppercase bg-light p-2">
     <i class="mdi mdi-account-circle mr-1"></i> Thông tin cá nhân
   </h5>
-  <div class="row">
-    <div class="col-md-3">
-      <div class="form-group">
-        <label>Họ và tên</label>
-        <input class="form-control" placeholder="Nhập họ và tên" />
+  <div [formGroup]="formCustomer">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>Họ và tên</label>
+          <input
+            [readonly]="isView"
+            class="form-control"
+            formControlName="cu_fullname"
+            placeholder="Nhập họ và tên"
+            f
+          />
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>Số điện thoại</label>
+          <input
+            [readonly]="isView"
+            class="form-control"
+            formControlName="cu_mobile"
+            placeholder="Nhập số điện thoại"
+          />
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>Email</label>
+          <input
+            [readonly]="isView"
+            class="form-control"
+            formControlName="cu_email"
+            placeholder="Nhập email"
+          />
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>Ngày sinh</label>
+          <input
+            [readonly]="isView"
+            class="form-control"
+            formControlName="cu_birthday"
+            placeholder="Nhập ngày sinh"
+          />
+        </div>
       </div>
     </div>
-    <div class="col-md-3">
-      <div class="form-group">
-        <label>Số điện thoại</label>
-        <input class="form-control" placeholder="Nhập số điện thoại" />
+    <div class="row">
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>Nhóm khách hàng</label>
+          <select class="custom-select" formControlName="customer_group_id" id="status-select">
+            <option *ngFor="let group of groups" [value]="group.cg_id">{{ group.cg_name }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>Nguồn khách hàng</label>
+          <select class="custom-select" formControlName="source_id" id="status-select">
+            <option *ngFor="let source of sources" [value]="source.src_id">{{
+              source.src_name
+            }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Người phụ trách</label>
+          <input
+            class="form-control"
+            [readonly]="isView"
+            formControlName="staff_id"
+            placeholder="Nhập tên người phụ trách"
+          />
+        </div>
       </div>
     </div>
-    <div class="col-md-3">
-      <div class="form-group">
-        <label>Email</label>
-        <input class="form-control" placeholder="Nhập email" />
+    <div class="row" *ngIf="!isView">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>Địa chỉ</label>
+          <input
+            class="form-control"
+            [readonly]="isView"
+            formControlName="cu_address"
+            placeholder="Nhập địa chỉ"
+          />
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label>Tỉnh/Thành phố</label>
+          <select class="custom-select" formControlName="cu_province" id="status-select">
+            <option *ngFor="let province of provinces" [value]="province.name">{{
+              province.name
+            }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label>Quận/Huyện</label>
+          <select class="custom-select" formControlName="cu_district" id="status-select">
+            <option *ngFor="let district of districts" [value]="district.name">{{
+              district.name
+            }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label>Xã/Phường</label>
+          <select class="custom-select" formControlName="cu_ward" id="status-select">
+            <option *ngFor="let ward of wards" [value]="ward.name">{{ ward.name }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <button type="button" class="btn btn-danger" style="margin-top: 1.8rem;">
+          <i class="mdi mdi-plus-circle mr-1"></i>Thêm
+        </button>
       </div>
     </div>
-    <div class="col-md-3">
-      <div class="form-group">
-        <label>Ngày sinh</label>
-        <input class="form-control" placeholder="Nhập ngày sinh" />
+    <div class="table-responsive border mb-2">
+      <table class="table table-centered table-hover mb-0">
+        <thead>
+          <tr>
+            <th>Địa chỉ chi tiết</th>
+            <th>Xã/Phường</th>
+            <th>Quận/Huyện</th>
+            <th>Tỉnh/Thành phố</th>
+            <th *ngIf="!isView">Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let address of listAddress">
+            <td>
+              {{ address.sha_detail }}
+            </td>
+            <td>
+              {{ address.sha_ward }}
+            </td>
+            <td>
+              {{ address.sha_district }}
+            </td>
+            <td>
+              {{ address.sha_province }}
+            </td>
+            <td *ngIf="!isView">
+              <a class="action-icon table-button-link" (click)="openConfirmModal(address)">
+                <i class="mdi mdi-square-edit-outline"></i
+              ></a>
+              <a class="action-icon table-button-link" (click)="openConfirmModal(address)">
+                <i class="mdi mdi-delete"></i
+              ></a>
+            </td>
+          </tr>
+          <tr *ngIf="listAddress.length === 0">
+            <td colspan="6">Không có dữ liệu địa chỉ</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label>Ghi chú</label>
+          <textarea
+            rows="3"
+            [readonly]="isView"
+            formControlName="cu_note"
+            class="form-control"
+          ></textarea>
+        </div>
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-md-3">
-      <div class="form-group">
-        <label>Nhóm khách hàng</label>
-        <select class="custom-select" id="status-select">
-          <option selected="">Khách sỉ</option>
-          <option value="1">Khách lẻ</option>
-          <option value="2">Khách quen</option>
-          <option value="3">Khách VIP</option>
-          <option value="4">Khách BNI</option>
-        </select>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="form-group">
-        <label>Nguồn khách hàng</label>
-        <select class="custom-select" id="status-select">
-          <option selected="">BNI Group</option>
-          <option value="1">BIN Group</option>
-          <option value="2">ABC Group</option>
-        </select>
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="form-group">
-        <label>Người phụ trách</label>
-        <input class="form-control" placeholder="Nhập tên người phụ trách" />
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-4">
-      <div class="form-group">
-        <label>Địa chỉ</label>
-        <input class="form-control" placeholder="Nhập địa chỉ" />
-      </div>
-    </div>
-    <div class="col-md-2">
-      <div class="form-group">
-        <label>Tỉnh/Thành phố</label>
-        <select class="custom-select" id="status-select">
-          <option selected="">Hà Nội</option>
-          <option value="1">TP. Hồ Chí Minh</option>
-          <option value="2">Đà Nẵng</option>
-        </select>
-      </div>
-    </div>
-    <div class="col-md-2">
-      <div class="form-group">
-        <label>Quận/Huyện</label>
-        <select class="custom-select" id="status-select">
-          <option selected="">Cầu Giấy</option>
-          <option value="1">Hoàn Kiếm</option>
-          <option value="2">Đống Đa</option>
-        </select>
-      </div>
-    </div>
-    <div class="col-md-2">
-      <div class="form-group">
-        <label>Xã/Phường</label>
-        <select class="custom-select" id="status-select">
-          <option selected="">Nghĩa Đô</option>
-          <option value="1">Nghĩa Tân</option>
-        </select>
-      </div>
-    </div>
-    <div class="col-md-2">
-      <button type="button" class="btn btn-danger" style="margin-top: 1.8rem;">
-        <i class="mdi mdi-plus-circle mr-1"></i>Thêm
-      </button>
-    </div>
-  </div>
-  <div class="table-responsive border mb-2">
-    <table class="table table-centered table-hover mb-0">
-      <thead>
-        <tr>
-          <th>Địa chỉ chi tiết</th>
-          <th>Xã/Phường</th>
-          <th>Quận/Huyện</th>
-          <th>Tỉnh/Thành phố</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            CC 361 Số 60 Hoàng Quốc Việt
-          </td>
-          <td>
-            Nghĩa Đô
-          </td>
-          <td>
-            Cầu Giấy
-          </td>
-          <td>
-            Hà Nội
-          </td>
-        </tr>
-        <tr>
-          <td>
-            CC 361 Số 60 Hoàng Quốc Việt
-          </td>
-          <td>
-            Nghĩa Đô
-          </td>
-          <td>
-            Cầu Giấy
-          </td>
-          <td>
-            Hà Nội
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="row">
-    <div class="col-md-12">
-      <div class="form-group">
-        <label>Ghi chú</label>
-        <textarea rows="3" class="form-control"></textarea>
-      </div>
-    </div>
-  </div>
+
   <div class="d-flex justify-content-end">
     <button type="button" class="btn btn-primary" (click)="onNextClick()">
       Tiếp theo
@@ -285,28 +316,41 @@
       </tbody>
     </table>
   </div>
-  <div class="row">
-    <div class="col-md-6"></div>
-    <div class="col-md-3 text-right" style="line-height: 2.5;">
-      Khuyến mãi
+  <div [formGroup]="formOrder">
+    <div class="row">
+      <div class="col-md-6"></div>
+      <div class="col-md-3 text-right" style="line-height: 2.5;">
+        Khuyến mãi
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <input
+            [readonly]="isView"
+            class="form-control"
+            formControlName="cuo_discount"
+            placeholder="Nhập khuyến mãi"
+          />
+        </div>
+      </div>
     </div>
-    <div class="col-md-3">
-      <div class="form-group">
-        <input class="form-control" placeholder="Nhập khuyến mãi" />
+    <div class="row">
+      <div class="col-md-6"></div>
+      <div class="col-md-3 text-right" style="line-height: 2.5;">
+        Phí vận chuyển
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <input
+            [readonly]="isView"
+            class="form-control"
+            formControlName="cuo_ship_tax"
+            placeholder="Nhập phí vận chuyển"
+          />
+        </div>
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-md-6"></div>
-    <div class="col-md-3 text-right" style="line-height: 2.5;">
-      Phí vận chuyển
-    </div>
-    <div class="col-md-3">
-      <div class="form-group">
-        <input class="form-control" placeholder="Nhập phí vận chuyển" />
-      </div>
-    </div>
-  </div>
+
   <div class="row">
     <div class="col-md-9"></div>
     <div class="col-md-3 text-right" style="font-size: 1.2rem;">
