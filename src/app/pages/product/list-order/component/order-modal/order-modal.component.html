@@ -9,17 +9,17 @@
 <div class="modal-body p-3">
   <!-- #6658dd -->
   <ngb-tabset justify="justified" [activeId]="activeTabId">
-    <ngb-tab title="1. Thông tin khách hàng">
+    <ngb-tab title="1. Thông tin khách hàng" id="1">
       <ng-template ngbTabContent>
         <ng-template [ngTemplateOutlet]="Tab1"></ng-template>
       </ng-template>
     </ngb-tab>
-    <ngb-tab title="2. Thông tin đơn hàng">
+    <ngb-tab title="2. Thông tin đơn hàng" id="2">
       <ng-template ngbTabContent>
         <ng-template [ngTemplateOutlet]="Tab2"></ng-template>
       </ng-template>
     </ngb-tab>
-    <ngb-tab title="3. Hóa đơn">
+    <ngb-tab title="3. Hóa đơn" id="3">
       <ng-template ngbTabContent>
         <ng-template [ngTemplateOutlet]="Tab3"></ng-template>
       </ng-template>
@@ -38,7 +38,18 @@
     <div class="col-lg-8">
       <form class="form-inline row">
         <div class="form-group col-sm-auto">
-          <input type="search" class="form-control" placeholder="Tìm kiếm..." name="search" />
+          <label for="something">
+            <input
+              id="something"
+              list="searchCustomer"
+              placeholder="Tìm kiếm..."
+              class="form-control"
+              (change)="changeDatalistCustomer($event)"
+            />
+            <datalist id="searchCustomer">
+              <option *ngFor="let customer of customers" [value]="customer.cu_fullname"></option>
+            </datalist>
+          </label>
         </div>
         <div class="form-group col-sm-auto">
           <label for="status-select" class="mr-2">Sắp xếp</label>
@@ -281,7 +292,18 @@
     <div class="col-md-8">
       <form class="form-inline">
         <div class="form-group">
-          <input type="search" class="form-control" placeholder="Tìm kiếm sản phẩm" name="search" />
+          <label for="something2">
+            <input
+              id="something2"
+              list="searchProduct"
+              placeholder="Tìm kiếm..."
+              class="form-control"
+              (change)="changeDatalistProduct($event)"
+            />
+            <datalist id="searchProduct">
+              <option *ngFor="let product of products" [value]="product.pu_name"></option>
+            </datalist>
+          </label>
         </div>
       </form>
     </div>

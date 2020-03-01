@@ -7,6 +7,7 @@ import { takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../../../../core/services/api/order.service';
 import { CustomerService } from '../../../../../core/services/api/customer.service';
 import { AddressService } from '../../../../../core/services/api/address.service';
+import { ProductService } from '../../../../../core/services/api/product.service';
 
 @Component({
   selector: 'app-order-modal',
@@ -20,16 +21,34 @@ export class OrderModalComponent implements OnInit {
   @Input() isView: boolean;
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
 
-  activeTabId = 'ngb-tab-0';
+  activeTabId = '1';
   submitted = false;
   listProduct = [];
   listAddress = [];
+  customers: any;
+  products: any;
   sources: any;
   groups: any;
   provinces: any;
   districts: any;
   wards: any;
   selectedAddress = null;
+
+  filterCustomer = {
+    pageNumber: 0,
+    pageSize: 100,
+    source_id: '',
+    cu_type: '',
+    customer_group_id: '',
+    name: ''
+  };
+
+  filterProduct = {
+    pageNumber: 0,
+    pageSize: 100,
+    search_name: '',
+    category_id: ''
+  };
 
   formOrder: FormGroup;
   formCustomer: FormGroup;
@@ -39,7 +58,8 @@ export class OrderModalComponent implements OnInit {
     private modalService: NgbModal,
     private orderService: OrderService,
     private customerService: CustomerService,
-    private addressService: AddressService
+    private addressService: AddressService,
+    private productService: ProductService
   ) {
     this.initializeForm();
     this._fetchFilter();
@@ -92,13 +112,13 @@ export class OrderModalComponent implements OnInit {
   }
 
   onBackClick() {
-    if (this.activeTabId === 'ngb-tab-1') this.activeTabId = 'ngb-tab-0';
-    else this.activeTabId = 'ngb-tab-1';
+    const tabIndex = parseInt(this.activeTabId);
+    this.activeTabId = `${tabIndex - 1}`;
   }
 
   onNextClick() {
-    if (this.activeTabId === 'ngb-tab-0') this.activeTabId = 'ngb-tab-1';
-    else this.activeTabId = 'ngb-tab-2';
+    const tabIndex = parseInt(this.activeTabId);
+    this.activeTabId = `${tabIndex + 1}`;
   }
 
   onSubmitClick() {}
@@ -153,6 +173,21 @@ export class OrderModalComponent implements OnInit {
     });
   }
 
+  changeDatalistCustomer(e: any) {
+    const customerIndex = this.customers.findIndex(item => item.cu_fullname === e.target.value);
+    this._fetchOrderDetail(this.customers[customerIndex].cu_id);
+  }
+
+  changeDatalistProduct(e: any) {
+    const productIndex = this.products.findIndex(item => item.pu_name === e.target.value);
+    this.listProduct.push({
+      pu_name: this.products[productIndex].pu_name,
+      op_quantity: this.products[productIndex].pu_quantity,
+      pu_unit: 1000,
+      op_discount: 1
+    });
+  }
+
   private initializeForm() {
     this.formOrder = this.formBuilder.group({
       cuo_discount: ['', null],
@@ -177,15 +212,27 @@ export class OrderModalComponent implements OnInit {
 
   private _fetchFilter() {
     const sources$ = this.customerService.loadSourceFilter().pipe(takeUntil(this.destroyed$));
-
     sources$.subscribe((res: any) => {
       this.sources = res.Data;
     });
 
     const group$ = this.customerService.loadGroupFilter().pipe(takeUntil(this.destroyed$));
-
     group$.subscribe((res: any) => {
       this.groups = res.Data;
+    });
+
+    const customer$ = this.customerService
+      .loadCustomer(this.filterCustomer)
+      .pipe(takeUntil(this.destroyed$));
+    customer$.subscribe((res: any) => {
+      this.customers = res.Data.Results;
+    });
+
+    const product$ = this.productService
+      .loadProduct(this.filterProduct)
+      .pipe(takeUntil(this.destroyed$));
+    product$.subscribe((res: any) => {
+      this.products = res.Data.Results;
     });
   }
 
