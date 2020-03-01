@@ -8,7 +8,7 @@
 </div>
 <div class="modal-body p-3">
   <!-- #6658dd -->
-  <ngb-tabset justify="justified">
+  <ngb-tabset justify="justified" [activeId]="activeTabId">
     <ngb-tab title="1. Thông tin khách hàng">
       <ng-template ngbTabContent>
         <ng-template [ngTemplateOutlet]="Tab1"></ng-template>
@@ -119,7 +119,9 @@
         <div class="form-group">
           <label>Nhóm khách hàng</label>
           <select class="custom-select" formControlName="customer_group_id" id="status-select">
-            <option *ngFor="let group of groups" [value]="group.cg_id">{{ group.cg_name }}</option>
+            <option [disabled]="isView" *ngFor="let group of groups" [value]="group.cg_id">{{
+              group.cg_name
+            }}</option>
           </select>
         </div>
       </div>
@@ -127,7 +129,7 @@
         <div class="form-group">
           <label>Nguồn khách hàng</label>
           <select class="custom-select" formControlName="source_id" id="status-select">
-            <option *ngFor="let source of sources" [value]="source.src_id">{{
+            <option [disabled]="isView" *ngFor="let source of sources" [value]="source.src_id">{{
               source.src_name
             }}</option>
           </select>
@@ -160,7 +162,12 @@
       <div class="col-md-2">
         <div class="form-group">
           <label>Tỉnh/Thành phố</label>
-          <select class="custom-select" formControlName="cu_province" id="status-select">
+          <select
+            class="custom-select"
+            formControlName="cu_province"
+            id="status-select"
+            (change)="onChangeProvince($event)"
+          >
             <option *ngFor="let province of provinces" [value]="province.name">{{
               province.name
             }}</option>
@@ -170,7 +177,12 @@
       <div class="col-md-2">
         <div class="form-group">
           <label>Quận/Huyện</label>
-          <select class="custom-select" formControlName="cu_district" id="status-select">
+          <select
+            class="custom-select"
+            formControlName="cu_district"
+            id="status-select"
+            (change)="onChangeDistrict($event)"
+          >
             <option *ngFor="let district of districts" [value]="district.name">{{
               district.name
             }}</option>
@@ -186,8 +198,13 @@
         </div>
       </div>
       <div class="col-md-2">
-        <button type="button" class="btn btn-danger" style="margin-top: 1.8rem;">
-          <i class="mdi mdi-plus-circle mr-1"></i>Thêm
+        <button
+          type="button"
+          class="btn btn-danger"
+          style="margin-top: 1.8rem;"
+          (click)="onClickUpdateButton()"
+        >
+          <i class="mdi mdi-plus-circle mr-1"></i>{{ selectedAddress ? 'Cập nhật' : 'Thêm' }}
         </button>
       </div>
     </div>
@@ -217,10 +234,10 @@
               {{ address.sha_province }}
             </td>
             <td *ngIf="!isView">
-              <a class="action-icon table-button-link" (click)="openConfirmModal(address)">
+              <a class="action-icon table-button-link" (click)="onUpdateAddress(address)">
                 <i class="mdi mdi-square-edit-outline"></i
               ></a>
-              <a class="action-icon table-button-link" (click)="openConfirmModal(address)">
+              <a class="action-icon table-button-link" (click)="onRemoveAddress(address)">
                 <i class="mdi mdi-delete"></i
               ></a>
             </td>

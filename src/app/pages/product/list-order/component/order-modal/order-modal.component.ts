@@ -20,6 +20,7 @@ export class OrderModalComponent implements OnInit {
   @Input() isView: boolean;
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
 
+  activeTabId = 'ngb-tab-0';
   submitted = false;
   listProduct = [];
   listAddress = [];
@@ -28,6 +29,7 @@ export class OrderModalComponent implements OnInit {
   provinces: any;
   districts: any;
   wards: any;
+  selectedAddress = null;
 
   formOrder: FormGroup;
   formCustomer: FormGroup;
@@ -47,7 +49,6 @@ export class OrderModalComponent implements OnInit {
   ngOnInit() {
     if (this.order) {
       this._fetchOrderDetail(this.order.cuo_id);
-      console.log(this.isView);
     }
   }
 
@@ -90,8 +91,16 @@ export class OrderModalComponent implements OnInit {
     });
   }
 
-  onBackClick() {}
-  onNextClick() {}
+  onBackClick() {
+    if (this.activeTabId === 'ngb-tab-1') this.activeTabId = 'ngb-tab-0';
+    else this.activeTabId = 'ngb-tab-1';
+  }
+
+  onNextClick() {
+    if (this.activeTabId === 'ngb-tab-0') this.activeTabId = 'ngb-tab-1';
+    else this.activeTabId = 'ngb-tab-2';
+  }
+
   onSubmitClick() {}
   onPrintClick() {}
 
@@ -103,6 +112,45 @@ export class OrderModalComponent implements OnInit {
   onChangeDistrict(e) {
     const wardId = this.districts.find(item => item.name === e.target.value).id;
     this._loadWard(wardId);
+  }
+
+  onRemoveAddress(address) {
+    this.listAddress = this.listAddress.filter(item => item.sha_id !== address.sha_id);
+  }
+
+  onUpdateAddress(address) {
+    this.selectedAddress = address;
+    this.formCustomer.patchValue({
+      cu_address: address.sha_detail
+    });
+    this._loadProvince();
+  }
+
+  onClickUpdateButton() {
+    if (this.selectedAddress) {
+      const index = this.listAddress.findIndex(item => item.sha_id === this.selectedAddress.sha_id);
+      this.listAddress[index] = {
+        ...this.listAddress[index],
+        sha_province: this.formCustomer.controls['cu_province'].value,
+        sha_district: this.formCustomer.controls['cu_district'].value,
+        sha_ward: this.formCustomer.controls['cu_ward'].value,
+        sha_detail: this.formCustomer.controls['cu_address'].value
+      };
+    } else {
+      this.listAddress.push({
+        sha_id: this.listAddress.length,
+        sha_province: this.formCustomer.controls['cu_province'].value,
+        sha_district: this.formCustomer.controls['cu_district'].value,
+        sha_ward: this.formCustomer.controls['cu_ward'].value,
+        sha_detail: this.formCustomer.controls['cu_address'].value
+      });
+    }
+
+    this.selectedAddress = null;
+    this._loadProvince();
+    this.formCustomer.patchValue({
+      cu_address: ''
+    });
   }
 
   private initializeForm() {
@@ -147,13 +195,21 @@ export class OrderModalComponent implements OnInit {
       if (res && res.Data) {
         this.provinces = res.Data;
 
-        this.formCustomer.patchValue({ cu_province: res.Data[0].name });
-        this._loadDistrict(res.Data[0].id);
+        if (this.selectedAddress) {
+          this.formCustomer.patchValue({ cu_province: this.selectedAddress.sha_province });
+          const provinceId = this.provinces.find(
+            item => item.name === this.selectedAddress.sha_province
+          ).id;
+          this._loadDistrict(provinceId, true);
+        } else {
+          this.formCustomer.patchValue({ cu_province: res.Data[0].name });
+          this._loadDistrict(res.Data[0].id);
+        }
       }
     });
   }
 
-  private _loadDistrict(provinceId: any) {
+  private _loadDistrict(provinceId: any, isFirst = false) {
     const district$ = this.addressService
       .loadDistrict({ province_id: provinceId })
       .pipe(takeUntil(this.destroyed$));
@@ -161,13 +217,21 @@ export class OrderModalComponent implements OnInit {
       if (res && res.Data) {
         this.districts = res.Data;
 
-        this.formCustomer.patchValue({ cu_district: res.Data[0].name });
-        this._loadWard(res.Data[0].id);
+        if (this.selectedAddress && isFirst) {
+          this.formCustomer.patchValue({ cu_district: this.selectedAddress.sha_district });
+          const districtId = this.districts.find(
+            item => item.name === this.selectedAddress.sha_district
+          ).id;
+          this._loadWard(districtId, true);
+        } else {
+          this.formCustomer.patchValue({ cu_district: res.Data[0].name });
+          this._loadWard(res.Data[0].id);
+        }
       }
     });
   }
 
-  private _loadWard(districtId: any) {
+  private _loadWard(districtId: any, isFirst = false) {
     const ward$ = this.addressService
       .loadWard({ district_id: districtId })
       .pipe(takeUntil(this.destroyed$));
@@ -175,7 +239,11 @@ export class OrderModalComponent implements OnInit {
       if (res && res.Data) {
         this.wards = res.Data;
 
-        this.formCustomer.patchValue({ cu_ward: res.Data[0].name });
+        if (this.selectedAddress && isFirst) {
+          this.formCustomer.patchValue({ cu_ward: this.selectedAddress.sha_ward });
+        } else {
+          this.formCustomer.patchValue({ cu_ward: res.Data[0].name });
+        }
       }
     });
   }
@@ -189,7 +257,6 @@ export class OrderModalComponent implements OnInit {
   }
 
   private _fetchData(data: any) {
-    console.log(data);
     const { list_product, customer, cuo_discount, cuo_ship_tax, cuo_total_price } = data;
 
     // tab product
