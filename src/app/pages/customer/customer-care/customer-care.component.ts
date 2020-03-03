@@ -5,6 +5,7 @@ import { ConfirmModalComponent } from './component/confirm-modal/confirm-modal.c
 import { CustomerCareModalComponent } from './component/customer-care-modal/customer-care-modal.component';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { TransactionService } from '../../../core/services/api/transaction.service';
 
 @Component({
   selector: 'app-customer-care',
@@ -22,54 +23,13 @@ export class CustomerCareComponent implements OnInit {
   pageSize = 10;
   totalSize = 0;
 
-  customerCares = [
-    {
-      title: 'Lam viec voi chi Ha',
-      content: 'Gioi thieu san pham moi',
-      rate: 'Dat ket qua cao',
-      type: 'Goi dien truc tiep',
-      result: 'Tiep tuc su dung san pham',
-      priority: 'Cao nhat',
-      assignee: 'Tran Van Ba',
-      customer: 'Ba Van Dao',
-      status: 'Da hoan thanh'
-    },
-    {
-      title: 'Lam viec voi chi Ha',
-      content: 'Gioi thieu san pham moi',
-      rate: 'Dat ket qua cao',
-      type: 'Goi dien truc tiep',
-      result: 'Tiep tuc su dung san pham',
-      priority: 'Cao nhat',
-      assignee: 'Tran Van Ba',
-      customer: 'Ba Van Dao',
-      status: 'Da hoan thanh'
-    },
-    {
-      title: 'Lam viec voi chi Ha',
-      content: 'Gioi thieu san pham moi',
-      rate: 'Dat ket qua cao',
-      type: 'Goi dien truc tiep',
-      result: 'Tiep tuc su dung san pham',
-      priority: 'Cao nhat',
-      assignee: 'Tran Van Ba',
-      customer: 'Ba Van Dao',
-      status: 'Da hoan thanh'
-    },
-    {
-      title: 'Lam viec voi chi Ha',
-      content: 'Gioi thieu san pham moi',
-      rate: 'Dat ket qua cao',
-      type: 'Goi dien truc tiep',
-      result: 'Tiep tuc su dung san pham',
-      priority: 'Cao nhat',
-      assignee: 'Tran Van Ba',
-      customer: 'Ba Van Dao',
-      status: 'Da hoan thanh'
-    }
-  ];
+  transactions: any[];
 
-  constructor(private modalService: NgbModal, public formBuilder: FormBuilder) {}
+  constructor(
+    private modalService: NgbModal,
+    public formBuilder: FormBuilder,
+    private transactionService: TransactionService
+  ) {}
   ngOnInit() {
     this.breadCrumbItems = [
       { label: 'ERP', path: '/' },
@@ -79,27 +39,28 @@ export class CustomerCareComponent implements OnInit {
     this._fetchData();
   }
 
-  openCustomerCareModal(customerCare?: any) {
+  openCustomerCareModal(transaction?: any, isView = false) {
     const modalRef = this.modalService.open(CustomerCareModalComponent, {
       centered: true,
       size: 'xl'
     });
-    if (customerCare) {
-      modalRef.componentInstance.customerCare = customerCare;
+    if (transaction) {
+      modalRef.componentInstance.transaction = transaction;
+      modalRef.componentInstance.isView = isView;
     }
     modalRef.componentInstance.passEvent.subscribe(res => {
       if (res.event) {
-        if (customerCare) {
-          this._updateCustomerCare(res.form);
+        if (transaction) {
+          this._updateTransaction(res.form);
         } else {
-          this._createCustomerCare(res.form);
+          this._createTransaction(res.form);
         }
       }
       modalRef.close();
     });
   }
 
-  openConfirmModal(customerCare?: any) {
+  openConfirmModal(transaction?: any) {
     const modalRef = this.modalService.open(ConfirmModalComponent, {
       centered: true
     });
@@ -108,7 +69,7 @@ export class CustomerCareComponent implements OnInit {
       'Bạn có chắc chắn muốn xóa giao dịch khách hàng đang chọn không?';
     modalRef.componentInstance.passEvent.subscribe(res => {
       if (res) {
-        this._removeCustomerCare(customerCare);
+        this._removeTransaction(transaction);
       }
       modalRef.close();
     });
@@ -124,11 +85,60 @@ export class CustomerCareComponent implements OnInit {
     this._fetchData();
   }
 
-  private _fetchData() {}
+  private _fetchData() {
+    const transaction$ = this.transactionService
+      .loadTransaction({
+        pageNumber: this.page,
+        pageSize: this.pageSize,
+        search_name: this.textSearch
+      })
+      .pipe(takeUntil(this.destroyed$));
+    transaction$.subscribe((res: any) => {
+      if (res) {
+        this.totalSize = res.Data.TotalNumberOfRecords;
+        this.transactions = res.Data.Results;
+      }
+    });
+  }
 
-  private _createCustomerCare(data: any) {}
+  private _createTransaction(data: any) {
+    const createTransacstion$ = this.transactionService
+      .createTransaction(data)
+      .pipe(takeUntil(this.destroyed$));
+    createTransacstion$.subscribe((res: any) => {
+      if (res.Code === 200) {
+        this.page--;
+        this._fetchData();
+        this.modalService.dismissAll();
+      }
+    });
+  }
 
-  private _updateCustomerCare(updated: any) {}
+  private _updateTransaction(updated: any) {
+    const updateTransaction$ = this.transactionService
+      .updateTransaction(updated)
+      .pipe(takeUntil(this.destroyed$));
+    updateTransaction$.subscribe((res: any) => {
+      if (res.Code === 200) {
+        this.page--;
+        this._fetchData();
+        this.modalService.dismissAll();
+      }
+    });
+  }
 
-  private _removeCustomerCare(customerCare: any) {}
+  private _removeTransaction(transaction: any) {
+    const removeTransaction$ = this.transactionService
+      .removeTransaction({
+        transactionId: transaction.tra_id
+      })
+      .pipe(takeUntil(this.destroyed$));
+    removeTransaction$.subscribe((res: any) => {
+      if (res.Code === 200) {
+        this.page--;
+        this._fetchData();
+        this.modalService.dismissAll();
+      }
+    });
+  }
 }

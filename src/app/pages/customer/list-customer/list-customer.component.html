@@ -184,7 +184,9 @@
           </ngb-tab>
           <ngb-tab title="Lịch sử chăm sóc">
             <ng-template ngbTabContent>
-              <app-care-history-tab></app-care-history-tab>
+              <app-care-history-tab
+                [listTransaction]="selectedCustomer?.list_transaction"
+              ></app-care-history-tab>
             </ng-template>
           </ngb-tab>
           <ngb-tab title="Địa chỉ nhận hàng">

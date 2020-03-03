@@ -4,24 +4,27 @@
       <tr>
         <th>Thời gian</th>
         <th>Hình thức</th>
-        <th>Ghi chú</th>
+        <th>Nội dung</th>
         <th>Người chăm sóc</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let care of careHistory">
+      <tr *ngFor="let care of listTransaction">
         <td>
-          {{ care.care_time }}
+          {{ care.tra_datetime | date: 'dd/MM/yyyy' }}
         </td>
         <td>
-          {{ care.care_by }}
+          {{ care.tra_type_name }}
         </td>
         <td>
-          {{ care.note }}
+          {{ care.tra_content }}
         </td>
         <td>
-          {{ care.care_staff }}
+          {{ care.staff_name }}
         </td>
+      </tr>
+      <tr *ngIf="listTransaction.length === 0">
+        <td colspan="4">Không có dữ liệu giaod dịch</td>
       </tr>
     </tbody>
   </table>

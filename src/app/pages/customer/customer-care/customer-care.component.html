@@ -48,45 +48,61 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let care of customerCares; let i = index">
+              <tr *ngFor="let transaction of transactions; let i = index">
                 <td>
                   {{ i + 1 }}
                 </td>
                 <td>
-                  {{ care.title }}
+                  {{ transaction.tra_title }}
                 </td>
                 <td>
-                  {{ care.content }}
+                  {{ transaction.tra_content }}
                 </td>
                 <td>
-                  {{ care.rate }}
+                  {{ transaction.tra_rate }}
                 </td>
                 <td>
-                  {{ care.type }}
+                  {{ transaction.tra_type_name }}
                 </td>
                 <td>
-                  {{ care.result }}
+                  {{ transaction.tra_result }}
                 </td>
                 <td>
-                  {{ care.priority }}
+                  {{ transaction.tra_priority_name }}
                 </td>
                 <td>
-                  {{ care.assignee }}
+                  {{ transaction.staff_name }}
                 </td>
                 <td>
-                  {{ care.customer }}
+                  {{ transaction.customer_name }}
                 </td>
                 <td>
-                  {{ care.status }}
+                  <span
+                    class="badge"
+                    [ngClass]="
+                      transaction.tra_status === 1
+                        ? 'badge-danger'
+                        : transaction.tra_status === 2
+                        ? 'badge-warning'
+                        : 'badge-success'
+                    "
+                    >{{ transaction.tra_status_name }}
+                  </span>
                 </td>
                 <td>
-                  <a class="action-icon table-button-link" (click)="openCustomerCareModal(care)">
+                  <a
+                    class="action-icon table-button-link"
+                    (click)="openCustomerCareModal(transaction, true)"
+                  >
                     <i class="mdi mdi-eye"></i
                   ></a>
-                  <a class="action-icon table-button-link" (click)="openCustomerCareModal(care)">
+                  <a
+                    class="action-icon table-button-link"
+                    (click)="openCustomerCareModal(transaction)"
+                  >
                     <i class="mdi mdi-square-edit-outline"></i
                   ></a>
-                  <a class="action-icon table-button-link" (click)="openConfirmModal(care)">
+                  <a class="action-icon table-button-link" (click)="openConfirmModal(transaction)">
                     <i class="mdi mdi-delete"></i
                   ></a>
                 </td>
