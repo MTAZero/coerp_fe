@@ -6,6 +6,7 @@ import { ListPositionModalComponent } from '../list-position-modal/list-position
 import { ListDepartmentModalComponent } from '../list-department-modal/list-department-modal.component';
 import { PositionService } from '../../../../../core/services/api/position.service';
 import { DepartmentService } from '../../../../../core/services/api/department.service';
+import { StaffService } from '../../../../../core/services/api/staff.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import * as moment from 'moment';
@@ -24,12 +25,14 @@ export class StaffModalComponent implements OnInit {
 
   positions: any;
   departments: any;
+  roles: any;
 
   constructor(
     public formBuilder: FormBuilder,
     private modalService: NgbModal,
     private departmentService: DepartmentService,
-    private positionService: PositionService
+    private positionService: PositionService,
+    private staffService: StaffService
   ) {
     this.initializeForm();
     this._fetchData();
@@ -66,9 +69,7 @@ export class StaffModalComponent implements OnInit {
     if (this.form.valid) {
       const data = this.form.value;
       data.sta_birthday = this._convertNgbDateToDate(data.sta_birthday);
-      data.sta_identity_card_date = this._convertNgbDateToDate(
-        data.sta_identity_card_date
-      );
+      data.sta_identity_card_date = this._convertNgbDateToDate(data.sta_identity_card_date);
       this.passEvent.emit({ event: true, form: data });
     }
   }
@@ -104,15 +105,13 @@ export class StaffModalComponent implements OnInit {
       sta_username: ['', [Validators.required]],
       sta_status: ['', [Validators.required]],
       sta_password: ['', [Validators.required]],
+      group_role_id: ['', [Validators.required]],
       sta_sex: ['', null],
       department_id: ['', [Validators.required]],
       sta_birthday: [null, null],
       sta_mobile: ['', [Validators.required]],
       sta_identity_card: ['', null],
-      sta_email: [
-        '',
-        [Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$')]
-      ],
+      sta_email: ['', [Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$')]],
       sta_identity_card_date: [null, null], // date of issue of certification
       sta_address: ['', null]
     });
@@ -127,34 +126,36 @@ export class StaffModalComponent implements OnInit {
       sta_email: staff.sta_email,
       position_id: staff.position_id,
       sta_identity_card: staff.sta_identity_card,
-      sta_identity_card_date: this._convertDateToNgbDate(
-        staff.sta_identity_card_date
-      ),
+      sta_identity_card_date: this._convertDateToNgbDate(staff.sta_identity_card_date),
       sta_status: staff.sta_status,
       sta_password: staff.sta_password,
       department_id: staff.department_id,
       sta_sex: staff.sta_sex,
       sta_birthday: this._convertDateToNgbDate(staff.sta_birthday),
-      sta_address: staff.sta_address
+      sta_address: staff.sta_address,
+      group_role_id: staff.group_role_id
     });
   }
 
   private _fetchData() {
-    const positions$ = this.positionService
-      .loadAllPosition()
-      .pipe(takeUntil(this.destroyed$));
+    const positions$ = this.positionService.loadAllPosition().pipe(takeUntil(this.destroyed$));
     positions$.subscribe((res: any) => {
       if (res && res.Data) {
         this.positions = res.Data;
       }
     });
 
-    const department$ = this.departmentService
-      .loadAllDepartment()
-      .pipe(takeUntil(this.destroyed$));
+    const department$ = this.departmentService.loadAllDepartment().pipe(takeUntil(this.destroyed$));
     department$.subscribe((res: any) => {
       if (res && res.Data) {
         this.departments = res.Data;
+      }
+    });
+
+    const role$ = this.staffService.loadGroupRole().pipe(takeUntil(this.destroyed$));
+    role$.subscribe((res: any) => {
+      if (res && res.Data) {
+        this.roles = res.Data;
       }
     });
   }

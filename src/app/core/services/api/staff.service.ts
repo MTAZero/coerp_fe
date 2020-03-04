@@ -10,7 +10,8 @@ const router = {
   delete: `/api/staffs/delete`,
   create_location: `/api/undertakenLocations/create`,
   update_location: `/api/undertakenLocations/update`,
-  delete_location: `/api/undertakenLocations/delete`
+  delete_location: `/api/undertakenLocations/delete`,
+  role: '/api/group-roles/all'
 };
 
 @Injectable()
@@ -55,5 +56,9 @@ export class StaffService {
   removeUndertakenLocation(filter?: { undertakenlocationId: number }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.delete(router.delete_location, params);
+  }
+
+  loadGroupRole() {
+    return this.httpClient.get(router.role);
   }
 }
