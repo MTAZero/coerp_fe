@@ -8,6 +8,7 @@ import { OrderService } from '../../../../../core/services/api/order.service';
 import { CustomerService } from '../../../../../core/services/api/customer.service';
 import { AddressService } from '../../../../../core/services/api/address.service';
 import { ProductService } from '../../../../../core/services/api/product.service';
+import { isNumber } from 'util';
 
 @Component({
   selector: 'app-order-modal',
@@ -28,7 +29,7 @@ export class OrderModalComponent implements OnInit {
   listProduct = [];
   listAddress = [];
   customers: any;
-  products: any;
+  products = [];
   sources: any;
   groups: any;
   types: any;
@@ -311,7 +312,7 @@ export class OrderModalComponent implements OnInit {
       op_quantity: event.target.value,
       op_total:
         (event.target.value *
-          this.listProduct[puIndex].pu_buy_price *
+          this.listProduct[puIndex].pu_sale_price *
           (100 - this.listProduct[puIndex].op_discount)) /
         100
     };
@@ -326,7 +327,7 @@ export class OrderModalComponent implements OnInit {
       op_discount: event.target.value,
       op_total:
         (this.listProduct[puIndex].op_quantity *
-          this.listProduct[puIndex].pu_buy_price *
+          this.listProduct[puIndex].pu_sale_price *
           (100 - event.target.value)) /
         100
     };
@@ -341,9 +342,9 @@ export class OrderModalComponent implements OnInit {
     product$.subscribe((res: any) => {
       const product = res.Data.Results[0];
       this.listProduct.push({
-        op_id: this.listProduct.length,
+        op_id: this.listProduct.length + 2,
         op_quantity: 1,
-        pu_buy_price: product.pu_sale_price,
+        pu_sale_price: product.pu_sale_price,
         op_discount: 0,
         pu_name: product.pu_name,
         max_quantity: product.pu_quantity,
@@ -355,9 +356,13 @@ export class OrderModalComponent implements OnInit {
   }
 
   private sumListProduct() {
+    this.orderTotal = 0;
     this.listProduct.map(item => {
       this.orderTotal += item.op_total;
     });
+    this.orderTotal =
+      (this.orderTotal * (100 - this.formOrder.value['cuo_discount'])) / 100 +
+      parseInt(this.formOrder.value['cuo_ship_tax']);
   }
   //#endregion
 
@@ -378,8 +383,8 @@ export class OrderModalComponent implements OnInit {
 
   private initializeForm() {
     this.formOrder = this.formBuilder.group({
-      cuo_discount: ['', null],
-      cuo_ship_tax: ['', null]
+      cuo_discount: [0, null],
+      cuo_ship_tax: [0, null]
     });
 
     this.formCustomer = this.formBuilder.group({
@@ -406,10 +411,18 @@ export class OrderModalComponent implements OnInit {
     this._patchCustomer();
     // tab product
     this.listProduct = list_product;
+    this.listProduct = this.listProduct.map(item => {
+      return {
+        ...item,
+        op_total: (item.op_quantity * item.pu_sale_price * (100 - item.op_discount)) / 100
+      };
+    });
+
     this.formOrder.patchValue({
       cuo_discount: cuo_discount,
       cuo_ship_tax: cuo_ship_tax
     });
+    this.sumListProduct();
   }
 
   private _fetchFilter() {

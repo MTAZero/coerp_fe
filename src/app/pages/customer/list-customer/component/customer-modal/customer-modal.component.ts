@@ -132,25 +132,19 @@ export class CustomerModalComponent implements OnInit {
   }
 
   private _fetchFilter() {
-    const sources$ = this.customerService
-      .loadSourceFilter()
-      .pipe(takeUntil(this.destroyed$));
+    const sources$ = this.customerService.loadSourceFilter().pipe(takeUntil(this.destroyed$));
 
     sources$.subscribe((res: any) => {
       this.sources = res.Data;
     });
 
-    const type$ = this.customerService
-      .loadTypeFilter()
-      .pipe(takeUntil(this.destroyed$));
+    const type$ = this.customerService.loadTypeFilter().pipe(takeUntil(this.destroyed$));
 
     type$.subscribe((res: any) => {
-      this.types = res.Data.Results;
+      this.types = res.Data;
     });
 
-    const group$ = this.customerService
-      .loadGroupFilter()
-      .pipe(takeUntil(this.destroyed$));
+    const group$ = this.customerService.loadGroupFilter().pipe(takeUntil(this.destroyed$));
 
     group$.subscribe((res: any) => {
       this.groups = res.Data;

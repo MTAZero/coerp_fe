@@ -340,7 +340,7 @@
             />
           </td>
           <td>
-            {{ product.pu_buy_price }}
+            {{ product.pu_sale_price }}
           </td>
           <td>
             <input
@@ -370,13 +370,16 @@
     <div class="row">
       <div class="col-md-6"></div>
       <div class="col-md-3 text-right" style="line-height: 2.5;">
-        Khuyến mãi
+        Khuyến mãi (%)
       </div>
       <div class="col-md-3">
         <div class="form-group">
           <input
+            type="number"
+            max="100"
             [readonly]="isView"
             class="form-control"
+            (change)="sumListProduct()"
             formControlName="cuo_discount"
             placeholder="Nhập khuyến mãi"
           />
@@ -393,6 +396,7 @@
           <input
             [readonly]="isView"
             class="form-control"
+            (change)="sumListProduct()"
             formControlName="cuo_ship_tax"
             placeholder="Nhập phí vận chuyển"
           />
@@ -474,49 +478,30 @@
       <thead>
         <tr>
           <th>Tên sản phẩm</th>
-          <th>Ảnh</th>
           <th>Số lượng</th>
           <th>Đơn giá</th>
-          <th>Giảm giá</th>
+          <th>Giảm giá (%)</th>
           <th>Tổng</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr *ngFor="let product of listProduct">
           <td>
-            Sâm hươu Nga
-          </td>
-          <td></td>
-          <td>
-            2
+            {{ product.pu_name }}
           </td>
           <td>
-            1.200.000
+            {{ product.op_quantity }}
           </td>
           <td>
-            0
+            {{ product.pu_sale_price }}
           </td>
           <td>
-            2.400.000
+            {{ product.op_discount }}
           </td>
+          <td>{{ product.op_total }}</td>
         </tr>
-        <tr>
-          <td>
-            Sâm hươu Nga
-          </td>
-          <td></td>
-          <td>
-            2
-          </td>
-          <td>
-            1.200.000
-          </td>
-          <td>
-            0
-          </td>
-          <td>
-            2.400.000
-          </td>
+        <tr *ngIf="listProduct.length === 0">
+          <td colspan="6">Không có dữ liệu địa chỉ</td>
         </tr>
       </tbody>
     </table>
@@ -524,16 +509,12 @@
   <div class="row" style="font-size: 1.1rem;">
     <div class="col-md-8"></div>
     <div class="col-md-2 text-right">Khuyến mãi</div>
-    <div class="col-md-2" style="font-weight: bold;">
-      10%
-    </div>
+    <div class="col-md-2" style="font-weight: bold;">{{ formOrder.value['cuo_discount'] }}%</div>
   </div>
   <div class="row" style="font-size: 1.1rem;">
     <div class="col-md-8"></div>
     <div class="col-md-2 text-right">Phí vận chuyển</div>
-    <div class="col-md-2" style="font-weight: bold;">
-      130.000 VNĐ
-    </div>
+    <div class="col-md-2" style="font-weight: bold;">{{ formOrder.value['cuo_ship_tax'] }} VNĐ</div>
   </div>
   <div class="row mb-2">
     <div class="col-md-6">
@@ -543,7 +524,7 @@
     <div class="col-md-6 text-right" style="font-size: 1.4rem; font-weight: bold;">
       <span class="mr-2" style="font-size: 1.1rem; color: inherit; font-weight: normal;"
         >Tổng đơn hàng</span
-      >6.150.000 VNĐ
+      >{{ orderTotal }} VNĐ
     </div>
   </div>
   <div class="d-flex justify-content-end">
