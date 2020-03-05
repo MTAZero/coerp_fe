@@ -54,9 +54,9 @@ export class ListOrderComponent implements OnInit {
     modalRef.componentInstance.passEvent.subscribe(res => {
       if (res.event) {
         if (order) {
-          this._updateOrder(res.form);
+          this._updateOrder(res.data);
         } else {
-          this._createOrder(res.form);
+          this._createOrder(res.data);
         }
       }
       modalRef.close();

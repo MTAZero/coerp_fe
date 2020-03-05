@@ -8,7 +8,7 @@ import { OrderService } from '../../../../../core/services/api/order.service';
 import { CustomerService } from '../../../../../core/services/api/customer.service';
 import { AddressService } from '../../../../../core/services/api/address.service';
 import { ProductService } from '../../../../../core/services/api/product.service';
-import { isNumber } from 'util';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-order-modal',
@@ -23,6 +23,7 @@ export class OrderModalComponent implements OnInit {
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
   activeTabId = '1';
   submitted = false;
+  createdDate = new Date();
 
   // variable in Customer tab
   selectedCustomer: any;
@@ -46,7 +47,7 @@ export class OrderModalComponent implements OnInit {
 
   filterCustomer = {
     pageNumber: 0,
-    pageSize: 10,
+    pageSize: 100,
     source_id: '',
     cu_type: '',
     customer_group_id: '',
@@ -83,14 +84,45 @@ export class OrderModalComponent implements OnInit {
   }
 
   //#region Global
-  onClickSubmit() {
-    this.submitted = true;
-
-    this.passEvent.emit({ event: true });
+  onChangeTab(e) {
+    this.activeTabId = e.nextId;
   }
 
+  onBackClick() {
+    const tabIndex = parseInt(this.activeTabId);
+    this.activeTabId = `${tabIndex - 1}`;
+  }
+
+  onNextClick() {
+    const tabIndex = parseInt(this.activeTabId);
+    this.activeTabId = `${tabIndex + 1}`;
+  }
+
+  onSubmitClick() {
+    this.submitted = true;
+    const data = {
+      list_product: this.listProduct,
+      customer: {
+        list_address: this.listAddress,
+        ...this.selectedCustomer
+      },
+      cuo_total_price: this.orderTotal,
+      cuo_status: 1,
+      cuo_discount: this.formOrder.value['cuo_discount'],
+      cuo_address: this.selectedAddress,
+      cuo_payment_type: 1,
+      cuo_payment_status: 1,
+      cuo_ship_tax: this.formOrder.value['cuo_ship_tax'],
+      cuo_id: this.order ? this.order.cuo_id : null
+    };
+    console.log(data);
+    this.passEvent.emit({ event: true, data });
+  }
+
+  onPrintClick() {}
+
   onClickCancel() {
-    if (1) {
+    if (this.formCustomer.dirty || this.formOrder.dirty) {
       const modalRef = this.modalService.open(ConfirmModalComponent, {
         centered: true
       });
@@ -108,21 +140,81 @@ export class OrderModalComponent implements OnInit {
     }
   }
 
-  onChangeTab(e) {
-    this.activeTabId = e.nextId;
+  private initializeForm() {
+    this.formOrder = this.formBuilder.group({
+      cuo_discount: [0, null],
+      cuo_ship_tax: [0, null]
+    });
+
+    this.formCustomer = this.formBuilder.group({
+      cu_fullname: ['', [Validators.required]],
+      cu_type: ['', [Validators.required]],
+      cu_mobile: ['', [Validators.required]],
+      cu_email: ['', [Validators.required]],
+      cu_birthday: ['', null],
+      customer_group_id: ['', [Validators.required]],
+      source_id: ['', [Validators.required]],
+      staff_id: ['', null],
+      cu_address: ['', null],
+      cu_province: ['', null],
+      cu_district: ['', null],
+      cu_ward: ['', null],
+      cu_note: ['', null]
+    });
   }
 
-  onBackClick() {
-    const tabIndex = parseInt(this.activeTabId);
-    this.activeTabId = `${tabIndex - 1}`;
+  private _patchData(data: any) {
+    const { list_product, customer, cuo_discount, cuo_ship_tax, cuo_address } = data;
+
+    this.selectedAddress = cuo_address;
+    this.selectedCustomer = customer;
+    this._patchCustomer();
+    // tab product
+    this.listProduct = list_product;
+    this.listProduct = this.listProduct.map(item => {
+      return {
+        ...item,
+        op_total: (item.op_quantity * item.pu_sale_price * (100 - item.op_discount)) / 100
+      };
+    });
+
+    this.formOrder.patchValue({
+      cuo_discount: cuo_discount,
+      cuo_ship_tax: cuo_ship_tax
+    });
+    this.sumListProduct();
   }
 
-  onNextClick() {
-    const tabIndex = parseInt(this.activeTabId);
-    this.activeTabId = `${tabIndex + 1}`;
+  private _fetchFilter() {
+    const sources$ = this.customerService.loadSourceFilter().pipe(takeUntil(this.destroyed$));
+    sources$.subscribe((res: any) => {
+      this.sources = res.Data;
+    });
+
+    const group$ = this.customerService.loadGroupFilter().pipe(takeUntil(this.destroyed$));
+    group$.subscribe((res: any) => {
+      this.groups = res.Data;
+    });
+
+    const type$ = this.customerService.loadTypeFilter().pipe(takeUntil(this.destroyed$));
+    type$.subscribe((res: any) => {
+      this.types = res.Data;
+    });
+
+    const customer$ = this.customerService
+      .loadCustomer(this.filterCustomer)
+      .pipe(takeUntil(this.destroyed$));
+    customer$.subscribe((res: any) => {
+      this.customers = res.Data.Results;
+    });
+
+    const product$ = this.productService
+      .loadProduct(this.filterProduct)
+      .pipe(takeUntil(this.destroyed$));
+    product$.subscribe((res: any) => {
+      this.products = res.Data.Results;
+    });
   }
-  onSubmitClick() {}
-  onPrintClick() {}
   //#endregion
 
   //#region Customer Tab
@@ -161,6 +253,17 @@ export class OrderModalComponent implements OnInit {
       cu_address: address.sha_detail
     });
     this._loadProvince();
+  }
+
+  onClickAddress(address) {
+    if (this.isView) return;
+    this.selectedAddress =
+      (address.sha_detail ? `${address.sha_detail}, ` : '') +
+      address.sha_ward +
+      ', ' +
+      address.sha_district +
+      ', ' +
+      address.sha_province;
   }
 
   onClickUpdateButton() {
@@ -363,97 +466,6 @@ export class OrderModalComponent implements OnInit {
     this.orderTotal =
       (this.orderTotal * (100 - this.formOrder.value['cuo_discount'])) / 100 +
       parseInt(this.formOrder.value['cuo_ship_tax']);
-  }
-  //#endregion
-
-  //#region Common
-  openConfirmModal(product?: any) {
-    const modalRef = this.modalService.open(ConfirmModalComponent, {
-      centered: true
-    });
-    modalRef.componentInstance.title = 'Xác nhận xóa khách hàng';
-    modalRef.componentInstance.message = 'Bạn có chắc chắn muốn xóa sản phẩm đang chọn không?';
-    modalRef.componentInstance.passEvent.subscribe(res => {
-      if (res) {
-        //this._removeCustomer(customer);
-      }
-      modalRef.close();
-    });
-  }
-
-  private initializeForm() {
-    this.formOrder = this.formBuilder.group({
-      cuo_discount: [0, null],
-      cuo_ship_tax: [0, null]
-    });
-
-    this.formCustomer = this.formBuilder.group({
-      cu_fullname: ['', [Validators.required]],
-      cu_type: ['', [Validators.required]],
-      cu_mobile: ['', [Validators.required]],
-      cu_email: ['', [Validators.required]],
-      cu_birthday: ['', null],
-      customer_group_id: ['', [Validators.required]],
-      source_id: ['', [Validators.required]],
-      staff_id: ['', null],
-      cu_address: ['', null],
-      cu_province: ['', null],
-      cu_district: ['', null],
-      cu_ward: ['', null],
-      cu_note: ['', null]
-    });
-  }
-
-  private _patchData(data: any) {
-    const { list_product, customer, cuo_discount, cuo_ship_tax, cuo_total_price } = data;
-
-    this.selectedCustomer = customer;
-    this._patchCustomer();
-    // tab product
-    this.listProduct = list_product;
-    this.listProduct = this.listProduct.map(item => {
-      return {
-        ...item,
-        op_total: (item.op_quantity * item.pu_sale_price * (100 - item.op_discount)) / 100
-      };
-    });
-
-    this.formOrder.patchValue({
-      cuo_discount: cuo_discount,
-      cuo_ship_tax: cuo_ship_tax
-    });
-    this.sumListProduct();
-  }
-
-  private _fetchFilter() {
-    const sources$ = this.customerService.loadSourceFilter().pipe(takeUntil(this.destroyed$));
-    sources$.subscribe((res: any) => {
-      this.sources = res.Data;
-    });
-
-    const group$ = this.customerService.loadGroupFilter().pipe(takeUntil(this.destroyed$));
-    group$.subscribe((res: any) => {
-      this.groups = res.Data;
-    });
-
-    const type$ = this.customerService.loadTypeFilter().pipe(takeUntil(this.destroyed$));
-    type$.subscribe((res: any) => {
-      this.types = res.Data;
-    });
-
-    const customer$ = this.customerService
-      .loadCustomer(this.filterCustomer)
-      .pipe(takeUntil(this.destroyed$));
-    customer$.subscribe((res: any) => {
-      this.customers = res.Data.Results;
-    });
-
-    const product$ = this.productService
-      .loadProduct(this.filterProduct)
-      .pipe(takeUntil(this.destroyed$));
-    product$.subscribe((res: any) => {
-      this.products = res.Data.Results;
-    });
   }
   //#endregion
 }

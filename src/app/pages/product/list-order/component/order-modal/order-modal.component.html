@@ -232,8 +232,20 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let address of listAddress">
+          <tr *ngFor="let address of listAddress" (click)="onClickAddress(address)">
             <td>
+              <span
+                class="fe-check-circle icon mr-2"
+                *ngIf="
+                  (address.sha_detail ? address.sha_detail + ', ' : '') +
+                    address.sha_ward +
+                    ', ' +
+                    address.sha_district +
+                    ', ' +
+                    address.sha_province ===
+                  selectedAddress
+                "
+              ></span>
               {{ address.sha_detail }}
             </td>
             <td>
@@ -434,18 +446,18 @@
     [striped]="true"
     [animated]="true"
   ></ngb-progressbar>
-  <div class="row mt-2" style="font-size: 1.1rem;">
+  <!-- <div class="row mt-2" style="font-size: 1.1rem;">
     <div class="col-md-8"></div>
     <div class="col-md-2 text-right">Mã hóa đơn</div>
     <div class="col-md-2 text-right" style="font-weight: bold;">
       DH0814
     </div>
-  </div>
+  </div> -->
   <div class="row" style="font-size: 1.1rem;">
     <div class="col-md-8"></div>
     <div class="col-md-2 text-right">Ngày tạo</div>
     <div class="col-md-2 text-right" style="font-weight: bold;">
-      20/02/2020
+      {{ createdDate | date: 'dd/MM/yyyy' }}
     </div>
   </div>
   <div class="row" style="font-size: 1.1rem;">
@@ -459,16 +471,11 @@
     Địa chỉ giao hàng
   </div>
   <div class="text-right">
-    Ông Trần Nam Trung
+    {{ selectedCustomer.cu_fullname }}
   </div>
+  <div class="text-right">{{ selectedCustomer.cu_mobile }} / {{ selectedCustomer.cu_email }}</div>
   <div class="text-right">
-    0972.88.55.33/trungtran@boot.ai
-  </div>
-  <div class="text-right">
-    Tầng 13, Tòa nhà Detech Tower 2, 107 Nguyễn Phong Sắc
-  </div>
-  <div class="text-right">
-    Cầu Giấy, Hà Nội
+    {{ selectedAddress }}
   </div>
   <div class="text-right mt-2" style="font-size: 1.1rem;">
     Chi tiết đơn hàng
@@ -517,22 +524,34 @@
     <div class="col-md-2" style="font-weight: bold;">{{ formOrder.value['cuo_ship_tax'] }} VNĐ</div>
   </div>
   <div class="row mb-2">
-    <div class="col-md-6">
+    <div class="col-md-8">
       <div>Ghi chú</div>
-      <div>Đây là ghi chú</div>
+      <div>{{ formCustomer.value['cu_note'] }}</div>
     </div>
-    <div class="col-md-6 text-right" style="font-size: 1.4rem; font-weight: bold;">
+    <div class="col-md-2 text-right" style="font-size: 1.1rem; color: inherit; font-weight: normal">
+      Tổng đơn hàng
+    </div>
+    <div class="col-md-2" style="font-weight: bold; font-size: 1.4rem; color: inherit;">
+      {{ orderTotal | currency: 'VND' }}
+    </div>
+
+    <!-- <div class="col-md-6 text-right" style="font-size: 1.4rem; font-weight: bold;">
       <span class="mr-2" style="font-size: 1.1rem; color: inherit; font-weight: normal;"
         >Tổng đơn hàng</span
-      >{{ orderTotal }} VNĐ
-    </div>
+      >{{ orderTotal | currency: 'VND' }}
+    </div> -->
   </div>
   <div class="d-flex justify-content-end">
     <button (click)="onPrintClick()" class="btn btn-primary" style="min-width: 80px;">
       <i class="mdi mdi-printer"></i>
       In
     </button>
-    <button class="btn btn-success ml-2" (click)="onSubmitClick()" style="min-width: 80px;">
+    <button
+      [disabled]="isView"
+      class="btn btn-success ml-2"
+      (click)="onSubmitClick()"
+      style="min-width: 80px;"
+    >
       Gửi
     </button>
   </div>

@@ -21,13 +21,11 @@ export class OrderService {
   }
 
   createOrder(data: any) {
-    const formData = mapToFormData(data);
-    return this.httpClient.post(router.create, formData);
+    return this.httpClient.post(router.create, data);
   }
 
   updateOrder(data?: any) {
-    const formData = mapToFormData(data);
-    return this.httpClient.putFormData(router.update, formData);
+    return this.httpClient.putFormData(router.update, data);
   }
 
   removeOrder(filter?: { customer_orderId: number }) {
