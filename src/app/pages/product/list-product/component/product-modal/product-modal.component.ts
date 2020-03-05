@@ -123,7 +123,7 @@ export class ProductModalComponent implements OnInit {
       pu_saleoff: product.pu_saleoff,
       pu_short_description: product.pu_short_description,
       pu_description: product.pu_description,
-      pu_unit: product.pu_unit_id,
+      pu_unit: product.pu_unit,
       product_category_id: product.product_category_id,
       provider_id: product.provider_id,
       pu_tax: product.pu_tax,
@@ -133,25 +133,19 @@ export class ProductModalComponent implements OnInit {
   }
 
   private _fetchFilter() {
-    const category$ = this.productService
-      .loadCategory()
-      .pipe(takeUntil(this.destroyed$));
+    const category$ = this.productService.loadCategory().pipe(takeUntil(this.destroyed$));
 
     category$.subscribe((res: any) => {
       this.categories = res.Data;
     });
 
-    const supplier$ = this.productService
-      .loadSupplier()
-      .pipe(takeUntil(this.destroyed$));
+    const supplier$ = this.productService.loadSupplier().pipe(takeUntil(this.destroyed$));
 
     supplier$.subscribe((res: any) => {
       this.suppliers = res.Data;
     });
 
-    const unit$ = this.productService
-      .loadUnit()
-      .pipe(takeUntil(this.destroyed$));
+    const unit$ = this.productService.loadUnit().pipe(takeUntil(this.destroyed$));
 
     unit$.subscribe((res: any) => {
       this.units = res.Data;

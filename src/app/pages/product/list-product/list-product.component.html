@@ -1,8 +1,5 @@
 <div class="container-fluid">
-  <app-page-title
-    title="Sản phẩm"
-    [breadcrumbItems]="breadCrumbItems"
-  ></app-page-title>
+  <app-page-title title="Sản phẩm" [breadcrumbItems]="breadCrumbItems"></app-page-title>
 
   <div class="row">
     <div [ngClass]="selectedProduct ? 'col-xl-8' : 'col-xl'">
@@ -27,11 +24,9 @@
                   (change)="onChangeFilter()"
                 >
                   <option value="">Loại sản phẩm</option>
-                  <option
-                    *ngFor="let category of categories"
-                    [value]="category.id"
-                    >{{ category.name }}</option
-                  >
+                  <option *ngFor="let category of categories" [value]="category.id">{{
+                    category.name
+                  }}</option>
                 </select>
               </form>
             </div>
@@ -43,9 +38,7 @@
                 <button type="button" class="btn btn-info mb-2 mr-1">
                   Xuất
                 </button>
-                <a
-                  class="btn btn-success mb-2 button-link"
-                  (click)="openProductModal()"
+                <a class="btn btn-success mb-2 button-link" (click)="openProductModal()"
                   ><i class="mdi mdi-plus-circle mr-1"></i> Thêm mới</a
                 >
               </div>
@@ -108,25 +101,19 @@
                     {{ product.pu_tax }}
                   </td>
                   <td>
-                    {{ product.pu_expired_date }}
+                    {{ product.pu_expired_date | date: 'dd/MM/yyyy' }}
                   </td>
                   <td>
                     {{ product.pu_weight }}
                   </td>
                   <td>
-                    {{ product.pu_create_date }}
+                    {{ product.pu_create_date | date: 'dd/MM/yyyy' }}
                   </td>
                   <td>
-                    <a
-                      class="action-icon table-button-link"
-                      (click)="openProductModal(product)"
-                    >
+                    <a class="action-icon table-button-link" (click)="openProductModal(product)">
                       <i class="mdi mdi-square-edit-outline"></i
                     ></a>
-                    <a
-                      class="action-icon table-button-link"
-                      (click)="openConfirmModal(product)"
-                    >
+                    <a class="action-icon table-button-link" (click)="openConfirmModal(product)">
                       <i class="mdi mdi-delete"></i
                     ></a>
                   </td>
@@ -156,14 +143,14 @@
           <div class="media-body">
             <h4 class="mt-0 mb-1">{{ selectedProduct?.pu_name }}</h4>
             <p class="text-muted">
-              Ngày cập nhật: {{ selectedProduct?.pu_create_date }}
+              Ngày cập nhật: {{ selectedProduct?.pu_create_date | date: 'dd/MM/yyyy' }}
             </p>
           </div>
         </div>
         <ngb-tabset>
           <ngb-tab title="Mô tả">
             <ng-template ngbTabContent>
-              <app-description-tab></app-description-tab>
+              <app-description-tab [product]="selectedProduct"></app-description-tab>
             </ng-template>
           </ngb-tab>
           <ngb-tab title="Lịch sử mua">
