@@ -10,6 +10,7 @@ import { ServiceService } from './service.service';
 import { OrderService } from './order.service';
 import { AddressService } from './address.service';
 import { TransactionService } from './transaction.service';
+import { SmsService } from './sms.service';
 
 const providers = [
   ApiService,
@@ -21,7 +22,8 @@ const providers = [
   ServiceService,
   OrderService,
   AddressService,
-  TransactionService
+  TransactionService,
+  SmsService
 ];
 
 @NgModule({

@@ -3,7 +3,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent } from './component/confirm-modal/confirm-modal.component';
 import { SmsTemplateModalComponent } from './component/sms-template-modal/sms-template-modal.component';
 import { ViewSmsTemplateModalComponent } from './component/view-sms-template-modal/view-sms-template-modal.component';
-import { templateData } from './data';
+import { SmsService } from '../../../core/services/api/sms.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-sms-template',
@@ -11,19 +13,17 @@ import { templateData } from './data';
   styleUrls: ['./sms-template.component.scss']
 })
 export class SmsTemplateComponent implements OnInit {
-  // bread crumb items
+  private destroyed$ = new Subject();
   breadCrumbItems: Array<{}>;
 
-  submitted: boolean;
-  term: any;
-
+  textSearch = '';
   page = 0;
   pageSize = 10;
   totalSize = 0;
 
   templates: any;
 
-  constructor(private modalService: NgbModal) {}
+  constructor(private modalService: NgbModal, private smsService: SmsService) {}
   ngOnInit() {
     this.breadCrumbItems = [
       { label: 'ERP', path: '/' },
@@ -41,7 +41,7 @@ export class SmsTemplateComponent implements OnInit {
     if (template) {
       modalRef.componentInstance.template = template;
     }
-    modalRef.componentInstance.passEvent.subscribe(res => {
+    modalRef.componentInstance.passEvent.subscribe(() => {
       modalRef.close();
     });
   }
@@ -57,40 +57,91 @@ export class SmsTemplateComponent implements OnInit {
     modalRef.componentInstance.passEvent.subscribe(res => {
       if (res.event) {
         if (template) {
-          this.updateTemplate(template, res.form);
+          this._updateTemplate(res.form);
         } else {
-          this.createTemplate();
+          this._createTemplate(res.form);
         }
       }
       modalRef.close();
     });
   }
 
-  openConfirmModal() {
+  openConfirmModal(template?: any) {
     const modalRef = this.modalService.open(ConfirmModalComponent, {
       centered: true
     });
     modalRef.componentInstance.title = 'Xác nhận xóa mẫu SMS';
-    modalRef.componentInstance.message =
-      'Bạn có chắc chắn muốn xóa mẫu SMS đang chọn không?';
+    modalRef.componentInstance.message = 'Bạn có chắc chắn muốn xóa mẫu SMS đang chọn không?';
     modalRef.componentInstance.passEvent.subscribe(res => {
       if (res) {
-        this.removeTemplate();
+        this._removeTemplate(template);
       }
       modalRef.close();
     });
   }
 
-  onPageChange(page: number): void {}
-
-  private _fetchData() {
-    this.templates = templateData;
-    this.totalSize = templateData.length;
+  onPageChange(page: number): void {
+    this.page = page - 1;
+    this._fetchData();
   }
 
-  private createTemplate() {}
+  onChangeFilter() {
+    this.page--;
+    this._fetchData();
+  }
 
-  private updateTemplate(current: any, updated: any) {}
+  private _fetchData() {
+    const template$ = this.smsService
+      .loadSmsTemplate({
+        pageNumber: this.page,
+        pageSize: this.pageSize,
+        search_name: this.textSearch
+      })
+      .pipe(takeUntil(this.destroyed$));
+    template$.subscribe((res: any) => {
+      if (res) {
+        this.totalSize = res.Data.TotalNumberOfRecords;
+        this.templates = res.Data.Results;
+      }
+    });
+  }
 
-  private removeTemplate() {}
+  private _createTemplate(data: any) {
+    const createTemplate$ = this.smsService
+      .createSmsTemplate(data)
+      .pipe(takeUntil(this.destroyed$));
+    createTemplate$.subscribe((res: any) => {
+      if (res.Code === 200) {
+        this.page--;
+        this._fetchData();
+        this.modalService.dismissAll();
+      }
+    });
+  }
+
+  private _updateTemplate(updated: any) {
+    const updateTemplate$ = this.smsService
+      .updateSmsTemplate(updated)
+      .pipe(takeUntil(this.destroyed$));
+    updateTemplate$.subscribe((res: any) => {
+      if (res.Code === 200) {
+        this.page--;
+        this._fetchData();
+        this.modalService.dismissAll();
+      }
+    });
+  }
+
+  private _removeTemplate(template: any) {
+    const removeTemplate$ = this.smsService
+      .removeSmsTemplate({ sms_templateId: template.smt_id })
+      .pipe(takeUntil(this.destroyed$));
+    removeTemplate$.subscribe((res: any) => {
+      if (res.Code === 200) {
+        this.page--;
+        this._fetchData();
+        this.modalService.dismissAll();
+      }
+    });
+  }
 }

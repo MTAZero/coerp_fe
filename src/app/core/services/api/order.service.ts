@@ -8,7 +8,9 @@ const router = {
   create: `/api/customer-orders/create`,
   update: `/api/customer-orders/update`,
   delete: `/api/customer_orders/delete`,
-  payment_method: `/api/customer-orders/get-all-payment`
+  payment_method: `/api/customer-orders/get-all-payment`,
+  order_status: '/api/customer-orders/status',
+  update_status: '/api/customer-orders/update-status'
 };
 
 @Injectable()
@@ -40,5 +42,14 @@ export class OrderService {
   loadOrderById(filter?: { id: number }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.get_by_id, params);
+  }
+
+  loadOrderStatus() {
+    return this.httpClient.get(router.order_status);
+  }
+
+  updateOrderStatus(data?: any) {
+    const formData = mapToFormData(data);
+    return this.httpClient.put(router.update_status, formData);
   }
 }

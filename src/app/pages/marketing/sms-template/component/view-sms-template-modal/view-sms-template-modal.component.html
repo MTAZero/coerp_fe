@@ -6,24 +6,17 @@
 </div>
 <div class="modal-body p-3">
   <div>
-    Tên mẫu: CHƯƠNG TRÌNH TRI ÂN KHÁCH HÀNG THÁNG 12/2019
+    Tên mẫu: <b>{{ template.smt_title }}</b>
   </div>
   <div>
     Nội dung:
   </div>
   <pre>
-    Dear INAME,
-    Travaloke rất cảm ơn sự đồng hành của INAMEI trong suốt thời gian qua, đã luôn tin tưởng, ủng hộ dịch vụ của chúng tôi. Đáp lại lòng tin đó, chương
-    trình Tri ân khách hàng của Traveloka xin vui mừng thông báo, bạn là 1 trong những khách hàng may mắn được Voucher trị giá 1000000đ
-    Mã: 365DAY
-    Thời gian: 15/02-30/03/2020
-    Thông tin chi tiết: https://www.test.com/voucher
-    Chúc INAMEI có 1 chuyến đi thật vui vẻ!
-    Trân trọng!
+    {{ template.smt_content }}
   </pre>
   <div class="text-right mt-3">
     <button class="btn btn-danger ml-1" (click)="onClickCancel()">
-      Hủy
+      Đóng
     </button>
   </div>
 </div>

@@ -18,6 +18,7 @@ export class ListOrderComponent implements OnInit {
 
   submitted: boolean;
   paymentMethods: any;
+  orderStatus: any;
 
   textSearch = '';
   paymentMethodSearch = '';
@@ -87,6 +88,24 @@ export class ListOrderComponent implements OnInit {
     this._fetchData();
   }
 
+  onChangeStatus(event, order) {
+    console.log(event, order);
+
+    const changeStatus$ = this.orderService
+      .updateOrderStatus({
+        cuo_id: order.cuo_id,
+        cuo_status: event.target.value
+      })
+      .pipe(takeUntil(this.destroyed$));
+
+    changeStatus$.subscribe(res => {
+      if (res) {
+        this.page--;
+        this._fetchData();
+      }
+    });
+  }
+
   private _fetchData() {
     const order$ = this.orderService
       .loadOrder({
@@ -109,6 +128,12 @@ export class ListOrderComponent implements OnInit {
 
     paymentMethod$.subscribe((res: any) => {
       this.paymentMethods = res.Data;
+    });
+
+    const orderStatus$ = this.orderService.loadOrderStatus().pipe(takeUntil(this.destroyed$));
+
+    orderStatus$.subscribe((res: any) => {
+      this.orderStatus = res.Data;
     });
   }
 

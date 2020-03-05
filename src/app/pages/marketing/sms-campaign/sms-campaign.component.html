@@ -1,8 +1,5 @@
 <div class="container-fluid">
-  <app-page-title
-    title="Chiến dịch SMS"
-    [breadcrumbItems]="breadCrumbItems"
-  ></app-page-title>
+  <app-page-title title="Chiến dịch SMS" [breadcrumbItems]="breadCrumbItems"></app-page-title>
 
   <div class="row">
     <div class="col-xl">
@@ -12,21 +9,19 @@
             <div class="col-sm-4">
               <form class="form-inline">
                 <div class="form-group mb-2">
-                  <label class="sr-only">Search</label>
                   <input
                     class="form-control"
-                    name="search"
+                    name="textSearch"
                     placeholder="Tìm kiếm..."
-                    [(ngModel)]="term"
+                    [(ngModel)]="textSearch"
+                    (input)="onChangeFilter()"
                   />
                 </div>
               </form>
             </div>
             <div class="col-sm-8">
               <div class="text-sm-right">
-                <a
-                  class="btn btn-success mb-2 button-link"
-                  (click)="openSmsCampaignModal()"
+                <a class="btn btn-success mb-2 button-link" (click)="openSmsCampaignModal()"
                   ><i class="mdi mdi-plus-circle mr-1"></i> Thêm mới</a
                 >
               </div>
@@ -39,59 +34,46 @@
               <thead>
                 <tr>
                   <th>Nội dung</th>
-                  <th>Gửi đi</th>
                   <th>Thành công</th>
                   <th>Chi phí</th>
                   <th>Thời gian gửi</th>
                   <th>Trạng thái</th>
                   <th>Đối tượng</th>
-                  <th>Đầu số</th>
                   <th>Người gửi</th>
                   <th style="width: 85px;">Thao tác</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let sms of smsData">
+                <tr *ngFor="let strategy of strategies">
                   <td>
-                    {{ sms.content }}
+                    {{ strategy.smss_title }}
                   </td>
                   <td>
-                    {{ sms.sent }}
+                    {{ strategy.smss_send_count }}
                   </td>
                   <td>
-                    {{ sms.success }}
+                    {{ strategy.smss_cost }}
                   </td>
                   <td>
-                    {{ sms.cost }}
+                    {{ strategy.smss_send_date | date: 'dd/MM/yyyy' }}
                   </td>
                   <td>
-                    {{ sms.time }}
+                    {{ strategy.smss_status_name }}
                   </td>
                   <td>
-                    {{ sms.status }}
+                    {{ strategy.customer_group_name }}
                   </td>
                   <td>
-                    <span class="badge badge-danger">
-                      {{ sms.target }}
-                    </span>
-                  </td>
-                  <td>
-                    {{ sms.mobile_code }}
-                  </td>
-                  <td>
-                    {{ sms.sender }}
+                    {{ strategy.staff_name }}
                   </td>
                   <td>
                     <a
                       class="action-icon table-button-link"
-                      (click)="openSmsCampaignModal(template)"
+                      (click)="openSmsCampaignModal(strategy)"
                     >
                       <i class="mdi mdi-square-edit-outline"></i
                     ></a>
-                    <a
-                      class="action-icon table-button-link"
-                      (click)="openConfirmModal()"
-                    >
+                    <a class="action-icon table-button-link" (click)="openConfirmModal(strategy)">
                       <i class="mdi mdi-delete"></i
                     ></a>
                   </td>

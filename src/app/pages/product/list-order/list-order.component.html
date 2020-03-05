@@ -62,7 +62,7 @@
                   {{ order.cuo_code }}
                 </td>
                 <td>
-                  {{ order.cuo_date }}
+                  {{ order.cuo_date | date: 'dd/mm/yyyy' }}
                 </td>
                 <td>
                   {{ order.cuo_payment_status }}
@@ -74,13 +74,16 @@
                   {{ order.cuo_payment_type }}
                 </td>
                 <td>
-                  <span
-                    class="badge"
-                    [ngClass]="
-                      order.order_status === 'Đang vận chuyển' ? 'badge-warning' : 'badge-success'
-                    "
-                    >{{ order.cuo_status }}
-                  </span>
+                  <select
+                    class="custom-select"
+                    [value]="order.cuo_status"
+                    (change)="onChangeStatus($event, order)"
+                  >
+                    <option value="null">Trạng thái đơn hàng</option>
+                    <option *ngFor="let status of orderStatus" [value]="status.id">{{
+                      status.name
+                    }}</option>
+                  </select>
                 </td>
                 <td>
                   <a class="action-icon table-button-link" (click)="openOrderModal(order, true)">

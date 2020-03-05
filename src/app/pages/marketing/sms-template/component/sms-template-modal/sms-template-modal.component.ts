@@ -1,7 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { SmsService } from '../../../../../core/services/api/sms.service';
 
 @Component({
   selector: 'app-sms-template-modal',
@@ -9,42 +12,29 @@ import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component'
   styleUrls: ['./sms-template-modal.component.scss']
 })
 export class SmsTemplateModalComponent implements OnInit {
+  private destroyed$ = new Subject();
   @Input() template: any;
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
   form: FormGroup;
   submitted = false;
-  contentValue = '';
-  listField = [
-    {
-      name: 'Tên khách hàng',
-      value: 'ten_khach_hang'
-    },
-    {
-      name: 'Ghi chú khách hàng',
-      value: 'ghi_chu_khach_hang'
-    },
-    {
-      name: 'Người liên hệ',
-      value: 'nguoi_lien_he'
-    },
-    {
-      name: 'Chức vụ liên hệ',
-      value: 'chuc_vu_lien_he'
-    }
-  ];
-  constructor(public formBuilder: FormBuilder, private modalService: NgbModal) {
+  fields: any;
+  constructor(
+    public formBuilder: FormBuilder,
+    private modalService: NgbModal,
+    private smsService: SmsService
+  ) {
     this.initializeForm();
+    this._fetchData();
   }
 
   ngOnInit() {
     if (this.template) {
-      this.patchData();
+      this.patchData(this.template);
     }
   }
 
   onClickSubmit() {
     this.submitted = true;
-
     if (this.form.valid) {
       this.passEvent.emit({ event: true, form: this.form.value });
     }
@@ -66,14 +56,43 @@ export class SmsTemplateModalComponent implements OnInit {
   }
 
   onClickField(field: any) {
-    this.contentValue += `{{${field.value}}}`;
+    this.form.patchValue({
+      smt_content: this.form.value['smt_content'] + `{{${field.fie_name}}}`
+    });
   }
 
   get formUI() {
     return this.form.controls;
   }
 
-  private initializeForm() {}
+  private initializeForm() {
+    this.form = this.formBuilder.group({
+      smt_id: ['', null],
+      smt_title: ['', [Validators.required]],
+      smt_content: ['', [Validators.required]],
+      staff_id: 1,
+      smt_created_date: new Date().toDateString()
+    });
+  }
 
-  private patchData() {}
+  private patchData(template: any) {
+    this.form.patchValue({
+      smt_id: template.smt_id,
+      smt_title: template.smt_title,
+      smt_content: template.smt_content,
+      staff_id: template.staff_id,
+      smt_created_date: template.smt_created_date
+    });
+  }
+
+  private _fetchData() {
+    const field$ = this.smsService
+      .loadField({ pageNumber: 0, pageSize: 100 })
+      .pipe(takeUntil(this.destroyed$));
+    field$.subscribe((res: any) => {
+      if (res && res.Data) {
+        this.fields = res.Data.Results;
+      }
+    });
+  }
 }

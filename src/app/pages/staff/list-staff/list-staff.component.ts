@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent } from './component/confirm-modal/confirm-modal.component';
 import { StaffModalComponent } from './component/staff-modal/staff-modal.component';
@@ -26,11 +25,7 @@ export class ListStaffComponent implements OnInit {
   selectedStaff = null;
   staffs: any;
 
-  constructor(
-    private modalService: NgbModal,
-    private staffService: StaffService,
-    public formBuilder: FormBuilder
-  ) {}
+  constructor(private modalService: NgbModal, private staffService: StaffService) {}
 
   ngOnInit() {
     this.breadCrumbItems = [

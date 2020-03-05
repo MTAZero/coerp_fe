@@ -1,8 +1,5 @@
 <div class="container-fluid">
-  <app-page-title
-    title="Mẫu SMS"
-    [breadcrumbItems]="breadCrumbItems"
-  ></app-page-title>
+  <app-page-title title="Mẫu SMS" [breadcrumbItems]="breadCrumbItems"></app-page-title>
 
   <div class="row">
     <div class="col-xl">
@@ -12,21 +9,19 @@
             <div class="col-sm-4">
               <form class="form-inline">
                 <div class="form-group mb-2">
-                  <label class="sr-only">Search</label>
                   <input
                     class="form-control"
-                    name="search"
-                    placeholder="Search..."
-                    [(ngModel)]="term"
+                    name="textSearch"
+                    placeholder="Tìm kiếm..."
+                    [(ngModel)]="textSearch"
+                    (input)="onChangeFilter()"
                   />
                 </div>
               </form>
             </div>
             <div class="col-sm-8">
               <div class="text-sm-right">
-                <a
-                  class="btn btn-success mb-2 button-link"
-                  (click)="openTemplateModal()"
+                <a class="btn btn-success mb-2 button-link" (click)="openTemplateModal()"
                   ><i class="mdi mdi-plus-circle mr-1"></i> Thêm mới</a
                 >
               </div>
@@ -41,27 +36,19 @@
                   <th>Tên mẫu</th>
                   <th>Ngày tạo</th>
                   <th>Người tạo</th>
-                  <th>Ngày sửa</th>
-                  <th>Người sửa</th>
                   <th style="width: 105px;">Thao tác</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let template of templates">
                   <td>
-                    {{ template.template_name }}
+                    {{ template.smt_title }}
                   </td>
                   <td>
-                    {{ template.created_date }}
+                    {{ template.smt_created_date | date: 'dd/MM/yyyy' }}
                   </td>
                   <td>
-                    {{ template.created_by }}
-                  </td>
-                  <td>
-                    {{ template.updated_date }}
-                  </td>
-                  <td>
-                    {{ template.updated_by }}
+                    {{ template.staff_fullname }}
                   </td>
                   <td>
                     <a
@@ -70,16 +57,10 @@
                     >
                       <i class="mdi mdi-eye"></i
                     ></a>
-                    <a
-                      class="action-icon table-button-link"
-                      (click)="openTemplateModal(template)"
-                    >
+                    <a class="action-icon table-button-link" (click)="openTemplateModal(template)">
                       <i class="mdi mdi-square-edit-outline"></i
                     ></a>
-                    <a
-                      class="action-icon table-button-link"
-                      (click)="openConfirmModal()"
-                    >
+                    <a class="action-icon table-button-link" (click)="openConfirmModal(template)">
                       <i class="mdi mdi-delete"></i
                     ></a>
                   </td>

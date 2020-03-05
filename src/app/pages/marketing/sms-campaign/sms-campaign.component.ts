@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent } from './component/confirm-modal/confirm-modal.component';
 import { SmsCampaignModalComponent } from './component/sms-campaign-modal/sms-campaign-modal.component';
-import { smsData } from './data';
+import { SmsService } from '../../../core/services/api/sms.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-sms-campaign',
@@ -10,19 +12,17 @@ import { smsData } from './data';
   styleUrls: ['./sms-campaign.component.scss']
 })
 export class SmsCampaignComponent implements OnInit {
-  // bread crumb items
+  private destroyed$ = new Subject();
   breadCrumbItems: Array<{}>;
 
-  submitted: boolean;
-  term: any;
-
+  textSearch = '';
   page = 0;
   pageSize = 10;
   totalSize = 0;
 
-  smsData: any;
+  strategies: any;
 
-  constructor(private modalService: NgbModal) {}
+  constructor(private modalService: NgbModal, private smsService: SmsService) {}
   ngOnInit() {
     this.breadCrumbItems = [
       { label: 'ERP', path: '/' },
@@ -32,20 +32,20 @@ export class SmsCampaignComponent implements OnInit {
     this._fetchData();
   }
 
-  openSmsCampaignModal(sms?: any) {
+  openSmsCampaignModal(strategy?: any) {
     const modalRef = this.modalService.open(SmsCampaignModalComponent, {
       centered: true,
       size: 'lg'
     });
-    if (sms) {
-      modalRef.componentInstance.sms = sms;
+    if (strategy) {
+      modalRef.componentInstance.strategy = strategy;
     }
     modalRef.componentInstance.passEvent.subscribe(res => {
       modalRef.close();
     });
   }
 
-  openConfirmModal() {
+  openConfirmModal(strategy) {
     const modalRef = this.modalService.open(ConfirmModalComponent, {
       centered: true
     });
@@ -54,22 +54,61 @@ export class SmsCampaignComponent implements OnInit {
       'Bạn có chắc chắn muốn xóa chiến dịch SMS đang chọn không?';
     modalRef.componentInstance.passEvent.subscribe(res => {
       if (res) {
-        this.removeTemplate();
+        this._removeStrategy(strategy);
       }
       modalRef.close();
     });
   }
 
-  onPageChange(page: number): void {}
-
-  private _fetchData() {
-    this.smsData = smsData;
-    this.totalSize = smsData.length;
+  onPageChange(page: number): void {
+    this.page = page - 1;
+    this._fetchData();
   }
 
-  private createTemplate() {}
+  onChangeFilter() {
+    this.page--;
+    this._fetchData();
+  }
 
-  private updateTemplate(current: any, updated: any) {}
+  private _fetchData() {
+    const strategy$ = this.smsService
+      .loadSmsStrategy({
+        pageNumber: this.page,
+        pageSize: this.pageSize,
+        search_name: this.textSearch
+      })
+      .pipe(takeUntil(this.destroyed$));
+    strategy$.subscribe((res: any) => {
+      if (res) {
+        this.totalSize = res.Data.TotalNumberOfRecords;
+        this.strategies = res.Data.Results;
+      }
+    });
+  }
 
-  private removeTemplate() {}
+  private _createStrategy(data: any) {
+    const createStrategy$ = this.smsService
+      .createSmsStrategy(data)
+      .pipe(takeUntil(this.destroyed$));
+    createStrategy$.subscribe((res: any) => {
+      if (res.Code === 200) {
+        this.page--;
+        this._fetchData();
+        this.modalService.dismissAll();
+      }
+    });
+  }
+
+  private _removeStrategy(strategy: any) {
+    const removeStrategy$ = this.smsService
+      .removeSmsStrategy({ sms_strategyId: strategy.smss_id })
+      .pipe(takeUntil(this.destroyed$));
+    removeStrategy$.subscribe((res: any) => {
+      if (res.Code === 200) {
+        this.page--;
+        this._fetchData();
+        this.modalService.dismissAll();
+      }
+    });
+  }
 }
