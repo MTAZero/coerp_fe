@@ -127,7 +127,7 @@
                     {{ customer.cu_note }}
                   </td>
                   <td>
-                    {{ customer.cu_create_date }}
+                    {{ customer.cu_create_date | date: 'dd/MM/yyyy' }}
                   </td>
                   <td>
                     <a class="action-icon table-button-link" (click)="openCustomerModal(customer)">

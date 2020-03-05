@@ -122,7 +122,7 @@ export class CustomerModalComponent implements OnInit {
       cu_mobile: customer.cu_mobile,
       cu_email: customer.cu_email,
       cu_fullname: customer.cu_fullname,
-      cu_type: customer.cu_type_id,
+      cu_type: customer.cu_type,
       cu_address: customer.cu_address,
       cu_geocoding: customer.cu_geocoding,
       customer_group_id: customer.customer_group_id,
