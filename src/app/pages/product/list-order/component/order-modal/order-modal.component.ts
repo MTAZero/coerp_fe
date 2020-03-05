@@ -448,6 +448,7 @@ export class OrderModalComponent implements OnInit {
         op_id: this.listProduct.length + 2,
         op_quantity: 1,
         pu_sale_price: product.pu_sale_price,
+        product_id: product.pu_id,
         op_discount: 0,
         pu_name: product.pu_name,
         max_quantity: product.pu_quantity,

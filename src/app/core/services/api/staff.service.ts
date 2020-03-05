@@ -11,7 +11,8 @@ const router = {
   create_location: `/api/undertakenLocations/create`,
   update_location: `/api/undertakenLocations/update`,
   delete_location: `/api/undertakenLocations/delete`,
-  role: '/api/group-roles/all'
+  role: '/api/group-roles/all',
+  import: '/api/satffs/import'
 };
 
 @Injectable()
@@ -60,5 +61,10 @@ export class StaffService {
 
   loadGroupRole() {
     return this.httpClient.get(router.role);
+  }
+
+  importStaff(file: any) {
+    const formData = mapToFormData({ file });
+    return this.httpClient.post(router.import, file);
   }
 }

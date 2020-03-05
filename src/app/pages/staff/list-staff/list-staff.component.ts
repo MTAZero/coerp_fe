@@ -109,6 +109,19 @@ export class ListStaffComponent implements OnInit {
     }
   }
 
+  setFile(event) {
+    let files = event.srcElement.files;
+    console.log(files);
+    if (!files) {
+      return;
+    }
+
+    const import$ = this.staffService.importStaff(files[0]).pipe(takeUntil(this.destroyed$));
+    import$.subscribe(res => {
+      console.log(res);
+    });
+  }
+
   private _fetchData(selected?: any) {
     const staff$ = this.staffService
       .searchStaff({

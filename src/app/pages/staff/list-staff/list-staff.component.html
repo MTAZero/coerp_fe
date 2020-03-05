@@ -32,9 +32,13 @@
             </div>
             <div class="col-sm-5">
               <div class="text-sm-right">
-                <button type="button" class="btn btn-info mb-2 mr-1">
-                  Nhập
-                </button>
+                <label class="btn btn-info mb-2 mr-1">
+                  <input type="file" (change)="setFile($event)" style="display:none" />
+                  <a mat-raised-button color="primary">
+                    <span class="mdi mdi-cloud-upload"></span>
+                    Nhập
+                  </a>
+                </label>
                 <button type="button" class="btn btn-info mb-2 mr-1">
                   Xuất
                 </button>
