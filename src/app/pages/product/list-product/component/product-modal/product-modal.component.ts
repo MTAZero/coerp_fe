@@ -1,13 +1,13 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { NgbModal, NgbDate } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 import { ListUnitModalComponent } from '../list-unit-modal/list-unit-modal.component';
 import { ListProductTypeModalComponent } from '../list-product-type-modal/list-product-type-modal.component';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import * as moment from 'moment';
 import { ProductService } from 'src/app/core/services/api/product.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-product-modal',
@@ -45,7 +45,7 @@ export class ProductModalComponent implements OnInit {
       centered: true,
       size: 'lg'
     });
-    modalRef.componentInstance.passEvent.subscribe(res => {
+    modalRef.componentInstance.passEvent.subscribe(() => {
       modalRef.close();
     });
   }
@@ -55,7 +55,7 @@ export class ProductModalComponent implements OnInit {
       centered: true,
       size: 'lg'
     });
-    modalRef.componentInstance.passEvent.subscribe(res => {
+    modalRef.componentInstance.passEvent.subscribe(() => {
       modalRef.close();
     });
   }
@@ -72,17 +72,18 @@ export class ProductModalComponent implements OnInit {
 
   onClickCancel() {
     if (this.form.dirty) {
-      const modalRef = this.modalService.open(ConfirmModalComponent, {
-        centered: true
-      });
-      modalRef.componentInstance.title = 'Thông báo';
-      modalRef.componentInstance.message =
-        'Dữ liệu đã bị thay đổi, bạn có chắc chắn muốn hủy thao tác không?';
-      modalRef.componentInstance.passEvent.subscribe(res => {
-        if (res) {
+      Swal.fire({
+        title: 'Dữ liệu đã bị thay đổi, bạn có chắc chắn muốn hủy thao tác không?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Có',
+        cancelButtonText: 'Không',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33'
+      }).then(result => {
+        if (result.value) {
           this.passEvent.emit({ event: false });
         }
-        modalRef.close();
       });
     } else {
       this.passEvent.emit({ event: false });

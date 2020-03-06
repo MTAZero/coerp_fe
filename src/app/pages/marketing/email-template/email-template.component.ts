@@ -3,8 +3,8 @@ import { FormBuilder } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Template } from './list-template.model';
 import { templateData } from './data';
-import { ConfirmModalComponent } from './component/confirm-modal/confirm-modal.component';
 import { EmailTemplateModalComponent } from './component/email-template-modal/email-template-modal.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-email-template',
@@ -32,10 +32,7 @@ export class EmailTemplateComponent implements OnInit {
   viewChanged = false;
   selectedTemplate: Template;
 
-  constructor(
-    private modalService: NgbModal,
-    public formBuilder: FormBuilder
-  ) {}
+  constructor(private modalService: NgbModal, public formBuilder: FormBuilder) {}
   ngOnInit() {
     this.breadCrumbItems = [
       { label: 'ERP', path: '/' },
@@ -53,30 +50,31 @@ export class EmailTemplateComponent implements OnInit {
     if (template) {
       modalRef.componentInstance.template = template;
     }
-    modalRef.componentInstance.passEvent.subscribe(res => {
+    modalRef.componentInstance.passEvent.subscribe(() => {
       modalRef.close();
     });
   }
 
   openConfirmModal() {
-    const modalRef = this.modalService.open(ConfirmModalComponent, {
-      centered: true
-    });
-    modalRef.componentInstance.title = 'Xác nhận xóa mẫu email';
-    modalRef.componentInstance.message =
-      'Bạn có chắc chắn muốn xóa mẫu email đang chọn không?';
-    modalRef.componentInstance.passEvent.subscribe(res => {
-      modalRef.close();
+    Swal.fire({
+      title: 'Chắc chắn muốn xóa mẫu Email đang chọn?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Xóa',
+      cancelButtonText: 'Hủy',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33'
+    }).then(result => {
+      if (result.value) {
+        this.removeTemplate();
+      }
     });
   }
 
   onPageChange(page: any): void {
     this.startIndex = (page - 1) * this.pageSize;
     this.endIndex = (page - 1) * this.pageSize + this.pageSize;
-    this.paginatedTemplateData = this.templates.slice(
-      this.startIndex,
-      this.endIndex
-    );
+    this.paginatedTemplateData = this.templates.slice(this.startIndex, this.endIndex);
   }
 
   onChangeView(template: any, isBack: any) {
@@ -103,23 +101,9 @@ export class EmailTemplateComponent implements OnInit {
     this.startIndex = 0;
     this.endIndex = this.pageSize;
 
-    this.paginatedTemplateData = this.templates.slice(
-      this.startIndex,
-      this.endIndex
-    );
+    this.paginatedTemplateData = this.templates.slice(this.startIndex, this.endIndex);
     this.totalSize = this.templates.length;
   }
-
-  private createTemplate(data: any) {
-    this.submitted = true;
-    this.totalSize = this.templates.length + 1;
-    this.paginatedTemplateData = this.templates.slice(
-      this.startIndex,
-      this.endIndex
-    );
-  }
-
-  private updateTemplate(template: any, data: any) {}
 
   private removeTemplate() {}
 }

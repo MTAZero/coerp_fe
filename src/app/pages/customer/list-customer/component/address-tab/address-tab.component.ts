@@ -5,6 +5,7 @@ import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component'
 import { CustomerService } from '../../../../../core/services/api/customer.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-address-tab',
@@ -41,16 +42,18 @@ export class AddressTabComponent implements OnInit {
   }
 
   openConfirmModal(address?: any) {
-    const modalRef = this.modalService.open(ConfirmModalComponent, {
-      centered: true
-    });
-    modalRef.componentInstance.title = 'Xác nhận xóa địa chỉ';
-    modalRef.componentInstance.message = 'Bạn có chắc chắn muốn xóa địa chỉ đang chọn không?';
-    modalRef.componentInstance.passEvent.subscribe(res => {
-      if (res) {
+    Swal.fire({
+      title: 'Chắc chắn muốn xóa địa chỉ đang chọn?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Xóa',
+      cancelButtonText: 'Hủy',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33'
+    }).then(result => {
+      if (result.value) {
         this._removeAddress(address);
       }
-      modalRef.close();
     });
   }
 
@@ -60,6 +63,13 @@ export class AddressTabComponent implements OnInit {
       .pipe(takeUntil(this.destroyed$));
     createAddress$.subscribe((res: any) => {
       if (res.Code === 200) {
+        Swal.fire({
+          position: 'top-end',
+          type: 'success',
+          title: 'Thêm địa chỉ thành công',
+          showConfirmButton: false,
+          timer: 2000
+        });
         this.formSubmit.emit({ reload: true });
         this.modalService.dismissAll();
       }
@@ -72,6 +82,13 @@ export class AddressTabComponent implements OnInit {
       .pipe(takeUntil(this.destroyed$));
     updateAddress$.subscribe((res: any) => {
       if (res.Code === 200) {
+        Swal.fire({
+          position: 'top-end',
+          type: 'success',
+          title: 'Cập nhật địa chỉ thành công',
+          showConfirmButton: false,
+          timer: 2000
+        });
         this.formSubmit.emit({ reload: true });
         this.modalService.dismissAll();
       }
@@ -84,6 +101,13 @@ export class AddressTabComponent implements OnInit {
       .pipe(takeUntil(this.destroyed$));
     removeAddress$.subscribe((res: any) => {
       if (res.Code === 200) {
+        Swal.fire({
+          position: 'top-end',
+          type: 'success',
+          title: 'Xóa địa chỉ thành công',
+          showConfirmButton: false,
+          timer: 2000
+        });
         this.formSubmit.emit({ reload: true });
         this.modalService.dismissAll();
       }

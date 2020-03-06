@@ -7,6 +7,7 @@ import { isNullOrUndefined } from 'util';
 import { ProductService } from '../../../core/services/api/product.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-list-product',
@@ -78,17 +79,19 @@ export class ListProductComponent implements OnInit {
   }
 
   openConfirmModal(product?: any) {
-    const modalRef = this.modalService.open(ConfirmModalComponent, {
-      centered: true
-    });
     this.onClickProduct(product);
-    modalRef.componentInstance.title = 'Xác nhận xóa sản phẩm';
-    modalRef.componentInstance.message = 'Bạn có chắc chắn muốn xóa sản phẩm đang chọn không?';
-    modalRef.componentInstance.passEvent.subscribe(res => {
-      if (res) {
+    Swal.fire({
+      title: 'Chắc chắn muốn xóa sản phẩm đang chọn?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Xóa',
+      cancelButtonText: 'Hủy',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33'
+    }).then(result => {
+      if (result.value) {
         this._removeProduct(product);
       }
-      modalRef.close();
     });
   }
 
@@ -129,38 +132,95 @@ export class ListProductComponent implements OnInit {
 
   private _createProduct(data: any) {
     const createProduct$ = this.productService.createProduct(data).pipe(takeUntil(this.destroyed$));
-    createProduct$.subscribe((res: any) => {
-      if (res.Code === 200) {
-        this.page--;
-        this._fetchData();
+    createProduct$.subscribe(
+      (res: any) => {
+        if (res.Code === 200) {
+          Swal.fire({
+            position: 'top-end',
+            type: 'success',
+            title: 'Thêm sản phẩm thành công',
+            showConfirmButton: false,
+            timer: 2000
+          });
+          this.page--;
+          this._fetchData();
+          this.modalService.dismissAll();
+        }
+      },
+      () => {
+        Swal.fire({
+          position: 'top-end',
+          type: 'error',
+          title: 'Thêm sản phẩm thất bại',
+          showConfirmButton: false,
+          timer: 2000
+        });
         this.modalService.dismissAll();
       }
-    });
+    );
   }
 
   private _updateProduct(updated: any) {
     const updateProduct$ = this.productService
       .updateProduct(updated)
       .pipe(takeUntil(this.destroyed$));
-    updateProduct$.subscribe((res: any) => {
-      if (res.Code === 200) {
-        this.page--;
-        this._fetchData();
+    updateProduct$.subscribe(
+      (res: any) => {
+        if (res.Code === 200) {
+          Swal.fire({
+            position: 'top-end',
+            type: 'success',
+            title: 'Cập nhật sản phẩm thành công',
+            showConfirmButton: false,
+            timer: 2000
+          });
+          this.page--;
+          this._fetchData();
+          this.modalService.dismissAll();
+        }
+      },
+      () => {
+        Swal.fire({
+          position: 'top-end',
+          type: 'error',
+          title: 'Cập nhật sản phẩm thất bại',
+          showConfirmButton: false,
+          timer: 2000
+        });
         this.modalService.dismissAll();
       }
-    });
+    );
   }
 
   private _removeProduct(product: any) {
     const removeProduct$ = this.productService
       .removeProduct({ productId: product.pu_id })
       .pipe(takeUntil(this.destroyed$));
-    removeProduct$.subscribe((res: any) => {
-      if (res.Code === 200) {
-        this.page--;
-        this._fetchData();
+    removeProduct$.subscribe(
+      (res: any) => {
+        if (res.Code == 200) {
+          Swal.fire({
+            position: 'top-end',
+            type: 'success',
+            title: 'Xóa sản phẩm thành công',
+            showConfirmButton: false,
+            timer: 2000
+          });
+          this.page--;
+          this._fetchData();
+          this.modalService.dismissAll();
+        }
+      },
+      () => {
+        Swal.fire({
+          position: 'top-end',
+          type: 'error',
+          title: 'Xóa sản phẩm thất bại',
+          showConfirmButton: false,
+          timer: 2000
+        });
         this.modalService.dismissAll();
       }
-    });
+    );
   }
 }

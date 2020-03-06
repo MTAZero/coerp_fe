@@ -1,14 +1,13 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../../../../core/services/api/order.service';
 import { CustomerService } from '../../../../../core/services/api/customer.service';
 import { AddressService } from '../../../../../core/services/api/address.service';
 import { ProductService } from '../../../../../core/services/api/product.service';
-import * as moment from 'moment';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-order-modal',
@@ -66,7 +65,6 @@ export class OrderModalComponent implements OnInit {
 
   constructor(
     public formBuilder: FormBuilder,
-    private modalService: NgbModal,
     private orderService: OrderService,
     private customerService: CustomerService,
     private addressService: AddressService,
@@ -123,17 +121,18 @@ export class OrderModalComponent implements OnInit {
 
   onClickCancel() {
     if (this.formCustomer.dirty || this.formOrder.dirty) {
-      const modalRef = this.modalService.open(ConfirmModalComponent, {
-        centered: true
-      });
-      modalRef.componentInstance.title = 'Thông báo';
-      modalRef.componentInstance.message =
-        'Dữ liệu đã bị thay đổi, bạn có chắc chắn muốn hủy thao tác không?';
-      modalRef.componentInstance.passEvent.subscribe(res => {
-        if (res) {
+      Swal.fire({
+        title: 'Dữ liệu đã bị thay đổi, bạn có chắc chắn muốn hủy thao tác không?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Có',
+        cancelButtonText: 'Không',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33'
+      }).then(result => {
+        if (result.value) {
           this.passEvent.emit({ event: false });
         }
-        modalRef.close();
       });
     } else {
       this.passEvent.emit({ event: false });

@@ -5,6 +5,7 @@ import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component'
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { SmsService } from '../../../../../core/services/api/sms.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-sms-template-modal',
@@ -41,18 +42,23 @@ export class SmsTemplateModalComponent implements OnInit {
   }
 
   onClickCancel() {
-    const modalRef = this.modalService.open(ConfirmModalComponent, {
-      centered: true
-    });
-    modalRef.componentInstance.title = 'Thông báo';
-    modalRef.componentInstance.message =
-      'Dữ liệu đã bị thay đổi, bạn có chắc chắn muốn hủy thao tác không?';
-    modalRef.componentInstance.passEvent.subscribe(res => {
-      if (res) {
-        this.passEvent.emit({ event: false });
-      }
-      modalRef.close();
-    });
+    if (this.form.dirty) {
+      Swal.fire({
+        title: 'Dữ liệu đã bị thay đổi, bạn có chắc chắn muốn hủy thao tác không?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Có',
+        cancelButtonText: 'Không',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33'
+      }).then(result => {
+        if (result.value) {
+          this.passEvent.emit({ event: false });
+        }
+      });
+    } else {
+      this.passEvent.emit({ event: false });
+    }
   }
 
   onClickField(field: any) {

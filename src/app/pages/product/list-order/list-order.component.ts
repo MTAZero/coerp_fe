@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmModalComponent } from './component/confirm-modal/confirm-modal.component';
 import { OrderModalComponent } from './component/order-modal/order-modal.component';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../../core/services/api/order.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-list-order',
@@ -65,16 +65,18 @@ export class ListOrderComponent implements OnInit {
   }
 
   openConfirmModal(order?: any) {
-    const modalRef = this.modalService.open(ConfirmModalComponent, {
-      centered: true
-    });
-    modalRef.componentInstance.title = 'Xác nhận xóa nhà đơn hàng';
-    modalRef.componentInstance.message = 'Bạn có chắc chắn muốn xóa đơn hàng đang chọn không?';
-    modalRef.componentInstance.passEvent.subscribe(res => {
-      if (res) {
+    Swal.fire({
+      title: 'Chắc chắn muốn xóa đơn hàng đang chọn?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Xóa',
+      cancelButtonText: 'Hủy',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33'
+    }).then(result => {
+      if (result.value) {
         this._removeOrder(order);
       }
-      modalRef.close();
     });
   }
 
@@ -89,8 +91,6 @@ export class ListOrderComponent implements OnInit {
   }
 
   onChangeStatus(event, order) {
-    console.log(event, order);
-
     const changeStatus$ = this.orderService
       .updateOrderStatus({
         cuo_id: order.cuo_id,
@@ -98,12 +98,30 @@ export class ListOrderComponent implements OnInit {
       })
       .pipe(takeUntil(this.destroyed$));
 
-    changeStatus$.subscribe(res => {
-      if (res) {
-        this.page--;
-        this._fetchData();
+    changeStatus$.subscribe(
+      (res: any) => {
+        if (res.Code === 200) {
+          Swal.fire({
+            position: 'top-end',
+            type: 'success',
+            title: 'Cập nhật trạng thái đơn hàng thành công',
+            showConfirmButton: false,
+            timer: 2000
+          });
+          this.page--;
+          this._fetchData();
+        }
+      },
+      () => {
+        Swal.fire({
+          position: 'top-end',
+          type: 'error',
+          title: 'Cập nhật trạng thái đơn hàng thất bại',
+          showConfirmButton: false,
+          timer: 2000
+        });
       }
-    });
+    );
   }
 
   private _fetchData() {
@@ -139,36 +157,93 @@ export class ListOrderComponent implements OnInit {
 
   private _createOrder(data: any) {
     const createOrder$ = this.orderService.createOrder(data).pipe(takeUntil(this.destroyed$));
-    createOrder$.subscribe((res: any) => {
-      if (res.Code === 200) {
-        this.page--;
-        this._fetchData();
+    createOrder$.subscribe(
+      (res: any) => {
+        if (res.Code === 200) {
+          Swal.fire({
+            position: 'top-end',
+            type: 'success',
+            title: 'Thêm đơn hàng thành công',
+            showConfirmButton: false,
+            timer: 2000
+          });
+          this.page--;
+          this._fetchData();
+          this.modalService.dismissAll();
+        }
+      },
+      () => {
+        Swal.fire({
+          position: 'top-end',
+          type: 'error',
+          title: 'Thêm đơn hàng thất bại',
+          showConfirmButton: false,
+          timer: 2000
+        });
         this.modalService.dismissAll();
       }
-    });
+    );
   }
 
   private _updateOrder(updated: any) {
     const updateOrder$ = this.orderService.updateOrder(updated).pipe(takeUntil(this.destroyed$));
-    updateOrder$.subscribe((res: any) => {
-      if (res.Code === 200) {
-        this.page--;
-        this._fetchData();
+    updateOrder$.subscribe(
+      (res: any) => {
+        if (res.Code === 200) {
+          Swal.fire({
+            position: 'top-end',
+            type: 'success',
+            title: 'Cập nhật đơn hàng thành công',
+            showConfirmButton: false,
+            timer: 2000
+          });
+          this.page--;
+          this._fetchData();
+          this.modalService.dismissAll();
+        }
+      },
+      () => {
+        Swal.fire({
+          position: 'top-end',
+          type: 'error',
+          title: 'Cập nhật đơn hàng thất bại',
+          showConfirmButton: false,
+          timer: 2000
+        });
         this.modalService.dismissAll();
       }
-    });
+    );
   }
 
   private _removeOrder(order: any) {
     const removeOrder$ = this.orderService
       .removeOrder({ customer_orderId: order.cuo_id })
       .pipe(takeUntil(this.destroyed$));
-    removeOrder$.subscribe((res: any) => {
-      if (res.Code === 200) {
-        this.page--;
-        this._fetchData();
+    removeOrder$.subscribe(
+      (res: any) => {
+        if (res.Code == 200) {
+          Swal.fire({
+            position: 'top-end',
+            type: 'success',
+            title: 'Xóa đơn hàng thành công',
+            showConfirmButton: false,
+            timer: 2000
+          });
+          this.page--;
+          this._fetchData();
+          this.modalService.dismissAll();
+        }
+      },
+      () => {
+        Swal.fire({
+          position: 'top-end',
+          type: 'error',
+          title: 'Xóa đơn hàng thất bại',
+          showConfirmButton: false,
+          timer: 2000
+        });
         this.modalService.dismissAll();
       }
-    });
+    );
   }
 }

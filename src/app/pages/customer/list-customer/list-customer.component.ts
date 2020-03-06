@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CustomerModalComponent } from './component/customer-modal/customer-modal.component';
-import { ConfirmModalComponent } from './component/confirm-modal/confirm-modal.component';
 import { isNullOrUndefined } from 'util';
 import { CustomerService } from '../../../core/services/api/customer.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-list-customer',
@@ -82,17 +82,19 @@ export class ListCustomerComponent implements OnInit {
   }
 
   openConfirmModal(customer?: any) {
-    const modalRef = this.modalService.open(ConfirmModalComponent, {
-      centered: true
-    });
     this.onClickCustomer(customer);
-    modalRef.componentInstance.title = 'Xác nhận xóa khách hàng';
-    modalRef.componentInstance.message = 'Bạn có chắc chắn muốn xóa khách hàng đang chọn không?';
-    modalRef.componentInstance.passEvent.subscribe(res => {
-      if (res) {
+    Swal.fire({
+      title: 'Chắc chắn muốn xóa khách hàng đang chọn?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Xóa',
+      cancelButtonText: 'Hủy',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33'
+    }).then(result => {
+      if (result.value) {
         this._removeCustomer(customer);
       }
-      modalRef.close();
     });
   }
 
@@ -160,38 +162,95 @@ export class ListCustomerComponent implements OnInit {
     const createCustomer$ = this.customerService
       .createCustomer(data)
       .pipe(takeUntil(this.destroyed$));
-    createCustomer$.subscribe((res: any) => {
-      if (res.Code === 200) {
-        this.page--;
-        this._fetchData();
+    createCustomer$.subscribe(
+      (res: any) => {
+        if (res.Code === 200) {
+          Swal.fire({
+            position: 'top-end',
+            type: 'success',
+            title: 'Thêm khách hàng thành công',
+            showConfirmButton: false,
+            timer: 2000
+          });
+          this.page--;
+          this._fetchData();
+          this.modalService.dismissAll();
+        }
+      },
+      () => {
+        Swal.fire({
+          position: 'top-end',
+          type: 'error',
+          title: 'Thêm khách hàng thất bại',
+          showConfirmButton: false,
+          timer: 2000
+        });
         this.modalService.dismissAll();
       }
-    });
+    );
   }
 
   private _updateCustomer(updated: any) {
     const updateCustomer$ = this.customerService
       .updateCustomer(updated)
       .pipe(takeUntil(this.destroyed$));
-    updateCustomer$.subscribe((res: any) => {
-      if (res.Code === 200) {
-        this.page--;
-        this._fetchData();
+    updateCustomer$.subscribe(
+      (res: any) => {
+        if (res.Code === 200) {
+          Swal.fire({
+            position: 'top-end',
+            type: 'success',
+            title: 'Cập nhật khách hàng thành công',
+            showConfirmButton: false,
+            timer: 2000
+          });
+          this.page--;
+          this._fetchData();
+          this.modalService.dismissAll();
+        }
+      },
+      () => {
+        Swal.fire({
+          position: 'top-end',
+          type: 'error',
+          title: 'Cập nhật khách hàng thất bại',
+          showConfirmButton: false,
+          timer: 2000
+        });
         this.modalService.dismissAll();
       }
-    });
+    );
   }
 
   private _removeCustomer(customer: any) {
     const removeCustomer$ = this.customerService
       .removeCustomer({ customerId: customer.cu_id })
       .pipe(takeUntil(this.destroyed$));
-    removeCustomer$.subscribe((res: any) => {
-      if (res.Code === 200) {
-        this.page--;
-        this._fetchData();
+    removeCustomer$.subscribe(
+      (res: any) => {
+        if (res.Code === 200) {
+          Swal.fire({
+            position: 'top-end',
+            type: 'success',
+            title: 'Xóa khách hàng thành công',
+            showConfirmButton: false,
+            timer: 2000
+          });
+          this.page--;
+          this._fetchData();
+          this.modalService.dismissAll();
+        }
+      },
+      () => {
+        Swal.fire({
+          position: 'top-end',
+          type: 'error',
+          title: 'Xóa khách hàng thất bại',
+          showConfirmButton: false,
+          timer: 2000
+        });
         this.modalService.dismissAll();
       }
-    });
+    );
   }
 }

@@ -64,7 +64,9 @@ export class StaffService {
   }
 
   importStaff(file: any) {
-    const formData = mapToFormData({ file });
-    return this.httpClient.post(router.import, file);
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    console.log(formData);
+    return this.httpClient.postFormData(router.import, formData);
   }
 }

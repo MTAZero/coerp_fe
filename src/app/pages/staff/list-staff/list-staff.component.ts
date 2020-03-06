@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmModalComponent } from './component/confirm-modal/confirm-modal.component';
 import { StaffModalComponent } from './component/staff-modal/staff-modal.component';
 import { StaffService } from '../../../core/services/api/staff.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { isNullOrUndefined } from 'util';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-list-staff',
@@ -72,17 +72,18 @@ export class ListStaffComponent implements OnInit {
   }
 
   openConfirmModal(staff?: any) {
-    const modalRef = this.modalService.open(ConfirmModalComponent, {
-      centered: true
-    });
     this.onClickStaff(staff);
-    modalRef.componentInstance.title = 'Xác nhận xóa nhân sự';
-    modalRef.componentInstance.message = 'Bạn có chắc chắn muốn xóa nhân sự đang chọn không?';
-    modalRef.componentInstance.passEvent.subscribe(res => {
-      if (res) {
+    Swal.fire({
+      title: 'Chắc chắn muốn xóa nhân sự đang chọn?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Xóa',
+      cancelButtonText: 'Hủy',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33'
+    }).then(result => {
+      if (result.value) {
         this._removeStaff(staff);
-      } else {
-        modalRef.close();
       }
     });
   }
@@ -140,36 +141,93 @@ export class ListStaffComponent implements OnInit {
 
   private _createStaff(data: any) {
     const createStaff$ = this.staffService.createStaff(data).pipe(takeUntil(this.destroyed$));
-    createStaff$.subscribe((res: any) => {
-      if (res.Code === 200) {
-        this.page--;
-        this._fetchData();
+    createStaff$.subscribe(
+      (res: any) => {
+        if (res.Code === 200) {
+          Swal.fire({
+            position: 'top-end',
+            type: 'success',
+            title: 'Thêm nhân sự thành công',
+            showConfirmButton: false,
+            timer: 2000
+          });
+          this.page--;
+          this._fetchData();
+          this.modalService.dismissAll();
+        }
+      },
+      () => {
+        Swal.fire({
+          position: 'top-end',
+          type: 'error',
+          title: 'Thêm nhân sự thất bại',
+          showConfirmButton: false,
+          timer: 2000
+        });
         this.modalService.dismissAll();
       }
-    });
+    );
   }
 
   private _updateStaff(updated: any) {
     const updateStaff$ = this.staffService.updateStaff(updated).pipe(takeUntil(this.destroyed$));
-    updateStaff$.subscribe((res: any) => {
-      if (res.Code === 200) {
-        this.page--;
-        this._fetchData();
+    updateStaff$.subscribe(
+      (res: any) => {
+        if (res.Code === 200) {
+          Swal.fire({
+            position: 'top-end',
+            type: 'success',
+            title: 'Cập nhật nhân sự thành công',
+            showConfirmButton: false,
+            timer: 2000
+          });
+          this.page--;
+          this._fetchData();
+          this.modalService.dismissAll();
+        }
+      },
+      () => {
+        Swal.fire({
+          position: 'top-end',
+          type: 'error',
+          title: 'Cập nhật nhân sự thất bại',
+          showConfirmButton: false,
+          timer: 2000
+        });
         this.modalService.dismissAll();
       }
-    });
+    );
   }
 
   private _removeStaff(staff: any) {
     const removeStaff$ = this.staffService
       .removeStaff({ staffId: staff.sta_id })
       .pipe(takeUntil(this.destroyed$));
-    removeStaff$.subscribe((res: any) => {
-      if (res.Code === 200) {
-        this.page--;
-        this._fetchData();
+    removeStaff$.subscribe(
+      (res: any) => {
+        if (res.Code == 200) {
+          Swal.fire({
+            position: 'top-end',
+            type: 'success',
+            title: 'Xóa nhân sự thành công',
+            showConfirmButton: false,
+            timer: 2000
+          });
+          this.page--;
+          this._fetchData();
+          this.modalService.dismissAll();
+        }
+      },
+      () => {
+        Swal.fire({
+          position: 'top-end',
+          type: 'error',
+          title: 'Xóa nhân sự thất bại',
+          showConfirmButton: false,
+          timer: 2000
+        });
         this.modalService.dismissAll();
       }
-    });
+    );
   }
 }

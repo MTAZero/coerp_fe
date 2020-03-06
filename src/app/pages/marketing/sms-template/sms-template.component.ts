@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmModalComponent } from './component/confirm-modal/confirm-modal.component';
 import { SmsTemplateModalComponent } from './component/sms-template-modal/sms-template-modal.component';
 import { ViewSmsTemplateModalComponent } from './component/view-sms-template-modal/view-sms-template-modal.component';
 import { SmsService } from '../../../core/services/api/sms.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-sms-template',
@@ -67,16 +67,18 @@ export class SmsTemplateComponent implements OnInit {
   }
 
   openConfirmModal(template?: any) {
-    const modalRef = this.modalService.open(ConfirmModalComponent, {
-      centered: true
-    });
-    modalRef.componentInstance.title = 'Xác nhận xóa mẫu SMS';
-    modalRef.componentInstance.message = 'Bạn có chắc chắn muốn xóa mẫu SMS đang chọn không?';
-    modalRef.componentInstance.passEvent.subscribe(res => {
-      if (res) {
+    Swal.fire({
+      title: 'Chắc chắn muốn xóa mẫu SMS đang chọn?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Xóa',
+      cancelButtonText: 'Hủy',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33'
+    }).then(result => {
+      if (result.value) {
         this._removeTemplate(template);
       }
-      modalRef.close();
     });
   }
 
@@ -110,38 +112,95 @@ export class SmsTemplateComponent implements OnInit {
     const createTemplate$ = this.smsService
       .createSmsTemplate(data)
       .pipe(takeUntil(this.destroyed$));
-    createTemplate$.subscribe((res: any) => {
-      if (res.Code === 200) {
-        this.page--;
-        this._fetchData();
+    createTemplate$.subscribe(
+      (res: any) => {
+        if (res.Code === 200) {
+          Swal.fire({
+            position: 'top-end',
+            type: 'success',
+            title: 'Thêm mẫu SMS thành công',
+            showConfirmButton: false,
+            timer: 2000
+          });
+          this.page--;
+          this._fetchData();
+          this.modalService.dismissAll();
+        }
+      },
+      () => {
+        Swal.fire({
+          position: 'top-end',
+          type: 'error',
+          title: 'Thêm SMS thất bại',
+          showConfirmButton: false,
+          timer: 2000
+        });
         this.modalService.dismissAll();
       }
-    });
+    );
   }
 
   private _updateTemplate(updated: any) {
     const updateTemplate$ = this.smsService
       .updateSmsTemplate(updated)
       .pipe(takeUntil(this.destroyed$));
-    updateTemplate$.subscribe((res: any) => {
-      if (res.Code === 200) {
-        this.page--;
-        this._fetchData();
+    updateTemplate$.subscribe(
+      (res: any) => {
+        if (res.Code === 200) {
+          Swal.fire({
+            position: 'top-end',
+            type: 'success',
+            title: 'Cập nhật mẫu SMS thành công',
+            showConfirmButton: false,
+            timer: 2000
+          });
+          this.page--;
+          this._fetchData();
+          this.modalService.dismissAll();
+        }
+      },
+      () => {
+        Swal.fire({
+          position: 'top-end',
+          type: 'error',
+          title: 'Cập nhật mẫu SMS thất bại',
+          showConfirmButton: false,
+          timer: 2000
+        });
         this.modalService.dismissAll();
       }
-    });
+    );
   }
 
   private _removeTemplate(template: any) {
     const removeTemplate$ = this.smsService
       .removeSmsTemplate({ sms_templateId: template.smt_id })
       .pipe(takeUntil(this.destroyed$));
-    removeTemplate$.subscribe((res: any) => {
-      if (res.Code === 200) {
-        this.page--;
-        this._fetchData();
+    removeTemplate$.subscribe(
+      (res: any) => {
+        if (res.Code == 200) {
+          Swal.fire({
+            position: 'top-end',
+            type: 'success',
+            title: 'Xóa mẫu SMS thành công',
+            showConfirmButton: false,
+            timer: 2000
+          });
+          this.page--;
+          this._fetchData();
+          this.modalService.dismissAll();
+        }
+      },
+      () => {
+        Swal.fire({
+          position: 'top-end',
+          type: 'error',
+          title: 'Xóa mẫu SMS thất bại',
+          showConfirmButton: false,
+          timer: 2000
+        });
         this.modalService.dismissAll();
       }
-    });
+    );
   }
 }
