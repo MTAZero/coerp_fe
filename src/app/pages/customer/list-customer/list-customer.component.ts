@@ -115,6 +115,47 @@ export class ListCustomerComponent implements OnInit {
     }
   }
 
+  setFile(event) {
+    let files = event.srcElement.files;
+    if (!files) {
+      return;
+    }
+
+    const import$ = this.customerService.importCustomer(files[0]).pipe(takeUntil(this.destroyed$));
+    import$.subscribe(
+      (res: any) => {
+        if (res.Code === 200) {
+          Swal.fire({
+            position: 'top-end',
+            type: 'success',
+            title: 'Nhập khách hàng thành công',
+            showConfirmButton: false,
+            timer: 2000
+          });
+          this.page--;
+          this._fetchData();
+        } else {
+          Swal.fire({
+            position: 'top-end',
+            type: 'error',
+            title: 'Nhập khách hàng thất bại',
+            showConfirmButton: false,
+            timer: 2000
+          });
+        }
+      },
+      () => {
+        Swal.fire({
+          position: 'top-end',
+          type: 'error',
+          title: 'Nhập khách hàng thất bại',
+          showConfirmButton: false,
+          timer: 2000
+        });
+      }
+    );
+  }
+
   private _fetchData(selected?: any) {
     const customer$ = this.customerService
       .loadCustomer({

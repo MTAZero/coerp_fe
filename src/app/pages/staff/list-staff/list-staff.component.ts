@@ -107,15 +107,43 @@ export class ListStaffComponent implements OnInit {
 
   setFile(event) {
     let files = event.srcElement.files;
-    console.log(files);
     if (!files) {
       return;
     }
 
     const import$ = this.staffService.importStaff(files[0]).pipe(takeUntil(this.destroyed$));
-    import$.subscribe(res => {
-      console.log(res);
-    });
+    import$.subscribe(
+      (res: any) => {
+        if (res.Code === 200) {
+          Swal.fire({
+            position: 'top-end',
+            type: 'success',
+            title: 'Nhập nhân sự thành công',
+            showConfirmButton: false,
+            timer: 2000
+          });
+          this.page--;
+          this._fetchData();
+        } else {
+          Swal.fire({
+            position: 'top-end',
+            type: 'error',
+            title: 'Nhập nhân sự thất bại',
+            showConfirmButton: false,
+            timer: 2000
+          });
+        }
+      },
+      () => {
+        Swal.fire({
+          position: 'top-end',
+          type: 'error',
+          title: 'Nhập nhân sự thất bại',
+          showConfirmButton: false,
+          timer: 2000
+        });
+      }
+    );
   }
 
   private _fetchData(selected?: any) {

@@ -13,7 +13,8 @@ const router = {
   group: `/api/customer-groups/all`,
   create_location: `/api/ship-addresss/create`,
   update_location: `/api/ship-addresss/update`,
-  delete_location: `/api/ship-addresss/delete`
+  delete_location: `/api/ship-addresss/delete`,
+  import: `/api/customer/import`
 };
 
 @Injectable()
@@ -77,5 +78,11 @@ export class CustomerService {
   removeShipAddress(filter?: { shipaddressId: number }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.delete(router.delete_location, params);
+  }
+
+  importCustomer(file: any) {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    return this.httpClient.postFormData(router.import, formData);
   }
 }

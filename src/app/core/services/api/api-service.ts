@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  HttpClient,
-  HttpHeaders,
-  HttpResponse,
-  HttpParams
-} from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 
@@ -43,9 +38,7 @@ export class ApiService {
 
   // api post method form-data
   postFormData(uri: string, data?: any, params?: HttpParams) {
-    return this.httpClient
-      .post(this.apiUrl + uri, data, { params })
-      .pipe(map(this.extractData));
+    return this.httpClient.post(this.apiUrl + uri, data, { params }).pipe(map(this.extractData));
   }
 
   // api put method
