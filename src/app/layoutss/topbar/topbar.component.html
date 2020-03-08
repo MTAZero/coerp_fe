@@ -45,9 +45,7 @@
           id="notificationDropdown"
         >
           <i class="fe-bell noti-icon"></i>
-          <span class="badge badge-danger rounded-circle noti-icon-badge"
-            >4</span
-          >
+          <span class="badge badge-danger rounded-circle noti-icon-badge">4</span>
         </a>
         <div
           class="dropdown-menu dropdown-menu-right dropdown-menu-animated dropdown-lg"
@@ -65,11 +63,7 @@
             </h5>
           </div>
 
-          <div
-            id="notification-items"
-            class="slimscroll noti-scroll"
-            appSlimScroll
-          >
+          <div id="notification-items" class="slimscroll noti-scroll" appSlimScroll>
             <!-- item-->
             <a
               *ngFor="let notification of notificationItems"
@@ -110,17 +104,14 @@
           aria-haspopup="false"
           aria-expanded="false"
         >
-          <img
-            src="assets/images/users/user-1.jpg"
-            alt="user-image"
-            class="rounded-circle"
-          />
+          <img src="assets/images/users/user-1.jpg" alt="user-image" class="rounded-circle" />
           <span class="pro-user-name ml-1">
             {{ userName }} <i class="mdi mdi-chevron-down"></i>
           </span>
         </a>
         <div
           class="dropdown-menu dropdown-menu-right profile-dropdown"
+          style="width: 202px;"
           aria-labelledby="profileDropdown"
           ngbDropdownMenu
         >
@@ -129,10 +120,7 @@
           </div>
 
           <!-- item-->
-          <a
-            class="dropdown-item notify-item table-button-link"
-            routerLink="/support/my-profile"
-          >
+          <a class="dropdown-item notify-item table-button-link" routerLink="/support/my-profile">
             <i class="fe-user"></i>
             <span>Trang tin của tôi</span>
           </a>
@@ -158,10 +146,7 @@
           <div class="dropdown-divider"></div>
 
           <!-- item-->
-          <a
-            class="dropdown-item notify-item table-button-link"
-            (click)="logout()"
-          >
+          <a class="dropdown-item notify-item table-button-link" (click)="logout()">
             <i class="fe-log-out"></i>
             <span>Đăng xuất</span>
           </a>

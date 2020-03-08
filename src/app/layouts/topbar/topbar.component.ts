@@ -22,6 +22,7 @@ export class TopbarComponent implements OnInit {
   };
 
   openMobileMenu: boolean;
+  userName = '';
 
   @Output() settingsButtonClicked = new EventEmitter();
   @Output() mobileMenuButtonClicked = new EventEmitter();
@@ -32,6 +33,7 @@ export class TopbarComponent implements OnInit {
     // get the notifications
     this._fetchNotifications();
     this.openMobileMenu = false;
+    this.userName = localStorage.getItem('userName');
   }
 
   /**
