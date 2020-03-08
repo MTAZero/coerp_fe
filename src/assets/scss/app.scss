@@ -17,13 +17,15 @@ File: Main Css File
 @import "variables";
 @import "./node_modules/bootstrap/scss/mixins.scss";
 
+
 // Structure
 @import "custom/structure/general";
-@import "custom/structure/horizontal-nav";
+@import "custom/structure/left-menu";
 @import "custom/structure/topbar";
 @import "custom/structure/page-head";
 @import "custom/structure/footer";
 @import "custom/structure/right-sidebar";
+@import "custom/structure/layouts";
 
 //Components
 @import "custom/components/helper";
@@ -41,7 +43,6 @@ File: Main Css File
 @import "custom/pages/error";
 @import "custom/pages/logout";
 @import "custom/pages/faq";
-@import "custom/pages/carousel";
 @import "custom/pages/timeline";
 @import "custom/pages/email";
 @import "custom/pages/sitemap";
@@ -51,8 +52,15 @@ File: Main Css File
 @import "custom/pages/taskboard";
 @import "custom/pages/ecommerce";
 
+// Vendors
+@import "vendor/metisMenu";
+
+
 // Plugins
+@import "custom/plugins/waves";
+@import "custom/plugins/rangeslider";
 @import "custom/plugins/calendar";
+
 @import "custom/plugins/datatable";
 @import "custom/plugins/daterange";
 @import "custom/plugins/form-wizard";
@@ -60,33 +68,23 @@ File: Main Css File
 @import "custom/plugins/slimscroll";
 @import "custom/plugins/toaster";
 @import "custom/plugins/sweetalert";
-@import "custom/plugins/custom-select";
-@import "custom/plugins/tippy";
+@import "custom/plugins/carousel";
 @import "custom/plugins/animation";
+@import "custom/plugins/tour";
+@import "custom/plugins/apexcharts";
 @import "custom/plugins/chartjs";
 @import "custom/plugins/chartist";
+@import "custom/plugins/colorpicker";
 @import "custom/plugins/responsive-table";
 @import "custom/plugins/bootstrap-tables";
 @import "custom/plugins/jsgrid";
 @import "custom/plugins/multiple-select";
 @import "custom/plugins/autocomplete";
 @import "custom/plugins/bootstrap-select";
-@import "custom/plugins/colorpicker";
 @import "custom/plugins/summernote";
 @import "custom/plugins/dropzone";
 @import "custom/plugins/dropify";
 @import "custom/plugins/cropper";
 @import "custom/plugins/google-maps";
 @import "custom/plugins/datepicker";
-@import "custom/plugins/range-slider";
 @import "custom/plugins/ui-switch";
-@import "custom/plugins/apexcharts";
-
-.button-link {
-    color: white !important;
-    cursor: pointer;
-}
-
-.table-button-link {
-    cursor: pointer;
-}

@@ -22,6 +22,11 @@
     border: 2px solid $gray-300;
     font-size: 16px;
     box-shadow: none;
+
+    &:focus {
+      outline: 0;
+      border: 2px solid $primary;
+    }
   }
   .swal2-confirm.btn-confirm {
     background-color: $primary !important;
@@ -73,12 +78,6 @@
   .line {
     background-color: $danger;
   }
-}
-.swal2-modal .swal2-file:focus,
-.swal2-modal .swal2-input:focus,
-.swal2-modal .swal2-textarea:focus {
-  outline: 0;
-  border: 2px solid $primary;
 }
 
 .swal2-container.swal2-shown {

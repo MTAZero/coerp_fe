@@ -15,16 +15,18 @@ File: Main Css File
 @import "./node_modules/bootstrap/scss/functions";
 @import "./node_modules/bootstrap/scss/variables";
 @import "variables";
-@import "./node_modules/bootstrap/scss/mixins.scss";
+@import "./node_modules/bootstrap/scss/mixins";
+
 
 
 // Structure
 @import "custom/structure/general";
-@import "custom/structure/horizontal-nav";
+@import "custom/structure/left-menu";
 @import "custom/structure/topbar";
 @import "custom/structure/page-head";
 @import "custom/structure/footer";
 @import "custom/structure/right-sidebar";
+@import "custom/structure/layouts";
 
 //Components
 @import "custom/components/helper";
@@ -53,6 +55,9 @@ File: Main Css File
 @import "custom/pages/profile";
 @import "custom/pages/taskboard";
 @import "custom/pages/ecommerce";
+
+// Vendors
+@import "vendor/metisMenu";
 
 
 // Plugins

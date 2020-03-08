@@ -4234,6 +4234,33 @@ readers do not read off random characters that represent icons */
 .fa-zhihu:before {
   content: "\f63f"; }
 
+
+  .fa-cut:before,
+  .fa-scissors:before {
+    content: "\f0c4";
+  }
+  .fa-copy:before,
+  .fa-files-o:before {
+    content: "\f0c5";
+  }
+  .fa-rotate-right:before,
+  .fa-repeat:before {
+    content: "\f01e";
+  }
+  .fa-unlink:before,
+  .fa-chain-broken:before {
+    content: "\f127";
+  }
+  .fa-photo:before,
+  .fa-image:before,
+  .fa-picture-o:before {
+    content: "\f03e";
+  }
+  .fa-youtube-play:before {
+    content: "\f167";
+  }  
+
+
 .sr-only {
   border: 0;
   clip: rect(0, 0, 0, 0);

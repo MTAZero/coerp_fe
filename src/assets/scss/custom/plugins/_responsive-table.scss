@@ -96,8 +96,8 @@
     table.focus-on tbody tr.focused td,
     .sticky-table-header {
         background: $primary;
-        color: $white;
         border-color: $primary;
+        color: $white;
 
         table {
             color: $white;
@@ -105,7 +105,7 @@
     }
     .fixed-solution {
         .sticky-table-header {
-            top: ($topbar-height + 60px) !important;
+            top: $topbar-height !important;
         }
     }
     .btn-default {

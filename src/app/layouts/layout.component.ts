@@ -6,17 +6,26 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
   styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent implements OnInit, AfterViewInit {
+  isCondensed = false;
 
-  showMobileMenu = false;
+  constructor() {}
 
-  constructor() { }
+  ngOnInit() {}
 
-  ngOnInit() {
+  isMobile() {
+    const ua = navigator.userAgent;
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(
+      ua
+    );
   }
 
   ngAfterViewInit() {
     document.body.classList.remove('authentication-bg');
     document.body.classList.remove('authentication-bg-pattern');
+
+    if (!this.isMobile()) {
+      document.body.classList.add('sidebar-enable');
+    }
   }
 
   /**
@@ -30,6 +39,10 @@ export class LayoutComponent implements OnInit, AfterViewInit {
    * On mobile toggle button clicked
    */
   onToggleMobileMenu() {
-    this.showMobileMenu = !this.showMobileMenu;
+    document.body.classList.toggle('sidebar-enable');
+    if (!this.isMobile()) {
+      document.body.classList.toggle('enlarged');
+      this.isCondensed = !this.isCondensed;
+    }
   }
 }

@@ -1,7 +1,7 @@
 // Variables
 
 //
-// custom-variables.scss
+// custom-variables
 //
 
 // Shadow
@@ -9,18 +9,24 @@ $shadow-sm:             0 0.75rem 6rem rgba(56, 65, 74,.03);
 $shadow:                0 0 35px 0 rgba(154, 161, 171, 0.15);
 $shadow-lg:             0 0 45px 0 rgba(0, 0, 0, 0.12);
 
+//Background left-sidebar
+$bg-leftbar:            #ffffff;
+$bg-leftbar-dark:           #38414a;
+
+// Leftbar width
+$leftbar-width:         240px;
+$leftbar-width-collapsed:   70px;
+
+// Small Leftbar Width
+$leftbar-width-sm:    160px;
+
+// Boxed layout width
+$boxed-layout-width:  1300px;
 
 // Dark leftbar menu color
 $menu-item-color-dark:      #9097a7;
 $menu-item-hover-color-dark:#c8cddc;
 $menu-item-active-color-dark: #ffffff;
-
-// layout width
-$layout-width: 90%;
-
-// Boxed layout width
-$boxed-layout-width:  1200px;
-
 
 //Menu item colors
 $menu-item:              #6e768e;
@@ -34,10 +40,10 @@ $rightbar-width:           260px;
 //Topbar Background
 $bg-topbar-light:         #ffffff;
 $bg-topbar-dark:          #38414a;
-$bg-topbar-gradient:      linear-gradient(135deg,#6658dd 0,#764ba2 100%);
 
 // Topbar Height
 $topbar-height: 70px;
+
 
 // Secondary font
 $font-family-secondary: "Cerebri Sans,sans-serif";
@@ -347,9 +353,8 @@ $input-focus-border-color:              darken($input-border-color,10%);
 $input-placeholder-color:               $gray-500;
 
 $input-height:                          calc(#{$input-line-height * 1em} + #{$input-padding-y * 2} + #{$input-height-border});
- 
-$input-height-inner:                    calc(#{$input-line-height * 1em} + #{$input-padding-y * 2});
 
+$input-height-inner:                    calc(#{$input-line-height * 1em} + #{$input-padding-y * 2});
 $input-group-addon-border-color:        $input-border-color;
 
 $custom-select-padding-y:           .45rem;
@@ -407,18 +412,19 @@ $custom-file-text: (
   en: "Browse"
 ) !default;
 
+
 // Form validation
- 
+
 $form-feedback-margin-top:          $form-text-margin-top;
 $form-feedback-font-size:           $small-font-size;
 $form-feedback-valid-color:         theme-color("success");
 $form-feedback-invalid-color:       theme-color("danger");
- 
+
 $form-feedback-icon-valid-color:    $form-feedback-valid-color;
 $form-feedback-icon-valid:          str-replace(url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='#{$form-feedback-icon-valid-color}' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e"), "#", "%23");
 $form-feedback-icon-invalid-color:  $form-feedback-invalid-color;
 $form-feedback-icon-invalid:        str-replace(url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='#{$form-feedback-icon-invalid-color}' viewBox='-2 -2 7 7'%3e%3cpath stroke='#{$form-feedback-icon-invalid-color}' d='M0 0l3 3m0-3L0 3'/%3e%3ccircle r='.5'/%3e%3ccircle cx='3' r='.5'/%3e%3ccircle cy='3' r='.5'/%3e%3ccircle cx='3' cy='3' r='.5'/%3e%3c/svg%3E"), "#", "%23");
- 
+
 $form-validation-states: ();
 // stylelint-disable-next-line scss/dollar-variable-default
 $form-validation-states: map-merge(
@@ -434,6 +440,7 @@ $form-validation-states: map-merge(
   ),
   $form-validation-states
 );
+
 
 // Dropdowns
 //
@@ -483,6 +490,7 @@ $card-columns-gap:                  $grid-gutter-width;
 
 
 // Tooltips
+
 $tooltip-font-size:                 $font-size-base;
 $tooltip-border-radius:             0.2rem;
 $tooltip-padding-y:                 .4rem;

@@ -10,22 +10,36 @@ import { AuthenticationService } from '../../core/services/common/auth.service';
 })
 export class TopbarComponent implements OnInit {
   notificationItems: Array<{}>;
+  languages: Array<{
+    id: number;
+    flag?: string;
+    name: string;
+  }>;
+  selectedLanguage: {
+    id: number;
+    flag?: string;
+    name: string;
+  };
+
   openMobileMenu: boolean;
-  userName = '';
 
   @Output() settingsButtonClicked = new EventEmitter();
   @Output() mobileMenuButtonClicked = new EventEmitter();
 
-  constructor(
-    private router: Router,
-    private authService: AuthenticationService
-  ) {}
+  constructor(private router: Router, private authService: AuthenticationService) {}
 
   ngOnInit() {
     // get the notifications
     this._fetchNotifications();
     this.openMobileMenu = false;
-    this.userName = localStorage.getItem('userName');
+  }
+
+  /**
+   * Change the language
+   * @param language language
+   */
+  changeLanguage(language) {
+    this.selectedLanguage = language;
   }
 
   /**
@@ -40,7 +54,6 @@ export class TopbarComponent implements OnInit {
    */
   toggleMobileMenu(event: any) {
     event.preventDefault();
-    this.openMobileMenu = !this.openMobileMenu;
     this.mobileMenuButtonClicked.emit();
   }
 
