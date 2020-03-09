@@ -56,6 +56,7 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
     console.log(currentEl);
 
     const parentEl = currentEl.parentNode;
+    console.log(parentEl, parentEl.children[1]);
     if (parentEl.classList.contains('active')) {
       parentEl.classList.remove('active');
       parentEl.children[1].classList.remove('in');
