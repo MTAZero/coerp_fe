@@ -101,8 +101,8 @@ export class OrderModalComponent implements OnInit {
     const data = {
       list_product: this.listProduct,
       customer: {
-        list_address: this.listAddress,
-        ...this.selectedCustomer
+        ...this.formCustomer.value,
+        list_address: this.listAddress
       },
       cuo_total_price: this.orderTotal,
       cuo_status: 1,
@@ -111,10 +111,11 @@ export class OrderModalComponent implements OnInit {
       cuo_payment_type: 1,
       cuo_payment_status: 1,
       cuo_ship_tax: this.formOrder.value['cuo_ship_tax'],
-      cuo_id: this.order ? this.order.cuo_id : null
+      cuo_id: this.order ? this.order.cuo_id : null,
+      op_total_value: this.orderTotal
     };
     console.log(data);
-    this.passEvent.emit({ event: true, data });
+    //this.passEvent.emit({ event: true, data });
   }
 
   onPrintClick() {}
@@ -146,6 +147,7 @@ export class OrderModalComponent implements OnInit {
     });
 
     this.formCustomer = this.formBuilder.group({
+      cu_id: [null, null],
       cu_fullname: ['', [Validators.required]],
       cu_type: ['', [Validators.required]],
       cu_mobile: ['', [Validators.required]],
@@ -158,7 +160,11 @@ export class OrderModalComponent implements OnInit {
       cu_province: ['', null],
       cu_district: ['', null],
       cu_ward: ['', null],
-      cu_note: ['', null]
+      cu_note: ['', null],
+      cu_code: [null, null],
+      cu_geocoding: [null, null],
+      cu_status: [null, null],
+      cu_curator_id: [null, null]
     });
   }
 
@@ -219,13 +225,20 @@ export class OrderModalComponent implements OnInit {
   //#region Customer Tab
   onClickCreateCustomer() {
     this.selectedCustomer = {
+      cu_id: null,
+      cu_code: null,
       cu_fullname: '',
       cu_mobile: '',
       cu_email: '',
-      cu_birthday: '',
-      customer_group_id: '',
-      source_id: '',
-      cu_note: ''
+      cu_birthday: null,
+      customer_group_id: 1,
+      cu_type: 1,
+      source_id: 1,
+      cu_note: '',
+      cu_address: null,
+      cu_geocoding: null,
+      cu_status: null,
+      cu_curator_id: null
     };
     this.searchCustomer = '';
     this.readOnly = false;
@@ -384,6 +397,7 @@ export class OrderModalComponent implements OnInit {
 
     this.listAddress = customer.list_address ? customer.list_address : [];
     this.formCustomer.patchValue({
+      cu_id: customer.cu_id,
       cu_fullname: customer.cu_fullname,
       cu_mobile: customer.cu_mobile,
       cu_email: customer.cu_email,
@@ -391,7 +405,12 @@ export class OrderModalComponent implements OnInit {
       cu_type: customer.cu_type,
       customer_group_id: customer.customer_group_id,
       source_id: customer.source_id,
-      cu_note: customer.cu_note
+      cu_note: customer.cu_note,
+      cu_code: customer.cu_code,
+      cu_address: customer.cu_address,
+      cu_geocoding: customer.cu_geocoding,
+      cu_status: customer.cu_status,
+      cu_curator_id: customer.cu_curator_id
     });
   }
   //#endregion
