@@ -63,7 +63,7 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
       parentEl.children[1].classList.remove('mm-collapsing');
       parentEl.children[1].classList.remove('collapsing');
     } else {
-      console.log(parentEl.classList[1].classList);
+      console.log(parentEl.children[1].classList);
       parentEl.classList.add('active');
       parentEl.children[1].classList.add('in');
       parentEl.children[1].classList.remove('mm-collapsing');
