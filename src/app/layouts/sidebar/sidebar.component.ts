@@ -69,7 +69,7 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
       parentEl.children[1].classList.remove('collapsing');
       parentEl.children[1].style = '';
     }
-    console.log(parentEl.children[1].classList, parentEl.classList);
+    console.log(currentEl, parentEl, parentEl.children[1]);
   }
 
   /**
