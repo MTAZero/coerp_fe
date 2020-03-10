@@ -25,4 +25,9 @@ export class ProductStatisticComponent implements OnInit {
       }
     }
   }
+
+  onClickTest() {
+    if (this.height <= 10) this.height = 200;
+    else this.height = 10;
+  }
 }

@@ -10,5 +10,11 @@
     [resizeEdges]="{ bottom: false, right: false, top: true, left: false }"
     (resizeEnd)="onResizeEnd($event)"
     [style.height.px]="height"
-  ></div>
+  >
+    <div
+      class="fe-triangle test"
+      [ngClass]="height <= 10 ? '' : 'rotate'"
+      (click)="onClickTest()"
+    ></div>
+  </div>
 </div>

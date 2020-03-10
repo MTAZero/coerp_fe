@@ -6,6 +6,18 @@
 
     .detail {
       background-color: lightgreen;
+      position: relative;
+
+      .test {
+        position: absolute;
+        left: 50%;
+        top: -20px;
+        cursor: pointer;
+
+        &.rotate {
+          transform: rotate(180deg);
+        }
+      }
     }
   }
 }

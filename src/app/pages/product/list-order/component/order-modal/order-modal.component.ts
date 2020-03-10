@@ -114,8 +114,7 @@ export class OrderModalComponent implements OnInit {
       cuo_id: this.order ? this.order.cuo_id : null,
       op_total_value: this.orderTotal
     };
-    console.log(data);
-    //this.passEvent.emit({ event: true, data });
+    this.passEvent.emit({ event: true, data });
   }
 
   onPrintClick() {}
