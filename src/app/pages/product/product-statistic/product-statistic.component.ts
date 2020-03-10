@@ -49,7 +49,7 @@ export class ProductStatisticComponent implements OnInit {
 
   onResizeEnd(event: ResizeEvent) {
     if (event) {
-      if (event.rectangle.height != null && event.rectangle.height < 500) {
+      if (event.rectangle.height != null && event.rectangle.height < 1000) {
         this.height = event.rectangle.height;
       }
     }

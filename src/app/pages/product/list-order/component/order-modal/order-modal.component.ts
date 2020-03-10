@@ -1,13 +1,15 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../../../../core/services/api/order.service';
 import { CustomerService } from '../../../../../core/services/api/customer.service';
 import { AddressService } from '../../../../../core/services/api/address.service';
 import { ProductService } from '../../../../../core/services/api/product.service';
+import { StaffService } from '../../../../../core/services/api/staff.service';
 import Swal from 'sweetalert2';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-order-modal',
@@ -33,6 +35,7 @@ export class OrderModalComponent implements OnInit {
   sources: any;
   groups: any;
   types: any;
+  staffs: any;
   provinces: any;
   districts: any;
   wards: any;
@@ -60,6 +63,13 @@ export class OrderModalComponent implements OnInit {
     category_id: ''
   };
 
+  filterStaff = {
+    pageNumber: 0,
+    pageSize: 100,
+    status: '',
+    name: ''
+  };
+
   formOrder: FormGroup;
   formCustomer: FormGroup;
 
@@ -68,7 +78,8 @@ export class OrderModalComponent implements OnInit {
     private orderService: OrderService,
     private customerService: CustomerService,
     private addressService: AddressService,
-    private productService: ProductService
+    private productService: ProductService,
+    private staffService: StaffService
   ) {
     this.initializeForm();
     this._fetchFilter();
@@ -98,10 +109,13 @@ export class OrderModalComponent implements OnInit {
 
   onSubmitClick() {
     this.submitted = true;
+    const customerData = this.formCustomer.value;
+    customerData.cu_birthday = this._convertNgbDateToDate(customerData.cu_birthday);
+
     const data = {
       list_product: this.listProduct,
       customer: {
-        ...this.formCustomer.value,
+        ...customerData,
         list_address: this.listAddress
       },
       cuo_total_price: this.orderTotal,
@@ -111,8 +125,7 @@ export class OrderModalComponent implements OnInit {
       cuo_payment_type: 1,
       cuo_payment_status: 1,
       cuo_ship_tax: this.formOrder.value['cuo_ship_tax'],
-      cuo_id: this.order ? this.order.cuo_id : null,
-      op_total_value: this.orderTotal
+      cuo_id: this.order ? this.order.cuo_id : null
     };
     this.passEvent.emit({ event: true, data });
   }
@@ -154,7 +167,6 @@ export class OrderModalComponent implements OnInit {
       cu_birthday: ['', null],
       customer_group_id: ['', [Validators.required]],
       source_id: ['', [Validators.required]],
-      staff_id: ['', null],
       cu_address: ['', null],
       cu_province: ['', null],
       cu_district: ['', null],
@@ -178,7 +190,7 @@ export class OrderModalComponent implements OnInit {
     this.listProduct = this.listProduct.map(item => {
       return {
         ...item,
-        op_total: (item.op_quantity * item.pu_sale_price * (100 - item.op_discount)) / 100
+        op_total_value: (item.op_quantity * item.pu_sale_price * (100 - item.op_discount)) / 100
       };
     });
 
@@ -218,6 +230,29 @@ export class OrderModalComponent implements OnInit {
     product$.subscribe((res: any) => {
       this.products = res.Data.Results;
     });
+
+    const staff$ = this.staffService.searchStaff(this.filterStaff).pipe(takeUntil(this.destroyed$));
+    staff$.subscribe((res: any) => {
+      this.staffs = res.Data.Results;
+    });
+  }
+
+  private _convertDateToNgbDate(date: any) {
+    if (!date) {
+      return null;
+    }
+    const year = moment(date).year();
+    const month = moment(date).month() + 1;
+    const day = moment(date).date();
+    return new NgbDate(year, month, day);
+  }
+
+  private _convertNgbDateToDate(ngbDate: any) {
+    if (!ngbDate) {
+      return '';
+    }
+    const newDate = new Date(ngbDate.year, ngbDate.month, ngbDate.day);
+    return moment(newDate).format();
   }
   //#endregion
 
@@ -400,7 +435,7 @@ export class OrderModalComponent implements OnInit {
       cu_fullname: customer.cu_fullname,
       cu_mobile: customer.cu_mobile,
       cu_email: customer.cu_email,
-      cu_birthday: customer.cu_birthday,
+      cu_birthday: this._convertDateToNgbDate(customer.cu_birthday),
       cu_type: customer.cu_type,
       customer_group_id: customer.customer_group_id,
       source_id: customer.source_id,
@@ -430,7 +465,7 @@ export class OrderModalComponent implements OnInit {
     this.listProduct[puIndex] = {
       ...this.listProduct[puIndex],
       op_quantity: event.target.value,
-      op_total:
+      op_total_value:
         (event.target.value *
           this.listProduct[puIndex].pu_sale_price *
           (100 - this.listProduct[puIndex].op_discount)) /
@@ -445,7 +480,7 @@ export class OrderModalComponent implements OnInit {
     this.listProduct[puIndex] = {
       ...this.listProduct[puIndex],
       op_discount: event.target.value,
-      op_total:
+      op_total_value:
         (this.listProduct[puIndex].op_quantity *
           this.listProduct[puIndex].pu_sale_price *
           (100 - event.target.value)) /
@@ -469,7 +504,7 @@ export class OrderModalComponent implements OnInit {
         op_discount: 0,
         pu_name: product.pu_name,
         max_quantity: product.pu_quantity,
-        op_total: product.pu_sale_price
+        op_total_value: product.pu_sale_price
       });
       this.searchProduct = '';
       this.sumListProduct();
@@ -479,7 +514,7 @@ export class OrderModalComponent implements OnInit {
   private sumListProduct() {
     this.orderTotal = 0;
     this.listProduct.map(item => {
-      this.orderTotal += item.op_total;
+      this.orderTotal += item.op_total_value;
     });
     this.orderTotal =
       (this.orderTotal * (100 - this.formOrder.value['cuo_discount'])) / 100 +

@@ -83,7 +83,7 @@
                   <th>Loại khách hàng</th>
                   <th>Nhóm khách hàng</th>
                   <th>Địa chỉ</th>
-                  <th>Tuổi</th>
+                  <th>Ngày sinh</th>
                   <th>Nguồn</th>
                   <th>Thông tin lưu ý</th>
                   <th>Ngày tạo</th>
@@ -122,7 +122,7 @@
                     {{ customer.cu_address }}
                   </td>
                   <td>
-                    {{ customer.cu_birthday }}
+                    {{ customer.cu_birthday | date: 'dd/MM/yyyy' }}
                   </td>
                   <td>
                     {{ customer.source_name }}

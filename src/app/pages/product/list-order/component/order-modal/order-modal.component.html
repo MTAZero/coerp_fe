@@ -114,12 +114,20 @@
       <div class="col-md-3">
         <div class="form-group">
           <label>Ngày sinh</label>
-          <input
-            [readonly]="readOnly"
-            class="form-control"
-            formControlName="cu_birthday"
-            placeholder="Nhập ngày sinh"
-          />
+          <div class="input-group clockpicker">
+            <input
+              ngbDatepicker
+              [readonly]="readOnly"
+              class="form-control"
+              autoClose="false"
+              placeholder="yyyy-mm-dd"
+              #dateDob="ngbDatepicker"
+              formControlName="cu_birthday"
+            />
+            <div class="input-group-append" (click)="!readOnly && dateDob.toggle()">
+              <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -157,12 +165,11 @@
       <div class="col-md-3">
         <div class="form-group">
           <label>Người phụ trách</label>
-          <input
-            class="form-control"
-            [readonly]="readOnly"
-            formControlName="staff_id"
-            placeholder="Nhập tên người phụ trách"
-          />
+          <select class="custom-select" formControlName="cu_curator_id">
+            <option [disabled]="readOnly" *ngFor="let staff of staffs" [value]="staff.sta_id">{{
+              staff.sta_fullname
+            }}</option>
+          </select>
         </div>
       </div>
     </div>
@@ -365,7 +372,7 @@
               (change)="onChangeDiscount($event, product)"
             />
           </td>
-          <td>{{ product.op_total }}</td>
+          <td>{{ product.op_total_value }}</td>
           <td *ngIf="!isView">
             <a class="action-icon table-button-link" (click)="onRemoveProduct(product)">
               <i class="mdi mdi-delete"></i
@@ -471,9 +478,11 @@
     Địa chỉ giao hàng
   </div>
   <div class="text-right">
-    {{ selectedCustomer.cu_fullname }}
+    {{ formCustomer.value['cu_fullname'] }}
   </div>
-  <div class="text-right">{{ selectedCustomer.cu_mobile }} / {{ selectedCustomer.cu_email }}</div>
+  <div class="text-right">
+    {{ formCustomer.value['cu_mobile'] }} / {{ formCustomer.value['cu_email'] }}
+  </div>
   <div class="text-right">
     {{ selectedAddress }}
   </div>
@@ -505,7 +514,7 @@
           <td>
             {{ product.op_discount }}
           </td>
-          <td>{{ product.op_total }}</td>
+          <td>{{ product.op_total_value }}</td>
         </tr>
         <tr *ngIf="listProduct.length === 0">
           <td colspan="6">Không có dữ liệu địa chỉ</td>
