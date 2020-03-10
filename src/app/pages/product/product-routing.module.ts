@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { ListProductComponent } from './list-product/list-product.component';
-import { ListVendorComponent } from './list-vendor/list-vendor.component';
 import { ListOrderComponent } from './list-order/list-order.component';
+import { ProductStatisticComponent } from './product-statistic/product-statistic.component';
 
 const routes: Routes = [
   {
@@ -11,12 +11,12 @@ const routes: Routes = [
     component: ListProductComponent
   },
   {
-    path: 'list-vendor',
-    component: ListVendorComponent
-  },
-  {
     path: 'list-order',
     component: ListOrderComponent
+  },
+  {
+    path: 'product-statistic',
+    component: ProductStatisticComponent
   }
 ];
 

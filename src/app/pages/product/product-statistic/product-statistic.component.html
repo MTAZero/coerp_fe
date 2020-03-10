@@ -1,0 +1,14 @@
+<div class="product-statistic">
+  <div [style.height.px]="containerHeight - height">
+    Test
+  </div>
+  <div
+    class="detail"
+    mwlResizable
+    [enableGhostResize]="true"
+    resizeCursorPrecision="10"
+    [resizeEdges]="{ bottom: false, right: false, top: true, left: false }"
+    (resizeEnd)="onResizeEnd($event)"
+    [style.height.px]="height"
+  ></div>
+</div>

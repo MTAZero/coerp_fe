@@ -1,0 +1,11 @@
+:host {
+  .product-statistic {
+    margin-top: 10px;
+    height: calc(100vh - 90px);
+    background-color: lightgray;
+
+    .detail {
+      background-color: lightgreen;
+    }
+  }
+}
