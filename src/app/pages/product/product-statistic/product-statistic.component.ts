@@ -4,7 +4,10 @@ import { ResizeEvent } from 'angular-resizable-element';
 @Component({
   selector: 'app-product-statistic',
   templateUrl: './product-statistic.component.html',
-  styleUrls: ['./product-statistic.component.scss']
+  styleUrls: ['./product-statistic.component.scss'],
+  host: {
+    '(window:resize)': 'onResize($event)'
+  }
 })
 export class ProductStatisticComponent implements OnInit {
   height: number = 200;
@@ -24,6 +27,11 @@ export class ProductStatisticComponent implements OnInit {
         this.height = event.rectangle.height;
       }
     }
+  }
+
+  onResize(e) {
+    var el = this.element.nativeElement;
+    this.containerHeight = el.children[0].clientHeight;
   }
 
   onClickTest() {

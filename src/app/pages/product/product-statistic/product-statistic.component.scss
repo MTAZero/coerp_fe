@@ -11,8 +11,9 @@
       .test {
         position: absolute;
         left: 50%;
-        top: -20px;
+        top: -23px;
         cursor: pointer;
+        font-size: x-large;
 
         &.rotate {
           transform: rotate(180deg);
