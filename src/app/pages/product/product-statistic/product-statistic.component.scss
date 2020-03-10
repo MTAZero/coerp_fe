@@ -2,16 +2,36 @@
   .product-statistic {
     margin-top: 10px;
     height: calc(100vh - 90px);
-    background-color: lightgray;
+    background-color: #fff;
+
+    .form-inline {
+      align-items: baseline;
+      flex-flow: row;
+    }
+
+    tr {
+      cursor: pointer;
+
+      &.is-selected {
+        background-color: lightgray;
+      }
+    }
+
+    .table-container {
+      overflow: auto;
+    }
 
     .detail {
-      background-color: lightgreen;
+      padding: 10px;
+      background-color: white;
+      border-top: 5px solid #dee2e6;
       position: relative;
+      z-index: 100;
 
       .test {
         position: absolute;
         left: 50%;
-        top: -23px;
+        top: -27px;
         cursor: pointer;
         font-size: x-large;
 
