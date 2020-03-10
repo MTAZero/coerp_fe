@@ -44,35 +44,6 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   /**
-   * On menu click
-   */
-  onMenuClick(event: any) {
-    var currentEl = null;
-    if (event.target.classList.contains('waves-effect')) {
-      currentEl = event.target;
-    } else {
-      currentEl = event.target.parentNode;
-    }
-
-    const parentEl = currentEl.parentNode;
-    console.log(currentEl, parentEl, parentEl.children[1]);
-    if (parentEl.classList.contains('active')) {
-      parentEl.classList.remove('active');
-      parentEl.children[1].classList.remove('in');
-      parentEl.children[1].classList.remove('mm-collapsing');
-      parentEl.children[1].classList.remove('collapsing');
-    } else {
-      console.log(parentEl.children[1].classList, parentEl.classList);
-      parentEl.classList.add('active');
-      parentEl.children[1].classList.add('in');
-      parentEl.children[1].classList.remove('mm-collapsing');
-      parentEl.children[1].classList.remove('collapsing');
-      parentEl.children[1].style = '';
-    }
-    console.log(currentEl, parentEl, parentEl.children[1]);
-  }
-
-  /**
    * small sidebar
    */
   smallSidebar() {

@@ -2,128 +2,106 @@
 <ng-template #contentTemplate>
   <!--- Sidemenu -->
   <div id="sidebar-menu">
+    <!-- <ul class="metismenu" id="menu" #sideMenu>
+      <li class="mm-active">
+        <a href="#" class="has-arrow" aria-expanded="false">Menu 1</a>
+        <ul>
+          ...
+        </ul>
+      </li>
+      <li>
+        <a href="#" class="has-arrow" aria-expanded="false">Menu 2</a>
+        <ul>
+          ...
+        </ul>
+      </li>
+      <li>
+        <a href="#" class="has-arrow" aria-expanded="false">
+          <i class="fas fa-users-cog"></i>
+          <span> Nhân sự </span>
+        </a>
+        <ul>
+          <li>
+            <a routerLink="/staff/list-staff">Thông tin nhân sự</a>
+          </li>
+        </ul>
+      </li>
+    </ul> -->
     <ul class="metismenu" id="side-menu" #sideMenu>
       <li>
-        <a
-          routerLink="/dashboard"
-          routerLinkActive="active"
-          class="waves-effect"
-          aria-expanded="false"
-        >
+        <a routerLink="/dashboard" routerLinkActive="active" aria-expanded="false">
           <i class="fe-airplay"></i>
           <span> Bảng tin </span>
         </a>
       </li>
 
       <li>
-        <a href="javascript: void(0);" class="waves-effect" (click)="onMenuClick($event)">
+        <a href="javascript: void(0);" aria-expanded="false" class="has-arrow">
           <i class="fas fa-users-cog"></i>
           <span> Nhân sự </span>
-          <span class="menu-arrow"></span>
         </a>
-        <ul class="nav-second-level collapse" aria-expanded="false">
+        <ul class="nav-second-level">
           <li>
-            <a routerLink="/staff/list-staff" class="side-nav-link-ref" routerLinkActive="active"
-              >Thông tin nhân sự</a
-            >
+            <a routerLink="/staff/list-staff">Thông tin nhân sự</a>
           </li>
         </ul>
       </li>
 
       <li>
-        <a href="javascript: void(0);" class="waves-effect" (click)="onMenuClick($event)">
+        <a href="javascript: void(0);" aria-expanded="false" class="has-arrow">
           <i class="fe-users"></i>
           <span> Khách hàng </span>
-          <span class="menu-arrow"></span>
         </a>
-        <ul class="nav-second-level collapse" aria-expanded="false">
+        <ul class="nav-second-level">
           <li>
-            <a
-              routerLink="/customer/customer-group"
-              routerLinkActive="active"
-              class="side-nav-link-ref"
-              >Nhóm khách hàng</a
-            >
+            <a routerLink="/customer/customer-group">Nhóm khách hàng</a>
           </li>
           <li>
-            <a
-              routerLink="/customer/list-customer"
-              routerLinkActive="active"
-              class="side-nav-link-ref"
-              >Thông tin khách hàng</a
-            >
+            <a routerLink="/customer/list-customer">Thông tin khách hàng</a>
           </li>
           <li>
-            <a
-              routerLink="/customer/customer-care"
-              routerLinkActive="active"
-              class="side-nav-link-ref"
-              >Chăm sóc khách hàng</a
-            >
+            <a routerLink="/customer/customer-care">Chăm sóc khách hàng</a>
           </li>
         </ul>
       </li>
 
       <li>
-        <a href="javascript: void(0);" class="waves-effect" (click)="onMenuClick($event)">
+        <a href="javascript: void(0);" aria-expanded="false" class="has-arrow">
           <i class="fe-share-2"></i>
           <span> Marketing </span>
-          <span class="menu-arrow"></span>
         </a>
-        <ul class="nav-second-level collapse" aria-expanded="false">
+        <ul class="nav-second-level">
           <li>
-            <a href="javascript: void(0);" class="waves-effect" (click)="onMenuClick($event)">
+            <a href="javascript: void(0);" aria-expanded="false" class="has-arrow">
               <i class="fe-mail"></i>
               <span> Email </span>
-              <span class="menu-arrow"></span>
             </a>
-            <ul class="nav-second-level collapse" aria-expanded="false">
+            <ul>
               <li>
-                <a
-                  routerLink="/marketing/email-template"
-                  routerLinkActive="active"
-                  class="side-nav-link-ref"
-                  >Mẫu Email</a
-                >
+                <a routerLink="/marketing/email-template">Mẫu Email</a>
               </li>
               <li>
-                <a
-                  routerLink="/marketing/email-campaign"
-                  routerLinkActive="active"
-                  class="side-nav-link-ref"
-                  >Chiến dịch Email</a
-                >
+                <a routerLink="/marketing/email-campaign">Chiến dịch Email</a>
               </li>
               <li>
-                <a href="javascript: void(0);" class="side-nav-link-ref">Thống kê</a>
+                <a href="javascript: void(0);">Thống kê</a>
               </li>
             </ul>
           </li>
           <li>
-            <a href="javascript: void(0);" class="waves-effect" (click)="onMenuClick($event)">
+            <a href="javascript: void(0);" aria-expanded="false" class="has-arrow">
               <i class="fas fa-mobile-alt"></i>
               <span> SMS </span>
-              <span class="menu-arrow"></span>
             </a>
-            <ul class="nav-second-level collapse" aria-expanded="false">
+            <ul>
               <li>
-                <a
-                  routerLink="/marketing/sms-template"
-                  routerLinkActive="active"
-                  class="side-nav-link-ref"
-                  >Mẫu SMS</a
-                >
+                <a routerLink="/marketing/sms-template">Mẫu SMS</a>
               </li>
               <li>
-                <a
-                  routerLink="/marketing/sms-campaign"
-                  routerLinkActive="active"
-                  class="side-nav-link-ref"
-                  >Chiến dịch SMS</a
-                >
+                <a routerLink="/marketing/sms-campaign">Chiến dịch SMS</a>
               </li>
               <li>
-                <a href="javascript: void(0);" class="side-nav-link-ref">Thống kê</a>
+                <a href="javascript: void(0);">Thống kê</a>
               </li>
             </ul>
           </li>
@@ -131,74 +109,52 @@
       </li>
 
       <li>
-        <a href="javascript: void(0);" class="waves-effect" (click)="onMenuClick($event)">
+        <a href="javascript: void(0);" aria-expanded="false" class="has-arrow">
           <i class="fas fa-id-badge"></i>
           <span> Nhà cung cấp </span>
-          <span class="menu-arrow"></span>
         </a>
-        <ul class="nav-second-level collapse" aria-expanded="false">
+        <ul class="nav-second-level">
           <li>
-            <a routerLink="/vendor/list-vendor" routerLinkActive="active" class="side-nav-link-ref"
-              >Thông tin nhà cung cấp</a
-            >
+            <a routerLink="/vendor/list-vendor">Thông tin nhà cung cấp</a>
           </li>
           <li>
-            <a href="javascript: void(0);" class="side-nav-link-ref">Giao dịch với nhà cung cấp</a>
+            <a href="javascript: void(0);">Giao dịch với nhà cung cấp</a>
           </li>
         </ul>
       </li>
 
       <li>
-        <a href="javascript: void(0);" class="waves-effect" (click)="onMenuClick($event)">
+        <a href="javascript: void(0);" aria-expanded="false" class="has-arrow">
           <i class="fas fa-list"></i>
           <span> Dịch vụ </span>
-          <span class="menu-arrow"></span>
         </a>
-        <ul class="nav-second-level collapse" aria-expanded="false">
+        <ul class="nav-second-level">
           <li>
-            <a
-              routerLink="/service/list-service"
-              routerLinkActive="active"
-              class="side-nav-link-ref"
-              >Thông tin dịch vụ</a
-            >
+            <a routerLink="/service/list-service">Thông tin dịch vụ</a>
           </li>
           <li>
-            <a
-              routerLink="/service/order-service"
-              routerLinkActive="active"
-              class="side-nav-link-ref"
-              >Đặt dịch vụ</a
-            >
+            <a routerLink="/service/order-service">Đặt dịch vụ</a>
           </li>
           <li>
-            <a href="javascript: void(0);" class="side-nav-link-ref">Báo cáo & Thống kê</a>
+            <a href="javascript: void(0);">Báo cáo & Thống kê</a>
           </li>
         </ul>
       </li>
 
       <li>
-        <a href="javascript: void(0);" class="waves-effect" (click)="onMenuClick($event)">
+        <a href="javascript: void(0);" aria-expanded="false" class="has-arrow">
           <i class="fas fa-shopping-cart"></i>
           <span> Thương mại </span>
-          <span class="menu-arrow"></span>
         </a>
-        <ul class="nav-second-level collapse" aria-expanded="false">
+        <ul class="nav-second-level">
           <li>
-            <a
-              routerLink="/product/list-product"
-              routerLinkActive="active"
-              class="side-nav-link-ref"
-              >Thông tin sản phẩm</a
-            >
+            <a routerLink="/product/list-product">Thông tin sản phẩm</a>
           </li>
           <li>
-            <a routerLink="/product/list-order" routerLinkActive="active" class="side-nav-link-ref"
-              >Đặt hàng</a
-            >
+            <a routerLink="/product/list-order">Đặt hàng</a>
           </li>
           <li>
-            <a href="javascript: void(0);" class="side-nav-link-ref">Báo cáo & Thống kê</a>
+            <a href="javascript: void(0);">Báo cáo & Thống kê</a>
           </li>
         </ul>
       </li>
