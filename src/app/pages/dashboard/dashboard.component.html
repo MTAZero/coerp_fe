@@ -221,7 +221,13 @@
             <div class="col-sm-4">
               <form class="form-inline">
                 <div class="form-group mb-2">
-                  <input class="form-control" placeholder="Tìm kiếm" />
+                  <input
+                    class="form-control"
+                    name="textSearchOrder"
+                    placeholder="Tìm kiếm..."
+                    [(ngModel)]="textSearchOrder"
+                    (input)="onChangeOrderFilter()"
+                  />
                 </div>
               </form>
             </div>
@@ -230,13 +236,30 @@
                 <button type="button" class="btn btn-xs btn-primary mr-1">
                   Xuất bản
                 </button>
-                <button type="button" class="btn btn-xs btn-secondary">
+                <button
+                  type="button"
+                  class="btn btn-xs "
+                  [ngClass]="orderMode === 'month' ? 'btn-secondary' : 'btn-light'"
+                  (click)="orderMode = 'month'; onChangeOrderFilter()"
+                >
                   Tháng
                 </button>
-                <button type="button" class="btn btn-xs btn-light">
+                <button
+                  type="button"
+                  class="btn btn-xs"
+                  [ngClass]="orderMode === 'week' ? 'btn-secondary' : 'btn-light'"
+                  (click)="orderMode = 'week'; onChangeOrderFilter()"
+                >
                   Tuần
                 </button>
-                <button type="button" class="btn btn-xs btn-light">Ngày</button>
+                <button
+                  type="button"
+                  class="btn btn-xs"
+                  [ngClass]="orderMode === 'day' ? 'btn-secondary' : 'btn-light'"
+                  (click)="orderMode = 'day'; onChangeOrderFilter()"
+                >
+                  Ngày
+                </button>
               </div>
             </div>
             <!-- end col-->
@@ -255,19 +278,21 @@
               <tbody>
                 <tr *ngFor="let order of orders">
                   <td>
-                    {{ order.id }}
+                    {{ order.cuo_code }}
                   </td>
                   <td>
-                    {{ order.product }}
+                    {{ order.pu_name }}
                   </td>
                   <td>
-                    {{ order.total }}
+                    {{ order.op_total_value }}
                   </td>
                   <td>
-                    <span class="badge badge-secondary badge-success"> {{ order.status }}</span>
+                    <span class="badge badge-secondary badge-success">
+                      {{ order.cuo_status_name }}</span
+                    >
                   </td>
                   <td>
-                    {{ order.date }}
+                    {{ order.cuo_date | date: 'dd/MM/yyyy' }}
                   </td>
                 </tr>
               </tbody>
@@ -275,10 +300,10 @@
           </div>
           <ul class="pagination pagination-rounded justify-content-end my-2">
             <ngb-pagination
-              (pageChange)="onPageChange($event)"
-              [pageSize]="pageSize"
-              [(page)]="page"
-              [collectionSize]="totalSize"
+              (pageChange)="onPageOrderChange($event)"
+              [pageSize]="pageSizeOrder"
+              [(page)]="pageOrder"
+              [collectionSize]="totalSizeOrder"
             ></ngb-pagination>
           </ul>
         </div>
@@ -300,7 +325,7 @@
         <div class="col-6">
           <div class="text-right">
             <h3 class="text-dark my-1">
-              <span [CountTo]="widget.value" [from]="0" [duration]="1">{{ widget.value }}</span>
+              <span [CountTo]="widget.value" [from]="0" [duration]="0.005">{{ widget.value }}</span>
             </h3>
             <p class="text-muted mb-1 text-truncate">{{ widget.text }}</p>
           </div>
