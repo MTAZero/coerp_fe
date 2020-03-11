@@ -10,7 +10,8 @@ const router = {
   delete: `/api/products/delete`,
   category: `/api/product-categorys/get-name`,
   supplier: `/api/suppliers/get-name`,
-  unit: `/api/products/unit`
+  unit: `/api/products/unit`,
+  update_image: '/api/products/update_image'
 };
 
 @Injectable()
@@ -52,5 +53,12 @@ export class ProductService {
 
   loadUnit() {
     return this.httpClient.get(router.unit);
+  }
+
+  updateImage(file: any, pu_id: any) {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    formData.append('pu_id', pu_id);
+    return this.httpClient.putFormData(router.update_image, formData);
   }
 }

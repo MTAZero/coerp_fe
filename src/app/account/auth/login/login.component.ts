@@ -72,6 +72,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
         if (res && res.access_token && res.userName) {
           this.storageService.setItem('access_token', res.access_token);
           this.storageService.setItem('userName', res.userName);
+          this.storageService.setItem('thumbnail', res.url_thumbnai);
           this.router.navigate([this.returnUrl]);
         }
       }

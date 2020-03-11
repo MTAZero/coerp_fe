@@ -1,229 +1,215 @@
-<div class="product-statistic">
-  <div [style.height.px]="containerHeight - height" class="table-container">
-    <div class="card-body">
-      <div class="row mb-2">
-        <div class="col-sm-6">
-          <form class="form-inline">
-            <div class="form-group mb-2">
-              <input
-                class="form-control"
-                name="textSearch"
-                placeholder="Tìm kiếm..."
-                [(ngModel)]="textSearch"
-                (input)="onChangeFilter()"
-              />
-            </div>
-            <select
-              class="custom-select"
-              name="category"
-              [(ngModel)]="categorySearch"
-              (change)="onChangeFilter()"
-            >
-              <option value="">Loại sản phẩm</option>
-              <option *ngFor="let category of categories" [value]="category.id">{{
-                category.name
-              }}</option>
-            </select>
-          </form>
-        </div>
-        <div class="col-sm-6">
-          <div class="text-sm-right">
-            <button type="button" class="btn btn-info mb-2 mr-1">
-              Nhập
-            </button>
-            <button type="button" class="btn btn-info mb-2 mr-1">
-              Xuất
-            </button>
-            <a class="btn btn-success mb-2 mr-1 button-link" (click)="openProductModal()"
-              ><i class="mdi mdi-plus-circle mr-1"></i> Thêm mới</a
-            >
-            <a class="btn btn-primary mb-2 mr-1 button-link" (click)="openProductModal()"
-              ><i class="mdi mdi-square-edit-outline mr-1"></i> Cập nhật</a
-            >
-            <a class="btn btn-danger mb-2 mr-1 button-link" (click)="openProductModal()"
-              ><i class="mdi mdi-delete mr-1"></i> Xóa</a
-            >
+<app-main-container>
+  <div top class="card-body" style="height: 100%;">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <form class="form-inline">
+          <div class="form-group mb-2">
+            <input
+              class="form-control"
+              name="textSearch"
+              placeholder="Tìm kiếm..."
+              [(ngModel)]="textSearch"
+              (input)="onChangeFilter()"
+            />
           </div>
+          <select
+            class="custom-select"
+            name="category"
+            [(ngModel)]="categorySearch"
+            (change)="onChangeFilter()"
+          >
+            <option value="">Loại sản phẩm</option>
+            <option *ngFor="let category of categories" [value]="category.id">{{
+              category.name
+            }}</option>
+          </select>
+        </form>
+      </div>
+      <div class="col-sm-6">
+        <div class="text-sm-right">
+          <button type="button" class="btn btn-info mb-2 mr-1">
+            Nhập
+          </button>
+          <button type="button" class="btn btn-info mb-2 mr-1">
+            Xuất
+          </button>
+          <a class="btn btn-success mb-2 mr-1 button-link" (click)="openProductModal()"
+            ><i class="mdi mdi-plus-circle mr-1"></i> Thêm mới</a
+          >
+          <a class="btn btn-primary mb-2 mr-1 button-link" (click)="openProductModal()"
+            ><i class="mdi mdi-square-edit-outline mr-1"></i> Cập nhật</a
+          >
+          <a class="btn btn-danger mb-2 mr-1 button-link" (click)="openProductModal()"
+            ><i class="mdi mdi-delete mr-1"></i> Xóa</a
+          >
         </div>
-        <!-- end col-->
       </div>
+    </div>
 
-      <div [style.height.px]="containerHeight - height - 170" class="table-responsive">
-        <table class="table table-centered table-hover mb-0">
-          <thead>
-            <tr>
-              <th>MSP</th>
-              <th>Tên sản phẩm</th>
-              <th>Số lượng</th>
-              <th>Giá nhập</th>
-              <th>Giá bán</th>
-              <th>Đơn vị</th>
-              <th>Loại sản phẩm</th>
-              <th>Nhà cung cấp</th>
-              <th>Thuế</th>
-              <th>Ngày hết hạn</th>
-              <th>Cân nặng</th>
-              <th>Ngày tạo</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              *ngFor="let product of products"
-              (click)="onClickProduct(product)"
-              [ngClass]="{
-                'is-selected': product.pu_id === selectedProduct?.pu_id
-              }"
-            >
-              <td>
-                {{ product.pu_code }}
-              </td>
-              <td>
-                {{ product.pu_name }}
-              </td>
-              <td>
-                {{ product.pu_quantity }}
-              </td>
-              <td>
-                {{ product.pu_buy_price }}
-              </td>
-              <td>
-                {{ product.pu_sale_price }}
-              </td>
-              <td>
-                {{ product.pu_unit_name }}
-              </td>
-              <td>
-                {{ product.product_category_name }}
-              </td>
-              <td>
-                {{ product.provider_name }}
-              </td>
-              <td>
-                {{ product.pu_tax }}
-              </td>
-              <td>
-                {{ product.pu_expired_date | date: 'dd/MM/yyyy' }}
-              </td>
-              <td>
-                {{ product.pu_weight }}
-              </td>
-              <td>
-                {{ product.pu_create_date | date: 'dd/MM/yyyy' }}
-              </td>
-            </tr>
-            <tr
-              *ngFor="let product of products"
-              (click)="onClickProduct(product)"
-              [ngClass]="{
-                'is-selected': product.pu_id === selectedProduct?.pu_id
-              }"
-            >
-              <td>
-                {{ product.pu_code }}
-              </td>
-              <td>
-                {{ product.pu_name }}
-              </td>
-              <td>
-                {{ product.pu_quantity }}
-              </td>
-              <td>
-                {{ product.pu_buy_price }}
-              </td>
-              <td>
-                {{ product.pu_sale_price }}
-              </td>
-              <td>
-                {{ product.pu_unit_name }}
-              </td>
-              <td>
-                {{ product.product_category_name }}
-              </td>
-              <td>
-                {{ product.provider_name }}
-              </td>
-              <td>
-                {{ product.pu_tax }}
-              </td>
-              <td>
-                {{ product.pu_expired_date | date: 'dd/MM/yyyy' }}
-              </td>
-              <td>
-                {{ product.pu_weight }}
-              </td>
-              <td>
-                {{ product.pu_create_date | date: 'dd/MM/yyyy' }}
-              </td>
-            </tr>
-            <tr
-              *ngFor="let product of products"
-              (click)="onClickProduct(product)"
-              [ngClass]="{
-                'is-selected': product.pu_id === selectedProduct?.pu_id
-              }"
-            >
-              <td>
-                {{ product.pu_code }}
-              </td>
-              <td>
-                {{ product.pu_name }}
-              </td>
-              <td>
-                {{ product.pu_quantity }}
-              </td>
-              <td>
-                {{ product.pu_buy_price }}
-              </td>
-              <td>
-                {{ product.pu_sale_price }}
-              </td>
-              <td>
-                {{ product.pu_unit_name }}
-              </td>
-              <td>
-                {{ product.product_category_name }}
-              </td>
-              <td>
-                {{ product.provider_name }}
-              </td>
-              <td>
-                {{ product.pu_tax }}
-              </td>
-              <td>
-                {{ product.pu_expired_date | date: 'dd/MM/yyyy' }}
-              </td>
-              <td>
-                {{ product.pu_weight }}
-              </td>
-              <td>
-                {{ product.pu_create_date | date: 'dd/MM/yyyy' }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <ul class="pagination pagination-rounded justify-content-end my-3">
-        <ngb-pagination
-          (pageChange)="onPageChange($event)"
-          [pageSize]="pageSize"
-          [(page)]="page"
-          [collectionSize]="totalSize"
-        ></ngb-pagination>
-      </ul>
+    <div [style.height.px]="containerHeight - height - 170" class="table-responsive">
+      <table class="table table-centered table-hover mb-0">
+        <thead>
+          <tr>
+            <th>MSP</th>
+            <th>Tên sản phẩm</th>
+            <th>Số lượng</th>
+            <th>Giá nhập</th>
+            <th>Giá bán</th>
+            <th>Đơn vị</th>
+            <th>Loại sản phẩm</th>
+            <th>Nhà cung cấp</th>
+            <th>Thuế</th>
+            <th>Ngày hết hạn</th>
+            <th>Cân nặng</th>
+            <th>Ngày tạo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let product of products"
+            (click)="onClickProduct(product)"
+            [ngClass]="{
+              'is-selected': product.pu_id === selectedProduct?.pu_id
+            }"
+          >
+            <td>
+              {{ product.pu_code }}
+            </td>
+            <td>
+              {{ product.pu_name }}
+            </td>
+            <td>
+              {{ product.pu_quantity }}
+            </td>
+            <td>
+              {{ product.pu_buy_price }}
+            </td>
+            <td>
+              {{ product.pu_sale_price }}
+            </td>
+            <td>
+              {{ product.pu_unit_name }}
+            </td>
+            <td>
+              {{ product.product_category_name }}
+            </td>
+            <td>
+              {{ product.provider_name }}
+            </td>
+            <td>
+              {{ product.pu_tax }}
+            </td>
+            <td>
+              {{ product.pu_expired_date | date: 'dd/MM/yyyy' }}
+            </td>
+            <td>
+              {{ product.pu_weight }}
+            </td>
+            <td>
+              {{ product.pu_create_date | date: 'dd/MM/yyyy' }}
+            </td>
+          </tr>
+          <tr
+            *ngFor="let product of products"
+            (click)="onClickProduct(product)"
+            [ngClass]="{
+              'is-selected': product.pu_id === selectedProduct?.pu_id
+            }"
+          >
+            <td>
+              {{ product.pu_code }}
+            </td>
+            <td>
+              {{ product.pu_name }}
+            </td>
+            <td>
+              {{ product.pu_quantity }}
+            </td>
+            <td>
+              {{ product.pu_buy_price }}
+            </td>
+            <td>
+              {{ product.pu_sale_price }}
+            </td>
+            <td>
+              {{ product.pu_unit_name }}
+            </td>
+            <td>
+              {{ product.product_category_name }}
+            </td>
+            <td>
+              {{ product.provider_name }}
+            </td>
+            <td>
+              {{ product.pu_tax }}
+            </td>
+            <td>
+              {{ product.pu_expired_date | date: 'dd/MM/yyyy' }}
+            </td>
+            <td>
+              {{ product.pu_weight }}
+            </td>
+            <td>
+              {{ product.pu_create_date | date: 'dd/MM/yyyy' }}
+            </td>
+          </tr>
+          <tr
+            *ngFor="let product of products"
+            (click)="onClickProduct(product)"
+            [ngClass]="{
+              'is-selected': product.pu_id === selectedProduct?.pu_id
+            }"
+          >
+            <td>
+              {{ product.pu_code }}
+            </td>
+            <td>
+              {{ product.pu_name }}
+            </td>
+            <td>
+              {{ product.pu_quantity }}
+            </td>
+            <td>
+              {{ product.pu_buy_price }}
+            </td>
+            <td>
+              {{ product.pu_sale_price }}
+            </td>
+            <td>
+              {{ product.pu_unit_name }}
+            </td>
+            <td>
+              {{ product.product_category_name }}
+            </td>
+            <td>
+              {{ product.provider_name }}
+            </td>
+            <td>
+              {{ product.pu_tax }}
+            </td>
+            <td>
+              {{ product.pu_expired_date | date: 'dd/MM/yyyy' }}
+            </td>
+            <td>
+              {{ product.pu_weight }}
+            </td>
+            <td>
+              {{ product.pu_create_date | date: 'dd/MM/yyyy' }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+    <ul class="pagination pagination-rounded justify-content-end my-3">
+      <ngb-pagination
+        (pageChange)="onPageChange($event)"
+        [pageSize]="pageSize"
+        [(page)]="page"
+        [collectionSize]="totalSize"
+      ></ngb-pagination>
+    </ul>
   </div>
-  <div
-    class="detail"
-    mwlResizable
-    [enableGhostResize]="true"
-    resizeCursorPrecision="10"
-    [resizeEdges]="{ bottom: false, right: false, top: true, left: false }"
-    (resizeEnd)="onResizeEnd($event)"
-    [style.height.px]="height"
-  >
-    <div (click)="onClickTest()" class="test">
-      <span class="fas fa-caret-up" [ngClass]="height <= 10 ? '' : 'rotate'"></span>
-    </div>
+  <div bottom>
     <ngb-tabset class="nav-bordered">
       <ngb-tab title="Mô tả">
         <ng-template ngbTabContent>
@@ -237,4 +223,4 @@
       </ngb-tab>
     </ngb-tabset>
   </div>
-</div>
+</app-main-container>

@@ -9,6 +9,7 @@ import {
   NgbDropdownModule
 } from '@ng-bootstrap/ng-bootstrap';
 import { ClickOutsideModule } from 'ng-click-outside';
+import { ResizableModule } from 'angular-resizable-element';
 
 import { SlimscrollDirective } from './slimscroll.directive';
 import { CountToDirective } from './count-to.directive';
@@ -17,6 +18,7 @@ import { PagetitleComponent } from './pagetitle/pagetitle.component';
 import { PortletComponent } from './portlet/portlet.component';
 import { EmaillistComponent } from './emaillist/emaillist.component';
 import { WidgetComponent } from './widget/widget.component';
+import { MainContainerComponent } from './main-container/main-container.component';
 
 @NgModule({
   // tslint:disable-next-line: max-line-length
@@ -27,7 +29,8 @@ import { WidgetComponent } from './widget/widget.component';
     PagetitleComponent,
     PortletComponent,
     EmaillistComponent,
-    WidgetComponent
+    WidgetComponent,
+    MainContainerComponent
   ],
   imports: [
     CommonModule,
@@ -36,7 +39,8 @@ import { WidgetComponent } from './widget/widget.component';
     NgbCollapseModule,
     NgbDatepickerModule,
     NgbTimepickerModule,
-    NgbDropdownModule
+    NgbDropdownModule,
+    ResizableModule
   ],
   // tslint:disable-next-line: max-line-length
   exports: [
@@ -46,7 +50,8 @@ import { WidgetComponent } from './widget/widget.component';
     PagetitleComponent,
     PortletComponent,
     EmaillistComponent,
-    WidgetComponent
+    WidgetComponent,
+    MainContainerComponent
   ]
 })
 export class UIModule {}

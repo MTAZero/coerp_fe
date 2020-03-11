@@ -1,0 +1,19 @@
+<div class="product-statistic">
+  <div [style.height.px]="containerHeight - height" class="table-container">
+    <ng-content select="[top]"></ng-content>
+  </div>
+  <div
+    class="detail"
+    mwlResizable
+    [enableGhostResize]="true"
+    resizeCursorPrecision="10"
+    [resizeEdges]="{ bottom: false, right: false, top: true, left: false }"
+    (resizeEnd)="onResizeEnd($event)"
+    [style.height.px]="height"
+  >
+    <div (click)="onClickTest()" class="test">
+      <span class="fas fa-caret-up" [ngClass]="height <= 10 ? '' : 'rotate'"></span>
+    </div>
+    <ng-content select="[bottom]"></ng-content>
+  </div>
+</div>

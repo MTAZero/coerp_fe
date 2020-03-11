@@ -161,8 +161,17 @@
         <div class="media mb-3">
           <img
             class="d-flex mr-3 rounded-circle avatar-lg"
-            src="assets/images/users/user-8.jpg"
+            [src]="'http://27.72.147.222:1230' + selectedCustomer?.cu_thumbnail"
             alt="Generic placeholder image"
+            (click)="file.click()"
+            style="cursor: pointer;"
+          />
+          <input
+            type="file"
+            accept="image/*"
+            #file
+            style="display:none"
+            (change)="readURL($event)"
           />
           <div class="media-body">
             <h4 class="mt-0 mb-1">{{ selectedCustomer?.cu_fullname }}</h4>

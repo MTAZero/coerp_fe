@@ -1,5 +1,7 @@
 <div class="modal-header bg-dark">
-  <h4 class="modal-title text-white">Giao dịch khách hàng</h4>
+  <h4 class="modal-title text-white">
+    {{ !transaction ? 'Thêm mới' : isView ? 'Xem' : 'Cập nhật' }} giao dịch khách hàng
+  </h4>
   <button type="button" class="close text-white" aria-label="Close" (click)="onClickCancel()">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -10,18 +12,17 @@
     <div class="col-lg-6">
       <form class="form-inline">
         <div class="form-group">
-          <label for="customer">
-            <input
-              id="customer"
-              list="searchCustomer"
-              placeholder="Tìm kiếm..."
-              class="form-control"
-              (change)="changeDatalistCustomer($event)"
-            />
-            <datalist id="searchCustomer">
-              <option *ngFor="let customer of customers" [value]="customer.cu_fullname"></option>
-            </datalist>
-          </label>
+          <select
+            class="custom-select"
+            name="searchCustomer"
+            [(ngModel)]="searchCustomer"
+            (change)="changeDatalistCustomer($event)"
+          >
+            <option value="">Chọn khách hàng</option>
+            <option *ngFor="let customer of customers" [value]="customer.cu_id">{{
+              customer.cu_fullname
+            }}</option>
+          </select>
         </div>
       </form>
     </div>
@@ -29,7 +30,7 @@
       <div class="text-lg-right mt-3 mt-lg-0">
         <a href="javascript: void(0);" class="btn btn-danger mr-1">Hủy</a>
         <a href="javascript: void(0);" class="btn btn-success"
-          ><i class="mdi mdi-plus-circle mr-1"></i> Thêm mới</a
+          ><i class="mdi mdi-plus-circle mr-1"></i>Lưu</a
         >
       </div>
     </div>
@@ -51,25 +52,29 @@
       <tbody>
         <tr>
           <td>
-            {{ transaction?.customer.cu_code }}
+            {{ selectedCustomer?.cu_code }}
           </td>
           <td>
-            {{ transaction?.customer.cu_thumbnail }}
+            <img
+              [src]="'http://27.72.147.222:1230' + selectedCustomer?.cu_thumbnail"
+              alt="user-image"
+              class="rounded-circle"
+            />
           </td>
           <td>
-            {{ transaction?.customer.cu_fullname }}
+            {{ selectedCustomer?.cu_fullname }}
           </td>
           <td>
-            {{ transaction?.customer.cu_mobile }}
+            {{ selectedCustomer?.cu_mobile }}
           </td>
           <td>
-            {{ transaction?.customer.cu_email }}
+            {{ selectedCustomer?.cu_email }}
           </td>
           <td>
-            {{ transaction?.customer.cu_address }}
+            {{ selectedCustomer?.cu_address }}
           </td>
           <td>
-            {{ transaction?.customer.cu_create_date }}
+            {{ selectedCustomer?.cu_create_date | date: 'dd/MM/yyyy' }}
           </td>
         </tr>
       </tbody>
@@ -90,7 +95,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let product of transaction?.customer.list_order_product">
+        <tr *ngFor="let product of selectedCustomer?.list_order_product">
           <td></td>
           <td>
             {{ product.pu_name }}
@@ -109,7 +114,12 @@
             {{ product.cuo_status_name }}
           </td>
         </tr>
-        <tr *ngIf="transaction?.customer.list_order_product.length === 0">
+        <tr
+          *ngIf="
+            !selectedCustomer?.list_order_product ||
+            selectedCustomer?.list_order_product.length === 0
+          "
+        >
           <td colspan="7">
             Không có dữ liệu lịch sử mua hàng
           </td>
@@ -179,46 +189,22 @@
     <div class="col-md-3">
       <div class="form-group">
         <label>Người giao việc</label>
-        <label for="assigner">
-          <input
-            [readOnly]="isView"
-            id="assigner"
-            list="searchAssigner"
-            placeholder="Tìm kiếm..."
-            class="form-control"
-            (change)="changeDatalistAssigner($event)"
-          />
-          <datalist id="searchAssigner">
-            <option *ngFor="let staff of staffs" [value]="staff.sta_fullname"></option>
-          </datalist>
-        </label>
+        <select class="custom-select" formControlName="staff_id">
+          <option [disabled]="isView" *ngFor="let staff of staffs" [value]="staff.sta_id">{{
+            staff.sta_fullname
+          }}</option>
+        </select>
       </div>
     </div>
     <div class="col-md-3 d-flex align-items-start">
       <div class="form-group">
         <label>Người phụ trách</label>
-        <label for="assignee">
-          <input
-            [readOnly]="isView"
-            id="assignee"
-            list="searchAssignee"
-            placeholder="Tìm kiếm..."
-            class="form-control"
-            (change)="changeDatalistAssignee($event)"
-          />
-          <datalist id="searchAssignee">
-            <option *ngFor="let staff of staffs" [value]="staff.sta_fullname"></option>
-          </datalist>
-        </label>
+        <select class="custom-select" formControlName="staff_id">
+          <option [disabled]="isView" *ngFor="let staff of staffs" [value]="staff.sta_id">{{
+            staff.sta_fullname
+          }}</option>
+        </select>
       </div>
-      <button
-        type="button"
-        *ngIf="!isView"
-        class="btn btn-info mb-2 mr-1"
-        style="font-size: x-large; padding: 0 0.45rem; margin-left: 5px; margin-top: 29px;"
-      >
-        <i class="mdi mdi-swap-horizontal"></i>
-      </button>
     </div>
   </div>
   <div class="row">

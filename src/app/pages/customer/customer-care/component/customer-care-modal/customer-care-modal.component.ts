@@ -27,6 +27,8 @@ export class CustomerCareModalComponent implements OnInit {
   statuses: any;
   customers: any;
   staffs: any;
+  searchCustomer = '';
+  selectedCustomer: any;
 
   filterCustomer = {
     pageNumber: 0,
@@ -87,7 +89,11 @@ export class CustomerCareModalComponent implements OnInit {
   }
 
   changeDatalistCustomer(e: any) {
-    const customerIndex = this.customers.findIndex(item => item.cu_fullname === e.target.value);
+    if (e.target.value === '') {
+      this.selectedCustomer = null;
+    } else {
+      this._fetchCustomer(e.target.value);
+    }
   }
 
   changeDatalistAssigner(e: any) {}
@@ -102,11 +108,15 @@ export class CustomerCareModalComponent implements OnInit {
       tra_content: ['', null],
       tra_rate: ['', null],
       tra_result: ['', null],
-      tra_status: ['', null]
+      tra_status: ['', null],
+      staff_id: ['', null]
     });
   }
 
   private _fetchData(data: any) {
+    console.log(data);
+    this.searchCustomer = data.customer.cu_id;
+    this.selectedCustomer = this.transaction.customer;
     this.form.patchValue({
       tra_title: data.tra_title,
       tra_type: data.tra_type,
@@ -114,7 +124,8 @@ export class CustomerCareModalComponent implements OnInit {
       tra_content: data.tra_content,
       tra_rate: data.tra_rate,
       tra_result: data.tra_result,
-      tra_status: data.tra_status
+      tra_status: data.tra_status,
+      staff_id: data.staff_id
     });
   }
 
@@ -144,6 +155,17 @@ export class CustomerCareModalComponent implements OnInit {
     const staff$ = this.staffService.searchStaff(this.filterStaff).pipe(takeUntil(this.destroyed$));
     staff$.subscribe((res: any) => {
       this.staffs = res.Data.Results;
+    });
+  }
+
+  private _fetchCustomer(cu_id: any) {
+    const customer$ = this.transactionService
+      .loadCustomer({ cu_id })
+      .pipe(takeUntil(this.destroyed$));
+
+    customer$.subscribe((res: any) => {
+      this.selectedCustomer = res.Data;
+      console.log(this.selectedCustomer);
     });
   }
 }

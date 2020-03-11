@@ -14,7 +14,8 @@ const router = {
   create_location: `/api/ship-addresss/create`,
   update_location: `/api/ship-addresss/update`,
   delete_location: `/api/ship-addresss/delete`,
-  import: `/api/customer/import`
+  import: `/api/customer/import`,
+  update_avatar: '/api/customers/update_avatar'
 };
 
 @Injectable()
@@ -84,5 +85,12 @@ export class CustomerService {
     const formData = new FormData();
     formData.append('file', file, file.name);
     return this.httpClient.postFormData(router.import, formData);
+  }
+
+  updateAvatar(file: any, cu_id: any) {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    formData.append('cu_id', cu_id);
+    return this.httpClient.putFormData(router.update_avatar, formData);
   }
 }

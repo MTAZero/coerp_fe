@@ -156,6 +156,52 @@ export class ListCustomerComponent implements OnInit {
     );
   }
 
+  readURL(event: any) {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+
+      const import$ = this.customerService
+        .updateAvatar(file, this.selectedCustomer.cu_id)
+        .pipe(takeUntil(this.destroyed$));
+      import$.subscribe(
+        (res: any) => {
+          if (res.Code === 200) {
+            Swal.fire({
+              position: 'top-end',
+              type: 'success',
+              title: 'Cập nhật ảnh khách hàng thành công',
+              showConfirmButton: false,
+              timer: 2000
+            });
+            this.page--;
+            this._fetchData();
+          } else {
+            Swal.fire({
+              position: 'top-end',
+              type: 'error',
+              title: 'Cập nhật ảnh khách hàng thất bại',
+              showConfirmButton: false,
+              timer: 2000
+            });
+          }
+        },
+        () => {
+          Swal.fire({
+            position: 'top-end',
+            type: 'error',
+            title: 'Cập nhật ảnh khách hàng thất bại',
+            showConfirmButton: false,
+            timer: 2000
+          });
+        }
+      );
+      // const reader = new FileReader();
+      // reader.onload = e => (this.thumbnail = reader.result);
+
+      // reader.readAsDataURL(file);
+    }
+  }
+
   private _fetchData(selected?: any) {
     const customer$ = this.customerService
       .loadCustomer({

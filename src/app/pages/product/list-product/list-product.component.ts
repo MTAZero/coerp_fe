@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmModalComponent } from './component/confirm-modal/confirm-modal.component';
 import { ProductModalComponent } from './component/product-modal/product-modal.component';
 import { isNullOrUndefined } from 'util';
 import { ProductService } from '../../../core/services/api/product.service';
@@ -103,6 +102,52 @@ export class ListProductComponent implements OnInit {
   onChangeFilter() {
     this.page--;
     this._fetchData();
+  }
+
+  readURL(event: any) {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+
+      const import$ = this.productService
+        .updateImage(file, this.selectedProduct.pu_id)
+        .pipe(takeUntil(this.destroyed$));
+      import$.subscribe(
+        (res: any) => {
+          if (res.Code === 200) {
+            Swal.fire({
+              position: 'top-end',
+              type: 'success',
+              title: 'Cập nhật ảnh sản phẩm thành công',
+              showConfirmButton: false,
+              timer: 2000
+            });
+            this.page--;
+            this._fetchData();
+          } else {
+            Swal.fire({
+              position: 'top-end',
+              type: 'error',
+              title: 'Cập nhật ảnh sản phẩm thất bại',
+              showConfirmButton: false,
+              timer: 2000
+            });
+          }
+        },
+        () => {
+          Swal.fire({
+            position: 'top-end',
+            type: 'error',
+            title: 'Cập nhật ảnh sản phẩm thất bại',
+            showConfirmButton: false,
+            timer: 2000
+          });
+        }
+      );
+      // const reader = new FileReader();
+      // reader.onload = e => (this.thumbnail = reader.result);
+
+      // reader.readAsDataURL(file);
+    }
   }
 
   private _fetchData() {

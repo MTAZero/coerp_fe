@@ -12,7 +12,8 @@ const router = {
   update_location: `/api/undertakenLocations/update`,
   delete_location: `/api/undertakenLocations/delete`,
   role: '/api/group-roles/all',
-  import: '/api/satffs/import'
+  import: '/api/satffs/import',
+  update_avatar: '/api/staffs/update_avatar'
 };
 
 @Injectable()
@@ -67,5 +68,11 @@ export class StaffService {
     const formData = new FormData();
     formData.append('file', file, file.name);
     return this.httpClient.postFormData(router.import, formData);
+  }
+
+  updateAvatar(file: any) {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    return this.httpClient.putFormData(router.update_avatar, formData);
   }
 }

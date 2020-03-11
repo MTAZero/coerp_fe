@@ -1,34 +1,36 @@
 :host {
-  .form-inline {
-    align-items: baseline;
-    flex-flow: row;
-  }
-  .table-container {
-    .table-responsive {
-      overflow: auto;
-
-      thead {
-        th {
-          position: sticky;
-          top: 0;
-          z-index: 2;
-          background-color: white;
-        }
-      }
-
-      tr {
-        cursor: pointer;
-
-        &.is-selected {
-          background-color: lightgray;
-        }
-      }
-    }
-  }
   .product-statistic {
     margin-top: 10px;
     height: calc(100vh - 90px);
     background-color: #fff;
+
+    .table-container {
+      .form-inline {
+        align-items: baseline;
+        flex-flow: row;
+      }
+
+      .table-responsive {
+        overflow: auto;
+
+        thead {
+          th {
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            background-color: white;
+          }
+        }
+
+        tr {
+          cursor: pointer;
+
+          &.is-selected {
+            background-color: lightgray;
+          }
+        }
+      }
+    }
 
     .detail {
       padding: 10px;

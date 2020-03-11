@@ -7,14 +7,6 @@
 <div class="modal-body p-3">
   <div class="text-left">
     <form [formGroup]="form" class="form-horizontal" autocomplete="off">
-      <div class="form-group">
-        <label for="avatar">Ảnh chân dung</label>
-        <img
-          class="d-flex mr-3 rounded-circle avatar-lg"
-          src="assets/images/users/user-8.jpg"
-          alt="Generic placeholder image"
-        />
-      </div>
       <div class="form-row">
         <div class="form-group row mb-3">
           <label class="col-4 col-form-label">Họ và tên <span>(*)</span></label>
@@ -96,18 +88,20 @@
       </div>
       <div class="form-row">
         <div class="form-group row mb-3">
-          <label class="col-4 col-form-label">Mật khẩu <span>(*)</span></label>
+          <label class="col-4 col-form-label">Nhóm quyền <span>(*)</span></label>
           <div class="col-8">
-            <input
-              type=""
+            <select
+              class="custom-select"
+              formControlName="group_role_id"
               class="form-control"
-              formControlName="sta_password"
               [ngClass]="{
-                'is-invalid': submitted && formUI.sta_password.errors
+                'is-invalid': submitted && formUI.group_role_id.errors
               }"
-            />
-            <div *ngIf="submitted && formUI.sta_password.errors" class="invalid-feedback">
-              <span *ngIf="formUI.sta_password.errors.required">This value is required.</span>
+            >
+              <option *ngFor="let role of roles" [value]="role.gr_id">{{ role.gr_name }}</option>
+            </select>
+            <div *ngIf="submitted && formUI.group_role_id.errors" class="invalid-feedback">
+              <span *ngIf="formUI.group_role_id.errors.required">This value is required.</span>
             </div>
           </div>
         </div>
@@ -172,27 +166,6 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group row mb-3">
-          <label class="col-4 col-form-label">Nhóm quyền <span>(*)</span></label>
-          <div class="col-8">
-            <select
-              class="custom-select"
-              formControlName="group_role_id"
-              class="form-control"
-              [ngClass]="{
-                'is-invalid': submitted && formUI.group_role_id.errors
-              }"
-            >
-              <option *ngFor="let role of roles" [value]="role.gr_id">{{ role.gr_name }}</option>
-            </select>
-            <div *ngIf="submitted && formUI.group_role_id.errors" class="invalid-feedback">
-              <span *ngIf="formUI.group_role_id.errors.required">This value is required.</span>
-            </div>
-          </div>
-        </div>
-        <div class="form-group row"></div>
       </div>
       <div class="form-row" style="font-weight: bold;">
         <div class="form-group">
