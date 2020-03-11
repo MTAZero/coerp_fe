@@ -4,21 +4,34 @@
     height: calc(100vh - 90px);
     background-color: #fff;
 
-    .form-inline {
-      align-items: baseline;
-      flex-flow: row;
-    }
-
-    tr {
-      cursor: pointer;
-
-      &.is-selected {
-        background-color: lightgray;
-      }
-    }
-
     .table-container {
-      overflow: auto;
+      .form-inline {
+        align-items: baseline;
+        flex-flow: row;
+      }
+
+      .table-responsive {
+        overflow: auto;
+        box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14),
+          0 3px 14px 2px rgba(0, 0, 0, 0.12);
+
+        thead {
+          th {
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            background-color: white;
+          }
+        }
+
+        tr {
+          cursor: pointer;
+
+          &.is-selected {
+            background-color: lightgray;
+          }
+        }
+      }
     }
 
     .detail {
@@ -26,17 +39,28 @@
       background-color: white;
       border-top: 5px solid #dee2e6;
       position: relative;
-      z-index: 100;
 
       .test {
         position: absolute;
         left: 50%;
-        top: -27px;
+        top: -20px;
         cursor: pointer;
         font-size: x-large;
+        border: 2px lightgray solid;
+        width: 60px;
+        height: 15px;
+        text-align: center;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        background-color: #fff;
 
-        &.rotate {
-          transform: rotate(180deg);
+        span {
+          display: block;
+          line-height: 0.5;
+
+          &.rotate {
+            transform: rotate(180deg);
+          }
         }
       }
     }

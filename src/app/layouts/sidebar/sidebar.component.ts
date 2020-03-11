@@ -16,6 +16,7 @@ import MetisMenu from 'metismenujs/dist/metismenujs';
 })
 export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() isCondensed = false;
+  @Input() hasArrow = true;
 
   menu: any;
 

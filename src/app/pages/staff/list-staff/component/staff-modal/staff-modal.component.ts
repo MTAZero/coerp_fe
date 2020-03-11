@@ -112,7 +112,10 @@ export class StaffModalComponent implements OnInit {
       sta_birthday: [null, null],
       sta_mobile: ['', [Validators.required]],
       sta_identity_card: ['', null],
-      sta_email: ['', [Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$')]],
+      sta_email: [
+        '',
+        [Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'), Validators.required]
+      ],
       sta_identity_card_date: [null, null], // date of issue of certification
       sta_address: ['', null]
     });

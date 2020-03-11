@@ -89,10 +89,16 @@ export class DashboardComponent implements OnInit {
     revenue$.subscribe((res: any) => {
       if (res) {
         this.revenues = res.Data;
-        this.widget[0].value = this.revenues.totalRevenue;
-        this.widget[1].value = this.revenues.totalRevenueByMonth;
-        this.widget[2].value = this.revenues.totalRevenueByWeek;
-        this.widget[3].value = this.revenues.totalRevenueByDay;
+        this.widget[0].value = this.revenues.totalRevenue ? this.revenues.totalRevenue : 0;
+        this.widget[1].value = this.revenues.totalRevenueByMonth
+          ? this.revenues.totalRevenueByMonth
+          : 0;
+        this.widget[2].value = this.revenues.totalRevenueByWeek
+          ? this.revenues.totalRevenueByWeek
+          : 0;
+        this.widget[3].value = this.revenues.totalRevenueByDay
+          ? this.revenues.totalRevenueByDay
+          : 0;
       }
     });
   }

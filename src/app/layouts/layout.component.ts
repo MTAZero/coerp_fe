@@ -7,6 +7,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 })
 export class LayoutComponent implements OnInit, AfterViewInit {
   isCondensed = false;
+  hasArrow = true;
 
   constructor() {}
 
@@ -40,6 +41,8 @@ export class LayoutComponent implements OnInit, AfterViewInit {
    */
   onToggleMobileMenu() {
     document.body.classList.toggle('sidebar-enable');
+    this.hasArrow = !this.hasArrow;
+
     if (!this.isMobile()) {
       document.body.classList.toggle('enlarged');
       this.isCondensed = !this.isCondensed;
