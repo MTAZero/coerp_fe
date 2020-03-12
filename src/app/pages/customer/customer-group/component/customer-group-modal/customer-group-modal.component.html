@@ -1,0 +1,69 @@
+<div class="modal-header bg-dark">
+  <h4 class="modal-title text-white">
+    {{ !customerGroup ? 'Thêm mới' : 'Cập nhật' }} nhóm khách hàng
+  </h4>
+  <button type="button" class="close text-white" aria-label="Close" (click)="onClickCancel()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body p-3">
+  <div class="media">
+    <img
+      class="d-flex align-self-center mr-3 rounded-circle"
+      [src]="thumbnail"
+      onerror="this.src='/assets/images/users/user-1.jpg';"
+      alt="Avatar"
+      (click)="file.click()"
+      style="cursor: pointer;"
+      height="120"
+      width="120"
+    />
+    <input type="file" accept="image/*" #file style="display:none" (change)="readURL($event)" />
+    <div class="media-body" [formGroup]="form">
+      <div class="form-group row mb-3">
+        <label class="col-3 col-form-label">Tên nhóm <span>(*)</span></label>
+        <div class="col-9">
+          <input
+            class="form-control"
+            formControlName="cg_name"
+            [ngClass]="{
+              'is-invalid': submitted && formUI.cg_name.errors
+            }"
+          />
+          <div *ngIf="submitted && formUI.cg_name.errors" class="invalid-feedback">
+            <span *ngIf="formUI.cg_name.errors.required">This value is required.</span>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row mb-3">
+        <label class="col-3 col-form-label">Chi tiết <span>(*)</span></label>
+        <div class="col-9">
+          <textarea
+            rows="5"
+            style="width: 100%;"
+            class="form-control"
+            formControlName="cg_description"
+            [ngClass]="{
+              'is-invalid': submitted && formUI.cg_description.errors
+            }"
+          ></textarea>
+          <div *ngIf="submitted && formUI.cg_description.errors" class="invalid-feedback">
+            <span *ngIf="formUI.cg_description.errors.required">This value is required.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="text-left">
+    <form [formGroup]="form" class="form-horizontal">
+      <div class="text-right">
+        <button (click)="onClickSubmit()" class="btn btn-success">
+          Lưu
+        </button>
+        <button type="button" class="btn btn-danger ml-1" (click)="onClickCancel()">
+          Hủy
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

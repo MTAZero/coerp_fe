@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
-import { opportunityData, simplePieChart } from './data';
-
-import { Opportunities, ChartType } from './opportunities.model';
+import { simplePieChart } from './data';
+import { ChartType } from './opportunities.model';
+import { CustomerGroupModalComponent } from './component/customer-group-modal/customer-group-modal.component';
+import { ListCustomerModalComponent } from './component/list-customer-modal/list-customer-modal.component';
+import { CustomerGroupService } from '../../../core/services/api/customer-group.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-customer-group',
@@ -13,83 +15,221 @@ import { Opportunities, ChartType } from './opportunities.model';
   styleUrls: ['./customer-group.component.scss']
 })
 export class CustomerGroupComponent implements OnInit {
-  // bread crumb items
+  private destroyed$ = new Subject();
   breadCrumbItems: Array<{}>;
 
-  opportunityData: Opportunities[];
-  simplePieChart: ChartType;
-  term: any;
   submitted: boolean;
 
-  // validation form
-  validationform: FormGroup;
+  textSearch = '';
+  page = 0;
+  pageSize = 10;
+  totalSize = 0;
 
-  constructor(
-    private modalService: NgbModal,
-    public formBuilder: FormBuilder
-  ) {}
+  groups: any;
+
+  simplePieChart: ChartType;
+
+  constructor(private modalService: NgbModal, private customerGroupService: CustomerGroupService) {}
 
   ngOnInit() {
-    // tslint:disable-next-line: max-line-length
     this.breadCrumbItems = [
       { label: 'ERP', path: '/' },
       { label: 'Khách hàng', path: '/' },
       { label: 'Nhóm khách hàng', path: '/', active: true }
     ];
 
-    /**
-     * form validation
-     */
-    this.validationform = this.formBuilder.group({
-      name: ['', [Validators.required]],
-      phone: ['', [Validators.required]],
-      category: ['', [Validators.required]],
-      email: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$')
-        ]
-      ]
-    });
-    /**
-     * fetches data
-     */
     this._fetchData();
   }
-  /**
-   * Returns form
-   */
-  get form() {
-    return this.validationform.controls;
-  }
-  /**
-   * Modal Open
-   * @param content modal content
-   */
-  openModal(content: string) {
-    this.modalService.open(content, { centered: true });
-  }
 
-  /**
-   * save the Opportunities data
-   */
-  saveData() {
-    const name = this.validationform.get('name').value;
-    const phone = this.validationform.get('phone').value;
-    const category = this.validationform.get('category').value;
-    const email = this.validationform.get('email').value;
-
-    if (this.validationform.valid) {
+  openCustomerGroupModal(customerGroup?: any) {
+    const modalRef = this.modalService.open(CustomerGroupModalComponent, {
+      centered: true,
+      size: 'lg'
+    });
+    if (customerGroup) {
+      modalRef.componentInstance.customerGroup = customerGroup;
     }
-    this.submitted = true;
+    modalRef.componentInstance.passEvent.subscribe(res => {
+      if (res.event) {
+        if (customerGroup) {
+          this._updateCustomerGroup(res.form);
+        } else {
+          this._createCustomerGroup(res.form);
+        }
+      }
+      modalRef.close();
+    });
   }
-  /**
-   * fetches the opportunities value
-   */
-  private _fetchData() {
-    this.opportunityData = opportunityData;
 
+  openListCustomerModal() {
+    const modalRef = this.modalService.open(ListCustomerModalComponent, {
+      centered: true,
+      size: 'lg'
+    });
+  }
+
+  openConfirmModal(customerGroup?: any) {
+    Swal.fire({
+      title: 'Chắc chắn muốn xóa nhóm khách hàng đang chọn?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Xóa',
+      cancelButtonText: 'Hủy',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33'
+    }).then(result => {
+      if (result.value) {
+        this._removeCustomerGroup(customerGroup);
+      }
+    });
+  }
+
+  onChangeFilter() {
+    this._fetchData();
+  }
+
+  private _fetchData() {
     this.simplePieChart = simplePieChart;
+
+    const customerGroup$ = this.customerGroupService
+      .loadCustomerGroup({
+        pageNumber: this.page,
+        pageSize: this.pageSize,
+        cg_id: '',
+        name: this.textSearch
+      })
+      .pipe(takeUntil(this.destroyed$));
+    customerGroup$.subscribe((res: any) => {
+      if (res && res.Data) {
+        this.totalSize = res.Data.TotalNumberOfRecords;
+        this.groups = res.Data.Results;
+      }
+    });
+
+    const chart$ = this.customerGroupService.loadChart().pipe(takeUntil(this.destroyed$));
+    chart$.subscribe((res: any) => {
+      if (res && res.Data) {
+        console.log(res.Data);
+        let series = [];
+        let labels = [];
+        res.Data.map((e: any) => {
+          series.push(e.number);
+          labels.push(e.cg_name);
+        });
+        this.simplePieChart.series = series;
+        this.simplePieChart.labels = labels;
+      }
+    });
+  }
+
+  private _createCustomerGroup(data: any) {
+    const createCustomerGroup$ = this.customerGroupService
+      .createCustomerGroup(data)
+      .pipe(takeUntil(this.destroyed$));
+    createCustomerGroup$.subscribe(
+      (res: any) => {
+        if (res.Code === 200) {
+          Swal.fire({
+            position: 'top-end',
+            type: 'success',
+            title: 'Thêm nhóm khách hàng thành công',
+            showConfirmButton: false,
+            timer: 2000
+          });
+          this._fetchData();
+          this.modalService.dismissAll();
+        } else {
+          Swal.fire({
+            position: 'top-end',
+            type: 'error',
+            title: 'Thêm nhóm khách hàng thất bại',
+            showConfirmButton: false,
+            timer: 2000
+          });
+          this.modalService.dismissAll();
+        }
+      },
+      () => {}
+    );
+  }
+
+  private _updateCustomerGroup(updated: any) {
+    const updateCustomerGroup$ = this.customerGroupService
+      .updateCustomerGroup(updated)
+      .pipe(takeUntil(this.destroyed$));
+    updateCustomerGroup$.subscribe(
+      (res: any) => {
+        if (res.Code === 200) {
+          Swal.fire({
+            position: 'top-end',
+            type: 'success',
+            title: 'Cập nhật nhóm khách hàng thành công',
+            showConfirmButton: false,
+            timer: 2000
+          });
+          this._fetchData();
+          this.modalService.dismissAll();
+        } else {
+          Swal.fire({
+            position: 'top-end',
+            type: 'error',
+            title: 'Cập nhật nhóm khách hàng thất bại',
+            showConfirmButton: false,
+            timer: 2000
+          });
+          this.modalService.dismissAll();
+        }
+      },
+      () => {
+        Swal.fire({
+          position: 'top-end',
+          type: 'error',
+          title: 'Cập nhật nhóm khách hàng thất bại',
+          showConfirmButton: false,
+          timer: 2000
+        });
+        this.modalService.dismissAll();
+      }
+    );
+  }
+
+  private _removeCustomerGroup(customerGroup: any) {
+    const removeCustomerGroup$ = this.customerGroupService
+      .removeCustomerGroup({ cg_id: customerGroup.cg_id })
+      .pipe(takeUntil(this.destroyed$));
+    removeCustomerGroup$.subscribe(
+      (res: any) => {
+        if (res.Code === 200) {
+          Swal.fire({
+            position: 'top-end',
+            type: 'success',
+            title: 'Xóa khách nhóm hàng thành công',
+            showConfirmButton: false,
+            timer: 2000
+          });
+          this._fetchData();
+          this.modalService.dismissAll();
+        } else {
+          Swal.fire({
+            position: 'top-end',
+            type: 'error',
+            title: 'Xóa khách nhóm hàng thất bại',
+            showConfirmButton: false,
+            timer: 2000
+          });
+          this.modalService.dismissAll();
+        }
+      },
+      () => {
+        Swal.fire({
+          position: 'top-end',
+          type: 'error',
+          title: 'Xóa khách nhóm hàng thất bại',
+          showConfirmButton: false,
+          timer: 2000
+        });
+        this.modalService.dismissAll();
+      }
+    );
   }
 }

@@ -49,7 +49,8 @@ const simplePieChart: ChartType = {
   labels: ['Khách quen', 'Khách VIP', 'Khách BNI', 'Khách khác'],
   colors: ['#4fc6e1', '#6658dd', '#f7b84b', '#f1556c'],
   legend: {
-    show: false
+    position: 'right',
+    align: 'left'
   },
   dataLabels: {
     enabled: false
@@ -62,7 +63,7 @@ const simplePieChart: ChartType = {
           height: 240
         },
         legend: {
-          show: false
+          position: 'bottom'
         }
       }
     }

@@ -16,12 +16,14 @@ import { ListSourceModalComponent } from './list-customer/component/list-source-
 import { SourceModalComponent } from './list-customer/component/source-modal/source-modal.component';
 import { ListCustomerTypeModalComponent } from './list-customer/component/list-customer-type-modal/list-customer-type-modal.component';
 import { CustomerTypeModalComponent } from './list-customer/component/customer-type-modal/customer-type-modal.component';
-import { CustomerGroupModalComponent } from './list-customer/component/customer-group-modal/customer-group-modal.component';
+import { CustomerGroupModalComponent as CustomerGroupMini } from './list-customer/component/customer-group-modal/customer-group-modal.component';
 import { ListCustomerGroupModalComponent } from './list-customer/component/list-customer-group-modal/list-customer-group-modal.component';
 import { AddresModalComponent } from './list-customer/component/addres-modal/addres-modal.component';
 import { CustomerGroupComponent } from './customer-group/customer-group.component';
 import { CustomerCareComponent } from './customer-care/customer-care.component';
 import { CustomerCareModalComponent } from './customer-care/component/customer-care-modal/customer-care-modal.component';
+import { ListCustomerModalComponent } from './customer-group/component/list-customer-modal/list-customer-modal.component';
+import { CustomerGroupModalComponent } from './customer-group/component/customer-group-modal/customer-group-modal.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,9 @@ import { CustomerCareModalComponent } from './customer-care/component/customer-c
     AddresModalComponent,
     CustomerGroupComponent,
     CustomerCareComponent,
-    CustomerCareModalComponent
+    CustomerCareModalComponent,
+    ListCustomerModalComponent,
+    CustomerGroupMini
   ],
   imports: [
     CommonModule,
@@ -64,7 +68,11 @@ import { CustomerCareModalComponent } from './customer-care/component/customer-c
     CustomerTypeModalComponent,
     CustomerGroupModalComponent,
     AddresModalComponent,
-    CustomerCareModalComponent
+    CustomerCareModalComponent,
+    ListCustomerGroupModalComponent,
+    CustomerGroupModalComponent,
+    CustomerGroupMini,
+    ListCustomerModalComponent
   ]
 })
 export class CustomerModule {}

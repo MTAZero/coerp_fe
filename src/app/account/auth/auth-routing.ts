@@ -5,28 +5,33 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { ConfirmComponent } from './confirm/confirm.component';
 import { PasswordresetComponent } from './passwordreset/passwordreset.component';
+import { FirstLoginComponent } from './first-login/first-login.component';
 
 const routes: Routes = [
-    {
-        path: 'login',
-        component: LoginComponent
-    },
-    {
-        path: 'signup',
-        component: SignupComponent
-    },
-    {
-        path: 'confirm',
-        component: ConfirmComponent
-    },
-    {
-        path: 'reset-password',
-        component: PasswordresetComponent
-    },
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
+    path: 'signup',
+    component: SignupComponent
+  },
+  {
+    path: 'confirm',
+    component: ConfirmComponent
+  },
+  {
+    path: 'reset-password',
+    component: PasswordresetComponent
+  },
+  {
+    path: 'first-login',
+    component: FirstLoginComponent
+  }
 ];
 
 @NgModule({
-    imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
 })
-export class AuthRoutingModule { }
+export class AuthRoutingModule {}

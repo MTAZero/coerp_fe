@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  HttpClient,
-  HttpParams,
-  HttpHeaders,
-  HttpResponse
-} from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
 import { StorageService } from './storage.service';
@@ -12,10 +7,7 @@ import { StorageService } from './storage.service';
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
   url = 'http://27.72.147.222:1230';
-  constructor(
-    private http: HttpClient,
-    private storageService: StorageService
-  ) {}
+  constructor(private http: HttpClient, private storageService: StorageService) {}
 
   public accessToken() {
     return this.storageService.getItem('access_token');
@@ -33,8 +25,21 @@ export class AuthenticationService {
           'Content-Type': 'application/json; charset=utf-8',
           'Access-Control-Allow-Origin': '*',
           'Cache-Control': 'no-cache',
-          Authorization:
-            'BASIC RE9UTkVUOjVDNTFBQkUxLTY4MjgtNERBMS04NzBDLURCRTVDRjg5M0M1OQ=='
+          Authorization: 'BASIC RE9UTkVUOjVDNTFBQkUxLTY4MjgtNERBMS04NzBDLURCRTVDRjg5M0M1OQ=='
+        })
+      })
+      .pipe(map(this.extractData));
+  }
+
+  forgot(email: string) {
+    const body = new HttpParams().set('email', email);
+
+    return this.http
+      .post(`http://27.72.147.222:1230/api/authentication/forgotpassword`, body.toString(), {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+          'Access-Control-Allow-Origin': '*',
+          'Cache-Control': 'no-cache'
         })
       })
       .pipe(map(this.extractData));
