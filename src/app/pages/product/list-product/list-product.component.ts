@@ -142,6 +142,23 @@ export class ListProductComponent implements OnInit {
     }
   }
 
+  exportProduct() {
+    const export$ = this.productService
+      .exportProduct({
+        pageNumber: this.page - 1,
+        pageSize: this.pageSize,
+        search_name: this.textSearch,
+        category_id: this.categorySearch
+      })
+      .pipe(takeUntil(this.destroyed$));
+    export$.subscribe((res: any) => {
+      if (res && res.Data) {
+        const link = 'http://27.72.147.222:1230/' + res.Data;
+        window.open(link);
+      }
+    });
+  }
+
   private _fetchData(selected?: any) {
     const product$ = this.productService
       .loadProduct({

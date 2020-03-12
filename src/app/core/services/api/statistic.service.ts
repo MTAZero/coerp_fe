@@ -11,15 +11,13 @@ const router = {
 export class StatisticService {
   constructor(private httpClient: ApiService) {}
 
-  loadRevenue(filter?: { staff_id: number }) {
-    const params = mapToHttpParamsQuery(filter);
-    return this.httpClient.get(router.revenue, params);
+  loadRevenue() {
+    return this.httpClient.get(router.revenue);
   }
 
   loadOrder(filter?: {
     pageNumber: any;
     pageSize: any;
-    staff_id: any;
     month: any;
     week: any;
     day: any;

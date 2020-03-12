@@ -10,7 +10,8 @@ const router = {
   create: `/api/transactions/create`,
   update: `/api/transactions/update`,
   delete: `/api/transactions/delete`,
-  get_customer: `/api/transaction-customers/infor`
+  get_customer: `/api/transaction-customers/infor`,
+  export: '/api/transaction/export'
 };
 
 @Injectable()
@@ -20,6 +21,11 @@ export class TransactionService {
   loadTransaction(filter?: { pageSize: number; pageNumber: number; search_name: string }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.search, params);
+  }
+
+  exportTransaction(filter?: { pageSize: number; pageNumber: number; search_name: string }) {
+    const params = mapToHttpParamsQuery(filter);
+    return this.httpClient.get(router.export, params);
   }
 
   loadCustomer(filter?: { cu_id: number }) {

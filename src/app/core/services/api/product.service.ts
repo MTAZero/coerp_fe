@@ -11,7 +11,8 @@ const router = {
   category: `/api/product-categorys/get-name`,
   supplier: `/api/suppliers/get-name`,
   unit: `/api/products/unit`,
-  update_image: '/api/products/update_image'
+  update_image: '/api/products/update_image',
+  export: '/api/product/export'
 };
 
 @Injectable()
@@ -21,6 +22,11 @@ export class ProductService {
   loadProduct(filter?: { pageNumber: any; pageSize: any; search_name: any; category_id: any }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.get_all_page, params);
+  }
+
+  exportProduct(filter?: { pageNumber: any; pageSize: any; search_name: any; category_id: any }) {
+    const params = mapToHttpParamsQuery(filter);
+    return this.httpClient.get(router.export, params);
   }
 
   loadProductById(filter?: { pu_id: any }) {

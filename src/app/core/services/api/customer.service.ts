@@ -15,7 +15,8 @@ const router = {
   update_location: `/api/ship-addresss/update`,
   delete_location: `/api/ship-addresss/delete`,
   import: `/api/customer/import`,
-  update_avatar: '/api/customers/update_avatar'
+  update_avatar: '/api/customers/update_avatar',
+  export: '/api/customers/export'
 };
 
 @Injectable()
@@ -32,6 +33,18 @@ export class CustomerService {
   }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.get_all_page, params);
+  }
+
+  exportCustomer(filter?: {
+    pageNumber: any;
+    pageSize: any;
+    source_id: any;
+    cu_type: any;
+    customer_group_id: any;
+    name: any;
+  }) {
+    const params = mapToHttpParamsQuery(filter);
+    return this.httpClient.get(router.export, params);
   }
 
   loadCustomerById(filter?: { cu_id: any }) {

@@ -135,6 +135,23 @@ export class ListStaffComponent implements OnInit {
     );
   }
 
+  exportStaff() {
+    const export$ = this.staffService
+      .exportStaff({
+        pageNumber: this.page - 1,
+        pageSize: this.pageSize,
+        name: this.textSearch,
+        status: this.statusSearch
+      })
+      .pipe(takeUntil(this.destroyed$));
+    export$.subscribe((res: any) => {
+      if (res && res.Data) {
+        const link = 'http://27.72.147.222:1230/' + res.Data;
+        window.open(link);
+      }
+    });
+  }
+
   private _fetchData(selected?: any) {
     const staff$ = this.staffService
       .searchStaff({

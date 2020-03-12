@@ -189,6 +189,25 @@ export class ListCustomerComponent implements OnInit {
     }
   }
 
+  exportCustomer() {
+    const export$ = this.customerService
+      .exportCustomer({
+        pageNumber: this.page - 1,
+        pageSize: this.pageSize,
+        source_id: this.sourceSearch,
+        cu_type: this.typeSearch,
+        customer_group_id: this.groupSearch,
+        name: this.textSearch
+      })
+      .pipe(takeUntil(this.destroyed$));
+    export$.subscribe((res: any) => {
+      if (res && res.Data) {
+        const link = 'http://27.72.147.222:1230/' + res.Data;
+        window.open(link);
+      }
+    });
+  }
+
   private _fetchData(selected?: any) {
     const customer$ = this.customerService
       .loadCustomer({

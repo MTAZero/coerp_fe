@@ -30,7 +30,8 @@
             <span class="mdi mdi-cloud-upload"></span>
             Nhập
           </button>
-          <button type="button" class="btn btn-info mb-2 mr-1">
+          <button type="button" class="btn btn-info mb-2 mr-1" (click)="exportOrder()">
+            <span class="mdi mdi-cloud-download"></span>
             Xuất
           </button>
           <a
@@ -105,6 +106,9 @@
                 }}</option>
               </select>
             </td>
+          </tr>
+          <tr *ngIf="orders?.length === 0">
+            <td colspan="6">Không có dữ liệu đơn hàng</td>
           </tr>
         </tbody>
       </table>

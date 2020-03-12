@@ -13,6 +13,7 @@ const router = {
   delete_location: `/api/undertakenLocations/delete`,
   role: '/api/group-roles/all',
   import: '/api/satffs/import',
+  export: '/api/satffs/export',
   update_avatar: '/api/staffs/update_avatar'
 };
 
@@ -28,6 +29,11 @@ export class StaffService {
   searchStaff(filter?: { pageNumber: number; pageSize: number; status: string; name: string }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.search, params);
+  }
+
+  exportStaff(filter?: { pageNumber: number; pageSize: number; status: string; name: string }) {
+    const params = mapToHttpParamsQuery(filter);
+    return this.httpClient.get(router.export, params);
   }
 
   createStaff(data: any) {

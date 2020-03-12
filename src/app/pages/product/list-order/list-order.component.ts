@@ -130,6 +130,23 @@ export class ListOrderComponent implements OnInit {
     );
   }
 
+  exportOrder() {
+    const export$ = this.orderService
+      .exportOrder({
+        pageNumber: this.page - 1,
+        pageSize: this.pageSize,
+        payment_type_id: this.paymentMethodSearch,
+        name: this.textSearch
+      })
+      .pipe(takeUntil(this.destroyed$));
+    export$.subscribe((res: any) => {
+      if (res && res.Data) {
+        const link = 'http://27.72.147.222:1230/' + res.Data;
+        window.open(link);
+      }
+    });
+  }
+
   private _fetchData(selected?: any) {
     const order$ = this.orderService
       .loadOrder({

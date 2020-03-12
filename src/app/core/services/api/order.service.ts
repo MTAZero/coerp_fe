@@ -10,7 +10,8 @@ const router = {
   delete: `/api/customer_orders/delete`,
   payment_method: `/api/customer-orders/get-all-payment`,
   order_status: '/api/customer-orders/status',
-  update_status: '/api/customer-orders/update-status'
+  update_status: '/api/customer-orders/update-status',
+  export: '/api/customer-order/export'
 };
 
 @Injectable()
@@ -20,6 +21,11 @@ export class OrderService {
   loadOrder(filter?: { pageNumber: any; pageSize: any; payment_type_id: any; code: any }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.get_all_page, params);
+  }
+
+  exportOrder(filter?: { pageNumber: any; pageSize: any; payment_type_id: any; name: any }) {
+    const params = mapToHttpParamsQuery(filter);
+    return this.httpClient.get(router.export, params);
   }
 
   createOrder(data: any) {

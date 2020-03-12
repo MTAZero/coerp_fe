@@ -59,12 +59,11 @@ export class DashboardComponent implements OnInit {
   }
 
   onPageOrderChange(page: number): void {
-    this.pageOrder = page - 1;
+    this.pageOrder = page;
     this._fetchOrder();
   }
 
   onChangeOrderFilter() {
-    this.pageOrder--;
     this._fetchOrder();
   }
 
@@ -81,11 +80,7 @@ export class DashboardComponent implements OnInit {
 
     this.orders = order;
 
-    const revenue$ = this.statisticService
-      .loadRevenue({
-        staff_id: 85
-      })
-      .pipe(takeUntil(this.destroyed$));
+    const revenue$ = this.statisticService.loadRevenue().pipe(takeUntil(this.destroyed$));
     revenue$.subscribe((res: any) => {
       if (res) {
         this.revenues = res.Data;
@@ -106,9 +101,8 @@ export class DashboardComponent implements OnInit {
   private _fetchOrder() {
     const order$ = this.statisticService
       .loadOrder({
-        pageNumber: this.pageOrder,
+        pageNumber: this.pageOrder - 1,
         pageSize: this.pageSizeOrder,
-        staff_id: 85,
         month: this.orderMode === 'month',
         week: this.orderMode === 'week',
         day: this.orderMode === 'day',

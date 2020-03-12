@@ -93,6 +93,22 @@ export class CustomerCareComponent implements OnInit {
     this._fetchData(this.selectedOrder);
   }
 
+  exportTransaction() {
+    const export$ = this.transactionService
+      .exportTransaction({
+        pageNumber: this.page - 1,
+        pageSize: this.pageSize,
+        search_name: this.textSearch
+      })
+      .pipe(takeUntil(this.destroyed$));
+    export$.subscribe((res: any) => {
+      if (res && res.Data) {
+        const link = 'http://27.72.147.222:1230/' + res.Data;
+        window.open(link);
+      }
+    });
+  }
+
   private _fetchData(selected?: any) {
     const transaction$ = this.transactionService
       .loadTransaction({
