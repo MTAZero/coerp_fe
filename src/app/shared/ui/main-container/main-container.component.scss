@@ -1,45 +1,17 @@
 :host {
-  .product-statistic {
+  .main-container {
     margin-top: 10px;
     height: calc(100vh - 90px);
     background-color: #fff;
 
-    .table-container {
-      .form-inline {
-        align-items: baseline;
-        flex-flow: row;
-      }
-
-      .table-responsive {
-        overflow: auto;
-
-        thead {
-          th {
-            position: sticky;
-            top: 0;
-            z-index: 2;
-            background-color: white;
-          }
-        }
-
-        tr {
-          cursor: pointer;
-
-          &.is-selected {
-            background-color: lightgray;
-          }
-        }
-      }
-    }
-
-    .detail {
+    .detail-container {
       padding: 10px;
       background-color: white;
       border-top: 5px solid #dee2e6;
       position: relative;
       z-index: 3;
 
-      .test {
+      .button-toggle {
         position: absolute;
         left: 50%;
         top: -20px;

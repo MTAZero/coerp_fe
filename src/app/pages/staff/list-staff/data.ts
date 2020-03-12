@@ -1,6 +1,4 @@
-import { Position, Department } from './list-staff.model';
-
-const positionData: Position[] = [
+const positionData: any[] = [
   {
     position_id: '1',
     position_name: 'Giám đốc',
@@ -39,7 +37,7 @@ const positionData: Position[] = [
   }
 ];
 
-const departmentData: Department[] = [
+const departmentData: any[] = [
   {
     department_id: '1',
     department_name: 'Phòng hành chính',

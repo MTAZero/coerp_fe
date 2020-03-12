@@ -1,10 +1,9 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { positionData } from '../../data';
-import { Position } from '../../list-staff.model';
 import { PositionModalComponent } from '../position-modal/position-modal.component';
-import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 import { isNullOrUndefined } from 'util';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-list-position-modal',
@@ -13,8 +12,8 @@ import { isNullOrUndefined } from 'util';
 })
 export class ListPositionModalComponent implements OnInit {
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
-  positions: Position[];
-  selectedPosition: Position;
+  positions: any[];
+  selectedPosition: any;
   constructor(private modalService: NgbModal) {}
 
   ngOnInit() {
@@ -29,7 +28,7 @@ export class ListPositionModalComponent implements OnInit {
     this.passEvent.emit({ event: false });
   }
 
-  onClickPosition(position: Position) {
+  onClickPosition(position: any) {
     if (isNullOrUndefined(this.selectedPosition)) {
       this.selectedPosition = position;
     } else {
@@ -61,17 +60,18 @@ export class ListPositionModalComponent implements OnInit {
   }
 
   openConfirmModal() {
-    const modalRef = this.modalService.open(ConfirmModalComponent, {
-      centered: true
-    });
-    modalRef.componentInstance.title = 'Xác nhận xóa chức vụ';
-    modalRef.componentInstance.message =
-      'Bạn có chắc chắn muốn xóa chức vụ đã chọn không?';
-    modalRef.componentInstance.passEvent.subscribe(res => {
-      if (res) {
-        this.removePosition(this.selectedPosition);
+    Swal.fire({
+      title: 'Dữ liệu đã bị thay đổi, bạn có chắc chắn muốn hủy thao tác không?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Có',
+      cancelButtonText: 'Không',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33'
+    }).then(result => {
+      if (result.value) {
+        this.passEvent.emit({ event: false });
       }
-      modalRef.close();
     });
   }
 
@@ -83,5 +83,5 @@ export class ListPositionModalComponent implements OnInit {
 
   private updatePosition(positionId: any, data: any) {}
 
-  private removePosition(position: Position) {}
+  private removePosition(position: any) {}
 }

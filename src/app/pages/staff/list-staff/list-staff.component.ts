@@ -14,11 +14,10 @@ import Swal from 'sweetalert2';
 })
 export class ListStaffComponent implements OnInit {
   private destroyed$ = new Subject();
-  breadCrumbItems: Array<{}>;
 
   textSearch = '';
   statusSearch = '';
-  page = 0;
+  page = 1;
   pageSize = 10;
   totalSize = 0;
 
@@ -28,11 +27,6 @@ export class ListStaffComponent implements OnInit {
   constructor(private modalService: NgbModal, private staffService: StaffService) {}
 
   ngOnInit() {
-    this.breadCrumbItems = [
-      { label: 'ERP', path: '/' },
-      { label: 'Nhân sự', path: '/' },
-      { label: 'Danh sách nhân sự', path: '/', active: true }
-    ];
     this._fetchData();
   }
 
@@ -55,7 +49,6 @@ export class ListStaffComponent implements OnInit {
     });
 
     if (staff) {
-      this.onClickStaff(staff);
       modalRef.componentInstance.staff = staff;
     }
     modalRef.componentInstance.passEvent.subscribe(res => {
@@ -89,18 +82,16 @@ export class ListStaffComponent implements OnInit {
   }
 
   onPageChange(page: number): void {
-    this.page = page - 1;
+    this.page = page;
     this._fetchData();
   }
 
   onChangeFilter() {
-    this.page--;
-    this._fetchData();
+    this._fetchData(this.selectedStaff);
   }
 
   onChangeAddress(event) {
     if (event.reload) {
-      this.page--;
       this._fetchData(this.selectedStaff);
     }
   }
@@ -122,7 +113,6 @@ export class ListStaffComponent implements OnInit {
             showConfirmButton: false,
             timer: 2000
           });
-          this.page--;
           this._fetchData();
         } else {
           Swal.fire({
@@ -149,7 +139,7 @@ export class ListStaffComponent implements OnInit {
   private _fetchData(selected?: any) {
     const staff$ = this.staffService
       .searchStaff({
-        pageNumber: this.page,
+        pageNumber: this.page - 1,
         pageSize: this.pageSize,
         name: this.textSearch,
         status: this.statusSearch
@@ -159,9 +149,10 @@ export class ListStaffComponent implements OnInit {
       if (res) {
         this.totalSize = res.Data.TotalNumberOfRecords;
         this.staffs = res.Data.Results;
-
         if (selected) {
           this.selectedStaff = this.staffs.find(item => item.sta_id === selected.sta_id);
+        } else {
+          this.selectedStaff = this.staffs[0];
         }
       }
     });
@@ -179,7 +170,6 @@ export class ListStaffComponent implements OnInit {
             showConfirmButton: false,
             timer: 2000
           });
-          this.page--;
           this._fetchData();
           this.modalService.dismissAll();
         }
@@ -209,8 +199,7 @@ export class ListStaffComponent implements OnInit {
             showConfirmButton: false,
             timer: 2000
           });
-          this.page--;
-          this._fetchData();
+          this._fetchData(this.selectedStaff);
           this.modalService.dismissAll();
         }
       },
@@ -241,7 +230,6 @@ export class ListStaffComponent implements OnInit {
             showConfirmButton: false,
             timer: 2000
           });
-          this.page--;
           this._fetchData();
           this.modalService.dismissAll();
         }

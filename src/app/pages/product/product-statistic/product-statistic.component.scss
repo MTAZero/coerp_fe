@@ -3,62 +3,25 @@
     align-items: baseline;
     flex-flow: row;
   }
-  .table-container {
-    .table-responsive {
-      overflow: auto;
 
-      thead {
-        th {
-          position: sticky;
-          top: 0;
-          z-index: 2;
-          background-color: white;
-        }
-      }
+  .table-responsive {
+    overflow: auto;
+    height: calc(100% - 110px);
 
-      tr {
-        cursor: pointer;
-
-        &.is-selected {
-          background-color: lightgray;
-        }
+    thead {
+      th {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        background-color: white;
       }
     }
-  }
-  .product-statistic {
-    margin-top: 10px;
-    height: calc(100vh - 90px);
-    background-color: #fff;
 
-    .detail {
-      padding: 10px;
-      background-color: white;
-      border-top: 5px solid #dee2e6;
-      position: relative;
-      z-index: 3;
+    tr {
+      cursor: pointer;
 
-      .test {
-        position: absolute;
-        left: 50%;
-        top: -20px;
-        cursor: pointer;
-        font-size: x-large;
-        border: 2px lightgray solid;
-        width: 60px;
-        height: 15px;
-        text-align: center;
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
-        background-color: #fff;
-
-        span {
-          display: block;
-          line-height: 0.5;
-
-          &.rotate {
-            transform: rotate(180deg);
-          }
-        }
+      &.is-selected {
+        background-color: lightgray;
       }
     }
   }

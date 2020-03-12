@@ -1,8 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Position } from '../../list-staff.model';
-import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-position-modal',
@@ -10,11 +8,11 @@ import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component'
   styleUrls: ['./position-modal.component.scss']
 })
 export class PositionModalComponent implements OnInit {
-  @Input() position: Position;
+  @Input() position: any;
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
   form: FormGroup;
   submitted = false;
-  constructor(public formBuilder: FormBuilder, private modalService: NgbModal) {
+  constructor(public formBuilder: FormBuilder) {
     this.initializeForm();
   }
 
@@ -34,17 +32,18 @@ export class PositionModalComponent implements OnInit {
 
   onClickCancel() {
     if (this.form.dirty) {
-      const modalRef = this.modalService.open(ConfirmModalComponent, {
-        centered: true
-      });
-      modalRef.componentInstance.title = 'Thông báo';
-      modalRef.componentInstance.message =
-        'Dữ liệu đã bị thay đổi, bạn có chắc chắn muốn hủy thao tác không?';
-      modalRef.componentInstance.passEvent.subscribe(res => {
-        if (res) {
+      Swal.fire({
+        title: 'Dữ liệu đã bị thay đổi, bạn có chắc chắn muốn hủy thao tác không?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Có',
+        cancelButtonText: 'Không',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33'
+      }).then(result => {
+        if (result.value) {
           this.passEvent.emit({ event: false });
         }
-        modalRef.close();
       });
     } else {
       this.passEvent.emit({ event: false });
@@ -66,7 +65,7 @@ export class PositionModalComponent implements OnInit {
     });
   }
 
-  private patchData(position: Position) {
+  private patchData(position: any) {
     this.form.patchValue({
       position_name: position.position_name,
       capacity: position.capacity,

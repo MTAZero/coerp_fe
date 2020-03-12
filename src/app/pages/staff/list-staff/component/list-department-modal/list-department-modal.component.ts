@@ -1,10 +1,9 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { departmentData } from '../../data';
-import { Department } from '../../list-staff.model';
 import { DepartmentModalComponent } from '../department-modal/department-modal.component';
-import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 import { isNullOrUndefined } from 'util';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-list-department-modal',
@@ -13,8 +12,8 @@ import { isNullOrUndefined } from 'util';
 })
 export class ListDepartmentModalComponent implements OnInit {
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
-  departments: Department[];
-  selectedDepartment: Department;
+  departments: any[];
+  selectedDepartment: any;
   constructor(private modalService: NgbModal) {}
 
   ngOnInit() {
@@ -29,7 +28,7 @@ export class ListDepartmentModalComponent implements OnInit {
     this.passEvent.emit({ event: false });
   }
 
-  onClickDepartment(department: Department) {
+  onClickDepartment(department: any) {
     if (isNullOrUndefined(this.selectedDepartment)) {
       this.selectedDepartment = department;
     } else {
@@ -61,17 +60,18 @@ export class ListDepartmentModalComponent implements OnInit {
   }
 
   openConfirmModal() {
-    const modalRef = this.modalService.open(ConfirmModalComponent, {
-      centered: true
-    });
-    modalRef.componentInstance.title = 'Xác nhận xóa phòng ban';
-    modalRef.componentInstance.message =
-      'Bạn có chắc chắn muốn xóa phòng ban đã chọn không?';
-    modalRef.componentInstance.passEvent.subscribe(res => {
-      if (res) {
-        this.removeDepartment(this.selectedDepartment);
+    Swal.fire({
+      title: 'Dữ liệu đã bị thay đổi, bạn có chắc chắn muốn hủy thao tác không?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Có',
+      cancelButtonText: 'Không',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33'
+    }).then(result => {
+      if (result.value) {
+        this.passEvent.emit({ event: false });
       }
-      modalRef.close();
     });
   }
 
@@ -83,5 +83,5 @@ export class ListDepartmentModalComponent implements OnInit {
 
   private updateDepartment(departmentId: any, data: any) {}
 
-  private removeDepartment(department: Department) {}
+  private removeDepartment(department: any) {}
 }

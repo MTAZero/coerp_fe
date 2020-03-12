@@ -34,7 +34,7 @@ export class MainContainerComponent implements OnInit {
     this.containerHeight = el.children[0].clientHeight;
   }
 
-  onClickTest() {
+  onToggle() {
     if (this.height <= 10) this.height = 300;
     else this.height = 10;
   }

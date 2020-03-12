@@ -1,26 +1,45 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddressModalComponent } from '../address-modal/address-modal.component';
 import { StaffService } from '../../../../../core/services/api/staff.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import Swal from 'sweetalert2';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-address-tab',
   templateUrl: './address-tab.component.html',
   styleUrls: ['./address-tab.component.scss']
 })
-export class AddressTabComponent implements OnInit {
-  @Input() listAddress: any;
+export class AddressTabComponent implements OnInit, OnChanges {
+  @Input() listAddress: [];
   @Input() staffId: any;
   @Output() formSubmit: any = new EventEmitter();
   private destroyed$ = new Subject();
 
   addresses: any;
+  selectedAddress = null;
+
   constructor(private modalService: NgbModal, private staffService: StaffService) {}
 
   ngOnInit() {}
+
+  ngOnChanges() {
+    if (!this.staffId) this.selectedAddress = null;
+  }
+
+  onClickAddress(address: any) {
+    if (isNullOrUndefined(this.selectedAddress)) {
+      this.selectedAddress = address;
+    } else {
+      if (this.selectedAddress.unl_id !== address.unl_id) {
+        this.selectedAddress = address;
+      } else {
+        this.selectedAddress = null;
+      }
+    }
+  }
 
   openAddressModal(address?: any) {
     const modalRef = this.modalService.open(AddressModalComponent, {

@@ -1,0 +1,36 @@
+:host {
+  a {
+    &.diabled {
+      cursor: default;
+      pointer-events: none;
+    }
+  }
+
+  .row {
+    margin-right: 0;
+  }
+
+  .table-responsive {
+    overflow: auto;
+    height: calc(100% - 85px);
+  }
+
+  .table {
+    tr {
+      cursor: pointer;
+
+      &.is-selected {
+        background-color: lightgray;
+      }
+    }
+  }
+}
+
+::ng-deep .tab-content {
+  padding: 10px 0 0 0;
+  height: 100%;
+
+  .tab-pane {
+    height: 100%;
+  }
+}

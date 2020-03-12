@@ -1,7 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { AddressService } from '../../../../../core/services/api/address.service';
@@ -24,11 +22,7 @@ export class AddressModalComponent implements OnInit {
   districts: any;
   wards: any;
 
-  constructor(
-    public formBuilder: FormBuilder,
-    private modalService: NgbModal,
-    private addressService: AddressService
-  ) {
+  constructor(public formBuilder: FormBuilder, private addressService: AddressService) {
     this.initializeForm();
     this._loadProvince();
   }

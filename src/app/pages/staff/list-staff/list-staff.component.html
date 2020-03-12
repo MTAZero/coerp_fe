@@ -1,164 +1,152 @@
-<div class="container-fluid">
-  <app-page-title title="Nhân viên" [breadcrumbItems]="breadCrumbItems"></app-page-title>
-
-  <div class="row">
-    <div [ngClass]="selectedStaff ? 'col-xl-8' : 'col-xl'">
-      <div class="card">
-        <div class="card-body">
-          <div class="row mb-2">
-            <div class="col-sm-7">
-              <form class="form-inline">
-                <div class="form-group mb-2">
-                  <input
-                    class="form-control"
-                    name="textSearch"
-                    placeholder="Tìm kiếm..."
-                    [(ngModel)]="textSearch"
-                    (input)="onChangeFilter()"
-                  />
-                </div>
-
-                <select
-                  class="custom-select"
-                  name="select"
-                  [(ngModel)]="statusSearch"
-                  (change)="onChangeFilter()"
-                >
-                  <option value="">Trạng thái</option>
-                  <option value="1">Kích hoạt</option>
-                  <option value="0">Khóa</option>
-                </select>
-              </form>
-            </div>
-            <div class="col-sm-5">
-              <div class="text-sm-right">
-                <label class="btn btn-info mb-2 mr-1">
-                  <input type="file" (change)="setFile($event)" style="display:none" />
-                  <a mat-raised-button color="primary">
-                    <span class="mdi mdi-cloud-upload"></span>
-                    Nhập
-                  </a>
-                </label>
-                <button type="button" class="btn btn-info mb-2 mr-1">
-                  Xuất
-                </button>
-                <a class="btn btn-success mb-2 button-link" (click)="openStaffModal()"
-                  ><i class="mdi mdi-plus-circle mr-1"></i> Thêm mới</a
-                >
-              </div>
-            </div>
-            <!-- end col-->
+<app-main-container>
+  <div top class="card-body" style="height: 100%;">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <form class="form-inline">
+          <div class="form-group mb-2 mr-1">
+            <input
+              class="form-control"
+              name="textSearch"
+              placeholder="Tìm kiếm..."
+              [(ngModel)]="textSearch"
+              (input)="onChangeFilter()"
+            />
           </div>
-
-          <div class="table-responsive">
-            <table class="table table-centered table-hover mb-0">
-              <thead>
-                <tr>
-                  <th>MNV</th>
-                  <th>Tên đăng nhập</th>
-                  <th>Số điện thoại</th>
-                  <th>Email</th>
-                  <th>Chức vụ</th>
-
-                  <th>Trạng thái</th>
-                  <th style="width: 82px;">Thao tác</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  *ngFor="let staff of staffs"
-                  (click)="onClickStaff(staff)"
-                  [ngClass]="{
-                    'is-selected': staff.sta_id === selectedStaff?.sta_id
-                  }"
-                >
-                  <td>
-                    {{ staff.sta_code }}
-                  </td>
-                  <td>
-                    {{ staff.sta_username }}
-                  </td>
-                  <td>
-                    {{ staff.sta_mobile }}
-                  </td>
-                  <td>
-                    {{ staff.sta_email }}
-                  </td>
-                  <td>
-                    {{ staff.position_name }}
-                  </td>
-
-                  <td>
-                    <span
-                      [ngClass]="
-                        staff.sta_status === 1 ? 'badge badge-success' : 'badge badge-danger'
-                      "
-                      >{{ staff.sta_status === 1 ? 'Kích hoạt' : 'Khóa' }}
-                    </span>
-                  </td>
-                  <td>
-                    <a class="action-icon table-button-link" (click)="openStaffModal(staff)">
-                      <i class="mdi mdi-square-edit-outline"></i
-                    ></a>
-                    <a class="action-icon table-button-link" (click)="openConfirmModal(staff)">
-                      <i class="mdi mdi-delete"></i
-                    ></a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <ul class="pagination pagination-rounded justify-content-end my-2">
-            <ngb-pagination
-              (pageChange)="onPageChange($event)"
-              [pageSize]="pageSize"
-              [(page)]="page"
-              [collectionSize]="totalSize"
-            ></ngb-pagination>
-          </ul>
+          <select
+            class="custom-select"
+            name="select"
+            [(ngModel)]="statusSearch"
+            (change)="onChangeFilter()"
+          >
+            <option value="">Trạng thái</option>
+            <option value="1">Kích hoạt</option>
+            <option value="0">Khóa</option>
+          </select>
+        </form>
+      </div>
+      <div class="col-sm-6">
+        <div class="text-sm-right">
+          <label class="btn btn-info mb-2 mr-1">
+            <input type="file" (change)="setFile($event)" style="display:none" />
+            <a mat-raised-button color="primary">
+              <span class="mdi mdi-cloud-upload"></span>
+              Nhập
+            </a>
+          </label>
+          <button type="button" class="btn btn-info mb-2 mr-1">
+            Xuất
+          </button>
+          <a class="btn btn-success mb-2 mr-1 button-link" (click)="openStaffModal()"
+            ><i class="mdi mdi-plus-circle mr-1"></i> Thêm mới</a
+          >
+          <a
+            class="btn btn-primary mb-2 mr-1 button-link"
+            [ngClass]="selectedStaff ? '' : 'disabled'"
+            (click)="openStaffModal(selectedStaff)"
+            ><i class="mdi mdi-square-edit-outline mr-1"></i> Cập nhật</a
+          >
+          <a
+            class="btn btn-danger mb-2 mr-1 button-link"
+            [ngClass]="selectedStaff ? '' : 'disabled'"
+            (click)="openConfirmModal(selectedStaff)"
+            ><i class="mdi mdi-delete mr-1"></i> Xóa</a
+          >
         </div>
       </div>
     </div>
-    <div class="col-xl-4" *ngIf="selectedStaff">
-      <div class="card-box">
-        <div class="media mb-3">
-          <img
-            class="d-flex mr-3 rounded-circle avatar-lg"
-            [src]="'http://27.72.147.222:1230' + selectedStaff?.sta_thumbnai"
-            alt="Generic placeholder image"
-          />
-          <div class="media-body">
-            <h4 class="mt-0 mb-1">{{ selectedStaff?.sta_fullname }}</h4>
-            <p class="text-muted">
-              QA
-            </p>
-            <p class="text-muted">
-              {{ selectedStaff?.sta_mobile }}
-            </p>
-            <p class="text-muted">
-              {{ selectedStaff?.sta_email }}
-            </p>
-          </div>
-        </div>
 
-        <ngb-tabset>
-          <ngb-tab title="Thông tin cá nhân">
-            <ng-template ngbTabContent>
-              <app-profile-tab [selectedStaff]="selectedStaff"></app-profile-tab>
-            </ng-template>
-          </ngb-tab>
-          <ngb-tab title="Địa chỉ phụ trách">
-            <ng-template ngbTabContent>
-              <app-address-tab
-                [listAddress]="selectedStaff?.list_address"
-                [staffId]="selectedStaff?.sta_id"
-                (formSubmit)="onChangeAddress($event)"
-              ></app-address-tab>
-            </ng-template>
-          </ngb-tab>
-        </ngb-tabset>
-      </div>
-      <!-- end card-box-->
+    <div class="table-responsive">
+      <table class="table table-centered table-hover mb-0">
+        <thead>
+          <tr>
+            <th>MNV</th>
+            <th>Tài khoản</th>
+            <th>Tên nhân viên</th>
+            <th>Giới tính</th>
+            <th>Ngày sinh</th>
+            <th>Số điện thoại</th>
+            <th>Email</th>
+            <th>Chức vụ</th>
+            <th>Phòng ban</th>
+            <th>Trạng thái</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let staff of staffs"
+            (click)="onClickStaff(staff)"
+            [ngClass]="{
+              'is-selected': staff.sta_id === selectedStaff?.sta_id
+            }"
+          >
+            <td>
+              {{ staff.sta_code }}
+            </td>
+            <td>
+              <span
+                ><img
+                  [src]="'http://27.72.147.222:1230' + staff.sta_thumbnai"
+                  alt="user-image"
+                  class="rounded-circle avatar-sm"
+              /></span>
+              {{ staff.sta_username }}
+            </td>
+            <td>
+              {{ staff.sta_fullname }}
+            </td>
+            <td>
+              <span [ngClass]="staff.sta_sex === 1 ? 'badge badge-primary' : 'badge badge-success'"
+                >{{ staff.sta_sex === 1 ? 'Nữ' : 'Nam' }}
+              </span>
+            </td>
+            <td>
+              {{ staff.sta_birthday | date: 'dd/MM/yyyy' }}
+            </td>
+            <td>
+              {{ staff.sta_mobile }}
+            </td>
+            <td>
+              {{ staff.sta_email }}
+            </td>
+            <td>
+              {{ staff.position_name }}
+            </td>
+            <td>
+              {{ staff.department_name }}
+            </td>
+            <td>
+              <span
+                [ngClass]="staff.sta_status === 1 ? 'badge badge-success' : 'badge badge-danger'"
+                >{{ staff.sta_status === 1 ? 'Kích hoạt' : 'Khóa' }}
+              </span>
+            </td>
+          </tr>
+          <tr *ngIf="staffs?.length === 0">
+            <td colspan="6">Không có dữ liệu nhân viên</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+    <ul class="pagination pagination-rounded justify-content-end my-3">
+      <ngb-pagination
+        (pageChange)="onPageChange($event)"
+        [pageSize]="pageSize"
+        [(page)]="page"
+        [collectionSize]="totalSize"
+      ></ngb-pagination>
+    </ul>
   </div>
-</div>
+  <div bottom style="height: 100%;">
+    <ngb-tabset class="nav-bordered">
+      <ngb-tab title="Địa chỉ phụ trách">
+        <ng-template ngbTabContent>
+          <app-address-tab
+            [listAddress]="selectedStaff?.list_address"
+            [staffId]="selectedStaff?.sta_id"
+            (formSubmit)="onChangeAddress($event)"
+          ></app-address-tab>
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset>
+  </div>
+</app-main-container>
