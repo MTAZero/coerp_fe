@@ -1,8 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ProductType } from '../../list-product.model';
-import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-product-type-modal',
@@ -10,11 +7,11 @@ import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component'
   styleUrls: ['./product-type-modal.component.scss']
 })
 export class ProductTypeModalComponent implements OnInit {
-  @Input() productType: ProductType;
+  @Input() productType: any;
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
   form: FormGroup;
   submitted = false;
-  constructor(public formBuilder: FormBuilder, private modalService: NgbModal) {
+  constructor(public formBuilder: FormBuilder) {
     this.initializeForm();
   }
 
@@ -34,18 +31,6 @@ export class ProductTypeModalComponent implements OnInit {
 
   onClickCancel() {
     if (this.form.dirty) {
-      const modalRef = this.modalService.open(ConfirmModalComponent, {
-        centered: true
-      });
-      modalRef.componentInstance.title = 'Thông báo';
-      modalRef.componentInstance.message =
-        'Dữ liệu đã bị thay đổi, bạn có chắc chắn muốn hủy thao tác không?';
-      modalRef.componentInstance.passEvent.subscribe(res => {
-        if (res) {
-          this.passEvent.emit({ event: false });
-        }
-        modalRef.close();
-      });
     } else {
       this.passEvent.emit({ event: false });
     }
@@ -63,7 +48,7 @@ export class ProductTypeModalComponent implements OnInit {
     });
   }
 
-  private patchData(productType: ProductType) {
+  private patchData(productType: any) {
     this.form.patchValue({
       product_type_name: productType.product_type_name,
       product_type_status: productType.product_type_status,

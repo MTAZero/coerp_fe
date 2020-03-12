@@ -3,6 +3,7 @@
     <ng-content select="[top]"></ng-content>
   </div>
   <div
+    [ngStyle]="{ display: hasBottom ? 'inherit' : 'none' }"
     class="detail-container"
     mwlResizable
     [enableGhostResize]="true"

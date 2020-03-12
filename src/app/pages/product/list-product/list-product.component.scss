@@ -1,22 +1,41 @@
 :host {
-    .form-inline {
-        align-items: baseline;
-        flex-flow: row;
+  .form-inline {
+    align-items: baseline;
+    flex-flow: row;
+  }
+
+  a {
+    &.diabled {
+      cursor: default;
+      pointer-events: none;
+    }
+  }
+
+  .table-responsive {
+    overflow: auto;
+    height: calc(100% - 150px);
+
+    table {
+      min-width: 1320px;
+      border-spacing: 0;
+      border-collapse: separate;
+    }
+
+    thead {
+      th {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        background-color: white;
+      }
     }
 
     tr {
-        cursor: pointer;
+      cursor: pointer;
 
-        &.is-selected {
-            background-color: lightgray;
-        }
+      &.is-selected {
+        background-color: lightgray;
+      }
     }
-}
-
-::ng-deep .form-row {
-    justify-content: space-around;
-
-    .form-group {
-        width: 50%;
-    }
+  }
 }

@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../../core/services/api/order.service';
 import Swal from 'sweetalert2';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-list-order',
@@ -14,7 +15,6 @@ import Swal from 'sweetalert2';
 })
 export class ListOrderComponent implements OnInit {
   private destroyed$ = new Subject();
-  breadCrumbItems: Array<{}>;
 
   submitted: boolean;
   paymentMethods: any;
@@ -27,6 +27,7 @@ export class ListOrderComponent implements OnInit {
   totalSize = 0;
 
   orders: any;
+  selectedOrder = null;
 
   constructor(
     private modalService: NgbModal,
@@ -34,13 +35,20 @@ export class ListOrderComponent implements OnInit {
     private orderService: OrderService
   ) {}
   ngOnInit() {
-    this.breadCrumbItems = [
-      { label: 'ERP', path: '/' },
-      { label: 'Sản phẩm', path: '/' },
-      { label: 'Đặt hàng', path: '/', active: true }
-    ];
     this._fetchData();
     this._fetchFilter();
+  }
+
+  onClickOrder(order: any) {
+    if (isNullOrUndefined(this.selectedOrder)) {
+      this.selectedOrder = order;
+    } else {
+      if (this.selectedOrder.cuo_id !== order.cuo_id) {
+        this.selectedOrder = order;
+      } else {
+        this.selectedOrder = null;
+      }
+    }
   }
 
   openOrderModal(order?: any, isView = false) {
@@ -81,13 +89,12 @@ export class ListOrderComponent implements OnInit {
   }
 
   onPageChange(page: number): void {
-    this.page = page - 1;
+    this.page = page;
     this._fetchData();
   }
 
   onChangeFilter() {
-    this.page--;
-    this._fetchData();
+    this._fetchData(this.selectedOrder);
   }
 
   onChangeStatus(event, order) {
@@ -108,7 +115,6 @@ export class ListOrderComponent implements OnInit {
             showConfirmButton: false,
             timer: 2000
           });
-          this.page--;
           this._fetchData();
         }
       },
@@ -124,19 +130,25 @@ export class ListOrderComponent implements OnInit {
     );
   }
 
-  private _fetchData() {
+  private _fetchData(selected?: any) {
     const order$ = this.orderService
       .loadOrder({
-        pageNumber: this.page,
+        pageNumber: this.page - 1,
         pageSize: this.pageSize,
         payment_type_id: this.paymentMethodSearch,
         code: this.textSearch
       })
       .pipe(takeUntil(this.destroyed$));
     order$.subscribe((res: any) => {
-      if (res) {
+      if (res && res.Data) {
         this.totalSize = res.Data.TotalNumberOfRecords;
         this.orders = res.Data.Results;
+
+        if (selected) {
+          this.selectedOrder = this.orders.find(item => item.cuo_id === selected.cuo_id);
+        } else {
+          this.selectedOrder = this.orders[0];
+        }
       }
     });
   }
@@ -167,7 +179,6 @@ export class ListOrderComponent implements OnInit {
             showConfirmButton: false,
             timer: 2000
           });
-          this.page--;
           this._fetchData();
           this.modalService.dismissAll();
         }
@@ -197,8 +208,7 @@ export class ListOrderComponent implements OnInit {
             showConfirmButton: false,
             timer: 2000
           });
-          this.page--;
-          this._fetchData();
+          this._fetchData(this.selectedOrder);
           this.modalService.dismissAll();
         }
       },
@@ -229,7 +239,6 @@ export class ListOrderComponent implements OnInit {
             showConfirmButton: false,
             timer: 2000
           });
-          this.page--;
           this._fetchData();
           this.modalService.dismissAll();
         }

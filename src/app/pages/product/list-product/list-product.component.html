@@ -1,176 +1,159 @@
-<div class="container-fluid">
-  <app-page-title title="Sản phẩm" [breadcrumbItems]="breadCrumbItems"></app-page-title>
-
-  <div class="row">
-    <div [ngClass]="selectedProduct ? 'col-xl-8' : 'col-xl'">
-      <div class="card">
-        <div class="card-body">
-          <div class="row mb-2">
-            <div class="col-sm-6">
-              <form class="form-inline">
-                <div class="form-group mb-2">
-                  <input
-                    class="form-control"
-                    name="textSearch"
-                    placeholder="Tìm kiếm..."
-                    [(ngModel)]="textSearch"
-                    (input)="onChangeFilter()"
-                  />
-                </div>
-                <select
-                  class="custom-select"
-                  name="category"
-                  [(ngModel)]="categorySearch"
-                  (change)="onChangeFilter()"
-                >
-                  <option value="">Loại sản phẩm</option>
-                  <option *ngFor="let category of categories" [value]="category.id">{{
-                    category.name
-                  }}</option>
-                </select>
-              </form>
-            </div>
-            <div class="col-sm-6">
-              <div class="text-sm-right">
-                <button type="button" class="btn btn-info mb-2 mr-1">
-                  Nhập
-                </button>
-                <button type="button" class="btn btn-info mb-2 mr-1">
-                  Xuất
-                </button>
-                <a class="btn btn-success mb-2 button-link" (click)="openProductModal()"
-                  ><i class="mdi mdi-plus-circle mr-1"></i> Thêm mới</a
-                >
-              </div>
-            </div>
-            <!-- end col-->
+<app-main-container>
+  <div top class="card-body" style="height: 100%;">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <form class="form-inline">
+          <div class="form-group mb-2 mr-1">
+            <input
+              class="form-control"
+              name="textSearch"
+              placeholder="Tìm kiếm..."
+              [(ngModel)]="textSearch"
+              (input)="onChangeFilter()"
+            />
           </div>
-
-          <div class="table-responsive">
-            <table class="table table-centered table-hover mb-0">
-              <thead>
-                <tr>
-                  <th>MSP</th>
-                  <th>Tên sản phẩm</th>
-                  <th>Số lượng</th>
-                  <th>Giá nhập</th>
-                  <th>Giá bán</th>
-                  <th>Đơn vị</th>
-                  <th>Loại sản phẩm</th>
-                  <th>Nhà cung cấp</th>
-                  <th>Thuế</th>
-                  <th>Ngày hết hạn</th>
-                  <th>Cân nặng</th>
-                  <th>Ngày tạo</th>
-                  <th style="width: 82px;">Thao tác</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  *ngFor="let product of products"
-                  (click)="onClickProduct(product)"
-                  [ngClass]="{
-                    'is-selected': product.pu_id === selectedProduct?.pu_id
-                  }"
-                >
-                  <td>
-                    {{ product.pu_code }}
-                  </td>
-                  <td>
-                    {{ product.pu_name }}
-                  </td>
-                  <td>
-                    {{ product.pu_quantity }}
-                  </td>
-                  <td>
-                    {{ product.pu_buy_price }}
-                  </td>
-                  <td>
-                    {{ product.pu_sale_price }}
-                  </td>
-                  <td>
-                    {{ product.pu_unit_name }}
-                  </td>
-                  <td>
-                    {{ product.product_category_name }}
-                  </td>
-                  <td>
-                    {{ product.provider_name }}
-                  </td>
-                  <td>
-                    {{ product.pu_tax }}
-                  </td>
-                  <td>
-                    {{ product.pu_expired_date | date: 'dd/MM/yyyy' }}
-                  </td>
-                  <td>
-                    {{ product.pu_weight }}
-                  </td>
-                  <td>
-                    {{ product.pu_create_date | date: 'dd/MM/yyyy' }}
-                  </td>
-                  <td>
-                    <a class="action-icon table-button-link" (click)="openProductModal(product)">
-                      <i class="mdi mdi-square-edit-outline"></i
-                    ></a>
-                    <a class="action-icon table-button-link" (click)="openConfirmModal(product)">
-                      <i class="mdi mdi-delete"></i
-                    ></a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <ul class="pagination pagination-rounded justify-content-end my-2">
-            <ngb-pagination
-              (pageChange)="onPageChange($event)"
-              [pageSize]="pageSize"
-              [(page)]="page"
-              [collectionSize]="totalSize"
-            ></ngb-pagination>
-          </ul>
+          <select
+            class="custom-select"
+            name="category"
+            [(ngModel)]="categorySearch"
+            (change)="onChangeFilter()"
+          >
+            <option value="">Loại sản phẩm</option>
+            <option *ngFor="let category of categories" [value]="category.id">{{
+              category.name
+            }}</option>
+          </select>
+        </form>
+      </div>
+      <div class="col-sm-6">
+        <div class="text-sm-right">
+          <button type="button" class="btn btn-info mb-2 mr-1">
+            Nhập
+          </button>
+          <button type="button" class="btn btn-info mb-2 mr-1">
+            Xuất
+          </button>
+          <a class="btn btn-success mb-2 mr-1 button-link" (click)="openProductModal()"
+            ><i class="mdi mdi-plus-circle mr-1"></i> Thêm mới</a
+          >
+          <a
+            class="btn btn-primary mb-2 mr-1 button-link"
+            [ngClass]="selectedProduct ? '' : 'disabled'"
+            (click)="openProductModal(selectedProduct)"
+            ><i class="mdi mdi-square-edit-outline mr-1"></i> Cập nhật</a
+          >
+          <a
+            class="btn btn-danger mb-2 mr-1 button-link"
+            [ngClass]="selectedProduct ? '' : 'disabled'"
+            (click)="openConfirmModal(selectedProduct)"
+            ><i class="mdi mdi-delete mr-1"></i> Xóa</a
+          >
         </div>
       </div>
     </div>
-    <div class="col-xl-4" *ngIf="selectedProduct">
-      <div class="card-box">
-        <div class="media mb-3">
-          <img
-            class="d-flex mr-3 rounded-circle avatar-lg"
-            [src]="'http://27.72.147.222:1230' + selectedProduct?.pu_thumbnail"
-            alt="Generic placeholder image"
-            (click)="file.click()"
-            style="cursor: pointer;"
-            useCache="false"
-          />
-          <input
-            type="file"
-            accept="image/*"
-            #file
-            style="display:none"
-            (change)="readURL($event)"
-          />
-          <div class="media-body">
-            <h4 class="mt-0 mb-1">{{ selectedProduct?.pu_name }}</h4>
-            <p class="text-muted">
-              Ngày cập nhật: {{ selectedProduct?.pu_create_date | date: 'dd/MM/yyyy' }}
-            </p>
-          </div>
-        </div>
-        <ngb-tabset>
-          <ngb-tab title="Mô tả">
-            <ng-template ngbTabContent>
-              <app-description-tab [product]="selectedProduct"></app-description-tab>
-            </ng-template>
-          </ngb-tab>
-          <ngb-tab title="Lịch sử mua">
-            <ng-template ngbTabContent>
-              <app-purchase-history-tab></app-purchase-history-tab>
-            </ng-template>
-          </ngb-tab>
-        </ngb-tabset>
-      </div>
-      <!-- end card-box-->
+
+    <div class="table-responsive">
+      <table class="table table-centered table-hover mb-0">
+        <thead>
+          <tr>
+            <th>MSP</th>
+            <th>Tên sản phẩm</th>
+            <th>Số lượng</th>
+            <th>Giá nhập</th>
+            <th>Giá bán</th>
+            <th>Đơn vị</th>
+            <th>Loại sản phẩm</th>
+            <th>Nhà cung cấp</th>
+            <th>Thuế</th>
+            <th>Ngày hết hạn</th>
+            <th>Cân nặng</th>
+            <th>Ngày tạo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let product of products"
+            (click)="onClickProduct(product)"
+            [ngClass]="{
+              'is-selected': product.pu_id === selectedProduct?.pu_id
+            }"
+          >
+            <td>
+              {{ product.pu_code }}
+            </td>
+            <td>
+              <span
+                ><img
+                  class="rounded-circle avatar-sm"
+                  [src]="'http://27.72.147.222:1230' + product.pu_thumbnail"
+                  onerror="this.src='/assets/images/users/user-1.jpg';"
+                  alt="Avatar"
+                  (click)="selectedProduct = product; file.click()"
+                  style="cursor: pointer;"/>
+                <input
+                  type="file"
+                  accept="image/*"
+                  #file
+                  style="display:none"
+                  (change)="readURL($event)"
+              /></span>
+              {{ product.pu_name }}
+            </td>
+            <td>
+              {{ product.pu_quantity }}
+            </td>
+            <td>
+              {{ product.pu_buy_price }}
+            </td>
+            <td>
+              {{ product.pu_sale_price }}
+            </td>
+            <td>
+              {{ product.pu_unit_name }}
+            </td>
+            <td>
+              {{ product.product_category_name }}
+            </td>
+            <td>
+              {{ product.provider_name }}
+            </td>
+            <td>
+              {{ product.pu_tax }}
+            </td>
+            <td>
+              {{ product.pu_expired_date | date: 'dd/MM/yyyy' }}
+            </td>
+            <td>
+              {{ product.pu_weight }}
+            </td>
+            <td>
+              {{ product.pu_create_date | date: 'dd/MM/yyyy' }}
+            </td>
+          </tr>
+          <tr *ngIf="products?.length === 0">
+            <td colspan="12">Không có dữ liệu sản phẩm</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+    <ul class="pagination pagination-rounded justify-content-end my-3">
+      <ngb-pagination
+        (pageChange)="onPageChange($event)"
+        [pageSize]="pageSize"
+        [(page)]="page"
+        [collectionSize]="totalSize"
+      ></ngb-pagination>
+    </ul>
   </div>
-</div>
+  <div bottom style="height: 100%;">
+    <ngb-tabset class="nav-bordered">
+      <ngb-tab title="Lịch sử mua">
+        <ng-template ngbTabContent>
+          <app-purchase-history-tab
+            [purchaseHistory]="selectedProduct?.list_orp_history"
+          ></app-purchase-history-tab>
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset>
+  </div>
+</app-main-container>

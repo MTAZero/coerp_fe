@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, Input, OnChanges } from '@angular/core';
 import { ResizeEvent } from 'angular-resizable-element';
 
 @Component({
@@ -9,7 +9,8 @@ import { ResizeEvent } from 'angular-resizable-element';
     '(window:resize)': 'onResize($event)'
   }
 })
-export class MainContainerComponent implements OnInit {
+export class MainContainerComponent implements OnInit, OnChanges {
+  @Input() hasBottom = true;
   height: number = 300;
   containerHeight = 0;
   constructor(public element: ElementRef) {
@@ -19,6 +20,10 @@ export class MainContainerComponent implements OnInit {
   ngOnInit() {
     var el = this.element.nativeElement;
     this.containerHeight = el.children[0].clientHeight;
+  }
+
+  ngOnChanges() {
+    if (!this.hasBottom) this.height = 0;
   }
 
   onResizeEnd(event: ResizeEvent) {

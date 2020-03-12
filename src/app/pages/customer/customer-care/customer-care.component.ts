@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { TransactionService } from '../../../core/services/api/transaction.service';
 import Swal from 'sweetalert2';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-customer-care',
@@ -14,7 +15,6 @@ import Swal from 'sweetalert2';
 })
 export class CustomerCareComponent implements OnInit {
   private destroyed$ = new Subject();
-  breadCrumbItems: Array<{}>;
 
   submitted: boolean;
 
@@ -24,6 +24,7 @@ export class CustomerCareComponent implements OnInit {
   totalSize = 0;
 
   transactions: any[];
+  selectedOrder = null;
 
   constructor(
     private modalService: NgbModal,
@@ -31,12 +32,19 @@ export class CustomerCareComponent implements OnInit {
     private transactionService: TransactionService
   ) {}
   ngOnInit() {
-    this.breadCrumbItems = [
-      { label: 'ERP', path: '/' },
-      { label: 'Khách hàng', path: '/' },
-      { label: 'Giao dịch khách hàng', path: '/', active: true }
-    ];
     this._fetchData();
+  }
+
+  onClickOrder(transaction: any) {
+    if (isNullOrUndefined(this.selectedOrder)) {
+      this.selectedOrder = transaction;
+    } else {
+      if (this.selectedOrder.tra_id !== transaction.tra_id) {
+        this.selectedOrder = transaction;
+      } else {
+        this.selectedOrder = null;
+      }
+    }
   }
 
   openCustomerCareModal(transaction?: any, isView = false) {
@@ -77,27 +85,32 @@ export class CustomerCareComponent implements OnInit {
   }
 
   onPageChange(page: number): void {
-    this.page = page - 1;
+    this.page = page;
     this._fetchData();
   }
 
   onChangeFilter() {
-    this.page--;
-    this._fetchData();
+    this._fetchData(this.selectedOrder);
   }
 
-  private _fetchData() {
+  private _fetchData(selected?: any) {
     const transaction$ = this.transactionService
       .loadTransaction({
-        pageNumber: this.page,
+        pageNumber: this.page - 1,
         pageSize: this.pageSize,
         search_name: this.textSearch
       })
       .pipe(takeUntil(this.destroyed$));
     transaction$.subscribe((res: any) => {
-      if (res) {
+      if (res && res.Data) {
         this.totalSize = res.Data.TotalNumberOfRecords;
         this.transactions = res.Data.Results;
+
+        if (selected) {
+          this.selectedOrder = this.transactions.find(item => item.tra_id === selected.tra_id);
+        } else {
+          this.selectedOrder = this.transactions[0];
+        }
       }
     });
   }
@@ -116,7 +129,6 @@ export class CustomerCareComponent implements OnInit {
             showConfirmButton: false,
             timer: 2000
           });
-          this.page--;
           this._fetchData();
           this.modalService.dismissAll();
         }
@@ -148,8 +160,7 @@ export class CustomerCareComponent implements OnInit {
             showConfirmButton: false,
             timer: 2000
           });
-          this.page--;
-          this._fetchData();
+          this._fetchData(this.selectedOrder);
           this.modalService.dismissAll();
         }
       },
@@ -182,7 +193,6 @@ export class CustomerCareComponent implements OnInit {
             showConfirmButton: false,
             timer: 2000
           });
-          this.page--;
           this._fetchData();
           this.modalService.dismissAll();
         }

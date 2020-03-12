@@ -20,5 +20,17 @@
   .table-responsive {
     overflow: auto;
     height: calc(100% - 85px);
+
+    border-collapse: separate;
+    border-spacing: 0;
+
+    thead {
+      th {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        background-color: white;
+      }
+    }
   }
 }

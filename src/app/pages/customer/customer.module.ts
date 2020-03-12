@@ -21,7 +21,6 @@ import { ListCustomerGroupModalComponent } from './list-customer/component/list-
 import { AddresModalComponent } from './list-customer/component/addres-modal/addres-modal.component';
 import { CustomerGroupComponent } from './customer-group/customer-group.component';
 import { CustomerCareComponent } from './customer-care/customer-care.component';
-import { ConfirmModalComponent as CustomerCareConfirm } from './customer-care/component/confirm-modal/confirm-modal.component';
 import { CustomerCareModalComponent } from './customer-care/component/customer-care-modal/customer-care-modal.component';
 
 @NgModule({
@@ -40,8 +39,7 @@ import { CustomerCareModalComponent } from './customer-care/component/customer-c
     AddresModalComponent,
     CustomerGroupComponent,
     CustomerCareComponent,
-    CustomerCareModalComponent,
-    CustomerCareConfirm
+    CustomerCareModalComponent
   ],
   imports: [
     CommonModule,
@@ -66,7 +64,6 @@ import { CustomerCareModalComponent } from './customer-care/component/customer-c
     CustomerTypeModalComponent,
     CustomerGroupModalComponent,
     AddresModalComponent,
-    CustomerCareConfirm,
     CustomerCareModalComponent
   ]
 })

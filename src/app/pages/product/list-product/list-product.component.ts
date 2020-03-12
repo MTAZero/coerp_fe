@@ -15,7 +15,6 @@ import Swal from 'sweetalert2';
 })
 export class ListProductComponent implements OnInit {
   private destroyed$ = new Subject();
-  breadCrumbItems: Array<{}>;
 
   submitted: boolean;
   categories: any;
@@ -35,11 +34,6 @@ export class ListProductComponent implements OnInit {
     private productService: ProductService
   ) {}
   ngOnInit() {
-    this.breadCrumbItems = [
-      { label: 'ERP', path: '/' },
-      { label: 'Sản phẩm', path: '/' },
-      { label: 'Thông tin sản phẩm', path: '/', active: true }
-    ];
     this._fetchData();
     this._fetchFilter();
   }
@@ -95,13 +89,12 @@ export class ListProductComponent implements OnInit {
   }
 
   onPageChange(page: number): void {
-    this.page = page - 1;
+    this.page = page;
     this._fetchData();
   }
 
   onChangeFilter() {
-    this.page--;
-    this._fetchData();
+    this._fetchData(this.selectedProduct);
   }
 
   readURL(event: any) {
@@ -121,8 +114,7 @@ export class ListProductComponent implements OnInit {
               showConfirmButton: false,
               timer: 2000
             });
-            this.page--;
-            this._fetchData();
+            this._fetchData(this.selectedProduct);
           } else {
             Swal.fire({
               position: 'top-end',
@@ -150,19 +142,25 @@ export class ListProductComponent implements OnInit {
     }
   }
 
-  private _fetchData() {
+  private _fetchData(selected?: any) {
     const product$ = this.productService
       .loadProduct({
-        pageNumber: this.page,
+        pageNumber: this.page - 1,
         pageSize: this.pageSize,
         search_name: this.textSearch,
         category_id: this.categorySearch
       })
       .pipe(takeUntil(this.destroyed$));
     product$.subscribe((res: any) => {
-      if (res) {
+      if (res && res.Data) {
         this.totalSize = res.Data.TotalNumberOfRecords;
         this.products = res.Data.Results;
+
+        if (selected) {
+          this.selectedProduct = this.products.find(item => item.pu_id === selected.pu_id);
+        } else {
+          this.selectedProduct = this.products[0];
+        }
       }
     });
   }
@@ -187,7 +185,6 @@ export class ListProductComponent implements OnInit {
             showConfirmButton: false,
             timer: 2000
           });
-          this.page--;
           this._fetchData();
           this.modalService.dismissAll();
         }
@@ -219,8 +216,7 @@ export class ListProductComponent implements OnInit {
             showConfirmButton: false,
             timer: 2000
           });
-          this.page--;
-          this._fetchData();
+          this._fetchData(this.selectedProduct);
           this.modalService.dismissAll();
         }
       },
@@ -251,7 +247,6 @@ export class ListProductComponent implements OnInit {
             showConfirmButton: false,
             timer: 2000
           });
-          this.page--;
           this._fetchData();
           this.modalService.dismissAll();
         }

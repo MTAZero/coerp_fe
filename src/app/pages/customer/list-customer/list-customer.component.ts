@@ -101,7 +101,6 @@ export class ListCustomerComponent implements OnInit {
 
   onChange(event) {
     if (event.reload) {
-      this.page--;
       this._fetchData(this.selectedCustomer);
     }
   }
@@ -123,7 +122,6 @@ export class ListCustomerComponent implements OnInit {
             showConfirmButton: false,
             timer: 2000
           });
-          this.page--;
           this._fetchData();
         } else {
           Swal.fire({
@@ -312,7 +310,6 @@ export class ListCustomerComponent implements OnInit {
             showConfirmButton: false,
             timer: 2000
           });
-          this.page--;
           this._fetchData();
           this.modalService.dismissAll();
         }

@@ -1,12 +1,12 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 import { TransactionService } from '../../../../../core/services/api/transaction.service';
 import { CustomerService } from '../../../../../core/services/api/customer.service';
 import { StaffService } from '../../../../../core/services/api/staff.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-customer-care-modal',
@@ -71,17 +71,18 @@ export class CustomerCareModalComponent implements OnInit {
 
   onClickCancel() {
     if (1) {
-      const modalRef = this.modalService.open(ConfirmModalComponent, {
-        centered: true
-      });
-      modalRef.componentInstance.title = 'Thông báo';
-      modalRef.componentInstance.message =
-        'Dữ liệu đã bị thay đổi, bạn có chắc chắn muốn hủy thao tác không?';
-      modalRef.componentInstance.passEvent.subscribe(res => {
-        if (res) {
+      Swal.fire({
+        title: 'Dữ liệu đã bị thay đổi, bạn có chắc chắn muốn hủy thao tác không?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Có',
+        cancelButtonText: 'Không',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33'
+      }).then(result => {
+        if (result.value) {
           this.passEvent.emit({ event: false });
         }
-        modalRef.close();
       });
     } else {
       this.passEvent.emit({ event: false });

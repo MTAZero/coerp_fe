@@ -1,114 +1,121 @@
-<div class="container-fluid">
-  <app-page-title title="Đặt hàng" [breadcrumbItems]="breadCrumbItems"></app-page-title>
-
-  <div class="row">
-    <div class="card">
-      <div class="card-body">
-        <div class="row mb-2">
-          <div class="col-md-7">
-            <form class="form-inline">
-              <div class="form-group mb-2">
-                <input
-                  class="form-control"
-                  name="textSearch"
-                  placeholder="Tìm kiếm..."
-                  [(ngModel)]="textSearch"
-                  (input)="onChangeFilter()"
-                />
-              </div>
-
-              <select
-                class="custom-select"
-                name="category"
-                [(ngModel)]="paymentMethodSearch"
-                (change)="onChangeFilter()"
-              >
-                <option value="">Phương thức thanh toán</option>
-                <option *ngFor="let item of paymentMethods" [value]="item.id">{{
-                  item.name
-                }}</option>
-              </select>
-            </form>
+<app-main-container [hasBottom]="false">
+  <div top class="card-body" style="height: 100%;">
+    <div class="row mb-2">
+      <div class="col-xl-6">
+        <form class="form-inline">
+          <div class="form-group mb-2 mr-1">
+            <input
+              class="form-control"
+              name="textSearch"
+              placeholder="Tìm kiếm..."
+              [(ngModel)]="textSearch"
+              (input)="onChangeFilter()"
+            />
           </div>
-          <div class="col-md-5">
-            <div class="text-sm-right">
-              <button type="button" class="btn btn-info mb-2 mr-1">
-                Xuất
-              </button>
-              <a class="btn btn-success mb-2 button-link" (click)="openOrderModal()"
-                ><i class="mdi mdi-plus-circle mr-1"></i> Thêm đơn hàng</a
-              >
-            </div>
-          </div>
-          <!-- end col-->
-        </div>
 
-        <div class="table-responsive">
-          <table class="table table-centered table-hover mb-0">
-            <thead>
-              <tr>
-                <th>MĐH</th>
-                <th>Ngày đặt hàng</th>
-                <th>Trạng thái thanh toán</th>
-                <th>Tổng tiền</th>
-                <th>Phương thức thanh toán</th>
-                <th>Tình trạng đơn hàng</th>
-                <th style="width: 105px;">Thao tác</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let order of orders">
-                <td>
-                  {{ order.cuo_code }}
-                </td>
-                <td>
-                  {{ order.cuo_date | date: 'dd/MM/yyyy' }}
-                </td>
-                <td>
-                  {{ order.cuo_payment_status }}
-                </td>
-                <td>
-                  {{ order.cuo_total_price }}
-                </td>
-                <td>
-                  {{ order.cuo_payment_type }}
-                </td>
-                <td>
-                  <select
-                    class="custom-select"
-                    [value]="order.cuo_status"
-                    (change)="onChangeStatus($event, order)"
-                  >
-                    <option value="null">Trạng thái đơn hàng</option>
-                    <option *ngFor="let status of orderStatus" [value]="status.id">{{
-                      status.name
-                    }}</option>
-                  </select>
-                </td>
-                <td>
-                  <a class="action-icon table-button-link" (click)="openOrderModal(order, true)">
-                    <i class="mdi mdi-eye"></i
-                  ></a>
-                  <a class="action-icon table-button-link" (click)="openOrderModal(order)">
-                    <i class="mdi mdi-square-edit-outline"></i
-                  ></a>
-                  <a class="action-icon table-button-link" (click)="openConfirmModal(order)">
-                    <i class="mdi mdi-delete"></i
-                  ></a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <select
+            class="custom-select"
+            name="category"
+            [(ngModel)]="paymentMethodSearch"
+            (change)="onChangeFilter()"
+          >
+            <option value="">Phương thức thanh toán</option>
+            <option *ngFor="let item of paymentMethods" [value]="item.id">{{ item.name }}</option>
+          </select>
+        </form>
+      </div>
+      <div class="col-xl-6">
+        <div class="text-sm-right">
+          <button type="button" class="btn btn-info mb-2 mr-1">
+            <span class="mdi mdi-cloud-upload"></span>
+            Nhập
+          </button>
+          <button type="button" class="btn btn-info mb-2 mr-1">
+            Xuất
+          </button>
+          <a
+            [ngClass]="selectedOrder ? '' : 'disabled'"
+            class="btn btn-secondary mb-2 mr-1 button-link"
+            (click)="openOrderModal(selectedOrder, true)"
+            ><i class="mdi mdi-eye mr-1"></i> Chi tiết</a
+          >
+          <a class="btn btn-success mb-2 mr-1 button-link" (click)="openOrderModal()"
+            ><i class="mdi mdi-plus-circle mr-1"></i> Thêm mới</a
+          >
+          <a
+            class="btn btn-primary mb-2 mr-1 button-link"
+            [ngClass]="selectedOrder ? '' : 'disabled'"
+            (click)="openOrderModal(selectedOrder)"
+            ><i class="mdi mdi-square-edit-outline mr-1"></i> Cập nhật</a
+          >
+          <a
+            class="btn btn-danger mb-2 mr-1 button-link"
+            [ngClass]="selectedOrder ? '' : 'disabled'"
+            (click)="openConfirmModal(selectedOrder)"
+            ><i class="mdi mdi-delete mr-1"></i> Xóa</a
+          >
         </div>
-        <ul class="pagination pagination-rounded justify-content-end my-2">
-          <ngb-pagination
-            (pageChange)="onPageChange($event)"
-            [pageSize]="pageSize"
-            [(page)]="page"
-            [collectionSize]="totalSize"
-          ></ngb-pagination>
-        </ul>
       </div>
     </div>
+
+    <div class="table-responsive">
+      <table class="table table-centered table-hover mb-0">
+        <thead>
+          <tr>
+            <th>MĐH</th>
+            <th>Ngày đặt hàng</th>
+            <th>Trạng thái thanh toán</th>
+            <th>Tổng tiền</th>
+            <th>Phương thức thanh toán</th>
+            <th>Tình trạng đơn hàng</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let order of orders"
+            (click)="onClickOrder(order)"
+            [ngClass]="{
+              'is-selected': order.cuo_id === selectedOrder?.cuo_id
+            }"
+          >
+            <td>
+              {{ order.cuo_code }}
+            </td>
+            <td>
+              {{ order.cuo_date | date: 'dd/MM/yyyy' }}
+            </td>
+            <td>
+              {{ order.cuo_payment_status }}
+            </td>
+            <td>
+              {{ order.cuo_total_price }}
+            </td>
+            <td>
+              {{ order.cuo_payment_type }}
+            </td>
+            <td>
+              <select
+                class="custom-select"
+                [value]="order.cuo_status"
+                (change)="onChangeStatus($event, order)"
+              >
+                <option value="null">Trạng thái đơn hàng</option>
+                <option *ngFor="let status of orderStatus" [value]="status.id">{{
+                  status.name
+                }}</option>
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <ul class="pagination pagination-rounded justify-content-end my-3">
+      <ngb-pagination
+        (pageChange)="onPageChange($event)"
+        [pageSize]="pageSize"
+        [(page)]="page"
+        [collectionSize]="totalSize"
+      ></ngb-pagination>
+    </ul>
   </div>
-</div>
+</app-main-container>

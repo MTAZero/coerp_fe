@@ -1,9 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { productTypeData } from '../../data';
-import { ProductType } from '../../list-product.model';
 import { ProductTypeModalComponent } from '../product-type-modal/product-type-modal.component';
-import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 import { isNullOrUndefined } from 'util';
 
 @Component({
@@ -13,8 +10,8 @@ import { isNullOrUndefined } from 'util';
 })
 export class ListProductTypeModalComponent implements OnInit {
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
-  productTypes: ProductType[];
-  selectedProductType: ProductType;
+  productTypes: any[];
+  selectedProductType: any;
   constructor(private modalService: NgbModal) {}
 
   ngOnInit() {
@@ -29,13 +26,11 @@ export class ListProductTypeModalComponent implements OnInit {
     this.passEvent.emit({ event: false });
   }
 
-  onClickProductType(productType: ProductType) {
+  onClickProductType(productType: any) {
     if (isNullOrUndefined(this.selectedProductType)) {
       this.selectedProductType = productType;
     } else {
-      if (
-        this.selectedProductType.product_type_id !== productType.product_type_id
-      ) {
+      if (this.selectedProductType.product_type_id !== productType.product_type_id) {
         this.selectedProductType = productType;
       } else {
         this.selectedProductType = null;
@@ -62,28 +57,15 @@ export class ListProductTypeModalComponent implements OnInit {
     });
   }
 
-  openConfirmModal() {
-    const modalRef = this.modalService.open(ConfirmModalComponent, {
-      centered: true
-    });
-    modalRef.componentInstance.title = 'Xác nhận xóa loại sản phẩm';
-    modalRef.componentInstance.message =
-      'Bạn có chắc chắn muốn xóa loại sản phẩm đã chọn không?';
-    modalRef.componentInstance.passEvent.subscribe(res => {
-      if (res) {
-        this.removeProductType(this.selectedProductType);
-      }
-      modalRef.close();
-    });
-  }
+  openConfirmModal() {}
 
   private loadProductTypeData() {
-    this.productTypes = productTypeData;
+    this.productTypes = [];
   }
 
   private createProductType(data: any) {}
 
   private updateProductType(productTypeId: any, data: any) {}
 
-  private removeProductType(productType: ProductType) {}
+  private removeProductType(productType: any) {}
 }

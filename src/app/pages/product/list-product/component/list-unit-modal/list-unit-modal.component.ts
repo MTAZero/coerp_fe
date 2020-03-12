@@ -1,9 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { unitData } from '../../data';
-import { Unit } from '../../list-product.model';
 import { UnitModalComponent } from '../unit-modal/unit-modal.component';
-import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 import { isNullOrUndefined } from 'util';
 
 @Component({
@@ -13,8 +10,8 @@ import { isNullOrUndefined } from 'util';
 })
 export class ListUnitModalComponent implements OnInit {
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
-  units: Unit[];
-  selectedUnit: Unit;
+  units: any[];
+  selectedUnit: any;
   constructor(private modalService: NgbModal) {}
 
   ngOnInit() {
@@ -29,7 +26,7 @@ export class ListUnitModalComponent implements OnInit {
     this.passEvent.emit({ event: false });
   }
 
-  onClickUnit(unit: Unit) {
+  onClickUnit(unit: any) {
     if (isNullOrUndefined(this.selectedUnit)) {
       this.selectedUnit = unit;
     } else {
@@ -60,28 +57,15 @@ export class ListUnitModalComponent implements OnInit {
     });
   }
 
-  openConfirmModal() {
-    const modalRef = this.modalService.open(ConfirmModalComponent, {
-      centered: true
-    });
-    modalRef.componentInstance.title = 'Xác nhận xóa đơn vị';
-    modalRef.componentInstance.message =
-      'Bạn có chắc chắn muốn xóa đơn vị đã chọn không?';
-    modalRef.componentInstance.passEvent.subscribe(res => {
-      if (res) {
-        this.removeUnit(this.selectedUnit);
-      }
-      modalRef.close();
-    });
-  }
+  openConfirmModal() {}
 
   private loadUnitData() {
-    this.units = unitData;
+    this.units = [];
   }
 
   private createUnit(data: any) {}
 
   private updateUnit(unitId: any, data: any) {}
 
-  private removeUnit(unit: Unit) {}
+  private removeUnit(unit: any) {}
 }

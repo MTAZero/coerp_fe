@@ -13,7 +13,6 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { ListProductComponent } from './list-product/list-product.component';
 import { ProductRoutingModule } from './product-routing.module';
 import { ProductModalComponent } from './list-product/component/product-modal/product-modal.component';
-import { ConfirmModalComponent as ProductComfirm } from './list-product/component/confirm-modal/confirm-modal.component';
 import { ListUnitModalComponent } from './list-product/component/list-unit-modal/list-unit-modal.component';
 import { UnitModalComponent } from './list-product/component/unit-modal/unit-modal.component';
 import { ListProductTypeModalComponent } from './list-product/component/list-product-type-modal/list-product-type-modal.component';
@@ -21,7 +20,6 @@ import { ProductTypeModalComponent } from './list-product/component/product-type
 import { DescriptionTabComponent } from './list-product/component/description-tab/description-tab.component';
 import { PurchaseHistoryTabComponent } from './list-product/component/purchase-history-tab/purchase-history-tab.component';
 import { ListOrderComponent } from './list-order/list-order.component';
-import { ConfirmModalComponent as OrderConfirm } from './list-order/component/confirm-modal/confirm-modal.component';
 import { OrderModalComponent } from './list-order/component/order-modal/order-modal.component';
 import { ProductStatisticComponent } from './product-statistic/product-statistic.component';
 
@@ -29,7 +27,6 @@ import { ProductStatisticComponent } from './product-statistic/product-statistic
   declarations: [
     ListProductComponent,
     ProductModalComponent,
-    ProductComfirm,
     ListUnitModalComponent,
     UnitModalComponent,
     ListProductTypeModalComponent,
@@ -37,7 +34,6 @@ import { ProductStatisticComponent } from './product-statistic/product-statistic
     DescriptionTabComponent,
     PurchaseHistoryTabComponent,
     ListOrderComponent,
-    OrderConfirm,
     OrderModalComponent,
     ProductStatisticComponent
   ],
@@ -57,12 +53,10 @@ import { ProductStatisticComponent } from './product-statistic/product-statistic
   ],
   entryComponents: [
     ProductModalComponent,
-    ProductComfirm,
     ListUnitModalComponent,
     UnitModalComponent,
     ListProductTypeModalComponent,
     ProductTypeModalComponent,
-    OrderConfirm,
     OrderModalComponent
   ]
 })

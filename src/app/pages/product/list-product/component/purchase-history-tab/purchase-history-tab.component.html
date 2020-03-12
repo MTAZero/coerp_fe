@@ -11,25 +11,28 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let ph of purchaseHistoryData">
+      <tr *ngFor="let ph of purchaseHistory">
         <td>
-          {{ ph.purchase_id }}
+          {{ ph.cuo_date | date: 'dd/MM/yyyy' }}
         </td>
         <td>
-          {{ ph.purchase_time }}
+          {{ ph.cuo_code }}
         </td>
         <td>
-          {{ ph.purchase_quantity }}
+          {{ ph.op_quantity }}
         </td>
         <td>
-          {{ ph.unit }}
+          {{ ph.pu_unit_name }}
         </td>
         <td>
-          {{ ph.unit }}
+          {{ ph.cu_fullname }}
         </td>
         <td>
-          {{ ph.creator }}
+          {{ ph.sta_fullname }}
         </td>
+      </tr>
+      <tr *ngIf="!purchaseHistory || purchaseHistory?.length === 0">
+        <td colspan="4">Không có dữ liệu giao dịch</td>
       </tr>
     </tbody>
   </table>
