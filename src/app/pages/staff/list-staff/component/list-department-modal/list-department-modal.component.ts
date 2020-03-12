@@ -1,6 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { departmentData } from '../../data';
 import { DepartmentModalComponent } from '../department-modal/department-modal.component';
 import { isNullOrUndefined } from 'util';
 import Swal from 'sweetalert2';
@@ -76,7 +75,7 @@ export class ListDepartmentModalComponent implements OnInit {
   }
 
   private loadDepartmentData() {
-    this.departments = departmentData;
+    this.departments = [];
   }
 
   private createDepartment(data: any) {}

@@ -65,7 +65,6 @@ export class ListStaffComponent implements OnInit {
   }
 
   openConfirmModal(staff?: any) {
-    this.onClickStaff(staff);
     Swal.fire({
       title: 'Chắc chắn muốn xóa nhân sự đang chọn?',
       type: 'warning',

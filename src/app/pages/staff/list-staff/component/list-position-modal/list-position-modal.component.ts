@@ -1,6 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { positionData } from '../../data';
 import { PositionModalComponent } from '../position-modal/position-modal.component';
 import { isNullOrUndefined } from 'util';
 import Swal from 'sweetalert2';
@@ -76,7 +75,7 @@ export class ListPositionModalComponent implements OnInit {
   }
 
   private loadPositionData() {
-    this.positions = positionData;
+    this.positions = [];
   }
 
   private createPosition(data: any) {}

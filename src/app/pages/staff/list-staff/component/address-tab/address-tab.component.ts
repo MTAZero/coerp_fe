@@ -3,9 +3,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddressModalComponent } from '../address-modal/address-modal.component';
 import { StaffService } from '../../../../../core/services/api/staff.service';
 import { takeUntil } from 'rxjs/operators';
+import { isNullOrUndefined } from 'util';
 import { Subject } from 'rxjs';
 import Swal from 'sweetalert2';
-import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-address-tab',
@@ -17,8 +17,6 @@ export class AddressTabComponent implements OnInit, OnChanges {
   @Input() staffId: any;
   @Output() formSubmit: any = new EventEmitter();
   private destroyed$ = new Subject();
-
-  addresses: any;
   selectedAddress = null;
 
   constructor(private modalService: NgbModal, private staffService: StaffService) {}

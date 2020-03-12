@@ -1,4 +1,4 @@
-<div class="table-responsive" *ngIf="!selectedPurchase">
+<div class="table-responsive">
   <table class="table table-centered table-hover mb-0">
     <thead>
       <tr>
@@ -23,7 +23,7 @@
           {{ care.staff_name }}
         </td>
       </tr>
-      <tr *ngIf="listTransaction.length === 0">
+      <tr *ngIf="!listTransaction || listTransaction?.length === 0">
         <td colspan="4">Không có dữ liệu giao dịch</td>
       </tr>
     </tbody>

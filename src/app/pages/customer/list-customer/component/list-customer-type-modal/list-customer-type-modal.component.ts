@@ -1,10 +1,8 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { customerTypeData } from '../../data';
-import { CustomerType } from '../../list-customer.model';
 import { CustomerTypeModalComponent } from '../customer-type-modal/customer-type-modal.component';
-import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 import { isNullOrUndefined } from 'util';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-list-customer-type-modal',
@@ -13,8 +11,8 @@ import { isNullOrUndefined } from 'util';
 })
 export class ListCustomerTypeModalComponent implements OnInit {
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
-  customerTypes: CustomerType[];
-  selectedCustomerType: CustomerType;
+  customerTypes: any[];
+  selectedCustomerType: any;
   constructor(private modalService: NgbModal) {}
 
   ngOnInit() {
@@ -29,7 +27,7 @@ export class ListCustomerTypeModalComponent implements OnInit {
     this.passEvent.emit({ event: false });
   }
 
-  onClickCustomerType(customerType: CustomerType) {
+  onClickCustomerType(customerType: any) {
     if (isNullOrUndefined(this.selectedCustomerType)) {
       this.selectedCustomerType = customerType;
     } else {
@@ -61,27 +59,28 @@ export class ListCustomerTypeModalComponent implements OnInit {
   }
 
   openConfirmModal() {
-    const modalRef = this.modalService.open(ConfirmModalComponent, {
-      centered: true
-    });
-    modalRef.componentInstance.title = 'Xác nhận xóa loại khách hàng';
-    modalRef.componentInstance.message =
-      'Bạn có chắc chắn muốn xóa loại khách hàng đã chọn không?';
-    modalRef.componentInstance.passEvent.subscribe(res => {
-      if (res) {
-        this.removeCustomerType(this.selectedCustomerType);
+    Swal.fire({
+      title: 'Dữ liệu đã bị thay đổi, bạn có chắc chắn muốn hủy thao tác không?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Có',
+      cancelButtonText: 'Không',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33'
+    }).then(result => {
+      if (result.value) {
+        this.passEvent.emit({ event: false });
       }
-      modalRef.close();
     });
   }
 
   private loadCustomerTypeData() {
-    this.customerTypes = customerTypeData;
+    this.customerTypes = [];
   }
 
   private createCustomerType(data: any) {}
 
   private updateCustomerType(customerTypeId: any, data: any) {}
 
-  private removeCustomerType(customerType: CustomerType) {}
+  private removeCustomerType(customerType: any) {}
 }

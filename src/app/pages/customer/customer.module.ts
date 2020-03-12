@@ -9,7 +9,6 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { CustomerRoutingModule } from './customer-routing.module';
 import { ListCustomerComponent } from './list-customer/list-customer.component';
 import { CustomerModalComponent } from './list-customer/component/customer-modal/customer-modal.component';
-import { ConfirmModalComponent as ListCustomerConfirm } from './list-customer/component/confirm-modal/confirm-modal.component';
 import { PurchaseHistoryTabComponent } from './list-customer/component/purchase-history-tab/purchase-history-tab.component';
 import { CareHistoryTabComponent } from './list-customer/component/care-history-tab/care-history-tab.component';
 import { AddressTabComponent } from './list-customer/component/address-tab/address-tab.component';
@@ -29,7 +28,6 @@ import { CustomerCareModalComponent } from './customer-care/component/customer-c
   declarations: [
     ListCustomerComponent,
     CustomerModalComponent,
-    ListCustomerConfirm,
     PurchaseHistoryTabComponent,
     CareHistoryTabComponent,
     AddressTabComponent,
@@ -62,7 +60,6 @@ import { CustomerCareModalComponent } from './customer-care/component/customer-c
     CustomerModalComponent,
     ListCustomerGroupModalComponent,
     ListSourceModalComponent,
-    ListCustomerConfirm,
     SourceModalComponent,
     ListCustomerTypeModalComponent,
     ListCustomerGroupModalComponent,

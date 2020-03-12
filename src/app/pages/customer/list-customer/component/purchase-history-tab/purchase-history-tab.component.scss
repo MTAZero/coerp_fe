@@ -1,14 +1,24 @@
 :host {
-    .order-container {
-        text-decoration: underline;
-        cursor: pointer;
-        color: darkblue;
-        font-weight: bold;
-    }
+  .order-container {
+    text-decoration: underline;
+    cursor: pointer;
+    color: darkblue;
+    font-weight: bold;
+  }
 
-    .back-container {
-        cursor: pointer;
-        color: darkblue;
-        font-weight: bold;
-    }
+  .back-container {
+    cursor: pointer;
+    color: darkblue;
+    font-weight: bold;
+  }
+
+  .row {
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  .table-responsive {
+    overflow: auto;
+    height: calc(100% - 85px);
+  }
 }

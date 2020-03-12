@@ -1,8 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CustomerType } from '../../list-customer.model';
-import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-customer-type-modal',
@@ -10,7 +9,7 @@ import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component'
   styleUrls: ['./customer-type-modal.component.scss']
 })
 export class CustomerTypeModalComponent implements OnInit {
-  @Input() customerType: CustomerType;
+  @Input() customerType: any;
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
   form: FormGroup;
   submitted = false;
@@ -34,17 +33,18 @@ export class CustomerTypeModalComponent implements OnInit {
 
   onClickCancel() {
     if (this.form.dirty) {
-      const modalRef = this.modalService.open(ConfirmModalComponent, {
-        centered: true
-      });
-      modalRef.componentInstance.title = 'Thông báo';
-      modalRef.componentInstance.message =
-        'Dữ liệu đã bị thay đổi, bạn có chắc chắn muốn hủy thao tác không?';
-      modalRef.componentInstance.passEvent.subscribe(res => {
-        if (res) {
+      Swal.fire({
+        title: 'Dữ liệu đã bị thay đổi, bạn có chắc chắn muốn hủy thao tác không?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Có',
+        cancelButtonText: 'Không',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33'
+      }).then(result => {
+        if (result.value) {
           this.passEvent.emit({ event: false });
         }
-        modalRef.close();
       });
     } else {
       this.passEvent.emit({ event: false });
@@ -61,7 +61,7 @@ export class CustomerTypeModalComponent implements OnInit {
     });
   }
 
-  private patchData(customerType: CustomerType) {
+  private patchData(customerType: any) {
     this.form.patchValue({
       customer_type: customerType.customer_type
     });

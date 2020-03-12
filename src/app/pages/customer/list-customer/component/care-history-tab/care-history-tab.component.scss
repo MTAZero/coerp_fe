@@ -1,0 +1,16 @@
+:host {
+  .table-responsive {
+    overflow: auto;
+    height: calc(100% - 85px);
+  }
+
+  .table {
+    tr {
+      cursor: pointer;
+
+      &.is-selected {
+        background-color: lightgray;
+      }
+    }
+  }
+}

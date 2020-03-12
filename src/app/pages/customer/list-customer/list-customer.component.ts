@@ -15,7 +15,6 @@ import Swal from 'sweetalert2';
 })
 export class ListCustomerComponent implements OnInit {
   private destroyed$ = new Subject();
-  breadCrumbItems: Array<{}>;
 
   submitted: boolean;
   sources: any;
@@ -39,11 +38,6 @@ export class ListCustomerComponent implements OnInit {
     private customerService: CustomerService
   ) {}
   ngOnInit() {
-    this.breadCrumbItems = [
-      { label: 'ERP', path: '/' },
-      { label: 'Khách hàng', path: '/' },
-      { label: 'Danh sách khách hàng', path: '/', active: true }
-    ];
     this._fetchData();
     this._fetchFilter();
   }
@@ -66,7 +60,6 @@ export class ListCustomerComponent implements OnInit {
       size: 'lg'
     });
     if (customer) {
-      this.onClickCustomer(customer);
       modalRef.componentInstance.customer = customer;
     }
     modalRef.componentInstance.passEvent.subscribe(res => {
@@ -82,7 +75,6 @@ export class ListCustomerComponent implements OnInit {
   }
 
   openConfirmModal(customer?: any) {
-    this.onClickCustomer(customer);
     Swal.fire({
       title: 'Chắc chắn muốn xóa khách hàng đang chọn?',
       type: 'warning',
@@ -99,13 +91,12 @@ export class ListCustomerComponent implements OnInit {
   }
 
   onPageChange(page: number): void {
-    this.page = page - 1;
+    this.page = page;
     this._fetchData();
   }
 
   onChangeFilter() {
-    this.page--;
-    this._fetchData();
+    this._fetchData(this.selectedCustomer);
   }
 
   onChange(event) {
@@ -173,8 +164,7 @@ export class ListCustomerComponent implements OnInit {
               showConfirmButton: false,
               timer: 2000
             });
-            this.page--;
-            this._fetchData();
+            this._fetchData(this.selectedCustomer);
           } else {
             Swal.fire({
               position: 'top-end',
@@ -197,7 +187,6 @@ export class ListCustomerComponent implements OnInit {
       );
       // const reader = new FileReader();
       // reader.onload = e => (this.thumbnail = reader.result);
-
       // reader.readAsDataURL(file);
     }
   }
@@ -205,7 +194,7 @@ export class ListCustomerComponent implements OnInit {
   private _fetchData(selected?: any) {
     const customer$ = this.customerService
       .loadCustomer({
-        pageNumber: this.page,
+        pageNumber: this.page - 1,
         pageSize: this.pageSize,
         source_id: this.sourceSearch,
         cu_type: this.typeSearch,
@@ -214,12 +203,14 @@ export class ListCustomerComponent implements OnInit {
       })
       .pipe(takeUntil(this.destroyed$));
     customer$.subscribe((res: any) => {
-      if (res) {
+      if (res && res.Data) {
         this.totalSize = res.Data.TotalNumberOfRecords;
         this.customers = res.Data.Results;
 
         if (selected) {
           this.selectedCustomer = this.customers.find(item => item.cu_id === selected.cu_id);
+        } else {
+          this.selectedCustomer = this.customers[0];
         }
       }
     });
@@ -259,7 +250,6 @@ export class ListCustomerComponent implements OnInit {
             showConfirmButton: false,
             timer: 2000
           });
-          this.page--;
           this._fetchData();
           this.modalService.dismissAll();
         }
@@ -291,8 +281,7 @@ export class ListCustomerComponent implements OnInit {
             showConfirmButton: false,
             timer: 2000
           });
-          this.page--;
-          this._fetchData();
+          this._fetchData(this.selectedCustomer);
           this.modalService.dismissAll();
         }
       },

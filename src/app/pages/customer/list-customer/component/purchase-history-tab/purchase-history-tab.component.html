@@ -19,7 +19,7 @@
           {{ order.staff_name }}
         </td>
       </tr>
-      <tr *ngIf="listCustomerOrder.length === 0">
+      <tr *ngIf="!listCustomerOrder || listCustomerOrder?.length === 0">
         <td colspan="3">Không có dữ liệu giao dịch</td>
       </tr>
     </tbody>

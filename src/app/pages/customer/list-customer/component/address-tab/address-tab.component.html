@@ -1,6 +1,21 @@
 <div class="row justify-content-end">
-  <a class="btn btn-success mb-2 button-link" (click)="openAddressModal()"
+  <a
+    class="btn btn-success mb-1 mr-1 button-link"
+    [ngClass]="customerId ? '' : 'disabled'"
+    (click)="openAddressModal()"
     ><i class="mdi mdi-plus-circle mr-1"></i> Thêm mới</a
+  >
+  <a
+    class="btn btn-primary mb-1 mr-1 button-link"
+    [ngClass]="selectedAddress ? '' : 'disabled'"
+    (click)="openAddressModal(selectedAddress)"
+    ><i class="mdi mdi-square-edit-outline mr-1"></i> Cập nhật</a
+  >
+  <a
+    class="btn btn-danger mb-1 button-link"
+    [ngClass]="selectedAddress ? '' : 'disabled'"
+    (click)="openConfirmModal(selectedAddress)"
+    ><i class="mdi mdi-delete mr-1"></i> Xóa</a
   >
 </div>
 <div class="table-responsive">
@@ -12,11 +27,16 @@
         <th>Phường/Xã</th>
         <th>Chi tiết</th>
         <th>Ghi chú</th>
-        <th style="width: 82px">Thao tác</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let address of listAddress">
+      <tr
+        *ngFor="let address of listAddress"
+        (click)="onClickAddress(address)"
+        [ngClass]="{
+          'is-selected': address.sha_id === selectedAddress?.sha_id
+        }"
+      >
         <td>
           {{ address.sha_province }}
         </td>
@@ -32,16 +52,8 @@
         <td>
           {{ address.sha_note }}
         </td>
-        <td>
-          <a class="action-icon table-button-link" (click)="openAddressModal(address)">
-            <i class="mdi mdi-square-edit-outline"></i
-          ></a>
-          <a class="action-icon table-button-link" (click)="openConfirmModal(address)">
-            <i class="mdi mdi-delete"></i
-          ></a>
-        </td>
       </tr>
-      <tr *ngIf="listAddress.length === 0">
+      <tr *ngIf="!listAddress || listAddress.length === 0">
         <td colspan="6">Không có dữ liệu địa chỉ</td>
       </tr>
     </tbody>

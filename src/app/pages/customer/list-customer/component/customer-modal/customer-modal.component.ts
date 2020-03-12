@@ -2,7 +2,6 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { NgbModal, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { CustomerService } from '../../../../../core/services/api/customer.service';
-import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 import { ListSourceModalComponent } from '../list-source-modal/list-source-modal.component';
 import { ListCustomerTypeModalComponent } from '../list-customer-type-modal/list-customer-type-modal.component';
 import { ListCustomerGroupModalComponent } from '../list-customer-group-modal/list-customer-group-modal.component';

@@ -1,10 +1,8 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { sourceData } from '../../data';
-import { Source } from '../../list-customer.model';
 import { SourceModalComponent } from '../source-modal/source-modal.component';
-import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 import { isNullOrUndefined } from 'util';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-list-source-modal',
@@ -13,8 +11,8 @@ import { isNullOrUndefined } from 'util';
 })
 export class ListSourceModalComponent implements OnInit {
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
-  sources: Source[];
-  selectedSource: Source;
+  sources: any[];
+  selectedSource: any;
   constructor(private modalService: NgbModal) {}
 
   ngOnInit() {
@@ -29,7 +27,7 @@ export class ListSourceModalComponent implements OnInit {
     this.passEvent.emit({ event: false });
   }
 
-  onClickSource(source: Source) {
+  onClickSource(source: any) {
     if (isNullOrUndefined(this.selectedSource)) {
       this.selectedSource = source;
     } else {
@@ -61,27 +59,28 @@ export class ListSourceModalComponent implements OnInit {
   }
 
   openConfirmModal() {
-    const modalRef = this.modalService.open(ConfirmModalComponent, {
-      centered: true
-    });
-    modalRef.componentInstance.title = 'Xác nhận xóa nguồn';
-    modalRef.componentInstance.message =
-      'Bạn có chắc chắn muốn xóa nguồn đã chọn không?';
-    modalRef.componentInstance.passEvent.subscribe(res => {
-      if (res) {
-        this.removeSource(this.selectedSource);
+    Swal.fire({
+      title: 'Dữ liệu đã bị thay đổi, bạn có chắc chắn muốn hủy thao tác không?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Có',
+      cancelButtonText: 'Không',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33'
+    }).then(result => {
+      if (result.value) {
+        this.passEvent.emit({ event: false });
       }
-      modalRef.close();
     });
   }
 
   private loadSourceData() {
-    this.sources = sourceData;
+    this.sources = [];
   }
 
   private createSource(data: any) {}
 
   private updateSource(sourceId: any, data: any) {}
 
-  private removeSource(source: Source) {}
+  private removeSource(source: any) {}
 }

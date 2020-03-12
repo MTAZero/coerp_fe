@@ -1,10 +1,8 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { customerGroupData } from '../../data';
-import { CustomerGroup } from '../../list-customer.model';
 import { CustomerGroupModalComponent } from '../customer-group-modal/customer-group-modal.component';
-import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 import { isNullOrUndefined } from 'util';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-list-customer-group-modal',
@@ -13,8 +11,8 @@ import { isNullOrUndefined } from 'util';
 })
 export class ListCustomerGroupModalComponent implements OnInit {
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
-  customerGroups: CustomerGroup[];
-  selectedCustomerGroup: CustomerGroup;
+  customerGroups: any[];
+  selectedCustomerGroup: any;
   constructor(private modalService: NgbModal) {}
 
   ngOnInit() {
@@ -29,7 +27,7 @@ export class ListCustomerGroupModalComponent implements OnInit {
     this.passEvent.emit({ event: false });
   }
 
-  onClickCustomerGroup(customerGroup: CustomerGroup) {
+  onClickCustomerGroup(customerGroup: any) {
     if (isNullOrUndefined(this.selectedCustomerGroup)) {
       this.selectedCustomerGroup = customerGroup;
     } else {
@@ -61,27 +59,28 @@ export class ListCustomerGroupModalComponent implements OnInit {
   }
 
   openConfirmModal() {
-    const modalRef = this.modalService.open(ConfirmModalComponent, {
-      centered: true
-    });
-    modalRef.componentInstance.title = 'Xác nhận xóa nhóm khách hàng';
-    modalRef.componentInstance.message =
-      'Bạn có chắc chắn muốn xóa nhóm khách hàng đã chọn không?';
-    modalRef.componentInstance.passEvent.subscribe(res => {
-      if (res) {
-        this.removeCustomerGroup(this.selectedCustomerGroup);
+    Swal.fire({
+      title: 'Dữ liệu đã bị thay đổi, bạn có chắc chắn muốn hủy thao tác không?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Có',
+      cancelButtonText: 'Không',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33'
+    }).then(result => {
+      if (result.value) {
+        this.passEvent.emit({ event: false });
       }
-      modalRef.close();
     });
   }
 
   private loadCustomerGroupData() {
-    this.customerGroups = customerGroupData;
+    this.customerGroups = [];
   }
 
   private createCustomerGroup(data: any) {}
 
   private updateCustomerGroup(customerGroupId: any, data: any) {}
 
-  private removeCustomerGroup(customerGroup: CustomerGroup) {}
+  private removeCustomerGroup(customerGroup: any) {}
 }
