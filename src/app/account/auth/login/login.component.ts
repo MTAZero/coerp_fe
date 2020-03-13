@@ -6,6 +6,7 @@ import { AuthenticationService } from '../../../core/services/common/auth.servic
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, of } from 'rxjs';
 import { takeUntil, catchError } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -17,8 +18,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
   loginForm: FormGroup;
   submitted = false;
   returnUrl: string;
-  error = '';
-  loading = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -73,17 +72,31 @@ export class LoginComponent implements OnInit, AfterViewInit {
           this.storageService.setItem('access_token', res.access_token);
           this.storageService.setItem('userName', res.userName);
           this.storageService.setItem('thumbnail', res.url_thumbnai);
+          this.storageService.setItem('sta_id', res.sta_id);
 
           if (res.sta_login) {
             this.returnUrl = '/account/first-login';
             this.router.navigate([this.returnUrl]);
           } else {
+            Swal.fire({
+              position: 'top-end',
+              type: 'success',
+              title: 'Đăng nhập thành công',
+              showConfirmButton: false,
+              timer: 2000
+            });
             this.router.navigate([this.returnUrl]);
           }
         }
       }
       if (typeof res !== 'object') {
-        this.error = res;
+        Swal.fire({
+          position: 'top-end',
+          type: 'error',
+          title: 'Đăng nhập thất bại',
+          showConfirmButton: false,
+          timer: 2000
+        });
       }
     });
   }

@@ -23,15 +23,15 @@
                 <label>Mật khẩu cũ</label>
                 <input
                   type="password"
-                  formControlName="old"
+                  formControlName="OldPassword"
                   class="form-control"
                   [ngClass]="{
-                    'is-invalid': submitted && f.old.errors
+                    'is-invalid': submitted && f.OldPassword.errors
                   }"
                   placeholder="Nhập mật khẩu cũ"
                 />
-                <div *ngIf="submitted && f.old.errors" class="invalid-feedback">
-                  <div *ngIf="f.old.errors.required">
+                <div *ngIf="submitted && f.OldPassword.errors" class="invalid-feedback">
+                  <div *ngIf="f.OldPassword.errors.required">
                     Trường mật khẩu cũ không được để trống
                   </div>
                 </div>
@@ -41,15 +41,15 @@
                 <label>Mật khẩu mới</label>
                 <input
                   type="password"
-                  formControlName="new"
+                  formControlName="NewPassword"
                   class="form-control"
                   [ngClass]="{
-                    'is-invalid': submitted && f.new.errors
+                    'is-invalid': submitted && f.NewPassword.errors
                   }"
                   placeholder="Nhập mật khẩu mới"
                 />
-                <div *ngIf="submitted && f.new.errors" class="invalid-feedback">
-                  <div *ngIf="f.new.errors.required">
+                <div *ngIf="submitted && f.NewPassword.errors" class="invalid-feedback">
+                  <div *ngIf="f.NewPassword.errors.required">
                     Trường mật khẩu mới không được để trống
                   </div>
                 </div>
@@ -59,15 +59,15 @@
                 <label>Xác nhận mật khẩu mới</label>
                 <input
                   type="password"
-                  formControlName="confirm"
+                  formControlName="ConfirmPassword"
                   class="form-control"
                   [ngClass]="{
-                    'is-invalid': submitted && f.confirm.errors
+                    'is-invalid': submitted && f.ConfirmPassword.errors
                   }"
                   placeholder="Nhập xác nhận mật khẩu"
                 />
-                <div *ngIf="submitted && f.confirm.errors" class="invalid-feedback">
-                  <div *ngIf="f.confirm.errors.required">
+                <div *ngIf="submitted && f.ConfirmPassword.errors" class="invalid-feedback">
+                  <div *ngIf="f.ConfirmPassword.errors.required">
                     Trường mật khẩu cũ không được để trống
                   </div>
                 </div>

@@ -16,7 +16,12 @@ export class AuthService {
     body?: { OldPassword: any; NewPassword: any; ConfirmPassword: any }
   ) {
     const params = mapToHttpParamsQuery(filter);
-    const formData = mapToFormData(body);
+    const formData = mapToHttpParamsQuery(body);
     return this.httpClient.put(router.change, formData, params);
+  }
+
+  forgotPassword(email: string) {
+    const params = mapToHttpParamsQuery({ email });
+    return this.httpClient.put(router.forgot, null, params);
   }
 }
