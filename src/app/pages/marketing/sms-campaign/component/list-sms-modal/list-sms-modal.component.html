@@ -1,11 +1,6 @@
 <div class="modal-header bg-dark">
   <h4 class="modal-title text-white">Danh sách mẫu Sms</h4>
-  <button
-    type="button"
-    class="close text-white"
-    aria-label="Close"
-    (click)="onClickCancel()"
-  >
+  <button type="button" class="close text-white" aria-label="Close" (click)="onClickCancel()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
@@ -14,35 +9,42 @@
     <table class="table table-centered table-hover mb-0">
       <thead>
         <tr>
+          <th></th>
+          <th>Mã</th>
           <th>Tên mẫu</th>
           <th>Người tạo</th>
           <th>Ngày tạo</th>
-          <th>Người sửa</th>
-          <th>Ngày sửa</th>
         </tr>
       </thead>
       <tbody>
-        <tr
-          *ngFor="let customer of customerData; let i = index"
-          (click)="onClickEmail()"
-        >
+        <tr *ngFor="let template of templates; let i = index" (click)="onClickEmail(template)">
           <td>
-            {{ customer.name }}
+            <input
+              type="radio"
+              name="radiogroup"
+              [checked]="selectedTemplate?.smt_id === template.smt_id"
+            />
+          </td>
+          <td>{{ template.smt_code }}</td>
+          <td>
+            {{ template.smt_title }}
           </td>
           <td>
-            {{ customer.create_by }}
+            {{ template.staff_fullname }}
           </td>
           <td>
-            {{ customer.create_date }}
-          </td>
-          <td>
-            {{ customer.update_by }}
-          </td>
-          <td>
-            {{ customer.update_date }}
+            {{ template.smt_created_date | date: 'dd/MM/yyyy' }}
           </td>
         </tr>
       </tbody>
     </table>
+  </div>
+  <div class="text-right mt-3">
+    <button class="btn btn-danger ml-1" (click)="onClickCancel()">
+      Hủy
+    </button>
+    <button class="btn btn-success ml-1" (click)="onClickSubmit()">
+      Lưu
+    </button>
   </div>
 </div>

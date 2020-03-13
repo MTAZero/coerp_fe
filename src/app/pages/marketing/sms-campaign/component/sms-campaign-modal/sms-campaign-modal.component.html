@@ -1,11 +1,6 @@
 <div class="modal-header bg-dark">
   <h4 class="modal-title text-white">Thêm mới chiến dịch SMS</h4>
-  <button
-    type="button"
-    class="close text-white"
-    aria-label="Close"
-    (click)="onClickCancel()"
-  >
+  <button type="button" class="close text-white" aria-label="Close" (click)="onClickCancel()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
@@ -17,16 +12,17 @@
           <label class="col-2 col-form-label">Đến</label>
           <div class="col-10">
             <div class="input-group" style="margin-bottom: 1rem;">
-              <input type="text" class="form-control" placeholder="Đến" />
-              <div class="input-group-append">
-                <button
-                  class="btn btn-primary"
-                  type="button"
-                  (click)="openCustomerModal()"
-                >
-                  Danh sách khách hàng
-                </button>
-              </div>
+              <ng-select
+                style="width: 100%;"
+                name="customerGroups"
+                [items]="customerGroups"
+                [multiple]="true"
+                bindLabel="cg_name"
+                [closeOnSelect]="false"
+                bindValue="cg_id"
+                [(ngModel)]="selectedCustomerGroups"
+              >
+              </ng-select>
             </div>
           </div>
         </div>
@@ -36,11 +32,7 @@
         <div class="form-group row mb-3" style="width: 100%">
           <label class="col-2 col-form-label">Chọn</label>
           <div class="col-10">
-            <button
-              type="button"
-              class="btn btn-xs btn-primary mr-1"
-              (click)="openSmsModal()"
-            >
+            <button type="button" class="btn btn-xs btn-primary mr-1" (click)="openSmsModal()">
               Mẫu SMS
             </button>
           </div>
@@ -50,7 +42,12 @@
         <div class="form-group row mb-3" style="width: 100%">
           <label class="col-2 col-form-label">Nội dung <span>(*)</span></label>
           <div class="col-10">
-            <textarea rows="10" style="width: 100%;"></textarea>
+            <textarea
+              rows="10"
+              style="width: 100%;"
+              readonly
+              [value]="selectedSms?.smt_content"
+            ></textarea>
           </div>
         </div>
       </div>
@@ -67,11 +64,7 @@
         <button type="button" class="btn btn-danger" (click)="onClickCancel()">
           Hủy
         </button>
-        <button
-          type="button"
-          class="btn btn-success ml-1"
-          (click)="onClickCancel()"
-        >
+        <button type="button" class="btn btn-success ml-1" (click)="onClickSubmit()">
           Gửi SMS
         </button>
       </div>

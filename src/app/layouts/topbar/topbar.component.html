@@ -85,7 +85,12 @@
         aria-haspopup="false"
         aria-expanded="false"
       >
-        <img [src]="thumbnail" alt="user-image" class="rounded-circle" />
+        <img
+          [src]="thumbnail"
+          alt="user-image"
+          class="rounded-circle"
+          onerror="this.src='/assets/images/users/user-1.jpg';"
+        />
         <span class="pro-user-name ml-1">
           {{ userName }} <i class="mdi mdi-chevron-down"></i>
         </span>

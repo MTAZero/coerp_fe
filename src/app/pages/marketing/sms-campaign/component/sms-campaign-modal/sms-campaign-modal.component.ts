@@ -1,9 +1,12 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 import { ListCustomerModalComponent } from '../list-customer-modal/list-customer-modal.component';
 import { ListSmsModalComponent } from '../list-sms-modal/list-sms-modal.component';
+import { CustomerGroupService } from '../../../../../core/services/api/customer-group.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-sms-campaign-modal',
@@ -11,15 +14,23 @@ import { ListSmsModalComponent } from '../list-sms-modal/list-sms-modal.componen
   styleUrls: ['./sms-campaign-modal.component.scss']
 })
 export class SmsCampaignModalComponent implements OnInit {
-  @Input() sms: any;
+  private destroyed$ = new Subject();
+  @Input() strategy: any;
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
+
+  customerGroups = [];
+  selectedCustomerGroups = [];
+  selectedSms = null;
 
   constructor(
     public formBuilder: FormBuilder,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private customerGroupService: CustomerGroupService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this._fetchData();
+  }
 
   onClickSubmit() {
     this.passEvent.emit({ event: true, form: null });
@@ -30,7 +41,7 @@ export class SmsCampaignModalComponent implements OnInit {
       centered: true,
       size: 'xl'
     });
-    modalRef.componentInstance.passEvent.subscribe(res => {
+    modalRef.componentInstance.passEvent.subscribe(() => {
       modalRef.close();
     });
   }
@@ -40,23 +51,44 @@ export class SmsCampaignModalComponent implements OnInit {
       centered: true,
       size: 'xl'
     });
+    modalRef.componentInstance.selected = this.selectedSms;
     modalRef.componentInstance.passEvent.subscribe(res => {
+      if (res.event) {
+        this.selectedSms = res.data;
+      }
       modalRef.close();
     });
   }
 
   onClickCancel() {
-    const modalRef = this.modalService.open(ConfirmModalComponent, {
-      centered: true
-    });
-    modalRef.componentInstance.title = 'Thông báo';
-    modalRef.componentInstance.message =
-      'Dữ liệu đã bị thay đổi, bạn có chắc chắn muốn hủy thao tác không?';
-    modalRef.componentInstance.passEvent.subscribe(res => {
-      if (res) {
+    Swal.fire({
+      title: 'Dữ liệu đã bị thay đổi, bạn có chắc chắn muốn hủy thao tác không?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Có',
+      cancelButtonText: 'Không',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33'
+    }).then(result => {
+      if (result.value) {
         this.passEvent.emit({ event: false });
       }
-      modalRef.close();
+    });
+  }
+
+  private _fetchData() {
+    const template$ = this.customerGroupService
+      .loadCustomerGroup({
+        pageNumber: 0,
+        pageSize: 100,
+        cg_id: '',
+        name: ''
+      })
+      .pipe(takeUntil(this.destroyed$));
+    template$.subscribe((res: any) => {
+      if (res && res.Data) {
+        this.customerGroups = res.Data.Results;
+      }
     });
   }
 }

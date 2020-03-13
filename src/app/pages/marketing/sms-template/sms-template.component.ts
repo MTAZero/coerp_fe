@@ -6,6 +6,7 @@ import { SmsService } from '../../../core/services/api/sms.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import Swal from 'sweetalert2';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-sms-template',
@@ -14,7 +15,6 @@ import Swal from 'sweetalert2';
 })
 export class SmsTemplateComponent implements OnInit {
   private destroyed$ = new Subject();
-  breadCrumbItems: Array<{}>;
 
   textSearch = '';
   page = 0;
@@ -22,15 +22,23 @@ export class SmsTemplateComponent implements OnInit {
   totalSize = 0;
 
   templates: any;
+  selectedTemplate = null;
 
   constructor(private modalService: NgbModal, private smsService: SmsService) {}
   ngOnInit() {
-    this.breadCrumbItems = [
-      { label: 'ERP', path: '/' },
-      { label: 'Marketing', path: '/' },
-      { label: 'Mẫu SMS', path: '/', active: true }
-    ];
     this._fetchData();
+  }
+
+  onClickTemplate(template: any) {
+    if (isNullOrUndefined(this.selectedTemplate)) {
+      this.selectedTemplate = template;
+    } else {
+      if (this.selectedTemplate.smt_id !== template.smt_id) {
+        this.selectedTemplate = template;
+      } else {
+        this.selectedTemplate = null;
+      }
+    }
   }
 
   openViewTemplateModal(template?: any) {
@@ -83,27 +91,32 @@ export class SmsTemplateComponent implements OnInit {
   }
 
   onPageChange(page: number): void {
-    this.page = page - 1;
+    this.page = page;
     this._fetchData();
   }
 
   onChangeFilter() {
-    this.page--;
-    this._fetchData();
+    this._fetchData(this.selectedTemplate);
   }
 
-  private _fetchData() {
+  private _fetchData(selected?: any) {
     const template$ = this.smsService
       .loadSmsTemplate({
-        pageNumber: this.page,
+        pageNumber: this.page - 1,
         pageSize: this.pageSize,
         search_name: this.textSearch
       })
       .pipe(takeUntil(this.destroyed$));
     template$.subscribe((res: any) => {
-      if (res) {
+      if (res && res.Data) {
         this.totalSize = res.Data.TotalNumberOfRecords;
         this.templates = res.Data.Results;
+
+        if (selected) {
+          this.selectedTemplate = this.templates.find(item => item.smt_id === selected.smt_id);
+        } else {
+          this.selectedTemplate = this.templates[0];
+        }
       }
     });
   }
@@ -122,7 +135,6 @@ export class SmsTemplateComponent implements OnInit {
             showConfirmButton: false,
             timer: 2000
           });
-          this.page--;
           this._fetchData();
           this.modalService.dismissAll();
         }
@@ -154,8 +166,7 @@ export class SmsTemplateComponent implements OnInit {
             showConfirmButton: false,
             timer: 2000
           });
-          this.page--;
-          this._fetchData();
+          this._fetchData(this.selectedTemplate);
           this.modalService.dismissAll();
         }
       },
@@ -186,7 +197,6 @@ export class SmsTemplateComponent implements OnInit {
             showConfirmButton: false,
             timer: 2000
           });
-          this.page--;
           this._fetchData();
           this.modalService.dismissAll();
         }

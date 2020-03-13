@@ -10,6 +10,7 @@
           style="cursor: pointer;"
           alt="profile-image"
           (click)="file.click()"
+          onerror="this.src='/assets/images/users/user-1.jpg';"
         />
         <input type="file" accept="image/*" #file style="display:none" (change)="readURL($event)" />
         <h4 class="mb-0">Pham Thu Trang</h4>

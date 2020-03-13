@@ -1,7 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { SmsService } from '../../../../../core/services/api/sms.service';
@@ -19,11 +17,7 @@ export class SmsTemplateModalComponent implements OnInit {
   form: FormGroup;
   submitted = false;
   fields: any;
-  constructor(
-    public formBuilder: FormBuilder,
-    private modalService: NgbModal,
-    private smsService: SmsService
-  ) {
+  constructor(public formBuilder: FormBuilder, private smsService: SmsService) {
     this.initializeForm();
     this._fetchData();
   }

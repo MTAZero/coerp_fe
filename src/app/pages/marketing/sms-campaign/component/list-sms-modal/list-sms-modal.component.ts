@@ -1,4 +1,7 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { SmsService } from '../../../../../core/services/api/sms.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-list-sms-modal',
@@ -6,44 +9,43 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./list-sms-modal.component.scss']
 })
 export class ListSmsModalComponent implements OnInit {
+  private destroyed$ = new Subject();
+  @Input() selected: any;
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
+  templates: any;
+  selectedTemplate = null;
 
-  customerData = [
-    {
-      name: 'Test',
-      create_by: 'demo',
-      create_date: '31/01/2020',
-      update_by: '',
-      update_date: ''
-    },
-    {
-      name: 'Test',
-      create_by: 'demo',
-      create_date: '31/01/2020',
-      update_by: '',
-      update_date: ''
-    },
-    {
-      name: '[NHẬN NGAY ĐỒNG HỒ ĐEO TAY PHIÊN BẢN GIỚI HẠN CỦA MC WATCH]',
-      create_by: 'demo',
-      create_date: '31/01/2020',
-      update_by: '',
-      update_date: ''
-    },
-    {
-      name: 'Test',
-      create_by: 'demo',
-      create_date: '31/01/2020',
-      update_by: 'admin',
-      update_date: '01/02/2020'
-    }
-  ];
+  constructor(private smsService: SmsService) {}
 
-  constructor() {}
+  ngOnInit() {
+    this._fetchData();
+    if (this.selected) this.selectedTemplate = this.selected;
+  }
 
-  ngOnInit() {}
+  onClickEmail(template: any) {
+    this.selectedTemplate = template;
+  }
 
-  onClickEmail() {
+  onClickSubmit() {
+    this.passEvent.emit({ event: true, data: this.selectedTemplate });
+  }
+
+  onClickCancel() {
     this.passEvent.emit({ event: false });
+  }
+
+  private _fetchData() {
+    const template$ = this.smsService
+      .loadSmsTemplate({
+        pageNumber: 0,
+        pageSize: 100,
+        search_name: ''
+      })
+      .pipe(takeUntil(this.destroyed$));
+    template$.subscribe((res: any) => {
+      if (res && res.Data) {
+        this.templates = res.Data.Results;
+      }
+    });
   }
 }

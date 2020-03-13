@@ -1,83 +1,94 @@
-<div class="container-fluid">
-  <app-page-title title="Mẫu SMS" [breadcrumbItems]="breadCrumbItems"></app-page-title>
-
-  <div class="row">
-    <div class="col-xl">
-      <div class="card">
-        <div class="card-body">
-          <div class="row mb-2">
-            <div class="col-sm-4">
-              <form class="form-inline">
-                <div class="form-group mb-2">
-                  <input
-                    class="form-control"
-                    name="textSearch"
-                    placeholder="Tìm kiếm..."
-                    [(ngModel)]="textSearch"
-                    (input)="onChangeFilter()"
-                  />
-                </div>
-              </form>
-            </div>
-            <div class="col-sm-8">
-              <div class="text-sm-right">
-                <a class="btn btn-success mb-2 button-link" (click)="openTemplateModal()"
-                  ><i class="mdi mdi-plus-circle mr-1"></i> Thêm mới</a
-                >
-              </div>
-            </div>
-            <!-- end col-->
+<app-main-container [hasBottom]="false">
+  <div top class="card-body" style="height: 100%;">
+    <div class="row mb-2">
+      <div class="col-xl-6">
+        <form class="form-inline row">
+          <div class="form-group mb-2">
+            <input
+              class="form-control"
+              name="textSearch"
+              placeholder="Tìm kiếm..."
+              [(ngModel)]="textSearch"
+              (input)="onChangeFilter()"
+            />
           </div>
-
-          <div class="table-responsive">
-            <table class="table table-centered table-hover mb-0">
-              <thead>
-                <tr>
-                  <th>Tên mẫu</th>
-                  <th>Ngày tạo</th>
-                  <th>Người tạo</th>
-                  <th style="width: 105px;">Thao tác</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let template of templates">
-                  <td>
-                    {{ template.smt_title }}
-                  </td>
-                  <td>
-                    {{ template.smt_created_date | date: 'dd/MM/yyyy' }}
-                  </td>
-                  <td>
-                    {{ template.staff_fullname }}
-                  </td>
-                  <td>
-                    <a
-                      class="action-icon table-button-link"
-                      (click)="openViewTemplateModal(template)"
-                    >
-                      <i class="mdi mdi-eye"></i
-                    ></a>
-                    <a class="action-icon table-button-link" (click)="openTemplateModal(template)">
-                      <i class="mdi mdi-square-edit-outline"></i
-                    ></a>
-                    <a class="action-icon table-button-link" (click)="openConfirmModal(template)">
-                      <i class="mdi mdi-delete"></i
-                    ></a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <ul class="pagination pagination-rounded justify-content-end my-2">
-            <ngb-pagination
-              (pageChange)="onPageChange($event)"
-              [pageSize]="pageSize"
-              [(page)]="page"
-              [collectionSize]="totalSize"
-            ></ngb-pagination>
-          </ul>
+        </form>
+      </div>
+      <div class="col-xl-6">
+        <div class="text-sm-right">
+          <button type="button" class="btn btn-info mb-2 mr-1">
+            <span class="mdi mdi-cloud-upload"></span>
+            Nhập
+          </button>
+          <button type="button" class="btn btn-info mb-2 mr-1">
+            <span class="mdi mdi-cloud-download"></span>
+            Xuất
+          </button>
+          <a
+            [ngClass]="selectedTemplate ? '' : 'disabled'"
+            class="btn btn-secondary mb-2 mr-1 button-link"
+            (click)="openViewTemplateModal(selectedTemplate)"
+            ><i class="mdi mdi-eye mr-1"></i> Chi tiết</a
+          >
+          <a class="btn btn-success mb-2 mr-1 button-link" (click)="openTemplateModal()"
+            ><i class="mdi mdi-plus-circle mr-1"></i> Thêm mới</a
+          >
+          <a
+            class="btn btn-primary mb-2 mr-1 button-link"
+            [ngClass]="selectedTemplate ? '' : 'disabled'"
+            (click)="openTemplateModal(selectedTemplate)"
+            ><i class="mdi mdi-square-edit-outline mr-1"></i> Cập nhật</a
+          >
+          <a
+            class="btn btn-danger mb-2 mr-1 button-link"
+            [ngClass]="selectedTemplate ? '' : 'disabled'"
+            (click)="openConfirmModal(selectedTemplate)"
+            ><i class="mdi mdi-delete mr-1"></i> Xóa</a
+          >
         </div>
       </div>
     </div>
+
+    <div class="table-responsive">
+      <table class="table table-centered table-hover mb-0">
+        <thead>
+          <tr>
+            <th>Tên mẫu</th>
+            <th>Ngày tạo</th>
+            <th>Người tạo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let template of templates"
+            (click)="onClickTemplate(template)"
+            [ngClass]="{
+              'is-selected': template.smt_id === selectedTemplate?.smt_id
+            }"
+          >
+            <td>
+              {{ template.smt_title }}
+            </td>
+            <td>
+              {{ template.smt_created_date | date: 'dd/MM/yyyy' }}
+            </td>
+            <td>
+              {{ template.staff_fullname }}
+            </td>
+          </tr>
+          <tr *ngIf="templates?.length === 0">
+            <td colspan="3">Không có dữ liệu mẫu SMS</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <ul class="pagination pagination-rounded justify-content-end my-3">
+      <ngb-pagination
+        (pageChange)="onPageChange($event)"
+        [pageSize]="pageSize"
+        [(page)]="page"
+        [collectionSize]="totalSize"
+      ></ngb-pagination>
+    </ul>
   </div>
-</div>
+</app-main-container>
