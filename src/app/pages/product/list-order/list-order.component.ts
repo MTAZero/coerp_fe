@@ -107,26 +107,13 @@ export class ListOrderComponent implements OnInit {
 
     changeStatus$.subscribe(
       (res: any) => {
-        if (res.Code === 200) {
-          Swal.fire({
-            position: 'top-end',
-            type: 'success',
-            title: 'Cập nhật trạng thái đơn hàng thành công',
-            showConfirmButton: false,
-            timer: 2000
-          });
+        if (res && res.Code == 200) {
+          this._notify(true, res.Message);
           this._fetchData();
-        }
+          this.modalService.dismissAll();
+        } else this._notify(false, res.Message);
       },
-      () => {
-        Swal.fire({
-          position: 'top-end',
-          type: 'error',
-          title: 'Cập nhật trạng thái đơn hàng thất bại',
-          showConfirmButton: false,
-          timer: 2000
-        });
-      }
+      e => this._notify(false, e.Message)
     );
   }
 
@@ -188,28 +175,13 @@ export class ListOrderComponent implements OnInit {
     const createOrder$ = this.orderService.createOrder(data).pipe(takeUntil(this.destroyed$));
     createOrder$.subscribe(
       (res: any) => {
-        if (res.Code === 200) {
-          Swal.fire({
-            position: 'top-end',
-            type: 'success',
-            title: 'Thêm đơn hàng thành công',
-            showConfirmButton: false,
-            timer: 2000
-          });
+        if (res && res.Code == 200) {
+          this._notify(true, res.Message);
           this._fetchData();
           this.modalService.dismissAll();
-        }
+        } else this._notify(false, res.Message);
       },
-      () => {
-        Swal.fire({
-          position: 'top-end',
-          type: 'error',
-          title: 'Thêm đơn hàng thất bại',
-          showConfirmButton: false,
-          timer: 2000
-        });
-        this.modalService.dismissAll();
-      }
+      e => this._notify(false, e.Message)
     );
   }
 
@@ -217,28 +189,13 @@ export class ListOrderComponent implements OnInit {
     const updateOrder$ = this.orderService.updateOrder(updated).pipe(takeUntil(this.destroyed$));
     updateOrder$.subscribe(
       (res: any) => {
-        if (res.Code === 200) {
-          Swal.fire({
-            position: 'top-end',
-            type: 'success',
-            title: 'Cập nhật đơn hàng thành công',
-            showConfirmButton: false,
-            timer: 2000
-          });
-          this._fetchData(this.selectedOrder);
+        if (res && res.Code == 200) {
+          this._notify(true, res.Message);
+          this._fetchData();
           this.modalService.dismissAll();
-        }
+        } else this._notify(false, res.Message);
       },
-      () => {
-        Swal.fire({
-          position: 'top-end',
-          type: 'error',
-          title: 'Cập nhật đơn hàng thất bại',
-          showConfirmButton: false,
-          timer: 2000
-        });
-        this.modalService.dismissAll();
-      }
+      e => this._notify(false, e.Message)
     );
   }
 
@@ -248,28 +205,23 @@ export class ListOrderComponent implements OnInit {
       .pipe(takeUntil(this.destroyed$));
     removeOrder$.subscribe(
       (res: any) => {
-        if (res.Code == 200) {
-          Swal.fire({
-            position: 'top-end',
-            type: 'success',
-            title: 'Xóa đơn hàng thành công',
-            showConfirmButton: false,
-            timer: 2000
-          });
+        if (res && res.Code == 200) {
+          this._notify(true, res.Message);
           this._fetchData();
           this.modalService.dismissAll();
-        }
+        } else this._notify(false, res.Message);
       },
-      () => {
-        Swal.fire({
-          position: 'top-end',
-          type: 'error',
-          title: 'Xóa đơn hàng thất bại',
-          showConfirmButton: false,
-          timer: 2000
-        });
-        this.modalService.dismissAll();
-      }
+      e => this._notify(false, e.Message)
     );
+  }
+
+  private _notify(isSuccess: boolean, message: string) {
+    return Swal.fire({
+      position: 'top-end',
+      type: isSuccess ? 'success' : 'error',
+      title: message,
+      showConfirmButton: false,
+      timer: 2000
+    });
   }
 }

@@ -106,28 +106,13 @@ export class SmsCampaignComponent implements OnInit {
       .pipe(takeUntil(this.destroyed$));
     createStrategy$.subscribe(
       (res: any) => {
-        if (res.Code === 200) {
-          Swal.fire({
-            position: 'top-end',
-            type: 'success',
-            title: 'Thêm chiến dịch SMS thành công',
-            showConfirmButton: false,
-            timer: 2000
-          });
+        if (res && res.Code == 200) {
+          this._notify(true, res.Message);
           this._fetchData();
           this.modalService.dismissAll();
-        }
+        } else this._notify(false, res.Message);
       },
-      () => {
-        Swal.fire({
-          position: 'top-end',
-          type: 'error',
-          title: 'Thêm chiến dịch SMS thất bại',
-          showConfirmButton: false,
-          timer: 2000
-        });
-        this.modalService.dismissAll();
-      }
+      e => this._notify(false, e.Message)
     );
   }
 
@@ -137,28 +122,13 @@ export class SmsCampaignComponent implements OnInit {
       .pipe(takeUntil(this.destroyed$));
     removeStrategy$.subscribe(
       (res: any) => {
-        if (res.Code == 200) {
-          Swal.fire({
-            position: 'top-end',
-            type: 'success',
-            title: 'Xóa chiến dịch SMS thành công',
-            showConfirmButton: false,
-            timer: 2000
-          });
+        if (res && res.Code == 200) {
+          this._notify(true, res.Message);
           this._fetchData();
           this.modalService.dismissAll();
-        }
+        } else this._notify(false, res.Message);
       },
-      () => {
-        Swal.fire({
-          position: 'top-end',
-          type: 'error',
-          title: 'Xóa chiến dịch SMS thất bại',
-          showConfirmButton: false,
-          timer: 2000
-        });
-        this.modalService.dismissAll();
-      }
+      e => this._notify(false, e.Message)
     );
   }
 

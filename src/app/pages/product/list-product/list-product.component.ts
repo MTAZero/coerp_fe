@@ -106,34 +106,13 @@ export class ListProductComponent implements OnInit {
         .pipe(takeUntil(this.destroyed$));
       import$.subscribe(
         (res: any) => {
-          if (res.Code === 200) {
-            Swal.fire({
-              position: 'top-end',
-              type: 'success',
-              title: 'Cập nhật ảnh sản phẩm thành công',
-              showConfirmButton: false,
-              timer: 2000
-            });
-            this._fetchData(this.selectedProduct);
-          } else {
-            Swal.fire({
-              position: 'top-end',
-              type: 'error',
-              title: 'Cập nhật ảnh sản phẩm thất bại',
-              showConfirmButton: false,
-              timer: 2000
-            });
-          }
+          if (res && res.Code == 200) {
+            this._notify(true, res.Message);
+            this._fetchData();
+            this.modalService.dismissAll();
+          } else this._notify(false, res.Message);
         },
-        () => {
-          Swal.fire({
-            position: 'top-end',
-            type: 'error',
-            title: 'Cập nhật ảnh sản phẩm thất bại',
-            showConfirmButton: false,
-            timer: 2000
-          });
-        }
+        e => this._notify(false, e.Message)
       );
       // const reader = new FileReader();
       // reader.onload = e => (this.thumbnail = reader.result);
@@ -194,28 +173,13 @@ export class ListProductComponent implements OnInit {
     const createProduct$ = this.productService.createProduct(data).pipe(takeUntil(this.destroyed$));
     createProduct$.subscribe(
       (res: any) => {
-        if (res.Code === 200) {
-          Swal.fire({
-            position: 'top-end',
-            type: 'success',
-            title: 'Thêm sản phẩm thành công',
-            showConfirmButton: false,
-            timer: 2000
-          });
+        if (res && res.Code == 200) {
+          this._notify(true, res.Message);
           this._fetchData();
           this.modalService.dismissAll();
-        }
+        } else this._notify(false, res.Message);
       },
-      () => {
-        Swal.fire({
-          position: 'top-end',
-          type: 'error',
-          title: 'Thêm sản phẩm thất bại',
-          showConfirmButton: false,
-          timer: 2000
-        });
-        this.modalService.dismissAll();
-      }
+      e => this._notify(false, e.Message)
     );
   }
 
@@ -225,28 +189,13 @@ export class ListProductComponent implements OnInit {
       .pipe(takeUntil(this.destroyed$));
     updateProduct$.subscribe(
       (res: any) => {
-        if (res.Code === 200) {
-          Swal.fire({
-            position: 'top-end',
-            type: 'success',
-            title: 'Cập nhật sản phẩm thành công',
-            showConfirmButton: false,
-            timer: 2000
-          });
-          this._fetchData(this.selectedProduct);
+        if (res && res.Code == 200) {
+          this._notify(true, res.Message);
+          this._fetchData();
           this.modalService.dismissAll();
-        }
+        } else this._notify(false, res.Message);
       },
-      () => {
-        Swal.fire({
-          position: 'top-end',
-          type: 'error',
-          title: 'Cập nhật sản phẩm thất bại',
-          showConfirmButton: false,
-          timer: 2000
-        });
-        this.modalService.dismissAll();
-      }
+      e => this._notify(false, e.Message)
     );
   }
 
@@ -256,28 +205,23 @@ export class ListProductComponent implements OnInit {
       .pipe(takeUntil(this.destroyed$));
     removeProduct$.subscribe(
       (res: any) => {
-        if (res.Code == 200) {
-          Swal.fire({
-            position: 'top-end',
-            type: 'success',
-            title: 'Xóa sản phẩm thành công',
-            showConfirmButton: false,
-            timer: 2000
-          });
+        if (res && res.Code == 200) {
+          this._notify(true, res.Message);
           this._fetchData();
           this.modalService.dismissAll();
-        }
+        } else this._notify(false, res.Message);
       },
-      () => {
-        Swal.fire({
-          position: 'top-end',
-          type: 'error',
-          title: 'Xóa sản phẩm thất bại',
-          showConfirmButton: false,
-          timer: 2000
-        });
-        this.modalService.dismissAll();
-      }
+      e => this._notify(false, e.Message)
     );
+  }
+
+  private _notify(isSuccess: boolean, message: string) {
+    return Swal.fire({
+      position: 'top-end',
+      type: isSuccess ? 'success' : 'error',
+      title: message,
+      showConfirmButton: false,
+      timer: 2000
+    });
   }
 }

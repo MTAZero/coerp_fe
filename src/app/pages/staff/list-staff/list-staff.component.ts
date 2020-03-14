@@ -104,34 +104,12 @@ export class ListStaffComponent implements OnInit {
     const import$ = this.staffService.importStaff(files[0]).pipe(takeUntil(this.destroyed$));
     import$.subscribe(
       (res: any) => {
-        if (res.Code === 200) {
-          Swal.fire({
-            position: 'top-end',
-            type: 'success',
-            title: 'Nhập nhân sự thành công',
-            showConfirmButton: false,
-            timer: 2000
-          });
+        if (res && res.Code == 200) {
+          this._notify(true, res.Message);
           this._fetchData();
-        } else {
-          Swal.fire({
-            position: 'top-end',
-            type: 'error',
-            title: 'Nhập nhân sự thất bại',
-            showConfirmButton: false,
-            timer: 2000
-          });
-        }
+        } else this._notify(false, res.Message);
       },
-      () => {
-        Swal.fire({
-          position: 'top-end',
-          type: 'error',
-          title: 'Nhập nhân sự thất bại',
-          showConfirmButton: false,
-          timer: 2000
-        });
-      }
+      e => this._notify(false, e.Message)
     );
   }
 
@@ -207,9 +185,7 @@ export class ListStaffComponent implements OnInit {
           this.modalService.dismissAll();
         } else this._notify(false, res.Message);
       },
-      e => {
-        this._notify(false, e.Message);
-      }
+      e => this._notify(false, e.Message)
     );
   }
 
@@ -225,9 +201,7 @@ export class ListStaffComponent implements OnInit {
           this.modalService.dismissAll();
         } else this._notify(false, res.Message);
       },
-      e => {
-        this._notify(false, e.Message);
-      }
+      e => this._notify(false, e.Message)
     );
   }
 

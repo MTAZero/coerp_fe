@@ -127,28 +127,13 @@ export class SmsTemplateComponent implements OnInit {
       .pipe(takeUntil(this.destroyed$));
     createTemplate$.subscribe(
       (res: any) => {
-        if (res.Code === 200) {
-          Swal.fire({
-            position: 'top-end',
-            type: 'success',
-            title: 'Thêm mẫu SMS thành công',
-            showConfirmButton: false,
-            timer: 2000
-          });
+        if (res && res.Code == 200) {
+          this._notify(true, res.Message);
           this._fetchData();
           this.modalService.dismissAll();
-        }
+        } else this._notify(false, res.Message);
       },
-      () => {
-        Swal.fire({
-          position: 'top-end',
-          type: 'error',
-          title: 'Thêm SMS thất bại',
-          showConfirmButton: false,
-          timer: 2000
-        });
-        this.modalService.dismissAll();
-      }
+      e => this._notify(false, e.Message)
     );
   }
 
@@ -158,28 +143,13 @@ export class SmsTemplateComponent implements OnInit {
       .pipe(takeUntil(this.destroyed$));
     updateTemplate$.subscribe(
       (res: any) => {
-        if (res.Code === 200) {
-          Swal.fire({
-            position: 'top-end',
-            type: 'success',
-            title: 'Cập nhật mẫu SMS thành công',
-            showConfirmButton: false,
-            timer: 2000
-          });
-          this._fetchData(this.selectedTemplate);
+        if (res && res.Code == 200) {
+          this._notify(true, res.Message);
+          this._fetchData();
           this.modalService.dismissAll();
-        }
+        } else this._notify(false, res.Message);
       },
-      () => {
-        Swal.fire({
-          position: 'top-end',
-          type: 'error',
-          title: 'Cập nhật mẫu SMS thất bại',
-          showConfirmButton: false,
-          timer: 2000
-        });
-        this.modalService.dismissAll();
-      }
+      e => this._notify(false, e.Message)
     );
   }
 
@@ -189,28 +159,23 @@ export class SmsTemplateComponent implements OnInit {
       .pipe(takeUntil(this.destroyed$));
     removeTemplate$.subscribe(
       (res: any) => {
-        if (res.Code == 200) {
-          Swal.fire({
-            position: 'top-end',
-            type: 'success',
-            title: 'Xóa mẫu SMS thành công',
-            showConfirmButton: false,
-            timer: 2000
-          });
+        if (res && res.Code == 200) {
+          this._notify(true, res.Message);
           this._fetchData();
           this.modalService.dismissAll();
-        }
+        } else this._notify(false, res.Message);
       },
-      () => {
-        Swal.fire({
-          position: 'top-end',
-          type: 'error',
-          title: 'Xóa mẫu SMS thất bại',
-          showConfirmButton: false,
-          timer: 2000
-        });
-        this.modalService.dismissAll();
-      }
+      e => this._notify(false, e.Message)
     );
+  }
+
+  private _notify(isSuccess: boolean, message: string) {
+    return Swal.fire({
+      position: 'top-end',
+      type: isSuccess ? 'success' : 'error',
+      title: message,
+      showConfirmButton: false,
+      timer: 2000
+    });
   }
 }
