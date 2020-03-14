@@ -191,13 +191,9 @@ export class ListStaffComponent implements OnInit {
             .subscribe(res => {
               console.log(res);
             });
-        } else {
-          this._notify(false, res.Message);
-        }
+        } else this._notify(false, res.Message);
       },
-      e => {
-        this._notify(false, e.Message);
-      }
+      e => this._notify(false, e.Message)
     );
   }
 

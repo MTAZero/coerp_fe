@@ -68,9 +68,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
     login$.subscribe((res: any) => {
       if (res) {
-        if (res && res.access_token && res.userName) {
+        if (res && res.access_token && res.staff_Name) {
           this.storageService.setItem('access_token', res.access_token);
-          this.storageService.setItem('userName', res.userName);
+          this.storageService.setItem('userName', res.staff_Name);
           this.storageService.setItem('thumbnail', res.url_thumbnai);
           this.storageService.setItem('sta_id', res.sta_id);
 

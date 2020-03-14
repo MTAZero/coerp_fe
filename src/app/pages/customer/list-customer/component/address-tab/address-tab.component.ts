@@ -80,56 +80,57 @@ export class AddressTabComponent implements OnInit, OnChanges {
     const createAddress$ = this.customerService
       .createShipAddress(data)
       .pipe(takeUntil(this.destroyed$));
-    createAddress$.subscribe((res: any) => {
-      if (res.Code === 200) {
-        Swal.fire({
-          position: 'top-end',
-          type: 'success',
-          title: 'Thêm địa chỉ thành công',
-          showConfirmButton: false,
-          timer: 2000
-        });
-        this.formSubmit.emit({ reload: true });
-        this.modalService.dismissAll();
-      }
-    });
+    createAddress$.subscribe(
+      (res: any) => {
+        if (res && res.Code === 200) {
+          this._notify(true, res.Message);
+          this.formSubmit.emit({ reload: true });
+          this.modalService.dismissAll();
+        } else this._notify(false, res.Message);
+      },
+      e => this._notify(false, e.Message)
+    );
   }
 
   private _updateAddress(updated: any) {
     const updateAddress$ = this.customerService
       .updateShipAddress(updated)
       .pipe(takeUntil(this.destroyed$));
-    updateAddress$.subscribe((res: any) => {
-      if (res.Code === 200) {
-        Swal.fire({
-          position: 'top-end',
-          type: 'success',
-          title: 'Cập nhật địa chỉ thành công',
-          showConfirmButton: false,
-          timer: 2000
-        });
-        this.formSubmit.emit({ reload: true });
-        this.modalService.dismissAll();
-      }
-    });
+    updateAddress$.subscribe(
+      (res: any) => {
+        if (res && res.Code === 200) {
+          this._notify(true, res.Message);
+          this.formSubmit.emit({ reload: true });
+          this.modalService.dismissAll();
+        } else this._notify(false, res.Message);
+      },
+      e => this._notify(false, e.Message)
+    );
   }
 
   private _removeAddress(address: any) {
     const removeAddress$ = this.customerService
       .removeShipAddress({ shipaddressId: address.sha_id })
       .pipe(takeUntil(this.destroyed$));
-    removeAddress$.subscribe((res: any) => {
-      if (res.Code === 200) {
-        Swal.fire({
-          position: 'top-end',
-          type: 'success',
-          title: 'Xóa địa chỉ thành công',
-          showConfirmButton: false,
-          timer: 2000
-        });
-        this.formSubmit.emit({ reload: true });
-        this.modalService.dismissAll();
-      }
+    removeAddress$.subscribe(
+      (res: any) => {
+        if (res && res.Code === 200) {
+          this._notify(true, res.Message);
+          this.formSubmit.emit({ reload: true });
+          this.modalService.dismissAll();
+        } else this._notify(false, res.Message);
+      },
+      e => this._notify(false, e.Message)
+    );
+  }
+
+  private _notify(isSuccess: boolean, message: string) {
+    return Swal.fire({
+      position: 'top-end',
+      type: isSuccess ? 'success' : 'error',
+      title: message,
+      showConfirmButton: false,
+      timer: 2000
     });
   }
 }

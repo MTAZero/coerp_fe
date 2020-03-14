@@ -137,27 +137,14 @@ export class CustomerCareComponent implements OnInit {
       .pipe(takeUntil(this.destroyed$));
     createTransacstion$.subscribe(
       (res: any) => {
-        if (res.Code === 200) {
-          Swal.fire({
-            position: 'top-end',
-            type: 'success',
-            title: 'Thêm giao dịch khách hàng thành công',
-            showConfirmButton: false,
-            timer: 2000
-          });
+        if (res && res.Code === 200) {
+          this._notify(true, res.Message);
           this._fetchData();
           this.modalService.dismissAll();
-        }
+        } else this._notify(false, res.Message);
       },
-      () => {
-        Swal.fire({
-          position: 'top-end',
-          type: 'error',
-          title: 'Thêm giao dịch khách hàng thất bại',
-          showConfirmButton: false,
-          timer: 2000
-        });
-        this.modalService.dismissAll();
+      e => {
+        this._notify(false, e.Message);
       }
     );
   }
@@ -168,27 +155,14 @@ export class CustomerCareComponent implements OnInit {
       .pipe(takeUntil(this.destroyed$));
     updateTransaction$.subscribe(
       (res: any) => {
-        if (res.Code === 200) {
-          Swal.fire({
-            position: 'top-end',
-            type: 'success',
-            title: 'Cập nhật giao dịch khách hàng thành công',
-            showConfirmButton: false,
-            timer: 2000
-          });
+        if (res && res.Code === 200) {
+          this._notify(true, res.Message);
           this._fetchData(this.selectedOrder);
           this.modalService.dismissAll();
-        }
+        } else this._notify(false, res.Message);
       },
-      () => {
-        Swal.fire({
-          position: 'top-end',
-          type: 'error',
-          title: 'Cập nhật giao dịch khách hàng thất bại',
-          showConfirmButton: false,
-          timer: 2000
-        });
-        this.modalService.dismissAll();
+      e => {
+        this._notify(false, e.Message);
       }
     );
   }
@@ -201,28 +175,25 @@ export class CustomerCareComponent implements OnInit {
       .pipe(takeUntil(this.destroyed$));
     removeTransaction$.subscribe(
       (res: any) => {
-        if (res.Code === 200) {
-          Swal.fire({
-            position: 'top-end',
-            type: 'success',
-            title: 'Xóa giao dịch khách hàng thành công',
-            showConfirmButton: false,
-            timer: 2000
-          });
+        if (res && res.Code === 200) {
+          this._notify(true, res.Message);
           this._fetchData();
           this.modalService.dismissAll();
-        }
+        } else this._notify(false, res.Message);
       },
-      () => {
-        Swal.fire({
-          position: 'top-end',
-          type: 'error',
-          title: 'Xóa giao dịch khách hàng thất bại',
-          showConfirmButton: false,
-          timer: 2000
-        });
-        this.modalService.dismissAll();
+      e => {
+        this._notify(false, e.Message);
       }
     );
+  }
+
+  private _notify(isSuccess: boolean, message: string) {
+    return Swal.fire({
+      position: 'top-end',
+      type: isSuccess ? 'success' : 'error',
+      title: message,
+      showConfirmButton: false,
+      timer: 2000
+    });
   }
 }

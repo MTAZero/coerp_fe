@@ -161,4 +161,14 @@ export class SmsCampaignComponent implements OnInit {
       }
     );
   }
+
+  private _notify(isSuccess: boolean, message: string) {
+    return Swal.fire({
+      position: 'top-end',
+      type: isSuccess ? 'success' : 'error',
+      title: message,
+      showConfirmButton: false,
+      timer: 2000
+    });
+  }
 }

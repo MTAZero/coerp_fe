@@ -114,34 +114,12 @@ export class ListCustomerComponent implements OnInit {
     const import$ = this.customerService.importCustomer(files[0]).pipe(takeUntil(this.destroyed$));
     import$.subscribe(
       (res: any) => {
-        if (res.Code === 200) {
-          Swal.fire({
-            position: 'top-end',
-            type: 'success',
-            title: 'Nhập khách hàng thành công',
-            showConfirmButton: false,
-            timer: 2000
-          });
+        if (res && res.Code === 200) {
+          this._notify(true, res.Message);
           this._fetchData();
-        } else {
-          Swal.fire({
-            position: 'top-end',
-            type: 'error',
-            title: 'Nhập khách hàng thất bại',
-            showConfirmButton: false,
-            timer: 2000
-          });
-        }
+        } else this._notify(false, res.Message);
       },
-      () => {
-        Swal.fire({
-          position: 'top-end',
-          type: 'error',
-          title: 'Nhập khách hàng thất bại',
-          showConfirmButton: false,
-          timer: 2000
-        });
-      }
+      e => this._notify(false, e.Message)
     );
   }
 
@@ -154,34 +132,12 @@ export class ListCustomerComponent implements OnInit {
         .pipe(takeUntil(this.destroyed$));
       import$.subscribe(
         (res: any) => {
-          if (res.Code === 200) {
-            Swal.fire({
-              position: 'top-end',
-              type: 'success',
-              title: 'Cập nhật ảnh khách hàng thành công',
-              showConfirmButton: false,
-              timer: 2000
-            });
+          if (res && res.Code === 200) {
+            this._notify(true, res.Message);
             this._fetchData(this.selectedCustomer);
-          } else {
-            Swal.fire({
-              position: 'top-end',
-              type: 'error',
-              title: 'Cập nhật ảnh khách hàng thất bại',
-              showConfirmButton: false,
-              timer: 2000
-            });
-          }
+          } else this._notify(false, res.Message);
         },
-        () => {
-          Swal.fire({
-            position: 'top-end',
-            type: 'error',
-            title: 'Cập nhật ảnh khách hàng thất bại',
-            showConfirmButton: false,
-            timer: 2000
-          });
-        }
+        e => this._notify(false, e.Message)
       );
       // const reader = new FileReader();
       // reader.onload = e => (this.thumbnail = reader.result);
@@ -259,28 +215,13 @@ export class ListCustomerComponent implements OnInit {
       .pipe(takeUntil(this.destroyed$));
     createCustomer$.subscribe(
       (res: any) => {
-        if (res.Code === 200) {
-          Swal.fire({
-            position: 'top-end',
-            type: 'success',
-            title: 'Thêm khách hàng thành công',
-            showConfirmButton: false,
-            timer: 2000
-          });
+        if (res && res.Code === 200) {
+          this._notify(true, res.Message);
           this._fetchData();
           this.modalService.dismissAll();
-        }
+        } else this._notify(false, res.Message);
       },
-      () => {
-        Swal.fire({
-          position: 'top-end',
-          type: 'error',
-          title: 'Thêm khách hàng thất bại',
-          showConfirmButton: false,
-          timer: 2000
-        });
-        this.modalService.dismissAll();
-      }
+      e => this._notify(false, e.Message)
     );
   }
 
@@ -290,28 +231,13 @@ export class ListCustomerComponent implements OnInit {
       .pipe(takeUntil(this.destroyed$));
     updateCustomer$.subscribe(
       (res: any) => {
-        if (res.Code === 200) {
-          Swal.fire({
-            position: 'top-end',
-            type: 'success',
-            title: 'Cập nhật khách hàng thành công',
-            showConfirmButton: false,
-            timer: 2000
-          });
-          this._fetchData(this.selectedCustomer);
+        if (res && res.Code === 200) {
+          this._notify(true, res.Message);
+          this._fetchData();
           this.modalService.dismissAll();
-        }
+        } else this._notify(false, res.Message);
       },
-      () => {
-        Swal.fire({
-          position: 'top-end',
-          type: 'error',
-          title: 'Cập nhật khách hàng thất bại',
-          showConfirmButton: false,
-          timer: 2000
-        });
-        this.modalService.dismissAll();
-      }
+      e => this._notify(false, e.Message)
     );
   }
 
@@ -321,28 +247,23 @@ export class ListCustomerComponent implements OnInit {
       .pipe(takeUntil(this.destroyed$));
     removeCustomer$.subscribe(
       (res: any) => {
-        if (res.Code === 200) {
-          Swal.fire({
-            position: 'top-end',
-            type: 'success',
-            title: 'Xóa khách hàng thành công',
-            showConfirmButton: false,
-            timer: 2000
-          });
+        if (res && res.Code === 200) {
+          this._notify(true, res.Message);
           this._fetchData();
           this.modalService.dismissAll();
-        }
+        } else this._notify(false, res.Message);
       },
-      () => {
-        Swal.fire({
-          position: 'top-end',
-          type: 'error',
-          title: 'Xóa khách hàng thất bại',
-          showConfirmButton: false,
-          timer: 2000
-        });
-        this.modalService.dismissAll();
-      }
+      e => this._notify(false, e.Message)
     );
+  }
+
+  private _notify(isSuccess: boolean, message: string) {
+    return Swal.fire({
+      position: 'top-end',
+      type: isSuccess ? 'success' : 'error',
+      title: message,
+      showConfirmButton: false,
+      timer: 2000
+    });
   }
 }
