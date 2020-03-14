@@ -145,7 +145,7 @@ export class SmsTemplateComponent implements OnInit {
       (res: any) => {
         if (res && res.Code == 200) {
           this._notify(true, res.Message);
-          this._fetchData();
+          this._fetchData(this.selectedTemplate);
           this.modalService.dismissAll();
         } else this._notify(false, res.Message);
       },

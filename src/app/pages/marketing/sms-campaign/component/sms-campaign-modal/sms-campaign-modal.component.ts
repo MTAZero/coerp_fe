@@ -21,6 +21,7 @@ export class SmsCampaignModalComponent implements OnInit {
   customerGroups = [];
   selectedCustomerGroups = [];
   selectedSms = null;
+  strategyTitle = '';
 
   constructor(
     public formBuilder: FormBuilder,
@@ -33,7 +34,15 @@ export class SmsCampaignModalComponent implements OnInit {
   }
 
   onClickSubmit() {
-    this.passEvent.emit({ event: true, form: null });
+    if (!this.selectedSms || this.selectedCustomerGroups.length === 0 || this.strategyTitle === '')
+      return;
+
+    const data = {
+      customer_group_id: this.selectedCustomerGroups,
+      smss_title: this.strategyTitle,
+      sms_template_id: this.selectedSms.smt_id
+    };
+    this.passEvent.emit({ event: true, form: data });
   }
 
   openCustomerModal() {

@@ -49,7 +49,15 @@ export class SmsCampaignComponent implements OnInit {
       modalRef.componentInstance.strategy = strategy;
     }
     modalRef.componentInstance.passEvent.subscribe(res => {
-      modalRef.close();
+      if (res.event) {
+        if (strategy) {
+          this._updateStrategy(res.form);
+        } else {
+          this._createStrategy(res.form);
+        }
+      } else {
+        modalRef.close();
+      }
     });
   }
 
@@ -109,6 +117,22 @@ export class SmsCampaignComponent implements OnInit {
         if (res && res.Code == 200) {
           this._notify(true, res.Message);
           this._fetchData();
+          this.modalService.dismissAll();
+        } else this._notify(false, res.Message);
+      },
+      e => this._notify(false, e.Message)
+    );
+  }
+
+  private _updateStrategy(data: any) {
+    const updateStrategy$ = this.smsService
+      .updateSmsStrategy(data)
+      .pipe(takeUntil(this.destroyed$));
+    updateStrategy$.subscribe(
+      (res: any) => {
+        if (res && res.Code == 200) {
+          this._notify(true, res.Message);
+          this._fetchData(this.selectedStrategy);
           this.modalService.dismissAll();
         } else this._notify(false, res.Message);
       },

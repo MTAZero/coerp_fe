@@ -1,0 +1,24 @@
+:host {
+  .row {
+    margin-right: 0;
+  }
+
+  .table-responsive {
+    overflow: auto;
+    height: calc(100vh - 200px);
+  }
+
+  .table {
+    border-collapse: separate;
+    border-spacing: 0;
+
+    thead {
+      th {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        background-color: white;
+      }
+    }
+  }
+}

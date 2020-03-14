@@ -9,7 +9,18 @@
     <form>
       <div class="form-row">
         <div class="form-group row mb-3" style="width: 100%">
-          <label class="col-2 col-form-label">Đến</label>
+          <label class="col-2 col-form-label">Tiêu đề <span>(*)</span></label>
+          <div class="col-10">
+            <div class="input-group" style="margin-bottom: 1rem;">
+              <input class="form-control" name="textSearch" [(ngModel)]="strategyTitle" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group row mb-3" style="width: 100%">
+          <label class="col-2 col-form-label">Đến <span>(*)</span></label>
           <div class="col-10">
             <div class="input-group" style="margin-bottom: 1rem;">
               <ng-select

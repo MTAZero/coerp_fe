@@ -61,10 +61,17 @@ export class CustomerGroupComponent implements OnInit {
     });
   }
 
-  openListCustomerModal() {
+  openListCustomerModal(customerGroup?: any) {
     const modalRef = this.modalService.open(ListCustomerModalComponent, {
       centered: true,
-      size: 'lg'
+      size: 'xl'
+    });
+
+    if (customerGroup) {
+      modalRef.componentInstance.customerGroup = customerGroup;
+    }
+    modalRef.componentInstance.passEvent.subscribe(res => {
+      modalRef.close();
     });
   }
 
@@ -109,7 +116,6 @@ export class CustomerGroupComponent implements OnInit {
     const chart$ = this.customerGroupService.loadChart().pipe(takeUntil(this.destroyed$));
     chart$.subscribe((res: any) => {
       if (res && res.Data) {
-        console.log(res.Data);
         let series = [];
         let labels = [];
         res.Data.map((e: any) => {

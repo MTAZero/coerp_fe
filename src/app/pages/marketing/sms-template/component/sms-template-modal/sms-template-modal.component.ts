@@ -69,9 +69,7 @@ export class SmsTemplateModalComponent implements OnInit {
     this.form = this.formBuilder.group({
       smt_id: ['', null],
       smt_title: ['', [Validators.required]],
-      smt_content: ['', [Validators.required]],
-      staff_id: 1,
-      smt_created_date: new Date().toDateString()
+      smt_content: ['', [Validators.required]]
     });
   }
 
@@ -79,9 +77,7 @@ export class SmsTemplateModalComponent implements OnInit {
     this.form.patchValue({
       smt_id: template.smt_id,
       smt_title: template.smt_title,
-      smt_content: template.smt_content,
-      staff_id: template.staff_id,
-      smt_created_date: template.smt_created_date
+      smt_content: template.smt_content
     });
   }
 

@@ -9,6 +9,7 @@ const router = {
   delete_template: `/api/sms-templates/delete`,
   get_strategy: `/api/sms-strategys/page-search`,
   create_strategy: `/api/sms-strategys/create`,
+  update_strategy: `/api/sms-strategys/update`,
   delete_strategy: `/api/sms-strategys/delete`,
   get_field: '/api/sms-templates/get_all_fields'
 };
@@ -43,8 +44,11 @@ export class SmsService {
   }
 
   createSmsStrategy(data: any) {
-    const formData = mapToFormData(data);
-    return this.httpClient.post(router.create_strategy, formData);
+    return this.httpClient.post(router.create_strategy, data);
+  }
+
+  updateSmsStrategy(data: any) {
+    return this.httpClient.post(router.update_strategy, data);
   }
 
   removeSmsStrategy(filter?: { sms_strategyId: number }) {
