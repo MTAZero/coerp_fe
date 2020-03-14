@@ -178,27 +178,25 @@ export class ListStaffComponent implements OnInit {
     const createStaff$ = this.staffService.createStaff(data).pipe(takeUntil(this.destroyed$));
     createStaff$.subscribe(
       (res: any) => {
-        if (res.Code === 200) {
-          Swal.fire({
-            position: 'top-end',
-            type: 'success',
-            title: 'Thêm nhân sự thành công',
-            showConfirmButton: false,
-            timer: 2000
-          });
+        if (res && res.Code === 200) {
+          this._notify(true, res.Message);
           this._fetchData();
           this.modalService.dismissAll();
+
+          this.staffService
+            .sendMailCreate({
+              sta_username: data.sta_username,
+              sta_email: data.sta_email
+            })
+            .subscribe(res => {
+              console.log(res);
+            });
+        } else {
+          this._notify(false, res.Message);
         }
       },
-      () => {
-        Swal.fire({
-          position: 'top-end',
-          type: 'error',
-          title: 'Thêm nhân sự thất bại',
-          showConfirmButton: false,
-          timer: 2000
-        });
-        this.modalService.dismissAll();
+      e => {
+        this._notify(false, e.Message);
       }
     );
   }
@@ -207,27 +205,14 @@ export class ListStaffComponent implements OnInit {
     const updateStaff$ = this.staffService.updateStaff(updated).pipe(takeUntil(this.destroyed$));
     updateStaff$.subscribe(
       (res: any) => {
-        if (res.Code === 200) {
-          Swal.fire({
-            position: 'top-end',
-            type: 'success',
-            title: 'Cập nhật nhân sự thành công',
-            showConfirmButton: false,
-            timer: 2000
-          });
+        if (res && res.Code === 200) {
+          this._notify(true, res.Message);
           this._fetchData(this.selectedStaff);
           this.modalService.dismissAll();
-        }
+        } else this._notify(false, res.Message);
       },
-      () => {
-        Swal.fire({
-          position: 'top-end',
-          type: 'error',
-          title: 'Cập nhật nhân sự thất bại',
-          showConfirmButton: false,
-          timer: 2000
-        });
-        this.modalService.dismissAll();
+      e => {
+        this._notify(false, e.Message);
       }
     );
   }
@@ -238,28 +223,25 @@ export class ListStaffComponent implements OnInit {
       .pipe(takeUntil(this.destroyed$));
     removeStaff$.subscribe(
       (res: any) => {
-        if (res.Code == 200) {
-          Swal.fire({
-            position: 'top-end',
-            type: 'success',
-            title: 'Xóa nhân sự thành công',
-            showConfirmButton: false,
-            timer: 2000
-          });
+        if (res && res.Code == 200) {
+          this._notify(true, res.Message);
           this._fetchData();
           this.modalService.dismissAll();
-        }
+        } else this._notify(false, res.Message);
       },
-      () => {
-        Swal.fire({
-          position: 'top-end',
-          type: 'error',
-          title: 'Xóa nhân sự thất bại',
-          showConfirmButton: false,
-          timer: 2000
-        });
-        this.modalService.dismissAll();
+      e => {
+        this._notify(false, e.Message);
       }
     );
+  }
+
+  private _notify(isSuccess: boolean, message: string) {
+    return Swal.fire({
+      position: 'top-end',
+      type: isSuccess ? 'success' : 'error',
+      title: message,
+      showConfirmButton: false,
+      timer: 2000
+    });
   }
 }

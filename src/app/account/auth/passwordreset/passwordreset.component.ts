@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/api/auth.service';
 import Swal from 'sweetalert2';
 
@@ -15,7 +15,6 @@ export class PasswordresetComponent implements OnInit, AfterViewInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService
   ) {}
@@ -45,33 +44,26 @@ export class PasswordresetComponent implements OnInit, AfterViewInit {
     this.authService.forgotPassword(this.resetForm.value.email).subscribe(
       (res: any) => {
         if (res && res.Code === 200) {
-          Swal.fire({
-            position: 'top-end',
-            type: 'success',
-            title: 'Thành công',
-            showConfirmButton: false,
-            timer: 2000
-          });
+          this._notify(true, res.Message);
           this.router.navigate(['/account/login']);
-        } else {
-          Swal.fire({
-            position: 'top-end',
-            type: 'error',
-            title: 'Thất bại',
-            showConfirmButton: false,
-            timer: 2000
+          this.authService.sendMailForgot(this.resetForm.value.email).subscribe(res => {
+            console.log(res);
           });
-        }
+        } else this._notify(false, res.Message);
       },
-      () => {
-        Swal.fire({
-          position: 'top-end',
-          type: 'error',
-          title: 'Thất bại',
-          showConfirmButton: false,
-          timer: 2000
-        });
+      e => {
+        this._notify(false, e.Message);
       }
     );
+  }
+
+  private _notify(isSuccess: boolean, message: string) {
+    return Swal.fire({
+      position: 'top-end',
+      type: isSuccess ? 'success' : 'error',
+      title: message,
+      showConfirmButton: false,
+      timer: 2000
+    });
   }
 }

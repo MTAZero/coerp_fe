@@ -46,33 +46,25 @@ export class FirstLoginComponent implements OnInit, AfterViewInit {
     this.authService.changePassword({ id }, this.form.value).subscribe(
       (res: any) => {
         if (res && res.Code === 200) {
-          Swal.fire({
-            position: 'top-end',
-            type: 'success',
-            title: 'Đổi mật khẩu thành công',
-            showConfirmButton: false,
-            timer: 2000
-          });
+          this._notify(true, res.Message);
           this.router.navigate(['/account/login']);
         } else {
-          Swal.fire({
-            position: 'top-end',
-            type: 'error',
-            title: 'Đổi mật khẩu thất bại',
-            showConfirmButton: false,
-            timer: 2000
-          });
+          this._notify(false, res.Message);
         }
       },
-      () => {
-        Swal.fire({
-          position: 'top-end',
-          type: 'error',
-          title: 'Đổi mật khẩu thất bại',
-          showConfirmButton: false,
-          timer: 2000
-        });
+      e => {
+        this._notify(false, e.Message);
       }
     );
+  }
+
+  private _notify(isSuccess: boolean, message: string) {
+    return Swal.fire({
+      position: 'top-end',
+      type: isSuccess ? 'success' : 'error',
+      title: message,
+      showConfirmButton: false,
+      timer: 2000
+    });
   }
 }

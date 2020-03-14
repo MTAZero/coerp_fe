@@ -4,7 +4,8 @@ import { mapToHttpParamsQuery, mapToFormData } from '../../helpers/helpers';
 
 const router = {
   change: `/api/staffs/ChangePassword`,
-  forgot: `/api/authentication/forgotpassword`
+  forgot: `/api/authentication/forgotpassword`,
+  mail_forgot: '/api/authentication/sendmail_forgot'
 };
 
 @Injectable()
@@ -23,5 +24,10 @@ export class AuthService {
   forgotPassword(email: string) {
     const params = mapToHttpParamsQuery({ email });
     return this.httpClient.put(router.forgot, null, params);
+  }
+
+  sendMailForgot(email: string) {
+    const params = mapToHttpParamsQuery({ email });
+    return this.httpClient.post(router.mail_forgot, null, params);
   }
 }

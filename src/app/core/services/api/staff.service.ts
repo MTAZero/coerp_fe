@@ -14,7 +14,8 @@ const router = {
   role: '/api/group-roles/all',
   import: '/api/satffs/import',
   export: '/api/satffs/export',
-  update_avatar: '/api/staffs/update_avatar'
+  update_avatar: '/api/staffs/update_avatar',
+  mail_create: '/api/staffs/sendmail_created'
 };
 
 @Injectable()
@@ -80,5 +81,10 @@ export class StaffService {
     const formData = new FormData();
     formData.append('file', file, file.name);
     return this.httpClient.putFormData(router.update_avatar, formData);
+  }
+
+  sendMailCreate(filter?: { sta_username: any; sta_email: any }) {
+    const params = mapToHttpParamsQuery(filter);
+    return this.httpClient.post(router.mail_create, null, params);
   }
 }

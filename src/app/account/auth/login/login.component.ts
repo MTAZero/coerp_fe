@@ -74,7 +74,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
           this.storageService.setItem('thumbnail', res.url_thumbnai);
           this.storageService.setItem('sta_id', res.sta_id);
 
-          if (res.sta_login) {
+          if (res.sta_login === 'True') {
             this.returnUrl = '/account/first-login';
             this.router.navigate([this.returnUrl]);
           } else {
