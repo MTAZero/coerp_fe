@@ -1,7 +1,5 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { ResizeEvent } from 'angular-resizable-element';
-import { FormBuilder } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProductService } from '../../../core/services/api/product.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -31,11 +29,7 @@ export class ProductStatisticComponent implements OnInit {
 
   selectedProduct = null;
   products: any;
-  constructor(
-    public element: ElementRef,
-    public formBuilder: FormBuilder,
-    private productService: ProductService
-  ) {
+  constructor(public element: ElementRef, private productService: ProductService) {
     this.element.nativeElement;
   }
 
@@ -55,7 +49,7 @@ export class ProductStatisticComponent implements OnInit {
     }
   }
 
-  onResize(e) {
+  onResize() {
     var el = this.element.nativeElement;
     this.containerHeight = el.children[0].clientHeight;
   }

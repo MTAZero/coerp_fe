@@ -6,12 +6,14 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
   styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent implements OnInit, AfterViewInit {
-  isCondensed = false;
-  hasArrow = true;
+  isCondensed = true;
+  hasArrow = false;
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    document.body.classList.toggle('enlarged');
+  }
 
   isMobile() {
     const ua = navigator.userAgent;

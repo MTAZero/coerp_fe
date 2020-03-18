@@ -1,44 +1,35 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api-service';
-import { mapToHttpParamsQuery, fmt } from '../../helpers/helpers';
+import { mapToHttpParamsQuery, mapToFormData } from '../../helpers/helpers';
 
 const router = {
-  get_all: `/api/services/all`,
-  get_all_page: `/api/services/page`,
-  create: `/api/services/create`,
-  update: `/api/services/update`,
-  delete: `/api/services/delete/{serviceId}`
+  get_all: `/api/service/get-all-search`,
+  create: `/api/service/create`,
+  update: `/api/service/update`,
+  delete: `/api/service/create`
 };
 
 @Injectable()
 export class ServiceService {
   constructor(private httpClient: ApiService) {}
 
-  loadAllService() {
-    return this.httpClient.get(router.get_all);
-  }
-
-  loadServicePaged(filter?: { pagesize: number; pagenumber: number }) {
+  loadServices(filter?: { pageSize: number; pageNumber: number; search_name: string }) {
     const params = mapToHttpParamsQuery(filter);
-    return this.httpClient.get(router.get_all_page, params);
+    return this.httpClient.get(router.get_all, params);
   }
 
   createService(data: any) {
-    return this.httpClient.post(router.create, data);
+    const formData = mapToFormData(data);
+    return this.httpClient.post(router.create, formData);
   }
 
-  updateService(
-    filter?: {
-      serviceId: any;
-    },
-    data?: any
-  ) {
+  updateService(data?: any) {
+    const formData = mapToFormData(data);
+    return this.httpClient.putFormData(router.update, formData);
+  }
+
+  removeService(filter?: { serviceId: number }) {
     const params = mapToHttpParamsQuery(filter);
-    return this.httpClient.put(router.update, data, params);
-  }
-
-  removeService(serviceId: any) {
-    const uri = fmt(router.update, { serviceId });
-    return this.httpClient.delete(uri);
+    return this.httpClient.delete(router.delete, params);
   }
 }

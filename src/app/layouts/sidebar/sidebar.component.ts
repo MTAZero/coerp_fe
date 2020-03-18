@@ -18,6 +18,7 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() isCondensed = false;
   @Input() hasArrow = true;
 
+  isAdmin = false;
   menu: any;
 
   @ViewChild('sideMenu', { static: false }) sideMenu: ElementRef;
@@ -26,6 +27,7 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
 
   ngOnInit() {
     this.lightTopbar();
+    this.isAdmin = localStorage.getItem('role') === 'Admin';
   }
 
   ngAfterViewInit() {

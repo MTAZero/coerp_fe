@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProductModalComponent } from './component/product-modal/product-modal.component';
 import { isNullOrUndefined } from 'util';
@@ -28,11 +27,7 @@ export class ListProductComponent implements OnInit {
   selectedProduct = null;
   products: any;
 
-  constructor(
-    private modalService: NgbModal,
-    public formBuilder: FormBuilder,
-    private productService: ProductService
-  ) {}
+  constructor(private modalService: NgbModal, private productService: ProductService) {}
   ngOnInit() {
     this._fetchData();
     this._fetchFilter();

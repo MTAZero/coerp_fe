@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Service } from './list-service.model';
-import { serviceData } from './data';
-import { ConfirmModalComponent } from './component/confirm-modal/confirm-modal.component';
 import { ServiceModalComponent } from './component/service-modal/service-modal.component';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { ServiceService } from '../../../core/services/api/service.service';
+import Swal from 'sweetalert2';
 import { isNullOrUndefined } from 'util';
 
 @Component({
@@ -13,30 +14,20 @@ import { isNullOrUndefined } from 'util';
   styleUrls: ['./list-service.component.scss']
 })
 export class ListServiceComponent implements OnInit {
-  // bread crumb items
-  breadCrumbItems: Array<{}>;
+  private destroyed$ = new Subject();
 
   submitted: boolean;
-  term: any;
-  page = 1;
-  pageSize = 10;
 
-  // start and end index
-  startIndex = 1;
-  endIndex = 10;
+  textSearch = '';
+  page = 0;
+  pageSize = 10;
   totalSize = 0;
 
-  paginatedServiceData: Array<Service>;
-  selectedService: Service;
-  services: Array<Service>;
+  selectedService = null;
+  services: any[];
 
-  constructor(private modalService: NgbModal, public formBuilder: FormBuilder) {}
+  constructor(private modalService: NgbModal, private serviceService: ServiceService) {}
   ngOnInit() {
-    this.breadCrumbItems = [
-      { label: 'ERP', path: '/' },
-      { label: 'Dịch vụ', path: '/' },
-      { label: 'Danh sách dịch vụ', path: '/', active: true }
-    ];
     this._fetchData();
   }
 
@@ -44,7 +35,7 @@ export class ListServiceComponent implements OnInit {
     if (isNullOrUndefined(this.selectedService)) {
       this.selectedService = service;
     } else {
-      if (this.selectedService.service_id !== service.service_id) {
+      if (this.selectedService.se_id !== service.se_id) {
         this.selectedService = service;
       } else {
         this.selectedService = null;
@@ -52,7 +43,7 @@ export class ListServiceComponent implements OnInit {
     }
   }
 
-  openServiceModal(service?: Service) {
+  openServiceModal(service?: any) {
     const modalRef = this.modalService.open(ServiceModalComponent, {
       centered: true,
       size: 'lg'
@@ -64,9 +55,9 @@ export class ListServiceComponent implements OnInit {
     modalRef.componentInstance.passEvent.subscribe(res => {
       if (res.event) {
         if (service) {
-          this.updateService(service, res.form);
+          this._updateService(res.form);
         } else {
-          this.createService(res.form);
+          this._createService(res.form);
         }
       }
       modalRef.close();
@@ -74,43 +65,115 @@ export class ListServiceComponent implements OnInit {
   }
 
   openConfirmModal(service?: any) {
-    const modalRef = this.modalService.open(ConfirmModalComponent, {
-      centered: true
-    });
-    this.onClickService(service);
-    modalRef.componentInstance.title = 'Xác nhận xóa dịch vụ';
-    modalRef.componentInstance.message = 'Bạn có chắc chắn muốn xóa dịch vụ đang chọn không?';
-    modalRef.componentInstance.passEvent.subscribe(res => {
-      if (res) {
-        this.removeService(service);
+    Swal.fire({
+      title: 'Chắc chắn muốn xóa dịch vụ đang chọn?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Xóa',
+      cancelButtonText: 'Hủy',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33'
+    }).then(result => {
+      if (result.value) {
+        this._removeService(service);
       }
-      modalRef.close();
     });
   }
 
-  onPageChange(page: any): void {
-    this.startIndex = (page - 1) * this.pageSize;
-    this.endIndex = (page - 1) * this.pageSize + this.pageSize;
-    this.paginatedServiceData = this.services.slice(this.startIndex, this.endIndex);
+  onPageChange(page: number): void {
+    this.page = page;
+    this._fetchData();
   }
 
-  private _fetchData() {
-    this.services = serviceData;
-    // apply pagination
-    this.startIndex = 0;
-    this.endIndex = this.pageSize;
-
-    this.paginatedServiceData = this.services.slice(this.startIndex, this.endIndex);
-    this.totalSize = this.services.length;
+  onChangeFilter() {
+    this._fetchData(this.selectedService);
   }
 
-  private createService(data: any) {
-    this.submitted = true;
-    this.totalSize = this.services.length + 1;
-    this.paginatedServiceData = this.services.slice(this.startIndex, this.endIndex);
+  private _fetchData(selected?: any) {
+    const service$ = this.serviceService
+      .loadServices({
+        pageNumber: this.page - 1,
+        pageSize: this.pageSize,
+        search_name: this.textSearch
+      })
+      .pipe(takeUntil(this.destroyed$));
+    service$.subscribe((res: any) => {
+      if (res && res.Data) {
+        this.totalSize = res.Data.TotalNumberOfRecords;
+        this.services = res.Data.Results;
+
+        if (selected) {
+          this.selectedService = this.services.find(item => item.se_id === selected.se_id);
+        } else {
+          this.selectedService = this.services[0];
+        }
+      }
+    });
   }
 
-  private updateService(service: any, data: any) {}
+  private _createService(data: any) {
+    const createTransacstion$ = this.serviceService
+      .createService(data)
+      .pipe(takeUntil(this.destroyed$));
+    createTransacstion$.subscribe(
+      (res: any) => {
+        if (res && res.Code === 200) {
+          this._notify(true, res.Message);
+          this._fetchData();
+          this.modalService.dismissAll();
+        } else this._notify(false, res.Message);
+      },
+      e => {
+        this._notify(false, e.Message);
+      }
+    );
+  }
 
-  private removeService(service: any) {}
+  private _updateService(updated: any) {
+    const updateService$ = this.serviceService
+      .updateService(updated)
+      .pipe(takeUntil(this.destroyed$));
+    updateService$.subscribe(
+      (res: any) => {
+        if (res && res.Code === 200) {
+          this._notify(true, res.Message);
+          this._fetchData(this.selectedService);
+          this.modalService.dismissAll();
+        } else this._notify(false, res.Message);
+      },
+      e => {
+        this._notify(false, e.Message);
+      }
+    );
+  }
+
+  private _removeService(service: any) {
+    const removeService$ = this.serviceService
+      .removeService({
+        serviceId: service.tra_id
+      })
+      .pipe(takeUntil(this.destroyed$));
+    removeService$.subscribe(
+      (res: any) => {
+        if (res && res.Code === 200) {
+          this._notify(true, res.Message);
+          this._fetchData();
+          this.modalService.dismissAll();
+        } else this._notify(false, res.Message);
+      },
+      e => {
+        this._notify(false, e.Message);
+      }
+    );
+  }
+
+  private _notify(isSuccess: boolean, message: string) {
+    return Swal.fire({
+      position: 'top-end',
+      type: isSuccess ? 'success' : 'error',
+      title: message,
+      showConfirmButton: false,
+      timer: 2000
+    });
+  }
 }

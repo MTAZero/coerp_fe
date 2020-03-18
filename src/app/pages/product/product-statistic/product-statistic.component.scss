@@ -6,7 +6,7 @@
 
   .table-responsive {
     overflow: auto;
-    height: calc(100% - 110px);
+    max-height: calc(100% - 110px);
 
     thead {
       th {

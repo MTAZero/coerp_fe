@@ -19,7 +19,7 @@
 
   .table-responsive {
     overflow: auto;
-    height: calc(100% - 85px);
+    max-height: calc(100% - 85px);
 
     border-collapse: separate;
     border-spacing: 0;

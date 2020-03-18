@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { OrderModalComponent } from './component/order-modal/order-modal.component';
 import { Subject } from 'rxjs';
@@ -29,11 +28,7 @@ export class ListOrderComponent implements OnInit {
   orders: any;
   selectedOrder = null;
 
-  constructor(
-    private modalService: NgbModal,
-    public formBuilder: FormBuilder,
-    private orderService: OrderService
-  ) {}
+  constructor(private modalService: NgbModal, private orderService: OrderService) {}
   ngOnInit() {
     this._fetchData();
     this._fetchFilter();

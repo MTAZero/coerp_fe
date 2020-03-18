@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CustomerCareModalComponent } from './component/customer-care-modal/customer-care-modal.component';
 import { Subject } from 'rxjs';
@@ -26,11 +25,7 @@ export class CustomerCareComponent implements OnInit {
   transactions: any[];
   selectedOrder = null;
 
-  constructor(
-    private modalService: NgbModal,
-    public formBuilder: FormBuilder,
-    private transactionService: TransactionService
-  ) {}
+  constructor(private modalService: NgbModal, private transactionService: TransactionService) {}
   ngOnInit() {
     this._fetchData();
   }

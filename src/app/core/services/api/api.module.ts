@@ -14,6 +14,7 @@ import { SmsService } from './sms.service';
 import { StatisticService } from './statistic.service';
 import { CustomerGroupService } from './customer-group.service';
 import { AuthService } from './auth.service';
+import { ProfileService } from './profile.service';
 
 const providers = [
   ApiService,
@@ -29,7 +30,8 @@ const providers = [
   SmsService,
   StatisticService,
   CustomerGroupService,
-  AuthService
+  AuthService,
+  ProfileService
 ];
 
 @NgModule({

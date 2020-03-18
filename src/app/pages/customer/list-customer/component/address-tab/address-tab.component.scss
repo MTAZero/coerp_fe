@@ -12,7 +12,7 @@
 
   .table-responsive {
     overflow: auto;
-    height: calc(100% - 85px);
+    max-height: calc(100% - 85px);
   }
 
   .table {

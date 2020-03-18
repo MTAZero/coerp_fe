@@ -1,8 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ServiceCategory } from '../../list-service.model';
-import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-service-category-modal',
@@ -10,7 +8,7 @@ import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component'
   styleUrls: ['./service-category-modal.component.scss']
 })
 export class ServiceCategoryModalComponent implements OnInit {
-  @Input() serviceCategory: ServiceCategory;
+  @Input() serviceCategory: any;
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
   form: FormGroup;
   submitted = false;
@@ -34,18 +32,6 @@ export class ServiceCategoryModalComponent implements OnInit {
 
   onClickCancel() {
     if (this.form.dirty) {
-      const modalRef = this.modalService.open(ConfirmModalComponent, {
-        centered: true
-      });
-      modalRef.componentInstance.title = 'Thông báo';
-      modalRef.componentInstance.message =
-        'Dữ liệu đã bị thay đổi, bạn có chắc chắn muốn hủy thao tác không?';
-      modalRef.componentInstance.passEvent.subscribe(res => {
-        if (res) {
-          this.passEvent.emit({ event: false });
-        }
-        modalRef.close();
-      });
     } else {
       this.passEvent.emit({ event: false });
     }
@@ -62,7 +48,7 @@ export class ServiceCategoryModalComponent implements OnInit {
     });
   }
 
-  private patchData(serviceCategory: ServiceCategory) {
+  private patchData(serviceCategory: any) {
     this.form.patchValue({
       service_category_name: serviceCategory.service_category_name,
       service_category_description: serviceCategory.service_category_description

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CustomerModalComponent } from './component/customer-modal/customer-modal.component';
 import { isNullOrUndefined } from 'util';
@@ -32,11 +31,7 @@ export class ListCustomerComponent implements OnInit {
   selectedCustomer = null;
   customers: any;
 
-  constructor(
-    private modalService: NgbModal,
-    public formBuilder: FormBuilder,
-    private customerService: CustomerService
-  ) {}
+  constructor(private modalService: NgbModal, private customerService: CustomerService) {}
   ngOnInit() {
     this._fetchData();
     this._fetchFilter();

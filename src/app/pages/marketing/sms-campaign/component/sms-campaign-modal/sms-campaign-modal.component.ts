@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ListCustomerModalComponent } from '../list-customer-modal/list-customer-modal.component';
 import { ListSmsModalComponent } from '../list-sms-modal/list-sms-modal.component';
@@ -23,11 +22,7 @@ export class SmsCampaignModalComponent implements OnInit {
   selectedSms = null;
   strategyTitle = '';
 
-  constructor(
-    public formBuilder: FormBuilder,
-    private modalService: NgbModal,
-    private customerGroupService: CustomerGroupService
-  ) {}
+  constructor(private modalService: NgbModal, private customerGroupService: CustomerGroupService) {}
 
   ngOnInit() {
     this._fetchData();

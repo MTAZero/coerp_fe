@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Template } from './list-template.model';
 import { templateData } from './data';
@@ -32,7 +31,7 @@ export class EmailTemplateComponent implements OnInit {
   viewChanged = false;
   selectedTemplate: Template;
 
-  constructor(private modalService: NgbModal, public formBuilder: FormBuilder) {}
+  constructor(private modalService: NgbModal) {}
   ngOnInit() {
     this.breadCrumbItems = [
       { label: 'ERP', path: '/' },

@@ -1,9 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { serviceCategoryData } from '../../data';
-import { ServiceCategory } from '../../list-service.model';
 import { ServiceCategoryModalComponent } from '../service-category-modal/service-category-modal.component';
-import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
 import { isNullOrUndefined } from 'util';
 
 @Component({
@@ -13,8 +10,8 @@ import { isNullOrUndefined } from 'util';
 })
 export class ListServiceCategoryModalComponent implements OnInit {
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
-  serviceCategories: ServiceCategory[];
-  selectedServiceCategory: ServiceCategory;
+  serviceCategories: any[];
+  selectedServiceCategory: any;
   constructor(private modalService: NgbModal) {}
 
   ngOnInit() {
@@ -29,13 +26,12 @@ export class ListServiceCategoryModalComponent implements OnInit {
     this.passEvent.emit({ event: false });
   }
 
-  onClickServiceCategory(serviceCategory: ServiceCategory) {
+  onClickServiceCategory(serviceCategory: any) {
     if (isNullOrUndefined(this.selectedServiceCategory)) {
       this.selectedServiceCategory = serviceCategory;
     } else {
       if (
-        this.selectedServiceCategory.service_category_id !==
-        serviceCategory.service_category_id
+        this.selectedServiceCategory.service_category_id !== serviceCategory.service_category_id
       ) {
         this.selectedServiceCategory = serviceCategory;
       } else {
@@ -63,28 +59,15 @@ export class ListServiceCategoryModalComponent implements OnInit {
     });
   }
 
-  openConfirmModal() {
-    const modalRef = this.modalService.open(ConfirmModalComponent, {
-      centered: true
-    });
-    modalRef.componentInstance.title = 'Xác nhận xóa danh mục dịch vụ';
-    modalRef.componentInstance.message =
-      'Bạn có chắc chắn muốn xóa danh mục dịch vụ đã chọn không?';
-    modalRef.componentInstance.passEvent.subscribe(res => {
-      if (res) {
-        this.removeServiceCategory(this.selectedServiceCategory);
-      }
-      modalRef.close();
-    });
-  }
+  openConfirmModal() {}
 
   private loadServiceCategoryData() {
-    this.serviceCategories = serviceCategoryData;
+    this.serviceCategories = [];
   }
 
   private createServiceCategory(data: any) {}
 
   private updateServiceCategory(serviceCategoryId: any, data: any) {}
 
-  private removeServiceCategory(serviceCategory: ServiceCategory) {}
+  private removeServiceCategory(serviceCategory: any) {}
 }

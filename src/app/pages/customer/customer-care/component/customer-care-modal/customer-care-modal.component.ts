@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TransactionService } from '../../../../../core/services/api/transaction.service';
 import { CustomerService } from '../../../../../core/services/api/customer.service';
 import { StaffService } from '../../../../../core/services/api/staff.service';
@@ -48,7 +47,6 @@ export class CustomerCareModalComponent implements OnInit {
 
   constructor(
     public formBuilder: FormBuilder,
-    private modalService: NgbModal,
     private transactionService: TransactionService,
     private customerService: CustomerService,
     private staffService: StaffService
@@ -97,9 +95,9 @@ export class CustomerCareModalComponent implements OnInit {
     }
   }
 
-  changeDatalistAssigner(e: any) {}
+  changeDatalistAssigner() {}
 
-  changeDatalistAssignee(e: any) {}
+  changeDatalistAssignee() {}
 
   private initializeForm() {
     this.form = this.formBuilder.group({

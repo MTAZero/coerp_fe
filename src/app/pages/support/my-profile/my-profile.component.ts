@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { StaffService } from '../../../core/services/api/staff.service';
+import { ProfileService } from '../../../core/services/api/profile.service';
 import { projectData, widget, projectionBarChart, salesMixedChart, orderData } from './data';
 
 @Component({
@@ -16,7 +17,6 @@ export class MyProfileComponent implements OnInit {
   breadCrumbItems: Array<{}>;
   thumbnail: any;
 
-  // Projects table
   projectData: any;
   widget: any;
   projectionBarChart: any;
@@ -26,7 +26,7 @@ export class MyProfileComponent implements OnInit {
   pageSize = 10;
   totalSize = 0;
   inboxData: Inbox[];
-  constructor(private staffService: StaffService) {}
+  constructor(private staffService: StaffService, private profileService: ProfileService) {}
 
   ngOnInit() {
     this.breadCrumbItems = [
@@ -36,6 +36,7 @@ export class MyProfileComponent implements OnInit {
 
     this.thumbnail = 'http://27.72.147.222:1230' + localStorage.getItem('thumbnail');
     this._fetchData();
+    //this._fetchProfile();
   }
 
   readURL(event: any) {
@@ -89,5 +90,14 @@ export class MyProfileComponent implements OnInit {
     this.salesMixedChart = salesMixedChart;
     this.orderData = orderData;
     this.totalSize = this.orderData.length;
+  }
+
+  private _fetchProfile() {
+    const profile$ = this.profileService.loadProfile().pipe(takeUntil(this.destroyed$));
+    profile$.subscribe((res: any) => {
+      if (res && res.Data) {
+        console.log(res);
+      }
+    });
   }
 }

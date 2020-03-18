@@ -8,7 +8,6 @@ import bootstrapPlugin from '@fullcalendar/bootstrap';
 import { EventInput, compareByFieldSpec } from '@fullcalendar/core';
 import { Event, Widget } from './event.model';
 import { category, calendarEvents, selectionTime, widgetData } from './data';
-import { ConfirmModalComponent } from './component/confirm-modal/confirm-modal.component';
 import { OrderServiceModalComponent } from './component/order-service-modal/order-service-modal.component';
 
 @Component({
@@ -40,12 +39,7 @@ export class OrderServiceComponent implements OnInit {
   deleteEvent: EventInput;
 
   // calendar plugin
-  calendarPlugins = [
-    dayGridPlugin,
-    bootstrapPlugin,
-    timeGrigPlugin,
-    interactionPlugin
-  ];
+  calendarPlugins = [dayGridPlugin, bootstrapPlugin, timeGrigPlugin, interactionPlugin];
   calendarWeekends: any;
   // show events
   calendarEvents: EventInput[];
@@ -57,10 +51,7 @@ export class OrderServiceComponent implements OnInit {
   repeat = '';
   widgetData: Widget[];
 
-  constructor(
-    private modalService: NgbModal,
-    public formBuilder: FormBuilder
-  ) {}
+  constructor(private modalService: NgbModal, public formBuilder: FormBuilder) {}
   ngOnInit() {
     this.breadCrumbItems = [
       { label: 'ERP', path: '/' },
@@ -128,9 +119,7 @@ export class OrderServiceComponent implements OnInit {
    */
   editEventSave() {
     const editTitle = this.formEditData.get('editTitle').value;
-    const editId = this.calendarEvents.findIndex(
-      x => x.id + '' === this.editEvent.id + ''
-    );
+    const editId = this.calendarEvents.findIndex(x => x.id + '' === this.editEvent.id + '');
     // tslint:disable-next-line: radix
     this.calendarEvents[editId] = {
       ...this.editEvent,
@@ -150,9 +139,7 @@ export class OrderServiceComponent implements OnInit {
    */
   deleteEventData() {
     const deleteId = this.editEvent.id;
-    const deleteEvent = this.calendarEvents.findIndex(
-      x => x.id + '' === deleteId + ''
-    );
+    const deleteEvent = this.calendarEvents.findIndex(x => x.id + '' === deleteId + '');
     this.calendarEvents[deleteEvent] = { ...this.deleteEvent, id: '' };
     delete this.calendarEvents[deleteEvent].id;
     this.modalService.dismissAll();

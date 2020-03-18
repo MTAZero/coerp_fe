@@ -13,7 +13,7 @@
 
   .table-responsive {
     overflow: auto;
-    height: calc(100% - 150px);
+    max-height: calc(100% - 150px);
 
     table {
       min-width: 1320px;
