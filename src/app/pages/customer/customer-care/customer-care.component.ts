@@ -54,9 +54,9 @@ export class CustomerCareComponent implements OnInit {
     modalRef.componentInstance.passEvent.subscribe(res => {
       if (res.event) {
         if (transaction) {
-          this._updateTransaction(res.form);
+          this._updateTransaction(res.data);
         } else {
-          this._createTransaction(res.form);
+          this._createTransaction(res.data);
         }
       }
       modalRef.close();

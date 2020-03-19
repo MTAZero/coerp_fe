@@ -7,18 +7,6 @@ export interface Widget {
   progressValue: number;
 }
 
-// Selling Products Table data
-
-export interface Sellingproduct {
-  name: string;
-  price: string;
-  quantity: number;
-  amount: string;
-  date: string;
-  sales: number;
-  productid: number;
-}
-
 // Chart data
 export interface ChartType {
   chart?: any;

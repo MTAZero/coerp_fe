@@ -1,18 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { StatisticService } from '../../core/services/api/statistic.service';
-import { Widget, Sellingproduct, ChartType } from './dashboard2.model';
+import { Widget, ChartType } from './dashboard2.model';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
-import {
-  widget,
-  basicColumChart,
-  totalUsersPieChart,
-  salesMixedChart,
-  productData,
-  orderData,
-  order
-} from './data';
+import { widget, basicColumChart, customerPieChart, ratePieChart, orderData } from './data';
 
 @Component({
   selector: 'app-dashboard',
@@ -36,9 +28,9 @@ export class DashboardComponent implements OnInit {
 
   revenues: any;
   widget: Widget[];
-  productData: Sellingproduct[];
-  salesMixedChart: ChartType;
-  totalUsersPieChart: ChartType;
+  customerPieChart: ChartType;
+  ratePieChart: ChartType;
+
   basicColumChart: ChartType;
   paginatedOrderData: any;
 
@@ -53,6 +45,7 @@ export class DashboardComponent implements OnInit {
     this._fetchData();
     this._fetchOrder();
     this._fetchCustomer();
+    this._fetchRate();
   }
 
   contentRefresh() {
@@ -71,15 +64,12 @@ export class DashboardComponent implements OnInit {
   private _fetchData() {
     this.widget = widget;
 
-    this.totalUsersPieChart = totalUsersPieChart;
+    this.customerPieChart = customerPieChart;
+    this.ratePieChart = ratePieChart;
     this.basicColumChart = basicColumChart;
-    this.salesMixedChart = salesMixedChart;
-    this.productData = productData;
 
     this.paginatedOrderData = orderData;
     this.totalSize = this.paginatedOrderData.length;
-
-    this.orders = order;
 
     const revenue$ = this.statisticService.loadRevenue().pipe(takeUntil(this.destroyed$));
     revenue$.subscribe((res: any) => {
@@ -119,14 +109,24 @@ export class DashboardComponent implements OnInit {
   }
 
   private _fetchCustomer() {
-    const order$ = this.statisticService.loadCustomer().pipe(takeUntil(this.destroyed$));
-    order$.subscribe((res: any) => {
+    const customer$ = this.statisticService.loadCustomer().pipe(takeUntil(this.destroyed$));
+    customer$.subscribe((res: any) => {
       if (res && res.Data) {
-        this.totalUsersPieChart.series = [];
-        this.totalUsersPieChart.labels = [];
         res.Data.map(item => {
-          this.totalUsersPieChart.series.push(item.total_revenue);
-          this.totalUsersPieChart.labels.push(item.cg_name);
+          this.customerPieChart.series.push(item.total_revenue);
+          this.customerPieChart.labels.push(item.cg_name);
+        });
+      }
+    });
+  }
+
+  private _fetchRate() {
+    const rate$ = this.statisticService.loadRate().pipe(takeUntil(this.destroyed$));
+    rate$.subscribe((res: any) => {
+      if (res && res.Data) {
+        res.Data.map(item => {
+          this.ratePieChart.series.push(item.number);
+          this.ratePieChart.labels.push(item.cg_name);
         });
       }
     });

@@ -5,7 +5,8 @@ import { mapToHttpParamsQuery, mapToFormData } from '../../helpers/helpers';
 const router = {
   revenue: `/api/dashboards/statistics-revenue`,
   order: `/api/dashboards/statistics-order`,
-  customer: '/api/dashboard/statistic-customer-group'
+  customer: '/api/dashboard/statistic-customer-group',
+  rate: '/api/dashboard/statistic-transaction-rate'
 };
 
 @Injectable()
@@ -18,6 +19,10 @@ export class StatisticService {
 
   loadCustomer() {
     return this.httpClient.get(router.customer);
+  }
+
+  loadRate() {
+    return this.httpClient.get(router.rate);
   }
 
   loadOrder(filter?: {

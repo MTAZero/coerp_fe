@@ -42,40 +42,28 @@
     </div>
 
     <div class="col-xl-4">
-      <!-- Portlet card -->
       <app-portlet
-        title="Thống kê kênh bán hàng"
+        title="Thống kê mức độ hài lòng"
         color="white"
         text="center"
         headerClass="title header-title border-0 my-1"
         (onContentRefresh)="contentRefresh()"
       >
         <div class="card-body text-center pt-0">
-          <!-- Income Amounts area chart-->
-          <div style="height: 393px;">
-            <apx-chart
-              [series]="salesMixedChart.series"
-              [chart]="salesMixedChart.chart"
-              [tooltip]="salesMixedChart.tooltip"
-              [stroke]="salesMixedChart.stroke"
-              [fill]="salesMixedChart.fill"
-              [legend]="salesMixedChart.legend"
-              [plotOptions]="salesMixedChart.plotOptions"
-              [grid]="salesMixedChart.grid"
-              [xaxis]="salesMixedChart.xaxis"
-              [yaxis]="salesMixedChart.yaxis"
-              [colors]="salesMixedChart.colors"
-              [labels]="salesMixedChart.labels"
-            >
-            </apx-chart>
-          </div>
-          <!-- end chart -->
+          <apx-chart
+            [series]="ratePieChart.series"
+            [chart]="ratePieChart"
+            [labels]="ratePieChart.labels"
+            [dataLabels]="ratePieChart.dataLabels"
+            [legend]="ratePieChart.legend"
+            [plotOptions]="ratePieChart.option"
+          >
+          </apx-chart>
         </div>
       </app-portlet>
     </div>
 
     <div class="col-xl-4">
-      <!-- Portlet card -->
       <app-portlet
         title="Thống kê khách hàng"
         color="white"
@@ -84,17 +72,13 @@
         (onContentRefresh)="contentRefresh()"
       >
         <div class="card-body text-center pt-0">
-          <!-- Income Amounts area chart-->
           <apx-chart
-            [series]="totalUsersPieChart.series"
-            [chart]="totalUsersPieChart"
-            [colors]="totalUsersPieChart.piechartcolor"
-            [labels]="totalUsersPieChart.labels"
-            [dataLabels]="totalUsersPieChart.dataLabels"
-            [tooltip]="totalUsersPieChart.tooltip"
-            [legend]="totalUsersPieChart.legend"
-            [plotOptions]="totalUsersPieChart.option"
-            [grid]="totalUsersPieChart.grid"
+            [series]="customerPieChart.series"
+            [chart]="customerPieChart"
+            [labels]="customerPieChart.labels"
+            [dataLabels]="customerPieChart.dataLabels"
+            [legend]="customerPieChart.legend"
+            [plotOptions]="customerPieChart.option"
           >
           </apx-chart>
         </div>
@@ -103,7 +87,6 @@
   </div>
 
   <div class="row">
-    <!-- Table -->
     <div class="col-xl-6">
       <app-portlet
         title="Phê duyệt"
@@ -131,7 +114,6 @@
                 <button type="button" class="btn btn-xs btn-light">Ngày</button>
               </div>
             </div>
-            <!-- end col-->
           </div>
           <div class="table-responsive">
             <table class="table table-centered table-hover mb-0">
@@ -243,7 +225,6 @@
                 </button>
               </div>
             </div>
-            <!-- end col-->
           </div>
           <div class="table-responsive">
             <table class="table table-centered table-hover mb-0">
@@ -293,7 +274,6 @@
   </div>
 </div>
 
-<!-- Widget data -->
 <ng-template #WidgetData let-widget="widget">
   <div class="col-md-6 col-xl-3">
     <div class="card-box">
@@ -329,7 +309,5 @@
         </ngb-progressbar>
       </div>
     </div>
-    <!-- end card-box-->
   </div>
-  <!-- end col -->
 </ng-template>

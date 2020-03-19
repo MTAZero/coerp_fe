@@ -24,10 +24,13 @@ export class CustomerCareModalComponent implements OnInit {
   types: any;
   priorities: any;
   statuses: any;
+  rates: any;
   customers: any;
   staffs: any;
   searchCustomer = '';
   selectedCustomer: any;
+
+  currentStaff = '';
 
   filterCustomer = {
     pageNumber: 0,
@@ -59,16 +62,21 @@ export class CustomerCareModalComponent implements OnInit {
     if (this.transaction) {
       this._fetchData(this.transaction);
     }
+    this.currentStaff = localStorage.getItem('userName');
   }
 
   onClickSubmit() {
     this.submitted = true;
+    let data = {
+      customer: this.selectedCustomer,
+      ...this.form.value
+    };
 
-    this.passEvent.emit({ event: true });
+    this.passEvent.emit({ event: true, data });
   }
 
   onClickCancel() {
-    if (1) {
+    if (this.form.dirty) {
       Swal.fire({
         title: 'Dữ liệu đã bị thay đổi, bạn có chắc chắn muốn hủy thao tác không?',
         type: 'warning',
@@ -95,25 +103,20 @@ export class CustomerCareModalComponent implements OnInit {
     }
   }
 
-  changeDatalistAssigner() {}
-
-  changeDatalistAssignee() {}
-
   private initializeForm() {
     this.form = this.formBuilder.group({
+      tra_id: ['', null],
       tra_title: ['', null],
       tra_type: ['', null],
       tra_priority: ['', null],
       tra_content: ['', null],
       tra_rate: ['', null],
       tra_result: ['', null],
-      tra_status: ['', null],
-      staff_id: ['', null]
+      tra_status: ['', null]
     });
   }
 
   private _fetchData(data: any) {
-    console.log(data);
     this.searchCustomer = data.customer.cu_id;
     this.selectedCustomer = this.transaction.customer;
     this.form.patchValue({
@@ -124,7 +127,7 @@ export class CustomerCareModalComponent implements OnInit {
       tra_rate: data.tra_rate,
       tra_result: data.tra_result,
       tra_status: data.tra_status,
-      staff_id: data.staff_id
+      tra_id: data.tra_id
     });
   }
 
@@ -142,6 +145,11 @@ export class CustomerCareModalComponent implements OnInit {
     const priority$ = this.transactionService.loadPriority().pipe(takeUntil(this.destroyed$));
     priority$.subscribe((res: any) => {
       this.priorities = res.Data;
+    });
+
+    const rate$ = this.transactionService.loadRate().pipe(takeUntil(this.destroyed$));
+    rate$.subscribe((res: any) => {
+      this.rates = res.Data;
     });
 
     const customer$ = this.customerService
@@ -164,7 +172,6 @@ export class CustomerCareModalComponent implements OnInit {
 
     customer$.subscribe((res: any) => {
       this.selectedCustomer = res.Data;
-      console.log(this.selectedCustomer);
     });
   }
 }

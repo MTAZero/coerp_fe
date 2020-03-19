@@ -28,8 +28,8 @@
     </div>
     <div class="col-lg-6">
       <div class="text-lg-right mt-3 mt-lg-0">
-        <a href="javascript: void(0);" class="btn btn-danger mr-1">Hủy</a>
-        <a href="javascript: void(0);" class="btn btn-success"
+        <a href="javascript: void(0);" class="btn btn-danger mr-1" (click)="onClickCancel()">Hủy</a>
+        <a href="javascript: void(0);" class="btn btn-success" (click)="onClickSubmit()"
           ><i class="mdi mdi-plus-circle mr-1"></i>Lưu</a
         >
       </div>
@@ -180,32 +180,23 @@
     <div class="col-md-6">
       <div class="form-group">
         <label>Đánh giá</label>
-        <input
-          [readonly]="isView"
-          class="form-control"
-          formControlName="tra_rate"
-          placeholder="Nhập đánh giá"
-        />
+        <select class="custom-select" formControlName="tra_rate">
+          <option [disabled]="isView" *ngFor="let rate of rates" [value]="rate.id">{{
+            rate.name
+          }}</option>
+        </select>
       </div>
     </div>
     <div class="col-md-3">
       <div class="form-group">
         <label>Người giao việc</label>
-        <select class="custom-select" formControlName="staff_id">
-          <option [disabled]="isView" *ngFor="let staff of staffs" [value]="staff.sta_id">{{
-            staff.sta_fullname
-          }}</option>
-        </select>
+        <input [readonly]="true" class="form-control" [value]="currentStaff" />
       </div>
     </div>
     <div class="col-md-3 d-flex align-items-start">
       <div class="form-group">
         <label>Người phụ trách</label>
-        <select class="custom-select" formControlName="staff_id">
-          <option [disabled]="isView" *ngFor="let staff of staffs" [value]="staff.sta_id">{{
-            staff.sta_fullname
-          }}</option>
-        </select>
+        <input [readonly]="true" class="form-control" [value]="selectedCustomer?.cu_curator_name" />
       </div>
     </div>
   </div>
