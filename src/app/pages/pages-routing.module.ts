@@ -44,7 +44,7 @@ const routes: Routes = [
     path: 'enterprise',
     loadChildren: () => import('./enterprise/enterprise.module').then(m => m.EnterpriseModule)
   },
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' }
+  { path: '', redirectTo: '/dashboard', pathMatch: 'prefix' }
 ];
 
 @NgModule({

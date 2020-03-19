@@ -59,6 +59,7 @@ export class PasswordresetComponent implements OnInit, AfterViewInit {
 
   private _notify(isSuccess: boolean, message: string) {
     return Swal.fire({
+      toast: true,
       position: 'top-end',
       type: isSuccess ? 'success' : 'error',
       title: message,

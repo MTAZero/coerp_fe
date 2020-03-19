@@ -171,6 +171,7 @@ export class SmsTemplateComponent implements OnInit {
 
   private _notify(isSuccess: boolean, message: string) {
     return Swal.fire({
+      toast: true,
       position: 'top-end',
       type: isSuccess ? 'success' : 'error',
       title: message,
