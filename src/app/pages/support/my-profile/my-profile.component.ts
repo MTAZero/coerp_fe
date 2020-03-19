@@ -5,6 +5,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { StaffService } from '../../../core/services/api/staff.service';
 import { ProfileService } from '../../../core/services/api/profile.service';
+import { StatisticService } from '../../../core/services/api/statistic.service';
 import { projectData, widget, projectionBarChart, salesMixedChart, orderData } from './data';
 
 @Component({
@@ -16,6 +17,14 @@ export class MyProfileComponent implements OnInit {
   private destroyed$ = new Subject();
   breadCrumbItems: Array<{}>;
   thumbnail: any;
+  user: any;
+
+  textSearchOrder = '';
+  pageOrder = 0;
+  pageSizeOrder = 4;
+  totalSizeOrder = 0;
+  orders: any;
+  orderMode = 'month';
 
   projectData: any;
   widget: any;
@@ -26,17 +35,22 @@ export class MyProfileComponent implements OnInit {
   pageSize = 10;
   totalSize = 0;
   inboxData: Inbox[];
-  constructor(private staffService: StaffService, private profileService: ProfileService) {}
+  constructor(
+    private staffService: StaffService,
+    private statisticService: StatisticService,
+    private profileService: ProfileService
+  ) {}
 
   ngOnInit() {
     this.breadCrumbItems = [
       { label: 'ERP', path: '/' },
-      { label: 'Trang tin', path: '/' }
+      { label: 'Trang của tôi', path: '/' }
     ];
 
     this.thumbnail = 'http://27.72.147.222:1230' + localStorage.getItem('thumbnail');
     this._fetchData();
-    //this._fetchProfile();
+    this._fetchProfile();
+    this._fetchOrder();
   }
 
   readURL(event: any) {
@@ -83,6 +97,15 @@ export class MyProfileComponent implements OnInit {
     }
   }
 
+  onPageOrderChange(page: number): void {
+    this.pageOrder = page;
+    this._fetchOrder();
+  }
+
+  onChangeOrderFilter() {
+    this._fetchOrder();
+  }
+
   private _fetchData() {
     this.projectData = projectData;
     this.widget = widget;
@@ -96,7 +119,31 @@ export class MyProfileComponent implements OnInit {
     const profile$ = this.profileService.loadProfile().pipe(takeUntil(this.destroyed$));
     profile$.subscribe((res: any) => {
       if (res && res.Data) {
-        console.log(res);
+        this.user = res.Data;
+        const { statistic } = this.user;
+        this.widget[0].value = statistic.totalRevenue ? statistic.totalRevenue : 0;
+        this.widget[1].value = statistic.totalRevenueByMonth ? statistic.totalRevenueByMonth : 0;
+        this.widget[2].value = statistic.totalRevenueByWeek ? statistic.totalRevenueByWeek : 0;
+        this.widget[3].value = statistic.totalRevenueByDay ? statistic.totalRevenueByDay : 0;
+      }
+    });
+  }
+
+  private _fetchOrder() {
+    const order$ = this.statisticService
+      .loadOrder({
+        pageNumber: this.pageOrder - 1,
+        pageSize: this.pageSizeOrder,
+        month: this.orderMode === 'month',
+        week: this.orderMode === 'week',
+        day: this.orderMode === 'day',
+        search_name: this.textSearchOrder
+      })
+      .pipe(takeUntil(this.destroyed$));
+    order$.subscribe((res: any) => {
+      if (res) {
+        this.totalSizeOrder = res.Data.TotalNumberOfRecords;
+        this.orders = res.Data.Results;
       }
     });
   }

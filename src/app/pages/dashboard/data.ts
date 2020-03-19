@@ -97,19 +97,21 @@ const basicColumChart: ChartType = {
 
 const totalUsersPieChart: ChartType = {
   type: 'pie',
-  series: [20, 40, 30, 10],
+  series: [20, 40, 30, 100],
+  labels: ['1', '2', '3', '4'],
   option: {
     pie: {
       expandOnClick: false
     }
   },
-  height: 310,
-  piechartcolor: ['#00acc1', '#4b88e4', '#e3eaef', '#fd7e14'],
+  height: 420,
+  //piechartcolor: ['#00acc1', '#4b88e4', '#e3eaef', '#fd7e14'],
   dataLabels: {
-    enabled: false
+    enabled: true
   },
   legend: {
-    show: false
+    show: true,
+    position: 'bottom'
   },
   tooltip: {
     x: {

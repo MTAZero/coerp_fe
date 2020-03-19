@@ -52,6 +52,7 @@ export class DashboardComponent implements OnInit {
 
     this._fetchData();
     this._fetchOrder();
+    this._fetchCustomer();
   }
 
   contentRefresh() {
@@ -82,7 +83,7 @@ export class DashboardComponent implements OnInit {
 
     const revenue$ = this.statisticService.loadRevenue().pipe(takeUntil(this.destroyed$));
     revenue$.subscribe((res: any) => {
-      if (res) {
+      if (res && res.Data) {
         this.revenues = res.Data;
         this.widget[0].value = this.revenues.totalRevenue ? this.revenues.totalRevenue : 0;
         this.widget[1].value = this.revenues.totalRevenueByMonth
@@ -110,9 +111,23 @@ export class DashboardComponent implements OnInit {
       })
       .pipe(takeUntil(this.destroyed$));
     order$.subscribe((res: any) => {
-      if (res) {
+      if (res && res.Data) {
         this.totalSizeOrder = res.Data.TotalNumberOfRecords;
         this.orders = res.Data.Results;
+      }
+    });
+  }
+
+  private _fetchCustomer() {
+    const order$ = this.statisticService.loadCustomer().pipe(takeUntil(this.destroyed$));
+    order$.subscribe((res: any) => {
+      if (res && res.Data) {
+        this.totalUsersPieChart.series = [];
+        this.totalUsersPieChart.labels = [];
+        res.Data.map(item => {
+          this.totalUsersPieChart.series.push(item.total_revenue);
+          this.totalUsersPieChart.labels.push(item.cg_name);
+        });
       }
     });
   }

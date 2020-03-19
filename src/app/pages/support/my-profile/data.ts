@@ -45,9 +45,15 @@ const projectData = [
 
 const widget = [
   {
+    icon: 'fe-aperture',
+    value: '12145',
+    text: 'Tổng doanh thu',
+    color: 'blue',
+    progressValue: 60
+  },
+  {
     icon: 'fe-shopping-cart',
     value: '1576',
-    // tslint:disable-next-line:quotemark
     text: 'Tổng doanh thu tháng',
     color: 'success',
     progressValue: 49
@@ -69,20 +75,7 @@ const widget = [
 ];
 
 const projectionBarChart: ChartType = {
-  labels: [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec'
-  ],
+  labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
   datasets: [
     {
       label: 'Sales Analytics',

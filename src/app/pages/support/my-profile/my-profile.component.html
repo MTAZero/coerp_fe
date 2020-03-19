@@ -13,7 +13,7 @@
           onerror="this.src='/assets/images/users/user-1.jpg';"
         />
         <input type="file" accept="image/*" #file style="display:none" (change)="readURL($event)" />
-        <h4 class="mb-0">Pham Thu Trang</h4>
+        <h4 class="mb-0">{{ user?.sta_fullname }}</h4>
         <p class="text-muted">Kiểm thử</p>
 
         <button type="button" class="btn btn-success btn-xs waves-effect mb-2 waves-light">
@@ -30,19 +30,23 @@
             được giao lưu và làm việc với mọi người
           </p>
           <p class="text-muted mb-2 font-13">
+            <strong>Mã nhân viên :</strong>
+            <span class="ml-2">{{ user?.sta_code }}</span>
+          </p>
+          <p class="text-muted mb-2 font-13">
             <strong>Phòng ban :</strong>
-            <span class="ml-2">Phòng kiểm thử</span>
+            <span class="ml-2">{{ user?.department_name }}</span>
           </p>
           <p class="text-muted mb-2 font-13">
             <strong>Email :</strong>
-            <span class="ml-2 ">trangpt@coerp.vn</span>
+            <span class="ml-2 ">{{ user?.sta_email }}</span>
           </p>
           <p class="text-muted mb-2 font-13">
-            <strong>Địa chỉ :</strong><span class="ml-2">107 Nguyễn Phong Sắc, Cầu Giấy, HN</span>
+            <strong>Địa chỉ :</strong><span class="ml-2">{{ user?.sta_address }}</span>
           </p>
           <p class="text-muted mb-1 font-13">
             <strong>Trạng thái :</strong>
-            <span class="ml-2">Đang làm việc</span>
+            <span class="ml-2">{{ user?.sta_status_name }}</span>
           </p>
         </div>
 
@@ -162,71 +166,75 @@
                         <div class="col-sm-4">
                           <form class="form-inline">
                             <div class="form-group mb-2">
-                              <input class="form-control" placeholder="Tìm kiếm" />
+                              <input
+                                class="form-control"
+                                name="textSearchOrder"
+                                placeholder="Tìm kiếm..."
+                                [(ngModel)]="textSearchOrder"
+                                (input)="onChangeOrderFilter()"
+                              />
                             </div>
                           </form>
                         </div>
                         <div class="col-sm-8">
                           <div class="text-sm-right">
-                            <button type="button" class="btn btn-xs btn-secondary">
+                            <button
+                              type="button"
+                              class="btn btn-xs "
+                              [ngClass]="orderMode === 'month' ? 'btn-secondary' : 'btn-light'"
+                              (click)="orderMode = 'month'; onChangeOrderFilter()"
+                            >
                               Tháng
                             </button>
-                            <button type="button" class="btn btn-xs btn-light">
+                            <button
+                              type="button"
+                              class="btn btn-xs"
+                              [ngClass]="orderMode === 'week' ? 'btn-secondary' : 'btn-light'"
+                              (click)="orderMode = 'week'; onChangeOrderFilter()"
+                            >
                               Tuần
                             </button>
-                            <button type="button" class="btn btn-xs btn-light">
+                            <button
+                              type="button"
+                              class="btn btn-xs"
+                              [ngClass]="orderMode === 'day' ? 'btn-secondary' : 'btn-light'"
+                              (click)="orderMode = 'day'; onChangeOrderFilter()"
+                            >
                               Ngày
                             </button>
                           </div>
                         </div>
                         <!-- end col-->
                       </div>
-                      <div class="table-responsive" style="height: 320px;">
+                      <div class="table-responsive">
                         <table class="table table-centered table-hover mb-0">
                           <thead>
                             <tr>
-                              <th>Mã đơn</th>
-                              <th>Nội dung phê duyệt</th>
-                              <th>Người gửi</th>
-                              <th>Người nhận</th>
-                              <th>Ghi chú</th>
-                              <th>Thời gian</th>
-                              <th style="width: 85px;">Thao tác</th>
+                              <th>MĐH</th>
+                              <th>Sản phẩm</th>
+                              <th>Tổng tiền</th>
+                              <th>Trạng thái</th>
+                              <th>Ngày bán</th>
                             </tr>
                           </thead>
                           <tbody>
-                            <tr *ngFor="let order of orderData">
+                            <tr *ngFor="let order of orders">
                               <td>
-                                {{ order.order_id }}
+                                {{ order.cuo_code }}
                               </td>
                               <td>
-                                {{ order.order_date }}
+                                {{ order.pu_name }}
                               </td>
                               <td>
-                                {{ order.payment_status }}
+                                {{ order.op_total_value }}
                               </td>
                               <td>
-                                {{ order.order_total }}
-                              </td>
-                              <td>
-                                {{ order.payment_method }}
-                              </td>
-                              <td>
-                                {{ order.order_status }}
-                              </td>
-                              <td>
-                                <a
-                                  class="action-icon table-button-link"
-                                  (click)="openOrderModal(order)"
+                                <span class="badge badge-secondary badge-success">
+                                  {{ order.cuo_status_name }}</span
                                 >
-                                  <i class="mdi mdi-square-edit-outline"></i
-                                ></a>
-                                <a
-                                  class="action-icon table-button-link"
-                                  (click)="openConfirmModal()"
-                                >
-                                  <i class="mdi mdi-delete"></i
-                                ></a>
+                              </td>
+                              <td>
+                                {{ order.cuo_date | date: 'dd/MM/yyyy' }}
                               </td>
                             </tr>
                           </tbody>
@@ -234,10 +242,10 @@
                       </div>
                       <ul class="pagination pagination-rounded justify-content-end my-2">
                         <ngb-pagination
-                          (pageChange)="onPageChange($event)"
-                          [pageSize]="pageSize"
-                          [(page)]="page"
-                          [collectionSize]="totalSize"
+                          (pageChange)="onPageOrderChange($event)"
+                          [pageSize]="pageSizeOrder"
+                          [(page)]="pageOrder"
+                          [collectionSize]="totalSizeOrder"
                         ></ngb-pagination>
                       </ul>
                     </div>
@@ -585,20 +593,24 @@
 
 <!-- Widget data -->
 <ng-template #WidgetData let-widget="widget">
-  <div class="col-md-6 col-xl-4">
+  <div class="col-md-6 col-xl-3">
     <div class="card-box">
       <div class="row">
-        <div class="col-4">
+        <div class="col-6">
           <div class="avatar-sm bg-{{ widget.color }} rounded">
             <i class="{{ widget.icon }} avatar-title font-22 text-white"></i>
           </div>
         </div>
-        <div class="col-8">
+        <div class="col-6">
           <div class="text-right">
             <h3 class="text-dark my-1">
-              <span [CountTo]="widget.value" [from]="0" [duration]="1">{{ widget.value }}</span>
+              <span [CountTo]="widget.value" [from]="0" [duration]="0.005">{{ widget.value }}</span>
             </h3>
-            <p class="text-muted mb-1 text-truncate">{{ widget.text }}</p>
+          </div>
+        </div>
+        <div class="col p-0">
+          <div class="text-right">
+            <p class="text-muted mb-1 text-truncate" [title]="widget.text">{{ widget.text }}</p>
           </div>
         </div>
       </div>
