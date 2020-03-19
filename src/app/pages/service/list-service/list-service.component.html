@@ -48,10 +48,11 @@
         <thead>
           <tr>
             <th>MDV</th>
-            <th>Kiểu dịch vụ</th>
             <th>Tên dịch vụ</th>
+            <th>Kiểu dịch vụ</th>
             <th>Mô tả</th>
             <th>Giá dịch vụ</th>
+            <th>Giảm giá (%)</th>
             <th>Danh mục dịch vụ</th>
           </tr>
         </thead>
@@ -67,10 +68,25 @@
               {{ service.se_code }}
             </td>
             <td>
-              {{ service.se_type_name }}
+              <span
+                ><img
+                  class="rounded-circle avatar-sm"
+                  [src]="'http://27.72.147.222:1230' + service.se_thumbnai"
+                  onerror="this.src='/assets/images/users/user-1.jpg';"
+                  alt="Avatar"
+                  (click)="selectedService = service; file.click()"
+                  style="cursor: pointer;"/>
+                <input
+                  type="file"
+                  accept="image/*"
+                  #file
+                  style="display:none"
+                  (change)="readURL($event)"
+              /></span>
+              {{ service.se_name }}
             </td>
             <td>
-              {{ service.se_name }}
+              {{ service.se_type_name }}
             </td>
             <td>
               {{ service.se_description }}
@@ -78,6 +94,7 @@
             <td>
               {{ service.se_price }}
             </td>
+            <th>{{ service.se_saleoff }}</th>
             <td>
               {{ service.service_category_name }}
             </td>

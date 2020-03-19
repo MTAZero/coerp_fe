@@ -6,7 +6,9 @@ const router = {
   get_all: `/api/service/get-all-search`,
   create: `/api/service/create`,
   update: `/api/service/update`,
-  delete: `/api/service/create`
+  delete: `/api/service/delete`,
+  get_category: '/api/service-category/get-name',
+  get_type: '/api/service/get-type'
 };
 
 @Injectable()
@@ -31,5 +33,13 @@ export class ServiceService {
   removeService(filter?: { serviceId: number }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.delete(router.delete, params);
+  }
+
+  getCategory() {
+    return this.httpClient.get(router.get_category);
+  }
+
+  getType() {
+    return this.httpClient.get(router.get_type);
   }
 }

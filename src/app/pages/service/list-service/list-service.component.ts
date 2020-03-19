@@ -49,7 +49,6 @@ export class ListServiceComponent implements OnInit {
       size: 'lg'
     });
     if (service) {
-      this.onClickService(service);
       modalRef.componentInstance.service = service;
     }
     modalRef.componentInstance.passEvent.subscribe(res => {
@@ -87,6 +86,27 @@ export class ListServiceComponent implements OnInit {
 
   onChangeFilter() {
     this._fetchData(this.selectedService);
+  }
+
+  readURL(event: any) {
+    if (event.target.files && event.target.files[0]) {
+      // const file = event.target.files[0];
+      // const import$ = this.customerService
+      //   .updateAvatar(file, this.selectedCustomer.cu_id)
+      //   .pipe(takeUntil(this.destroyed$));
+      // import$.subscribe(
+      //   (res: any) => {
+      //     if (res && res.Code === 200) {
+      //       this._notify(true, res.Message);
+      //       this._fetchData(this.selectedCustomer);
+      //     } else this._notify(false, res.Message);
+      //   },
+      //   e => this._notify(false, e.Message)
+      // );
+      // const reader = new FileReader();
+      // reader.onload = e => (this.thumbnail = reader.result);
+      // reader.readAsDataURL(file);
+    }
   }
 
   private _fetchData(selected?: any) {
@@ -150,7 +170,7 @@ export class ListServiceComponent implements OnInit {
   private _removeService(service: any) {
     const removeService$ = this.serviceService
       .removeService({
-        serviceId: service.tra_id
+        serviceId: service.se_id
       })
       .pipe(takeUntil(this.destroyed$));
     removeService$.subscribe(

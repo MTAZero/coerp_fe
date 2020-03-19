@@ -1,63 +1,45 @@
 <div class="modal-header bg-dark">
-  <h4 class="modal-title text-white">Thêm mới dịch vụ</h4>
-  <button
-    type="button"
-    class="close text-white"
-    aria-label="Close"
-    (click)="onClickCancel()"
-  >
+  <h4 class="modal-title text-white">{{ !service ? 'Thêm mới' : 'Cập nhật' }} dịch vụ</h4>
+  <button type="button" class="close text-white" aria-label="Close" (click)="onClickCancel()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="modal-body p-3">
   <div class="text-left">
     <form [formGroup]="form" class="form-horizontal" autocomplete="off">
-      <div class="form-group">
-        <label for="avatar">Ảnh chân dung</label>
-        <img
-          class="d-flex mr-3 rounded-circle avatar-lg"
-          src="assets/images/users/user-8.jpg"
-          alt="Generic placeholder image"
-        />
-      </div>
       <div class="form-row">
         <div class="form-group row mb-3">
-          <label class="col-4 col-form-label"
-            >Kiểu dịch vụ <span>(*)</span></label
-          >
+          <label class="col-4 col-form-label">Kiểu dịch vụ <span>(*)</span></label>
           <div class="col-8">
-            <input
+            <select
+              class="custom-select"
+              formControlName="se_type"
               class="form-control"
-              formControlName="service_type"
               [ngClass]="{
-                'is-invalid': submitted && formUI.service_type.errors
+                'is-invalid': submitted && formUI.se_type.errors
               }"
-            />
-            <div
-              *ngIf="submitted && formUI.service_type.errors"
-              class="invalid-feedback"
             >
-              <span *ngIf="formUI.service_type.errors.required"
-                >This value is required.</span
-              >
+              <option *ngFor="let type of types" [value]="type.id">{{ type.name }}</option>
+            </select>
+            <div *ngIf="submitted && formUI.se_type.errors" class="invalid-feedback">
+              <span *ngIf="formUI.se_type.errors.required">This value is required.</span>
             </div>
           </div>
         </div>
         <div class="form-group row mb-3">
-          <label class="col-4 col-form-label">Danh mục</label>
+          <label class="col-4 col-form-label">Danh mục <span>(*)</span></label>
           <div class="col-8">
             <select
               class="custom-select"
-              formControlName="service_category"
+              formControlName="service_category_id"
               class="form-control"
               [ngClass]="{
-                'is-invalid': submitted && formUI.service_category.errors
+                'is-invalid': submitted && formUI.service_category_id.errors
               }"
             >
-              <option value=""></option>
-              <option value="1">Vận tải</option>
-              <option value="2">Thực phẩm</option>
-              <option value="2">Gia dụng</option>
+              <option *ngFor="let category of categories" [value]="category.id">{{
+                category.name
+              }}</option>
             </select>
           </div>
           <!-- <div class="col-2 pl-0">
@@ -72,72 +54,64 @@
       </div>
       <div class="form-row">
         <div class="form-group row mb-3">
-          <label class="col-4 col-form-label"
-            >Tên dịch vụ <span>(*)</span></label
-          >
+          <label class="col-4 col-form-label">Tên dịch vụ <span>(*)</span></label>
           <div class="col-8">
             <input
               class="form-control"
-              formControlName="service_name"
+              formControlName="se_name"
               [ngClass]="{
-                'is-invalid': submitted && formUI.service_name.errors
+                'is-invalid': submitted && formUI.se_name.errors
               }"
             />
-            <div
-              *ngIf="submitted && formUI.service_name.errors"
-              class="invalid-feedback"
-            >
-              <span *ngIf="formUI.service_name.errors.required"
-                >This value is required.</span
-              >
+            <div *ngIf="submitted && formUI.se_name.errors" class="invalid-feedback">
+              <span *ngIf="formUI.se_name.errors.required">This value is required.</span>
             </div>
           </div>
         </div>
         <div class="form-group row mb-3">
-          <label class="col-4 col-form-label">Giá</label>
+          <label class="col-4 col-form-label">Giá <span>(*)</span></label>
           <div class="col-8">
             <input
               class="form-control"
-              formControlName="service_price"
+              formControlName="se_price"
               [ngClass]="{
-                'is-invalid': submitted && formUI.service_price.errors
+                'is-invalid': submitted && formUI.se_price.errors
               }"
             />
+            <div *ngIf="submitted && formUI.se_price.errors" class="invalid-feedback">
+              <span *ngIf="formUI.se_price.errors.required">This value is required.</span>
+            </div>
           </div>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group row mb-3">
-          <label class="col-4 col-form-label">Mô tả <span>(*)</span></label>
+          <label class="col-4 col-form-label">Mô tả</label>
+          <div class="col-8">
+            <input class="form-control" formControlName="se_description" />
+          </div>
+        </div>
+        <div class="form-group row mb-3">
+          <label class="col-4 col-form-label">Giảm giá (%) <span>(*)</span></label>
           <div class="col-8">
             <input
               class="form-control"
-              formControlName="description"
+              formControlName="se_saleoff"
               [ngClass]="{
-                'is-invalid': submitted && formUI.description.errors
+                'is-invalid': submitted && formUI.se_saleoff.errors
               }"
             />
-            <div
-              *ngIf="submitted && formUI.description.errors"
-              class="invalid-feedback"
-            >
-              <span *ngIf="formUI.description.errors.required"
-                >This value is required.</span
-              >
+            <div *ngIf="submitted && formUI.se_saleoff.errors" class="invalid-feedback">
+              <span *ngIf="formUI.se_saleoff.errors.required">This value is required.</span>
             </div>
           </div>
         </div>
-        <div class="form-group row mb-3"></div>
       </div>
       <div class="text-right">
         <button (click)="onClickSubmit()" class="btn btn-success">
           Lưu
         </button>
-        <button
-          type="button"
-          class="btn btn-danger ml-1"
-          (click)="onClickCancel()"
-        >
+        <button type="button" class="btn btn-danger ml-1" (click)="onClickCancel()">
           Hủy
         </button>
       </div>
