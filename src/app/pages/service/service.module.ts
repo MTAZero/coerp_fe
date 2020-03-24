@@ -7,6 +7,7 @@ import { UIModule } from '../../shared/ui/ui.module';
 import { NgbModalModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 import { ServiceRoutingModule } from './service-routing.module';
 import { ListServiceComponent } from './list-service/list-service.component';
@@ -15,6 +16,7 @@ import { ListServiceCategoryModalComponent } from './list-service/component/list
 import { ServiceCategoryModalComponent } from './list-service/component/service-category-modal/service-category-modal.component';
 import { OrderServiceComponent } from './order-service/order-service.component';
 import { OrderServiceModalComponent } from './order-service/component/order-service-modal/order-service-modal.component';
+import { ReceiveWorkComponent } from './receive-work/receive-work.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,8 @@ import { OrderServiceModalComponent } from './order-service/component/order-serv
     ListServiceCategoryModalComponent,
     ServiceCategoryModalComponent,
     OrderServiceComponent,
-    OrderServiceModalComponent
+    OrderServiceModalComponent,
+    ReceiveWorkComponent
   ],
   imports: [
     CommonModule,
@@ -36,7 +39,8 @@ import { OrderServiceModalComponent } from './order-service/component/order-serv
     NgbPaginationModule,
     ServiceRoutingModule,
     Ng2SearchPipeModule,
-    FullCalendarModule
+    FullCalendarModule,
+    NgApexchartsModule
   ],
   entryComponents: [
     ServiceModalComponent,
