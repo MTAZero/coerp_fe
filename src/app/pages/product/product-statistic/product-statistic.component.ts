@@ -3,6 +3,7 @@ import { ResizeEvent } from 'angular-resizable-element';
 import { ProductService } from '../../../core/services/api/product.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-product-statistic',
@@ -75,7 +76,9 @@ export class ProductStatisticComponent implements OnInit {
         pageNumber: this.page,
         pageSize: this.pageSize,
         search_name: this.textSearch,
-        category_id: this.categorySearch
+        category_id: this.categorySearch,
+        start_date: '2010-01-01',
+        end_date: moment(new Date()).format('YYYY-MM-DD')
       })
       .pipe(takeUntil(this.destroyed$));
     product$.subscribe((res: any) => {

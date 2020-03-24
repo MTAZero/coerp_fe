@@ -2,6 +2,8 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { CustomerService } from '../../../../../core/services/api/customer.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import * as moment from 'moment';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-list-customer-modal',
@@ -36,7 +38,9 @@ export class ListCustomerModalComponent implements OnInit {
         source_id: '',
         cu_type: '',
         customer_group_id: this.customerGroup.cg_id,
-        name: ''
+        name: '',
+        start_date: this._convertDateToNgbDate(new Date('2010-01-01')),
+        end_date: this._convertDateToNgbDate(new Date())
       })
       .pipe(takeUntil(this.destroyed$));
     customer$.subscribe((res: any) => {
@@ -44,5 +48,15 @@ export class ListCustomerModalComponent implements OnInit {
         this.customers = res.Data.Results;
       }
     });
+  }
+
+  private _convertDateToNgbDate(date: any) {
+    if (!date) {
+      return null;
+    }
+    const year = moment(date).year();
+    const month = moment(date).month() + 1;
+    const day = moment(date).date();
+    return new NgbDate(year, month, day);
   }
 }

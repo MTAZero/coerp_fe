@@ -19,12 +19,24 @@ const router = {
 export class TransactionService {
   constructor(private httpClient: ApiService) {}
 
-  loadTransaction(filter?: { pageSize: number; pageNumber: number; search_name: string }) {
+  loadTransaction(filter?: {
+    pageSize: number;
+    pageNumber: number;
+    search_name: string;
+    start_date: any;
+    end_date: any;
+  }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.search, params);
   }
 
-  exportTransaction(filter?: { pageSize: number; pageNumber: number; search_name: string }) {
+  exportTransaction(filter?: {
+    pageSize: number;
+    pageNumber: number;
+    search_name: string;
+    start_date: any;
+    end_date: any;
+  }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.export, params);
   }

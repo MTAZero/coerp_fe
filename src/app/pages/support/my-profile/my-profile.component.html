@@ -26,8 +26,7 @@
         <div class="text-left mt-3">
           <h4 class="font-13 text-uppercase">Giới thiệu :</h4>
           <p class="text-muted font-13 mb-3">
-            Tôi là người thích màu trắng/đen như tính cách của tôi, thẳng thắn và cởi mở. Hi vọng sẽ
-            được giao lưu và làm việc với mọi người
+            {{ user?.sta_aboutme }}
           </p>
           <p class="text-muted mb-2 font-13">
             <strong>Mã nhân viên :</strong>
@@ -358,7 +357,7 @@
           <ngb-tab title="Cập nhật thông tin">
             <ng-template ngbTabContent>
               <div class="tab-pane" id="settings">
-                <form>
+                <form [formGroup]="form">
                   <h5 class="mb-3 text-uppercase bg-light p-2">
                     <i class="mdi mdi-account-circle mr-1"></i> Thông tin cá nhân
                   </h5>
@@ -366,97 +365,62 @@
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
-                        <label for="firstname">Họ</label>
+                        <label>Họ Tên</label>
                         <input
-                          type="text"
                           class="form-control"
-                          id="firstname"
-                          placeholder="Nhập họ"
+                          placeholder="Nhập họ tên"
+                          formControlName="sta_fullname"
                         />
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
-                        <label for="lastname">Tên</label>
+                        <label>Số điện thoại</label>
                         <input
-                          type="text"
                           class="form-control"
-                          id="lastname"
-                          placeholder="Nhập tên"
+                          formControlName="sta_mobile"
+                          placeholder="Nhập số diện thoại"
                         />
                       </div>
                     </div>
-                    <!-- end col -->
                   </div>
-                  <!-- end row -->
 
                   <div class="row">
                     <div class="col-12">
                       <div class="form-group">
-                        <label for="userbio">Mô tả</label>
-                        <textarea class="form-control" id="userbio" rows="4"></textarea>
+                        <label>Mô tả</label>
+                        <textarea
+                          class="form-control"
+                          formControlName="sta_aboutme"
+                          rows="4"
+                        ></textarea>
                       </div>
                     </div>
-                    <!-- end col -->
                   </div>
-                  <!-- end row -->
 
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
-                        <label for="useremail">Địa chỉ Email</label>
+                        <label>Email</label>
                         <input
                           type="email"
                           class="form-control"
-                          id="useremail"
                           placeholder="Nhập email"
+                          formControlName="sta_email"
                         />
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
-                        <label for="userpassword">Mật khẩu</label>
+                        <label>Địa chỉ</label>
                         <input
-                          type="password"
                           class="form-control"
-                          id="userpassword"
-                          placeholder="Nhập mật khẩu"
+                          formControlName="sta_address"
+                          placeholder="Nhập địa chỉ"
                         />
                       </div>
                     </div>
-                    <!-- end col -->
                   </div>
-                  <!-- end row -->
-
-                  <h5 class="mb-3 text-uppercase bg-light p-2">
-                    <i class="mdi mdi-office-building mr-1"></i> Thông tin công ty
-                  </h5>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="companyname">Tên công ty</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="companyname"
-                          placeholder="Nhập công ty"
-                        />
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="cwebsite">Website</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="cwebsite"
-                          placeholder="Nhập website"
-                        />
-                      </div>
-                    </div>
-                    <!-- end col -->
-                  </div>
-                  <!-- end row -->
 
                   <h5 class="mb-3 text-uppercase bg-light p-2">
                     <i class="mdi mdi-earth mr-1"></i>
@@ -571,12 +535,13 @@
                         </div>
                       </div>
                     </div>
-                    <!-- end col -->
                   </div>
-                  <!-- end row -->
 
                   <div class="text-right">
-                    <button type="submit" class="btn btn-success waves-effect waves-light mt-2">
+                    <button
+                      class="btn btn-success waves-effect waves-light mt-2"
+                      (click)="onClickUpdateProfile()"
+                    >
                       <i class="mdi mdi-content-save"></i> Lưu
                     </button>
                   </div>

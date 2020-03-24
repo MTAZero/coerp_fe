@@ -166,7 +166,7 @@ export class CustomerModalComponent implements OnInit {
     if (!ngbDate) {
       return '';
     }
-    const newDate = new Date(ngbDate.year, ngbDate.month, ngbDate.day);
+    const newDate = new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
     return moment(newDate).format();
   }
 }

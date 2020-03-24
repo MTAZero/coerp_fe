@@ -6,6 +6,7 @@ import { StaffService } from '../../../../../core/services/api/staff.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import Swal from 'sweetalert2';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-customer-care-modal',
@@ -38,14 +39,18 @@ export class CustomerCareModalComponent implements OnInit {
     source_id: '',
     cu_type: '',
     customer_group_id: '',
-    name: ''
+    name: '',
+    start_date: '2010-01-01',
+    end_date: moment(new Date()).format('YYYY-MM-DD')
   };
 
   filterStaff = {
     pageNumber: 0,
     pageSize: 100,
     status: '',
-    name: ''
+    name: '',
+    start_date: '2010-01-01',
+    end_date: moment(new Date()).format('YYYY-MM-DD')
   };
 
   constructor(

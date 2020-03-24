@@ -2,6 +2,10 @@
   .form-inline {
     align-items: baseline;
     flex-flow: row;
+
+    .clockpicker {
+      width: 210px;
+    }
   }
 
   a {

@@ -18,12 +18,26 @@ const router = {
 export class OrderService {
   constructor(private httpClient: ApiService) {}
 
-  loadOrder(filter?: { pageNumber: any; pageSize: any; payment_type_id: any; code: any }) {
+  loadOrder(filter?: {
+    pageNumber: any;
+    pageSize: any;
+    payment_type_id: any;
+    code: any;
+    start_date: any;
+    end_date: any;
+  }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.get_all_page, params);
   }
 
-  exportOrder(filter?: { pageNumber: any; pageSize: any; payment_type_id: any; name: any }) {
+  exportOrder(filter?: {
+    pageNumber: any;
+    pageSize: any;
+    payment_type_id: any;
+    name: any;
+    start_date: any;
+    end_date: any;
+  }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.export, params);
   }

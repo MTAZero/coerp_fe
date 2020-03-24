@@ -30,6 +30,8 @@ export class CustomerService {
     cu_type: any;
     customer_group_id: any;
     name: any;
+    start_date: any;
+    end_date: any;
   }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.get_all_page, params);
@@ -42,6 +44,8 @@ export class CustomerService {
     cu_type: any;
     customer_group_id: any;
     name: any;
+    start_date: any;
+    end_date: any;
   }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.export, params);

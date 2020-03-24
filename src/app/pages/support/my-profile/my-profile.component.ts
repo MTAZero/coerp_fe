@@ -7,6 +7,7 @@ import { StaffService } from '../../../core/services/api/staff.service';
 import { ProfileService } from '../../../core/services/api/profile.service';
 import { StatisticService } from '../../../core/services/api/statistic.service';
 import { projectData, widget, projectionBarChart, salesMixedChart, orderData } from './data';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-my-profile',
@@ -18,6 +19,7 @@ export class MyProfileComponent implements OnInit {
   breadCrumbItems: Array<{}>;
   thumbnail: any;
   user: any;
+  form: FormGroup;
 
   textSearchOrder = '';
   pageOrder = 0;
@@ -38,7 +40,8 @@ export class MyProfileComponent implements OnInit {
   constructor(
     private staffService: StaffService,
     private statisticService: StatisticService,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    public formBuilder: FormBuilder
   ) {}
 
   ngOnInit() {
@@ -51,6 +54,7 @@ export class MyProfileComponent implements OnInit {
     this._fetchData();
     this._fetchProfile();
     this._fetchOrder();
+    this.initializeForm();
   }
 
   readURL(event: any) {
@@ -106,6 +110,10 @@ export class MyProfileComponent implements OnInit {
     this._fetchOrder();
   }
 
+  onClickUpdateProfile() {
+    this._updateProfile(this.form.value);
+  }
+
   private _fetchData() {
     this.projectData = projectData;
     this.widget = widget;
@@ -120,6 +128,7 @@ export class MyProfileComponent implements OnInit {
     profile$.subscribe((res: any) => {
       if (res && res.Data) {
         this.user = res.Data;
+        this.patchProfile(res.Data);
         const { statistic } = this.user;
         this.widget[0].value = statistic.totalRevenue ? statistic.totalRevenue : 0;
         this.widget[1].value = statistic.totalRevenueByMonth ? statistic.totalRevenueByMonth : 0;
@@ -145,6 +154,52 @@ export class MyProfileComponent implements OnInit {
         this.totalSizeOrder = res.Data.TotalNumberOfRecords;
         this.orders = res.Data.Results;
       }
+    });
+  }
+
+  private initializeForm() {
+    this.form = this.formBuilder.group({
+      sta_fullname: ['', null],
+      sta_email: ['', null],
+      sta_aboutme: ['', null],
+      sta_mobile: ['', null],
+      sta_address: ['', null]
+    });
+  }
+
+  private patchProfile(profile: any) {
+    this.form.patchValue({
+      sta_fullname: profile.sta_fullname,
+      sta_email: profile.sta_email,
+      sta_aboutme: profile.sta_aboutme,
+      sta_mobile: profile.sta_mobile,
+      sta_address: profile.sta_address
+    });
+  }
+
+  private _updateProfile(updated: any) {
+    const updateProfile$ = this.profileService
+      .updateProfile(updated)
+      .pipe(takeUntil(this.destroyed$));
+    updateProfile$.subscribe(
+      (res: any) => {
+        if (res && res.Code === 200) {
+          this._notify(true, res.Message);
+          this._fetchProfile();
+        } else this._notify(false, res.Message);
+      },
+      e => this._notify(false, e.Message)
+    );
+  }
+
+  private _notify(isSuccess: boolean, message: string) {
+    return Swal.fire({
+      toast: true,
+      position: 'top-end',
+      type: isSuccess ? 'success' : 'error',
+      title: message,
+      showConfirmButton: false,
+      timer: 2000
     });
   }
 }

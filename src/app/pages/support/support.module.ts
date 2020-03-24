@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TicketComponent } from './ticket/ticket.component';
 import { UIModule } from '../../shared/ui/ui.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   NgbTypeaheadModule,
   NgbPaginationModule,
@@ -33,6 +33,7 @@ import { MyProfileComponent } from './my-profile/my-profile.component';
     SupportRoutingModule,
     UIModule,
     CommonModule,
+    ReactiveFormsModule,
     UIModule,
     FormsModule,
     NgbPaginationModule,

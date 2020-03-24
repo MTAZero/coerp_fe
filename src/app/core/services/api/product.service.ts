@@ -19,12 +19,26 @@ const router = {
 export class ProductService {
   constructor(private httpClient: ApiService) {}
 
-  loadProduct(filter?: { pageNumber: any; pageSize: any; search_name: any; category_id: any }) {
+  loadProduct(filter?: {
+    pageNumber: any;
+    pageSize: any;
+    search_name: any;
+    category_id: any;
+    start_date: any;
+    end_date: any;
+  }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.get_all_page, params);
   }
 
-  exportProduct(filter?: { pageNumber: any; pageSize: any; search_name: any; category_id: any }) {
+  exportProduct(filter?: {
+    pageNumber: any;
+    pageSize: any;
+    search_name: any;
+    category_id: any;
+    start_date: any;
+    end_date: any;
+  }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.export, params);
   }

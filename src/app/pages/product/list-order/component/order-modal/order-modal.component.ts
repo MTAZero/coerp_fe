@@ -53,21 +53,27 @@ export class OrderModalComponent implements OnInit {
     source_id: '',
     cu_type: '',
     customer_group_id: '',
-    name: ''
+    name: '',
+    start_date: '2010-01-01',
+    end_date: moment(new Date()).format('YYYY-MM-DD')
   };
 
   filterProduct = {
     pageNumber: 0,
     pageSize: 100,
     search_name: '',
-    category_id: ''
+    category_id: '',
+    start_date: '2010-01-01',
+    end_date: moment(new Date()).format('YYYY-MM-DD')
   };
 
   filterStaff = {
     pageNumber: 0,
     pageSize: 100,
     status: '',
-    name: ''
+    name: '',
+    start_date: '2010-01-01',
+    end_date: moment(new Date()).format('YYYY-MM-DD')
   };
 
   formOrder: FormGroup;
@@ -87,6 +93,7 @@ export class OrderModalComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.filterProduct);
     if (this.order) {
       this._fetchOrderDetail(this.order.cuo_id);
     }
@@ -251,7 +258,7 @@ export class OrderModalComponent implements OnInit {
     if (!ngbDate) {
       return '';
     }
-    const newDate = new Date(ngbDate.year, ngbDate.month, ngbDate.day);
+    const newDate = new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
     return moment(newDate).format();
   }
   //#endregion

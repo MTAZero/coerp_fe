@@ -27,12 +27,26 @@ export class StaffService {
     return this.httpClient.get(router.info, params);
   }
 
-  searchStaff(filter?: { pageNumber: number; pageSize: number; status: string; name: string }) {
+  searchStaff(filter?: {
+    pageNumber: number;
+    pageSize: number;
+    status: string;
+    name: string;
+    start_date: any;
+    end_date: any;
+  }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.search, params);
   }
 
-  exportStaff(filter?: { pageNumber: number; pageSize: number; status: string; name: string }) {
+  exportStaff(filter?: {
+    pageNumber: number;
+    pageSize: number;
+    status: string;
+    name: string;
+    start_date: any;
+    end_date: any;
+  }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.export, params);
   }

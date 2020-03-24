@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { CustomerCareModalComponent } from './component/customer-care-modal/customer-care-modal.component';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { TransactionService } from '../../../core/services/api/transaction.service';
 import Swal from 'sweetalert2';
+import * as moment from 'moment';
 import { isNullOrUndefined } from 'util';
 
 @Component({
@@ -18,6 +19,8 @@ export class CustomerCareComponent implements OnInit {
   submitted: boolean;
 
   textSearch = '';
+  fromDate = this._convertDateToNgbDate(new Date('2010-01-01'));
+  toDate = this._convertDateToNgbDate(new Date());
   page = 0;
   pageSize = 10;
   totalSize = 0;
@@ -93,7 +96,9 @@ export class CustomerCareComponent implements OnInit {
       .exportTransaction({
         pageNumber: this.page - 1,
         pageSize: this.pageSize,
-        search_name: this.textSearch
+        search_name: this.textSearch,
+        start_date: this._convertNgbDateToDate(this.fromDate),
+        end_date: this._convertNgbDateToDate(this.toDate)
       })
       .pipe(takeUntil(this.destroyed$));
     export$.subscribe((res: any) => {
@@ -109,7 +114,9 @@ export class CustomerCareComponent implements OnInit {
       .loadTransaction({
         pageNumber: this.page - 1,
         pageSize: this.pageSize,
-        search_name: this.textSearch
+        search_name: this.textSearch,
+        start_date: this._convertNgbDateToDate(this.fromDate),
+        end_date: this._convertNgbDateToDate(this.toDate)
       })
       .pipe(takeUntil(this.destroyed$));
     transaction$.subscribe((res: any) => {
@@ -191,5 +198,23 @@ export class CustomerCareComponent implements OnInit {
       showConfirmButton: false,
       timer: 2000
     });
+  }
+
+  private _convertDateToNgbDate(date: any) {
+    if (!date) {
+      return null;
+    }
+    const year = moment(date).year();
+    const month = moment(date).month() + 1;
+    const day = moment(date).date();
+    return new NgbDate(year, month, day);
+  }
+
+  private _convertNgbDateToDate(ngbDate: any) {
+    if (!ngbDate) {
+      return '';
+    }
+    const newDate = new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
+    return moment(newDate).format('YYYY-MM-DD');
   }
 }
