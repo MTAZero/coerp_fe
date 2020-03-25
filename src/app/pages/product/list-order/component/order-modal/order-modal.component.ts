@@ -93,7 +93,6 @@ export class OrderModalComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.filterProduct);
     if (this.order) {
       this._fetchOrderDetail(this.order.cuo_id);
     }
@@ -229,6 +228,7 @@ export class OrderModalComponent implements OnInit {
       .pipe(takeUntil(this.destroyed$));
     customer$.subscribe((res: any) => {
       this.customers = res.Data.Results;
+      this.customers.push({ cu_fullname: 'Chọn khách hàng', cu_id: '' });
     });
 
     const product$ = this.productService
@@ -236,6 +236,7 @@ export class OrderModalComponent implements OnInit {
       .pipe(takeUntil(this.destroyed$));
     product$.subscribe((res: any) => {
       this.products = res.Data.Results;
+      this.products.push({ pu_name: 'Chọn sản phẩm', pu_id: '' });
     });
 
     const staff$ = this.staffService.searchStaff(this.filterStaff).pipe(takeUntil(this.destroyed$));
@@ -348,10 +349,10 @@ export class OrderModalComponent implements OnInit {
 
   changeDatalistCustomer(e: any) {
     this.readOnly = true;
-    if (e.target.value === '') {
+    if (!e || e.cu_id === '') {
       this.selectedCustomer = null;
     } else {
-      this._fetchCustomer(e.target.value);
+      this._fetchCustomer(e.cu_id);
     }
   }
 
@@ -458,7 +459,7 @@ export class OrderModalComponent implements OnInit {
 
   //#region Product Tab
   changeDatalistProduct(e: any) {
-    this._fetchProduct(e.target.value);
+    this._fetchProduct(e.pu_id);
   }
 
   onRemoveProduct(product) {

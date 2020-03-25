@@ -9,6 +9,7 @@ import {
   NgbPaginationModule,
   NgbProgressbarModule
 } from '@ng-bootstrap/ng-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { ListProductComponent } from './list-product/list-product.component';
 import { ProductRoutingModule } from './product-routing.module';
@@ -49,7 +50,8 @@ import { ProductStatisticComponent } from './product-statistic/product-statistic
     ProductRoutingModule,
     Ng2SearchPipeModule,
     NgbProgressbarModule,
-    ResizableModule
+    ResizableModule,
+    NgSelectModule
   ],
   entryComponents: [
     ProductModalComponent,
