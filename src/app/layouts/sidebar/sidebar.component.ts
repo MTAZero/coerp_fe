@@ -15,8 +15,8 @@ import MetisMenu from 'metismenujs/dist/metismenujs';
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
-  @Input() isCondensed = false;
-  @Input() hasArrow = true;
+  @Input() isCondensed: boolean;
+  @Input() hasArrow: boolean;
 
   isAdmin = false;
   menu: any;

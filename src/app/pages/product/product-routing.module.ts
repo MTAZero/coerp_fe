@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+import { AdminGuard } from '../../core/guards/admin.guard';
 import { ListProductComponent } from './list-product/list-product.component';
 import { ListOrderComponent } from './list-order/list-order.component';
 import { ProductStatisticComponent } from './product-statistic/product-statistic.component';
@@ -8,7 +9,8 @@ import { ProductStatisticComponent } from './product-statistic/product-statistic
 const routes: Routes = [
   {
     path: 'list-product',
-    component: ListProductComponent
+    component: ListProductComponent,
+    canActivate: [AdminGuard]
   },
   {
     path: 'list-order',
@@ -16,7 +18,8 @@ const routes: Routes = [
   },
   {
     path: 'product-statistic',
-    component: ProductStatisticComponent
+    component: ProductStatisticComponent,
+    canActivate: [AdminGuard]
   }
 ];
 

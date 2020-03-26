@@ -30,6 +30,8 @@ export class DashboardComponent implements OnInit {
   widget: Widget[];
   customerPieChart: ChartType;
   ratePieChart: ChartType;
+  rateLoading = true;
+  customerLoading = true;
 
   basicColumChart: ChartType;
   paginatedOrderData: any;
@@ -42,14 +44,19 @@ export class DashboardComponent implements OnInit {
       { label: 'Bảng tin', path: '/', active: true }
     ];
 
-    this._fetchData();
-    this._fetchOrder();
+    this.customerPieChart = customerPieChart;
+    this.ratePieChart = ratePieChart;
+
     this._fetchCustomer();
     this._fetchRate();
+
+    this._fetchData();
+    this._fetchOrder();
   }
 
-  contentRefresh() {
-    console.log('Data refresh requested');
+  contentRefresh(type) {
+    if (type === 'customer') this._fetchCustomer();
+    else this._fetchRate();
   }
 
   onPageOrderChange(page: number): void {
@@ -63,9 +70,6 @@ export class DashboardComponent implements OnInit {
 
   private _fetchData() {
     this.widget = widget;
-
-    this.customerPieChart = customerPieChart;
-    this.ratePieChart = ratePieChart;
     this.basicColumChart = basicColumChart;
 
     this.paginatedOrderData = orderData;
@@ -112,11 +116,15 @@ export class DashboardComponent implements OnInit {
     const customer$ = this.statisticService.loadCustomer().pipe(takeUntil(this.destroyed$));
     customer$.subscribe((res: any) => {
       if (res && res.Data) {
+        this.customerPieChart.series = [];
+        this.customerPieChart.labels = [];
         res.Data.map(item => {
           this.customerPieChart.series.push(item.total_revenue);
           this.customerPieChart.labels.push(item.cg_name);
         });
       }
+
+      this.customerLoading = false;
     });
   }
 
@@ -124,11 +132,15 @@ export class DashboardComponent implements OnInit {
     const rate$ = this.statisticService.loadRate().pipe(takeUntil(this.destroyed$));
     rate$.subscribe((res: any) => {
       if (res && res.Data) {
+        this.ratePieChart.series = [];
+        this.ratePieChart.labels = [];
         res.Data.map(item => {
           this.ratePieChart.series.push(item.number);
           this.ratePieChart.labels.push(item.cg_name);
         });
       }
+
+      this.rateLoading = false;
     });
   }
 }

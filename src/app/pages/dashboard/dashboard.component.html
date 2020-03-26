@@ -46,10 +46,11 @@
         title="Thống kê mức độ hài lòng"
         color="white"
         text="center"
+        [isLoading]="rateLoading"
         headerClass="title header-title border-0 my-1"
-        (onContentRefresh)="contentRefresh()"
+        (onContentRefresh)="contentRefresh('rate')"
       >
-        <div class="card-body text-center pt-0">
+        <div class="card-body text-center pt-0" *ngIf="!rateLoading">
           <apx-chart
             [series]="ratePieChart.series"
             [chart]="ratePieChart"
@@ -69,9 +70,10 @@
         color="white"
         text="center"
         headerClass="title header-title border-0 my-1"
-        (onContentRefresh)="contentRefresh()"
+        [isLoading]="customerLoading"
+        (onContentRefresh)="contentRefresh('customer')"
       >
-        <div class="card-body text-center pt-0">
+        <div class="card-body text-center pt-0" *ngIf="!customerLoading">
           <apx-chart
             [series]="customerPieChart.series"
             [chart]="customerPieChart"

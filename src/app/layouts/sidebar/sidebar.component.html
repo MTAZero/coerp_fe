@@ -106,7 +106,7 @@
         </ul>
       </li>
 
-      <li>
+      <li *ngIf="isAdmin">
         <a
           href="javascript: void(0);"
           aria-expanded="false"
@@ -125,7 +125,7 @@
         </ul>
       </li>
 
-      <li>
+      <li *ngIf="isAdmin">
         <a
           href="javascript: void(0);"
           aria-expanded="false"
@@ -160,13 +160,13 @@
           <span> Thương mại </span>
         </a>
         <ul class="nav-second-level">
-          <li>
+          <li *ngIf="isAdmin">
             <a routerLink="/product/list-product">Thông tin sản phẩm</a>
           </li>
           <li>
             <a routerLink="/product/list-order">Đặt hàng</a>
           </li>
-          <li>
+          <li *ngIf="isAdmin">
             <a routerLink="/product/product-statistic">Báo cáo & Thống kê</a>
           </li>
         </ul>

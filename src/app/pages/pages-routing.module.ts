@@ -22,15 +22,18 @@ const routes: Routes = [
   },
   {
     path: 'vendor',
-    loadChildren: () => import('./vendor/vendor.module').then(m => m.VendorModule)
+    loadChildren: () => import('./vendor/vendor.module').then(m => m.VendorModule),
+    canActivate: [AdminGuard]
   },
   {
     path: 'service',
-    loadChildren: () => import('./service/service.module').then(m => m.ServiceModule)
+    loadChildren: () => import('./service/service.module').then(m => m.ServiceModule),
+    canActivate: [AdminGuard]
   },
   {
     path: 'mail',
-    loadChildren: () => import('./mail/mail.module').then(m => m.MailModule)
+    loadChildren: () => import('./mail/mail.module').then(m => m.MailModule),
+    canActivate: [AdminGuard]
   },
   {
     path: 'product',
@@ -42,7 +45,8 @@ const routes: Routes = [
   },
   {
     path: 'enterprise',
-    loadChildren: () => import('./enterprise/enterprise.module').then(m => m.EnterpriseModule)
+    loadChildren: () => import('./enterprise/enterprise.module').then(m => m.EnterpriseModule),
+    canActivate: [AdminGuard]
   },
   { path: '', redirectTo: '/dashboard', pathMatch: 'prefix' }
 ];

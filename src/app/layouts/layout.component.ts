@@ -12,7 +12,10 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   constructor() {}
 
   ngOnInit() {
-    document.body.classList.toggle('enlarged');
+    if (!document.body.classList.contains('enlarged')) {
+      this.onToggleMobileMenu();
+      this.hasArrow = false;
+    }
   }
 
   isMobile() {
@@ -26,7 +29,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     document.body.classList.remove('authentication-bg');
     document.body.classList.remove('authentication-bg-pattern');
 
-    if (!this.isMobile()) {
+    if (!this.isMobile() && !document.body.classList.contains('sidebar-enable')) {
       document.body.classList.add('sidebar-enable');
     }
   }
