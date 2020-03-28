@@ -1,0 +1,323 @@
+<div class="service-detail">
+  <div class="menu">
+    <div
+      class="item"
+      *ngFor="let item of menu; let i = index"
+      [ngClass]="{
+        'is-selected': i === selectedMenuItem
+      }"
+      (click)="onClickMenuItem(i)"
+    >
+      {{ item }}
+    </div>
+  </div>
+  <div class="content" id="content">
+    <div class="row justify-content-between">
+      <h4>ĐẶT LỊCH DỊCH VỤ</h4>
+      <div class="text-sm-right">
+        <a class="btn btn-success mb-2 mr-1 button-link">Thêm mới</a>
+        <a class="btn btn-success mb-2 mr-1 button-link">Lưu & Thêm mới</a>
+        <a class="btn btn-success mb-2 mr-1 button-link">Lưu lại</a>
+        <a class="btn btn-danger mb-2 mr-1 button-link" (click)="onChangeToMain()">Hủy bỏ</a>
+      </div>
+    </div>
+
+    <div id="0" class="row justify-content-between title-section bg-light mb-2">
+      <h4><i class="mdi mdi-account-circle mr-1"></i>THÔNG TIN KHÁCH HÀNG</h4>
+      <div class="row align-items-center">
+        <input class="form-control mr-1" name="textSearch" placeholder="Tìm kiếm..." />
+        <a class="btn btn-success button-link">Thêm mới</a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <input class="form-control" placeholder="Nhập họ và tên" />
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <select class="custom-select">
+            <option value="">Nhóm khách hàng</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <input class="form-control" placeholder="Nhập số điện thoại" />
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <select class="custom-select">
+            <option value="">Nguồn khách hàng</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6"></div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <select class="custom-select">
+            <option value="">Loại khách hàng</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <textarea rows="3" placeholder="Ghi chú" class="form-control"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div id="1" class="row justify-content-between title-section bg-light mb-2">
+      <h4><i class="mdi mdi-account-circle mr-1"></i>THÔNG TIN ĐỊA CHỈ</h4>
+      <div class="row align-items-center">
+        <a class="btn btn-success button-link">Thêm mới</a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <input class="form-control" placeholder="Địa chỉ chi tiết" />
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <select class="custom-select">
+            <option>Tỉnh/Thành phố</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <select class="custom-select">
+            <option>Quận/Huyện</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <select class="custom-select">
+            <option>Xã/Phường</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <button type="button" class="btn btn-danger">
+          <i class="mdi mdi-plus-circle mr-1"></i>Thêm
+        </button>
+      </div>
+    </div>
+    <div class="table-responsive border mb-2">
+      <table class="table table-centered table-hover mb-0">
+        <thead>
+          <tr>
+            <th>Địa chỉ chi tiết</th>
+            <th>Xã/Phường</th>
+            <th>Quận/Huyện</th>
+            <th>Tỉnh/Thành phố</th>
+            <th *ngIf="!readOnly">Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let address of listAddress" (click)="onClickAddress(address)">
+            <td>
+              <span
+                class="fe-check-circle icon mr-2"
+                *ngIf="
+                  (address.sha_detail ? address.sha_detail + ', ' : '') +
+                    address.sha_ward +
+                    ', ' +
+                    address.sha_district +
+                    ', ' +
+                    address.sha_province ===
+                  selectedAddress
+                "
+              ></span>
+              {{ address.sha_detail }}
+            </td>
+            <td>
+              {{ address.sha_ward }}
+            </td>
+            <td>
+              {{ address.sha_district }}
+            </td>
+            <td>
+              {{ address.sha_province }}
+            </td>
+            <td *ngIf="!readOnly">
+              <a class="action-icon table-button-link" (click)="onUpdateAddress(address)">
+                <i class="mdi mdi-square-edit-outline"></i
+              ></a>
+              <a class="action-icon table-button-link" (click)="onRemoveAddress(address)">
+                <i class="mdi mdi-delete"></i
+              ></a>
+            </td>
+          </tr>
+          <tr *ngIf="!listAddress || listAddress?.length === 0">
+            <td colspan="6">Không có dữ liệu địa chỉ</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="2" class="row justify-content-between title-section bg-light mb-2">
+      <h4><i class="mdi mdi-account-circle mr-1"></i>THÔNG TIN DỊCH VỤ</h4>
+      <div class="row align-items-center">
+        <input class="form-control mr-1" name="textSearch" placeholder="Tìm kiếm dịch vụ" />
+      </div>
+    </div>
+    <div class="table-responsive border mb-2">
+      <table class="table table-centered table-hover mb-0">
+        <thead>
+          <tr>
+            <th>Địa chỉ chi tiết</th>
+            <th>Xã/Phường</th>
+            <th>Quận/Huyện</th>
+            <th>Tỉnh/Thành phố</th>
+            <th *ngIf="!readOnly">Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let address of listAddress" (click)="onClickAddress(address)">
+            <td>
+              <span
+                class="fe-check-circle icon mr-2"
+                *ngIf="
+                  (address.sha_detail ? address.sha_detail + ', ' : '') +
+                    address.sha_ward +
+                    ', ' +
+                    address.sha_district +
+                    ', ' +
+                    address.sha_province ===
+                  selectedAddress
+                "
+              ></span>
+              {{ address.sha_detail }}
+            </td>
+            <td>
+              {{ address.sha_ward }}
+            </td>
+            <td>
+              {{ address.sha_district }}
+            </td>
+            <td>
+              {{ address.sha_province }}
+            </td>
+            <td *ngIf="!readOnly">
+              <a class="action-icon table-button-link" (click)="onUpdateAddress(address)">
+                <i class="mdi mdi-square-edit-outline"></i
+              ></a>
+              <a class="action-icon table-button-link" (click)="onRemoveAddress(address)">
+                <i class="mdi mdi-delete"></i
+              ></a>
+            </td>
+          </tr>
+          <tr *ngIf="!listAddress || listAddress?.length === 0">
+            <td colspan="6">Không có dữ liệu địa chỉ</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="3" class="row title-section bg-light mb-2">
+      <h4><i class="mdi mdi-account-circle mr-1"></i>LỊCH LÀM VIỆC</h4>
+    </div>
+    <div class="form-inline">
+      <div class="input-group clockpicker mb-2 mr-1">
+        <input
+          ngbDatepicker
+          readonly="true"
+          class="form-control"
+          placeholder="yyyy-mm-dd"
+          #from="ngbDatepicker"
+          name="from"
+          [maxDate]="toDate"
+          [(ngModel)]="fromDate"
+          (dateSelect)="onChangeFilter()"
+        />
+        <div class="input-group-append" (click)="from.toggle()">
+          <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+        </div>
+      </div>
+      <select
+        class="custom-select mr-1"
+        name="category"
+        [(ngModel)]="categorySearch"
+        (change)="onChangeFilter()"
+      >
+        <option *ngFor="let time of timePeriod" [value]="time">{{ time }}</option>
+      </select>
+      <span class="fe-arrow-right icon mr-1"></span>
+      <div class="input-group clockpicker mb-2 mr-1">
+        <input
+          ngbDatepicker
+          readonly="true"
+          class="form-control"
+          placeholder="yyyy-mm-dd"
+          #to="ngbDatepicker"
+          name="to"
+          [minDate]="fromDate"
+          [(ngModel)]="toDate"
+          (dateSelect)="onChangeFilter()"
+        />
+        <div class="input-group-append" (click)="to.toggle()">
+          <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+        </div>
+      </div>
+      <select
+        class="custom-select mr-1"
+        name="category"
+        [(ngModel)]="categorySearch"
+        (change)="onChangeFilter()"
+      >
+        <option *ngFor="let time of timePeriod" [value]="time">{{ time }}</option>
+      </select>
+      <select
+        class="custom-select mr-1"
+        name="category"
+        [(ngModel)]="categorySearch"
+        (change)="onChangeFilter()"
+      >
+        <option>Lặp</option>
+        <option>Không Lặp</option>
+      </select>
+    </div>
+    <div class="row align-items-center">
+      <span class="mdi mdi-information-outline icon mr-1"></span>
+      Hàng tuần từ T2 đến T6, thời gian từ 15:30 đến 17:30
+    </div>
+    <div>
+      <div class="form-group col-sm-auto">
+        <ng-select
+          placeholder="Tìm kiếm nhân sự"
+          style="width: 300px;"
+          [items]="customers"
+          bindLabel="cu_fullname"
+          bindValue="cu_id"
+          name="searchCustomer"
+          [(ngModel)]="searchCustomer"
+          (change)="changeDatalistCustomer($event)"
+        >
+        </ng-select>
+      </div>
+    </div>
+
+    <div id="4" class="row title-section bg-light mb-2">
+      <h4><i class="mdi mdi-account-circle mr-1"></i>ĐÁNH GIÁ</h4>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <textarea rows="3" placeholder="Góp ý" class="form-control"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

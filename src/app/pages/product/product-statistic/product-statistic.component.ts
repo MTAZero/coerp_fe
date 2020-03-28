@@ -55,6 +55,10 @@ export class ProductStatisticComponent implements OnInit {
     this.containerHeight = el.children[0].clientHeight;
   }
 
+  scroll(el: HTMLElement) {
+    window.scroll({ top: el.getBoundingClientRect().top - 100, behavior: 'smooth' });
+  }
+
   onClickTest() {
     if (this.height <= 10) this.height = 300;
     else this.height = 10;

@@ -1,0 +1,9 @@
+<app-main-container [hasBottom]="false">
+  <div top class="card-body" style="height: 100%;">
+    <app-order-service-main
+      (onDetail)="onDetail($event)"
+      *ngIf="!isDetail"
+    ></app-order-service-main>
+    <app-order-service-detail (onMain)="onMain($event)" *ngIf="isDetail"></app-order-service-detail>
+  </div>
+</app-main-container>

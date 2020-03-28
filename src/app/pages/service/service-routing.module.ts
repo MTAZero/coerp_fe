@@ -4,6 +4,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { ListServiceComponent } from './list-service/list-service.component';
 import { OrderServiceComponent } from './order-service/order-service.component';
 import { ReceiveWorkComponent } from './receive-work/receive-work.component';
+import { ListOrderServiceComponent } from './list-order-service/list-order-service.component';
+
 const routes: Routes = [
   {
     path: 'list-service',
@@ -16,6 +18,10 @@ const routes: Routes = [
   {
     path: 'receive-work',
     component: ReceiveWorkComponent
+  },
+  {
+    path: 'list-order-service',
+    component: ListOrderServiceComponent
   }
 ];
 
