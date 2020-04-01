@@ -9,7 +9,9 @@ const router = {
   delete: `/api/service/delete`,
   get_category: '/api/service-category/get-name',
   get_type: '/api/service/get-type',
-  get_order_service: '/api/customer-order-service/search'
+  get_order_service: '/api/customer-order-service/search',
+  create_order_service: '/api/customer-order-service/create',
+  update_order_service: '/api/customer-order-service/update'
 };
 
 @Injectable()
@@ -53,5 +55,13 @@ export class ServiceService {
   }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.get_order_service, params);
+  }
+
+  createOrderService(data: any) {
+    return this.httpClient.post(router.create_order_service, data);
+  }
+
+  updateOrderService(data?: any) {
+    return this.httpClient.putFormData(router.update_order_service, data);
   }
 }

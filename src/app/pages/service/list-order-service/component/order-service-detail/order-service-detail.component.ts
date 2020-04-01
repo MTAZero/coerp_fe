@@ -45,7 +45,7 @@ export class OrderServiceDetailComponent implements OnInit {
   selectedStaffs: any[];
 
   //variable in Product Tab
-  searchService = '';
+  searchService: any;
   orderTotal = 0;
 
   filterCustomer = {
@@ -91,6 +91,9 @@ export class OrderServiceDetailComponent implements OnInit {
     this.days = days;
 
     this.isView = this.type === 'view';
+    this.readOnly = this.isView;
+
+    console.log(this.orderService);
 
     this.initializeForm();
     this._fetchFilter();
@@ -99,8 +102,6 @@ export class OrderServiceDetailComponent implements OnInit {
     if (this.orderService) {
       this._patchData(this.orderService);
     }
-
-    console.log(this.type, this.orderService);
   }
 
   onClickMenuItem(index: any) {
@@ -111,7 +112,7 @@ export class OrderServiceDetailComponent implements OnInit {
   }
 
   onChangeToMain() {
-    if (this.formCustomer.dirty) {
+    if (this.formCustomer.dirty || this.formRepeat.dirty) {
       Swal.fire({
         title: 'Dữ liệu đã bị thay đổi, bạn có chắc chắn muốn hủy thao tác không?',
         type: 'warning',
@@ -216,8 +217,8 @@ export class OrderServiceDetailComponent implements OnInit {
   }
 
   changeDatalistService(e: any) {
+    this.searchService = { se_name: 'Chọn dịch vụ', se_id: '' };
     if (e.se_id !== '') this.listService.push(e);
-    this.searchService = '';
   }
 
   onRemoveService(service: any) {
@@ -225,6 +226,8 @@ export class OrderServiceDetailComponent implements OnInit {
   }
 
   onClickWeekDay(day: any) {
+    if (this.isView) return;
+
     if (day === 'T2')
       this.formRepeat.patchValue({
         st_mon_flag: this.formRepeat.value.st_mon_flag === 1 ? 0 : 1
@@ -289,13 +292,32 @@ export class OrderServiceDetailComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(
-      this.selectedCustomer,
-      this.selectedAddress,
-      this.listService,
-      this.formRepeat.value,
-      this.selectedStaffs
-    );
+    const customerData = this.formCustomer.value;
+    const repeatData = this.formRepeat.value;
+    repeatData.st_start_date = this._convertNgbDateToDate(repeatData.st_start_date);
+    repeatData.st_end_date = this._convertNgbDateToDate(repeatData.st_end_date);
+    repeatData.st_custom_start = this._convertNgbDateToDate(repeatData.st_custom_start);
+    repeatData.st_custom_end = this._convertNgbDateToDate(repeatData.st_custom_end);
+    repeatData.st_on_day_flag = repeatData.st_on_day_flag ? 1 : 0;
+    repeatData.st_on_the_flag = repeatData.st_on_day_flag ? 1 : 0;
+
+    const list_service_id = this.listService.map(e => {
+      return e.se_id;
+    });
+
+    const data = {
+      list_service_id,
+      ...repeatData,
+      customer: {
+        ...customerData,
+        list_address: this.listAddress
+      },
+      list_staff_id: this.selectedStaffs
+    };
+
+    console.log(data);
+    if (this.type === 'update') this._updateOrderService(data);
+    if (this.type === 'create') this._createOrderService(data);
   }
 
   private initializeForm() {
@@ -338,7 +360,6 @@ export class OrderServiceDetailComponent implements OnInit {
   }
 
   private _patchData(data: any) {
-    console.log(data);
     const { customer, cuo_address, list_service } = data;
     this.selectedAddress = cuo_address;
     this.listService = list_service;
@@ -347,22 +368,22 @@ export class OrderServiceDetailComponent implements OnInit {
     this.formRepeat.patchValue({
       st_start_date: this._convertDateToNgbDate(data.st_start_date),
       st_end_date: this._convertDateToNgbDate(data.st_end_date),
-      st_start_time: data.st_start_time,
-      st_end_time: data.st_end_time,
+      st_start_time: data.st_start_time ? data.st_start_time.substring(0, 5) : '',
+      st_end_time: data.st_end_time ? data.st_end_time.substring(0, 5) : '',
       st_repeat_type: data.st_repeat_type,
-      st_sun_flag: data.st_sun_flag,
-      st_mon_flag: data.st_mon_flag,
-      st_tue_flag: data.st_tue_flag,
-      st_wed_flag: data.st_wed_flag,
-      st_thu_flag: data.st_thu_flag,
-      st_fri_flag: data.st_fri_flag,
-      st_sat_flag: data.st_sat_flag,
-      st_repeat: data.st_repeat,
+      st_sun_flag: data.st_sun_flag ? 1 : 0,
+      st_mon_flag: data.st_mon_flag ? 1 : 0,
+      st_tue_flag: data.st_tue_flag ? 1 : 0,
+      st_wed_flag: data.st_wed_flag ? 1 : 0,
+      st_thu_flag: data.st_thu_flag ? 1 : 0,
+      st_fri_flag: data.st_fri_flag ? 1 : 0,
+      st_sat_flag: data.st_sat_flag ? 1 : 0,
+      st_repeat: data.st_repeat ? 1 : 0,
       st_repeat_every: data.st_repeat_every,
       st_on_the: data.st_on_the,
-      st_on_day_flag: data.st_on_day_flag,
+      st_on_day_flag: data.st_on_day_flag ? 1 : 0,
       st_on_day: data.st_on_day,
-      st_on_the_flag: data.st_on_the_flag,
+      st_on_the_flag: data.st_on_the_flag ? 1 : 0,
       st_custom_start: this._convertDateToNgbDate(data.st_custom_start),
       st_custom_end: this._convertDateToNgbDate(data.st_custom_end)
     });
@@ -500,5 +521,46 @@ export class OrderServiceDetailComponent implements OnInit {
     }
     const newDate = new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
     return moment(newDate).format();
+  }
+
+  private _createOrderService(data: any) {
+    const createOrderService$ = this.serviceService
+      .createOrderService(data)
+      .pipe(takeUntil(this.destroyed$));
+    createOrderService$.subscribe(
+      (res: any) => {
+        if (res && res.Code == 200) {
+          this._notify(true, res.Message);
+          this.onMain.emit(true);
+        } else this._notify(false, res.Message);
+      },
+      e => this._notify(false, e.Message)
+    );
+  }
+
+  private _updateOrderService(updated: any) {
+    const updateOrderService$ = this.serviceService
+      .updateOrderService(updated)
+      .pipe(takeUntil(this.destroyed$));
+    updateOrderService$.subscribe(
+      (res: any) => {
+        if (res && res.Code == 200) {
+          this._notify(true, res.Message);
+          this.onMain.emit(true);
+        } else this._notify(false, res.Message);
+      },
+      e => this._notify(false, e.Message)
+    );
+  }
+
+  private _notify(isSuccess: boolean, message: string) {
+    return Swal.fire({
+      toast: true,
+      position: 'top-end',
+      type: isSuccess ? 'success' : 'error',
+      title: message,
+      showConfirmButton: false,
+      timer: 2000
+    });
   }
 }

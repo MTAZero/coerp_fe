@@ -7,6 +7,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { basicColumChart, customerPieChart, ratePieChart } from '../../data';
 import { ServiceService } from '../../../../../core/services/api/service.service';
+import { OrderService } from '../../../../../core/services/api/order.service';
 import { StatisticService } from '../../../../../core/services/api/statistic.service';
 
 @Component({
@@ -35,7 +36,11 @@ export class OrderServiceMainComponent implements OnInit {
   rateLoading = true;
   customerLoading = true;
 
-  constructor(private serviceService: ServiceService, private statisticService: StatisticService) {}
+  constructor(
+    private serviceService: ServiceService,
+    private statisticService: StatisticService,
+    private orderService: OrderService
+  ) {}
 
   ngOnInit() {
     this.customerPieChart = customerPieChart;
@@ -69,6 +74,7 @@ export class OrderServiceMainComponent implements OnInit {
       cancelButtonColor: '#d33'
     }).then(result => {
       if (result.value) {
+        this._removeOrder(orderService);
       }
     });
   }
@@ -112,6 +118,8 @@ export class OrderServiceMainComponent implements OnInit {
     const customer$ = this.statisticService.loadCustomer().pipe(takeUntil(this.destroyed$));
     customer$.subscribe((res: any) => {
       if (res && res.Data) {
+        this.customerPieChart.series = [];
+        this.customerPieChart.labels = [];
         res.Data.map(item => {
           this.customerPieChart.series.push(item.total_revenue);
           this.customerPieChart.labels.push(item.cg_name);
@@ -126,6 +134,8 @@ export class OrderServiceMainComponent implements OnInit {
     const rate$ = this.statisticService.loadRate().pipe(takeUntil(this.destroyed$));
     rate$.subscribe((res: any) => {
       if (res && res.Data) {
+        this.ratePieChart.series = [];
+        this.ratePieChart.labels = [];
         res.Data.map(item => {
           this.ratePieChart.series.push(item.number);
           this.ratePieChart.labels.push(item.cg_name);
@@ -156,6 +166,21 @@ export class OrderServiceMainComponent implements OnInit {
         this.selectedOrderService = null;
       }
     }
+  }
+
+  private _removeOrder(order: any) {
+    const removeOrder$ = this.orderService
+      .removeOrder({ customer_orderId: order.cuo_id })
+      .pipe(takeUntil(this.destroyed$));
+    removeOrder$.subscribe(
+      (res: any) => {
+        if (res && res.Code == 200) {
+          this._notify(true, res.Message);
+          this._fetchData();
+        } else this._notify(false, res.Message);
+      },
+      e => this._notify(false, e.Message)
+    );
   }
 
   private _convertDateToNgbDate(date: any) {

@@ -49,13 +49,7 @@ const timePeriod = [
   '23:30'
 ];
 
-const menu = [
-  'Thông tin khách hàng',
-  'Thông tin địa chỉ',
-  'Thông tin dịch vụ',
-  'Lịch làm việc',
-  'Đánh giá'
-];
+const menu = ['Thông tin khách hàng', 'Thông tin địa chỉ', 'Thông tin dịch vụ', 'Lịch làm việc'];
 
 const days = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
 

@@ -15,10 +15,12 @@
     <div class="row justify-content-between">
       <h4>ĐẶT LỊCH DỊCH VỤ</h4>
       <div class="text-sm-right">
-        <a class="btn btn-success mb-2 mr-1 button-link">Thêm mới</a>
-        <a class="btn btn-success mb-2 mr-1 button-link">Lưu & Thêm mới</a>
-        <a class="btn btn-success mb-2 mr-1 button-link" (click)="onSubmit()">Lưu lại</a>
-        <a class="btn btn-danger mb-2 mr-1 button-link" (click)="onChangeToMain()">Hủy bỏ</a>
+        <a *ngIf="!isView" class="btn btn-success mb-2 mr-1 button-link" (click)="onSubmit()"
+          >Lưu lại</a
+        >
+        <a class="btn btn-danger mb-2 mr-1 button-link" (click)="onChangeToMain()">{{
+          isView ? 'Quay lại' : 'Hủy bỏ'
+        }}</a>
       </div>
     </div>
 
@@ -115,12 +117,12 @@
 
     <div id="1" class="row justify-content-between title-section bg-light mb-2">
       <h4><i class="mdi mdi-account-circle mr-1"></i>THÔNG TIN ĐỊA CHỈ</h4>
-      <div class="row align-items-center">
+      <div class="row align-items-center" *ngIf="!isView">
         <a class="btn btn-success button-link" (click)="onClickCreateButton()">Thêm</a>
       </div>
     </div>
     <div [formGroup]="formCustomer" *ngIf="selectedCustomer">
-      <div class="row">
+      <div class="row" *ngIf="!isView">
         <div class="col-md-6">
           <div class="form-group">
             <input
@@ -137,9 +139,12 @@
               formControlName="cu_province"
               (change)="onChangeProvince($event)"
             >
-              <option *ngFor="let province of provinces" [value]="province.name">{{
-                province.name
-              }}</option>
+              <option
+                *ngFor="let province of provinces"
+                [disabled]="isView"
+                [value]="province.name"
+                >{{ province.name }}</option
+              >
             </select>
           </div>
         </div>
@@ -150,16 +155,21 @@
               formControlName="cu_district"
               (change)="onChangeDistrict($event)"
             >
-              <option *ngFor="let district of districts" [value]="district.name">{{
-                district.name
-              }}</option>
+              <option
+                *ngFor="let district of districts"
+                [disabled]="isView"
+                [value]="district.name"
+                >{{ district.name }}</option
+              >
             </select>
           </div>
         </div>
         <div class="col-md-2">
           <div class="form-group">
             <select class="custom-select" formControlName="cu_ward">
-              <option *ngFor="let ward of wards" [value]="ward.name">{{ ward.name }}</option>
+              <option *ngFor="let ward of wards" [disabled]="isView" [value]="ward.name">{{
+                ward.name
+              }}</option>
             </select>
           </div>
         </div>
@@ -220,6 +230,7 @@
 
     <div id="2" class="row justify-content-between title-section bg-light mb-2">
       <h4><i class="mdi mdi-account-circle mr-1"></i>THÔNG TIN DỊCH VỤ</h4>
+      this is: {{ searchService }}
       <div class="row align-items-center" *ngIf="!isView">
         <ng-select
           placeholder="Chọn dịch vụ"
@@ -229,7 +240,6 @@
           bindValue="se_id"
           name="searchService"
           [(ngModel)]="searchService"
-          [ngModelOptions]="{ standalone: true }"
           [clearable]="false"
           (change)="changeDatalistService($event)"
         >
@@ -285,13 +295,16 @@
             placeholder="yyyy-mm-dd"
             #from="ngbDatepicker"
             formControlName="st_start_date"
+            [disabled]="isView"
           />
           <div class="input-group-append" (click)="from.toggle()">
             <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
           </div>
         </div>
         <select class="custom-select mr-1" formControlName="st_start_time">
-          <option *ngFor="let time of timePeriod" [value]="time">{{ time }}</option>
+          <option *ngFor="let time of timePeriod" [disabled]="isView" [value]="time">{{
+            time
+          }}</option>
         </select>
         <span class="fe-arrow-right icon mr-1"></span>
         <div class="input-group clockpicker mb-2 mr-1">
@@ -302,17 +315,20 @@
             placeholder="yyyy-mm-dd"
             #to="ngbDatepicker"
             formControlName="st_end_date"
+            [disabled]="isView"
           />
           <div class="input-group-append" (click)="to.toggle()">
             <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
           </div>
         </div>
         <select class="custom-select mr-1" formControlName="st_end_time">
-          <option *ngFor="let time of timePeriod" [value]="time">{{ time }}</option>
+          <option *ngFor="let time of timePeriod" [disabled]="isView" [value]="time">{{
+            time
+          }}</option>
         </select>
         <select class="custom-select mr-1" formControlName="st_repeat">
-          <option value="1">Lặp</option>
-          <option value="0">Không Lặp</option>
+          <option [disabled]="isView" value="1">Lặp</option>
+          <option [disabled]="isView" value="0">Không Lặp</option>
         </select>
       </div>
       <div *ngIf="formRepeat.value.st_repeat === '1'" class="repeat-setting">
@@ -327,6 +343,7 @@
               placeholder="yyyy-mm-dd"
               #from="ngbDatepicker"
               formControlName="st_custom_start"
+              [disabled]="isView"
             />
             <div class="input-group-append" (click)="from.toggle()">
               <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
@@ -341,9 +358,9 @@
             formControlName="st_repeat_type"
             (change)="onChangeRepeatType($event)"
           >
-            <option value="1">Ngày</option>
-            <option value="2">Tuần</option>
-            <option value="3">Tháng</option>
+            <option [disabled]="isView" value="1">Ngày</option>
+            <option [disabled]="isView" value="2">Tuần</option>
+            <option [disabled]="isView" value="3">Tháng</option>
           </select>
         </div>
         <div *ngIf="formRepeat.value.st_repeat_type === '2'">
@@ -367,6 +384,7 @@
               [value]="true"
               formControlName="st_on_day_flag"
               class="custom-control-input"
+              [readonly]="isView"
             />
             <label class="custom-control-label" for="customRadio1"
               >Vào ngày
@@ -384,6 +402,7 @@
               name="st_on_day_flag"
               formControlName="st_on_day_flag"
               class="custom-control-input"
+              [readonly]="isView"
             />
             <label class="custom-control-label" for="customRadio2"
               >Vào
@@ -392,6 +411,7 @@
                   [disabled]="formRepeat.value.st_on_day_flag"
                   (change)="onChangeDaySelection(day)"
                   *ngFor="let day of days"
+                  [disabled]="isView"
                   >{{ day }}</option
                 >
               </select>
@@ -415,6 +435,7 @@
               placeholder="yyyy-mm-dd"
               #to="ngbDatepicker"
               formControlName="st_custom_end"
+              [disabled]="isView"
             />
             <div class="input-group-append" (click)="to.toggle()">
               <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
@@ -428,9 +449,11 @@
       <span class="mdi mdi-information-outline icon mr-1"></span>
       Hàng tuần từ T2 đến T6, thời gian từ 15:30 đến 17:30
     </div>
+    <h4>Nhân viên phụ trách</h4>
     <div>
       <div class="form-group col-sm-auto">
         <ng-select
+          [disabled]="isView"
           style="width: 100%;"
           name="customerGroups"
           [items]="staffs"
@@ -441,17 +464,6 @@
           [(ngModel)]="selectedStaffs"
         >
         </ng-select>
-      </div>
-    </div>
-
-    <div id="4" class="row title-section bg-light mb-2">
-      <h4><i class="mdi mdi-account-circle mr-1"></i>ĐÁNH GIÁ</h4>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <div class="form-group">
-          <textarea rows="3" placeholder="Góp ý" class="form-control"></textarea>
-        </div>
       </div>
     </div>
   </div>

@@ -7,7 +7,7 @@ import { LocationStrategy } from '@angular/common';
   styleUrls: ['./list-order-service.component.scss']
 })
 export class ListOrderServiceComponent implements OnInit {
-  isDetail = true;
+  isDetail = false;
   type = '';
   orderService = null;
 
