@@ -57,4 +57,6 @@ const menu = [
   'Đánh giá'
 ];
 
-export { timePeriod, menu };
+const days = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
+
+export { timePeriod, menu, days };

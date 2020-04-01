@@ -4,6 +4,11 @@
       (onDetail)="onDetail($event)"
       *ngIf="!isDetail"
     ></app-order-service-main>
-    <app-order-service-detail (onMain)="onMain($event)" *ngIf="isDetail"></app-order-service-detail>
+    <app-order-service-detail
+      (onMain)="onMain($event)"
+      *ngIf="isDetail"
+      [type]="type"
+      [orderService]="orderService"
+    ></app-order-service-detail>
   </div>
 </app-main-container>

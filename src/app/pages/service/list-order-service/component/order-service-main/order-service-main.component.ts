@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { basicColumChart, customerPieChart, ratePieChart } from '../../data';
-import { TransactionService } from '../../../../../core/services/api/transaction.service';
+import { ServiceService } from '../../../../../core/services/api/service.service';
 import { StatisticService } from '../../../../../core/services/api/statistic.service';
 
 @Component({
@@ -25,19 +25,17 @@ export class OrderServiceMainComponent implements OnInit {
   pageSize = 10;
   totalSize = 0;
 
-  selectedOrder = null;
+  selectedOrderService = null;
 
-  transactions: any[];
+  orderServices: any[];
 
   customerPieChart: any;
   ratePieChart: any;
   basicColumChart: any;
   rateLoading = true;
   customerLoading = true;
-  constructor(
-    private transactionService: TransactionService,
-    private statisticService: StatisticService
-  ) {}
+
+  constructor(private serviceService: ServiceService, private statisticService: StatisticService) {}
 
   ngOnInit() {
     this.customerPieChart = customerPieChart;
@@ -48,39 +46,21 @@ export class OrderServiceMainComponent implements OnInit {
     this.basicColumChart = basicColumChart;
   }
 
-  contentRefresh(type) {
+  contentRefresh(type: any) {
     if (type === 'customer') this._fetchCustomer();
     else this._fetchRate();
   }
 
-  onChangeToDetail() {
-    this.onDetail.emit(true);
+  onChangeToDetail(type: string) {
+    this.onDetail.emit({
+      type,
+      data: type === 'create' ? null : this.selectedOrderService
+    });
   }
 
-  openCustomerCareModal() {
-    // const modalRef = this.modalService.open(CustomerCareModalComponent, {
-    //   centered: true,
-    //   size: 'xl'
-    // });
-    // if (transaction) {
-    //   modalRef.componentInstance.transaction = transaction;
-    //   modalRef.componentInstance.isView = isView;
-    // }
-    // modalRef.componentInstance.passEvent.subscribe(res => {
-    //   if (res.event) {
-    //     if (transaction) {
-    //       this._updateTransaction(res.data);
-    //     } else {
-    //       this._createTransaction(res.data);
-    //     }
-    //   }
-    //   modalRef.close();
-    // });
-  }
-
-  openConfirmModal(transaction?: any) {
+  openConfirmModal(orderService?: any) {
     Swal.fire({
-      title: 'Chắc chắn muốn xóa giao dịch khách hàng đang chọn?',
+      title: 'Chắc chắn muốn xóa lịch đặt dịch vụ đang chọn?',
       type: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Xóa',
@@ -89,7 +69,6 @@ export class OrderServiceMainComponent implements OnInit {
       cancelButtonColor: '#d33'
     }).then(result => {
       if (result.value) {
-        this._removeTransaction(transaction);
       }
     });
   }
@@ -100,30 +79,12 @@ export class OrderServiceMainComponent implements OnInit {
   }
 
   onChangeFilter() {
-    this._fetchData(this.selectedOrder);
-  }
-
-  exportTransaction() {
-    const export$ = this.transactionService
-      .exportTransaction({
-        pageNumber: this.page - 1,
-        pageSize: this.pageSize,
-        search_name: this.textSearch,
-        start_date: this._convertNgbDateToDate(this.fromDate),
-        end_date: this._convertNgbDateToDate(this.toDate)
-      })
-      .pipe(takeUntil(this.destroyed$));
-    export$.subscribe((res: any) => {
-      if (res && res.Data) {
-        const link = 'http://27.72.147.222:1230/' + res.Data;
-        window.open(link);
-      }
-    });
+    this._fetchData(this.selectedOrderService);
   }
 
   private _fetchData(selected?: any) {
-    const transaction$ = this.transactionService
-      .loadTransaction({
+    const orderService$ = this.serviceService
+      .loadOrderService({
         pageNumber: this.page - 1,
         pageSize: this.pageSize,
         search_name: this.textSearch,
@@ -131,15 +92,17 @@ export class OrderServiceMainComponent implements OnInit {
         end_date: this._convertNgbDateToDate(this.toDate)
       })
       .pipe(takeUntil(this.destroyed$));
-    transaction$.subscribe((res: any) => {
+    orderService$.subscribe((res: any) => {
       if (res && res.Data) {
         this.totalSize = res.Data.TotalNumberOfRecords;
-        this.transactions = res.Data.Results;
+        this.orderServices = res.Data.Results;
 
         if (selected) {
-          this.selectedOrder = this.transactions.find(item => item.tra_id === selected.tra_id);
+          this.selectedOrderService = this.orderServices.find(
+            item => item.cuo_id === selected.cuo_id
+          );
         } else {
-          this.selectedOrder = this.transactions[0];
+          this.selectedOrderService = this.orderServices[0];
         }
       }
     });
@@ -172,25 +135,6 @@ export class OrderServiceMainComponent implements OnInit {
     });
   }
 
-  private _removeTransaction(transaction: any) {
-    const removeTransaction$ = this.transactionService
-      .removeTransaction({
-        transactionId: transaction.tra_id
-      })
-      .pipe(takeUntil(this.destroyed$));
-    removeTransaction$.subscribe(
-      (res: any) => {
-        if (res && res.Code === 200) {
-          this._notify(true, res.Message);
-          this._fetchData();
-        } else this._notify(false, res.Message);
-      },
-      e => {
-        this._notify(false, e.Message);
-      }
-    );
-  }
-
   private _notify(isSuccess: boolean, message: string) {
     return Swal.fire({
       toast: true,
@@ -202,14 +146,14 @@ export class OrderServiceMainComponent implements OnInit {
     });
   }
 
-  onClickOrder(transaction: any) {
-    if (isNullOrUndefined(this.selectedOrder)) {
-      this.selectedOrder = transaction;
+  onClickOrderService(orderService: any) {
+    if (isNullOrUndefined(this.selectedOrderService)) {
+      this.selectedOrderService = orderService;
     } else {
-      if (this.selectedOrder.tra_id !== transaction.tra_id) {
-        this.selectedOrder = transaction;
+      if (this.selectedOrderService.cuo_id !== orderService.cuo_id) {
+        this.selectedOrderService = orderService;
       } else {
-        this.selectedOrder = null;
+        this.selectedOrderService = null;
       }
     }
   }

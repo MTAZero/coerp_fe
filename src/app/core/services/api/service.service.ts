@@ -3,12 +3,13 @@ import { ApiService } from './api-service';
 import { mapToHttpParamsQuery, mapToFormData } from '../../helpers/helpers';
 
 const router = {
-  get_all: `/api/service/get-all-search`,
+  get_all: `/api/service/get-search-infor`,
   create: `/api/service/create`,
   update: `/api/service/update`,
   delete: `/api/service/delete`,
   get_category: '/api/service-category/get-name',
-  get_type: '/api/service/get-type'
+  get_type: '/api/service/get-type',
+  get_order_service: '/api/customer-order-service/search'
 };
 
 @Injectable()
@@ -41,5 +42,16 @@ export class ServiceService {
 
   getType() {
     return this.httpClient.get(router.get_type);
+  }
+
+  loadOrderService(filter?: {
+    pageSize: number;
+    pageNumber: number;
+    search_name: string;
+    start_date: string;
+    end_date: string;
+  }) {
+    const params = mapToHttpParamsQuery(filter);
+    return this.httpClient.get(router.get_order_service, params);
   }
 }

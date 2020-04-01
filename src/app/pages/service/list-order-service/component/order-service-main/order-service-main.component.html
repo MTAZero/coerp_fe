@@ -144,29 +144,29 @@
         <span class="mdi mdi-cloud-upload"></span>
         Nhập
       </button>
-      <button type="button" class="btn btn-info mb-2 mr-1" (click)="exportTransaction()">
+      <button type="button" class="btn btn-info mb-2 mr-1">
         <span class="mdi mdi-cloud-download"></span>
         Xuất
       </button>
       <a
-        [ngClass]="selectedOrder ? '' : 'disabled'"
+        [ngClass]="selectedOrderService ? '' : 'disabled'"
         class="btn btn-secondary mb-2 mr-1 button-link"
-        (click)="onChangeToDetail()"
+        (click)="onChangeToDetail('view')"
         ><i class="mdi mdi-eye mr-1"></i> Chi tiết</a
       >
-      <a class="btn btn-success mb-2 mr-1 button-link" (click)="onChangeToDetail()"
+      <a class="btn btn-success mb-2 mr-1 button-link" (click)="onChangeToDetail('create')"
         ><i class="mdi mdi-plus-circle mr-1"></i> Thêm mới</a
       >
       <a
         class="btn btn-primary mb-2 mr-1 button-link"
-        [ngClass]="selectedOrder ? '' : 'disabled'"
-        (click)="onChangeToDetail()"
+        [ngClass]="selectedOrderService ? '' : 'disabled'"
+        (click)="onChangeToDetail('update')"
         ><i class="mdi mdi-square-edit-outline mr-1"></i> Cập nhật</a
       >
       <a
         class="btn btn-danger mb-2 mr-1 button-link"
-        [ngClass]="selectedOrder ? '' : 'disabled'"
-        (click)="onChangeToDetail()"
+        [ngClass]="selectedOrderService ? '' : 'disabled'"
+        (click)="openConfirmModal(selectedOrderService)"
         ><i class="mdi mdi-delete mr-1"></i> Xóa</a
       >
     </div>
@@ -177,69 +177,47 @@
   <table class="table table-centered table-hover mb-0">
     <thead>
       <tr>
-        <th>STT</th>
-        <th>Tiêu đề</th>
-        <th>Nội dung</th>
-        <th>Đánh giá</th>
-        <th>Loại giao dịch</th>
-        <th>Kết quả</th>
-        <th>Mức độ ưu tiên</th>
-        <th>Phụ trách</th>
+        <th>MDV</th>
         <th>Khách hàng</th>
-        <th>Trạng thái</th>
+        <th>Số điện thoại</th>
+        <th>Địa chỉ</th>
+        <th>Ngày tạo</th>
+        <th>Đánh giá</th>
+        <th>Góp ý</th>
       </tr>
     </thead>
     <tbody>
       <tr
-        *ngFor="let transaction of transactions; let i = index"
-        (click)="onClickOrder(transaction)"
+        *ngFor="let orderService of orderServices; let i = index"
+        (click)="onClickOrderService(orderService)"
         [ngClass]="{
-          'is-selected': transaction.tra_id === selectedOrder?.tra_id
+          'is-selected': orderService.cuo_id === selectedOrderService?.cuo_id
         }"
       >
         <td>
-          {{ i + 1 }}
+          {{ orderService.cuo_code }}
         </td>
         <td>
-          {{ transaction.tra_title }}
+          {{ orderService.cu_fullname }}
         </td>
         <td>
-          {{ transaction.tra_content }}
+          {{ orderService.cu_mobile }}
         </td>
         <td>
-          {{ transaction.tra_rate_name }}
+          {{ orderService.cuo_address }}
         </td>
         <td>
-          {{ transaction.tra_type_name }}
+          {{ orderService.cuo_date | date: 'dd/MM/yyyy' }}
         </td>
         <td>
-          {{ transaction.tra_result }}
+          {{ orderService.cuo_evaluation }}
         </td>
         <td>
-          {{ transaction.tra_priority_name }}
-        </td>
-        <td>
-          {{ transaction.staff_name }}
-        </td>
-        <td>
-          {{ transaction.customer_name }}
-        </td>
-        <td>
-          <span
-            class="badge"
-            [ngClass]="
-              transaction.tra_status === 1
-                ? 'badge-danger'
-                : transaction.tra_status === 2
-                ? 'badge-warning'
-                : 'badge-success'
-            "
-            >{{ transaction.tra_status_name }}
-          </span>
+          {{ orderService.cuo_feedback }}
         </td>
       </tr>
-      <tr *ngIf="transactions?.length === 0">
-        <td colspan="10">Không có dữ liệu đơn hàng</td>
+      <tr *ngIf="orderServices?.length === 0">
+        <td colspan="7">Không có dữ liệu lịch dịch vụ</td>
       </tr>
     </tbody>
   </table>

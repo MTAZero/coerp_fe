@@ -7,7 +7,10 @@ import { LocationStrategy } from '@angular/common';
   styleUrls: ['./list-order-service.component.scss']
 })
 export class ListOrderServiceComponent implements OnInit {
-  isDetail = false;
+  isDetail = true;
+  type = '';
+  orderService = null;
+
   constructor(private location: LocationStrategy) {
     if (this.isDetail) {
       history.pushState(null, null, window.location.href);
@@ -21,6 +24,8 @@ export class ListOrderServiceComponent implements OnInit {
   onDetail(event: any) {
     if (event) {
       this.isDetail = true;
+      this.type = event.type;
+      this.orderService = event.data;
     }
   }
 
