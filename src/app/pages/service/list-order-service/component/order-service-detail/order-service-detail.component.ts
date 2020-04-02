@@ -25,6 +25,7 @@ export class OrderServiceDetailComponent implements OnInit {
   menu: any[];
   days: any[];
   selectedMenuItem = 0;
+  summary = '';
 
   selectedCustomer: any;
   listService = [];
@@ -42,7 +43,7 @@ export class OrderServiceDetailComponent implements OnInit {
   readOnly = true;
   isView = true;
   searchCustomer = '';
-  selectedStaffs: any[];
+  selectedStaffs = [];
 
   //variable in Product Tab
   searchService: any;
@@ -102,6 +103,10 @@ export class OrderServiceDetailComponent implements OnInit {
     if (this.orderService) {
       this._patchData(this.orderService);
     }
+  }
+
+  ngAfterViewInit() {
+    this.formRepeat.valueChanges.subscribe(data => this._updateSummary(data));
   }
 
   onClickMenuItem(index: any) {
@@ -275,11 +280,12 @@ export class OrderServiceDetailComponent implements OnInit {
   }
 
   onChangeRepeatType(event: any) {
-    if (event.target.value === 3) this.onChangeDaySelection('T2');
-    if (event.target.value === 2) this.onChangeDaySelection('');
+    if (event.target.value[0] === '2') this.onChangeDaySelection('T2');
+    if (event.target.value[0] === '1') this.onChangeDaySelection('');
   }
 
-  onChangeDaySelection(day: any) {
+  onChangeDaySelection(event: any) {
+    const day = event.target ? event.target.value : event;
     this.formRepeat.patchValue({
       st_mon_flag: day === 'T2' ? 1 : 0,
       st_tue_flag: day === 'T3' ? 1 : 0,
@@ -292,6 +298,9 @@ export class OrderServiceDetailComponent implements OnInit {
   }
 
   onSubmit() {
+    if (this.selectedStaffs.length === 0)
+      return this._notify(false, 'Chưa chọn nhân viên phụ trách');
+
     const customerData = this.formCustomer.value;
     const repeatData = this.formRepeat.value;
     repeatData.st_start_date = this._convertNgbDateToDate(repeatData.st_start_date);
@@ -308,6 +317,7 @@ export class OrderServiceDetailComponent implements OnInit {
     const data = {
       list_service_id,
       ...repeatData,
+      cuo_address: this.selectedAddress,
       customer: {
         ...customerData,
         list_address: this.listAddress
@@ -326,6 +336,7 @@ export class OrderServiceDetailComponent implements OnInit {
       cu_fullname: ['', [Validators.required]],
       cu_type: ['', [Validators.required]],
       cu_mobile: ['', [Validators.required]],
+      cu_email: ['', [Validators.required]],
       customer_group_id: ['', [Validators.required]],
       source_id: ['', [Validators.required]],
       cu_address: ['', null],
@@ -336,8 +347,8 @@ export class OrderServiceDetailComponent implements OnInit {
     });
 
     this.formRepeat = this.formBuilder.group({
-      st_start_date: [null, null],
-      st_end_date: [null, null],
+      st_start_date: [this._convertDateToNgbDate(new Date()), null],
+      st_end_date: [this._convertDateToNgbDate(new Date()), null],
       st_start_time: ['07:00', null],
       st_end_time: ['07:00', null],
       st_repeat_type: [1, null],
@@ -351,10 +362,10 @@ export class OrderServiceDetailComponent implements OnInit {
       st_repeat: [0, null],
       st_repeat_every: [1, null],
       st_on_the: [1, null],
-      st_on_day_flag: [true, null],
+      st_on_day_flag: [1, null],
       st_on_day: [1, null],
-      st_on_the_flag: [false, null],
-      st_custom_start: [null, null],
+      st_on_the_flag: [0, null],
+      st_custom_start: [this._convertDateToNgbDate(new Date()), null],
       st_custom_end: [null, null]
     });
   }
@@ -409,6 +420,7 @@ export class OrderServiceDetailComponent implements OnInit {
       cu_id: customer.cu_id,
       cu_fullname: customer.cu_fullname,
       cu_mobile: customer.cu_mobile,
+      cu_email: customer.cu_email,
       cu_type: customer.cu_type,
       customer_group_id: customer.customer_group_id,
       source_id: customer.source_id,
@@ -551,6 +563,59 @@ export class OrderServiceDetailComponent implements OnInit {
       },
       e => this._notify(false, e.Message)
     );
+  }
+
+  private _updateSummary(data: any) {
+    data.st_on_the_flag = data.st_on_day_flag === 1 ? 0 : 1;
+    const {
+      st_repeat_type,
+      st_sun_flag,
+      st_mon_flag,
+      st_tue_flag,
+      st_wed_flag,
+      st_thu_flag,
+      st_fri_flag,
+      st_sat_flag,
+      st_repeat_every,
+      st_on_the,
+      st_on_day_flag,
+      st_on_day,
+      st_on_the_flag,
+      st_custom_start,
+      st_custom_end
+    } = data;
+    const type = st_repeat_type === 1 ? 'ngày' : st_repeat_type === 2 ? 'tuần' : 'tháng';
+    const startCustom = moment(this._convertNgbDateToDate(st_custom_start)).format('DD/MM');
+    const endCustom = st_custom_end
+      ? ` cho đến ${moment(this._convertNgbDateToDate(st_custom_end)).format('DD/MM')}`
+      : '';
+
+    var dayWeek = ` vào${st_mon_flag ? ' Thứ Hai' : ''}${st_tue_flag ? ' Thứ Ba' : ''}${
+      st_wed_flag ? ' Thứ Tư' : ''
+    }${st_thu_flag ? ' Thứ Năm' : ''}${st_fri_flag ? ' Thứ Sáu' : ''}${
+      st_sat_flag ? ' Thứ Bày' : ''
+    }${st_sun_flag ? ' Chủ Nhật' : ''}`;
+
+    if (st_repeat_type !== 2) dayWeek = '';
+
+    var dayMonth = ` vào`;
+    if (st_on_day_flag) {
+      dayMonth += ` ngày ${st_on_day}`;
+    }
+    if (st_on_the_flag) {
+      dayMonth += `${st_mon_flag ? ' Thứ Hai' : ''}${st_tue_flag ? ' Thứ Ba' : ''}${
+        st_wed_flag ? ' Thứ Tư' : ''
+      }${st_thu_flag ? ' Thứ Năm' : ''}${st_fri_flag ? ' Thứ Sáu' : ''}${
+        st_sat_flag ? ' Thứ Bày' : ''
+      }${st_sun_flag ? ' Chủ Nhật' : ''} ${st_on_the === 1 ? 'đầu tiên' : ''}${
+        st_on_the === 2 ? 'thứ hai' : ''
+      }${st_on_the === 3 ? 'thứ ba' : ''}${st_on_the === 4 ? 'thứ tư' : ''}${
+        st_on_the === 5 ? 'cuối cùng' : ''
+      }`;
+    }
+    if (st_repeat_type !== 3) dayMonth = '';
+
+    this.summary = `Xảy ra mỗi ${st_repeat_every} ${type}${dayWeek}${dayMonth}, bắt đầu từ ${startCustom}${endCustom}`;
   }
 
   private _notify(isSuccess: boolean, message: string) {

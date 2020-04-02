@@ -89,7 +89,16 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-6"></div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <input
+              class="form-control"
+              [readonly]="readOnly"
+              formControlName="cu_email"
+              placeholder="Nhập email"
+            />
+          </div>
+        </div>
         <div class="col-md-6">
           <div class="form-group">
             <select class="custom-select" formControlName="cu_type">
@@ -230,7 +239,6 @@
 
     <div id="2" class="row justify-content-between title-section bg-light mb-2">
       <h4><i class="mdi mdi-account-circle mr-1"></i>THÔNG TIN DỊCH VỤ</h4>
-      this is: {{ searchService }}
       <div class="row align-items-center" *ngIf="!isView">
         <ng-select
           placeholder="Chọn dịch vụ"
@@ -292,9 +300,10 @@
             ngbDatepicker
             readonly="true"
             class="form-control"
-            placeholder="yyyy-mm-dd"
+            placeholder="Chọn ngày"
             #from="ngbDatepicker"
             formControlName="st_start_date"
+            [maxDate]="formRepeat.value.st_end_date"
             [disabled]="isView"
           />
           <div class="input-group-append" (click)="from.toggle()">
@@ -312,9 +321,10 @@
             ngbDatepicker
             readonly="true"
             class="form-control"
-            placeholder="yyyy-mm-dd"
+            placeholder="Chọn ngày"
             #to="ngbDatepicker"
             formControlName="st_end_date"
+            [minDate]="formRepeat.value.st_start_date"
             [disabled]="isView"
           />
           <div class="input-group-append" (click)="to.toggle()">
@@ -327,11 +337,11 @@
           }}</option>
         </select>
         <select class="custom-select mr-1" formControlName="st_repeat">
-          <option [disabled]="isView" value="1">Lặp</option>
-          <option [disabled]="isView" value="0">Không Lặp</option>
+          <option [disabled]="isView" [ngValue]="1">Lặp</option>
+          <option [disabled]="isView" [ngValue]="0">Không Lặp</option>
         </select>
       </div>
-      <div *ngIf="formRepeat.value.st_repeat === '1'" class="repeat-setting">
+      <div *ngIf="formRepeat.value.st_repeat === 1" class="repeat-setting">
         <h4>Tùy chỉnh lặp lại</h4>
         <div class="form-inline">
           <label class="mr-2">Bắt đầu</label>
@@ -340,9 +350,10 @@
               ngbDatepicker
               readonly="true"
               class="form-control"
-              placeholder="yyyy-mm-dd"
+              placeholder="Chọn ngày"
               #from="ngbDatepicker"
               formControlName="st_custom_start"
+              [maxDate]="formRepeat.value.st_custom_end"
               [disabled]="isView"
             />
             <div class="input-group-append" (click)="from.toggle()">
@@ -358,12 +369,12 @@
             formControlName="st_repeat_type"
             (change)="onChangeRepeatType($event)"
           >
-            <option [disabled]="isView" value="1">Ngày</option>
-            <option [disabled]="isView" value="2">Tuần</option>
-            <option [disabled]="isView" value="3">Tháng</option>
+            <option [disabled]="isView" [ngValue]="1">Ngày</option>
+            <option [disabled]="isView" [ngValue]="2">Tuần</option>
+            <option [disabled]="isView" [ngValue]="3">Tháng</option>
           </select>
         </div>
-        <div *ngIf="formRepeat.value.st_repeat_type === '2'">
+        <div *ngIf="formRepeat.value.st_repeat_type === 2">
           <button
             *ngFor="let day of days"
             class="week-day"
@@ -375,13 +386,13 @@
             {{ day }}
           </button>
         </div>
-        <div *ngIf="formRepeat.value.st_repeat_type === '3'">
+        <div *ngIf="formRepeat.value.st_repeat_type === 3">
           <div class="custom-control custom-radio">
             <input
               type="radio"
               id="customRadio1"
               name="st_on_day_flag"
-              [value]="true"
+              [value]="1"
               formControlName="st_on_day_flag"
               class="custom-control-input"
               [readonly]="isView"
@@ -398,29 +409,30 @@
             <input
               type="radio"
               id="customRadio2"
-              [value]="false"
               name="st_on_day_flag"
+              [value]="0"
               formControlName="st_on_day_flag"
               class="custom-control-input"
               [readonly]="isView"
             />
             <label class="custom-control-label" for="customRadio2"
               >Vào
-              <select class="custom-select mr-1">
+              <select class="custom-select mr-1" (change)="onChangeDaySelection($event)">
                 <option
                   [disabled]="formRepeat.value.st_on_day_flag"
-                  (change)="onChangeDaySelection(day)"
+                  [value]="day"
                   *ngFor="let day of days"
-                  [disabled]="isView"
                   >{{ day }}</option
                 >
               </select>
               <select class="custom-select mr-1" formControlName="st_on_the">
-                <option [disabled]="formRepeat.value.st_on_day_flag" value="1">Đầu tiên</option>
-                <option [disabled]="formRepeat.value.st_on_day_flag" value="2">Thứ hai</option>
-                <option [disabled]="formRepeat.value.st_on_day_flag" value="3">Thứ ba</option>
-                <option [disabled]="formRepeat.value.st_on_day_flag" value="4">Thứ tư</option>
-                <option [disabled]="formRepeat.value.st_on_day_flag" value="5">Cuối cùng</option>
+                <option [disabled]="formRepeat.value.st_on_day_flag" [ngValue]="1">Đầu tiên</option>
+                <option [disabled]="formRepeat.value.st_on_day_flag" [ngValue]="2">Thứ hai</option>
+                <option [disabled]="formRepeat.value.st_on_day_flag" [ngValue]="3">Thứ ba</option>
+                <option [disabled]="formRepeat.value.st_on_day_flag" [ngValue]="4">Thứ tư</option>
+                <option [disabled]="formRepeat.value.st_on_day_flag" [ngValue]="5"
+                  >Cuối cùng</option
+                >
               </select></label
             >
           </div>
@@ -432,9 +444,10 @@
               ngbDatepicker
               readonly="true"
               class="form-control"
-              placeholder="yyyy-mm-dd"
+              placeholder="Chọn ngày"
               #to="ngbDatepicker"
               formControlName="st_custom_end"
+              [minDate]="formRepeat.value.st_custom_start"
               [disabled]="isView"
             />
             <div class="input-group-append" (click)="to.toggle()">
@@ -445,9 +458,9 @@
       </div>
     </div>
 
-    <div class="row align-items-center">
+    <div class="row align-items-center" *ngIf="formRepeat.value.st_repeat === 1">
       <span class="mdi mdi-information-outline icon mr-1"></span>
-      Hàng tuần từ T2 đến T6, thời gian từ 15:30 đến 17:30
+      {{ summary }}
     </div>
     <h4>Nhân viên phụ trách</h4>
     <div>
