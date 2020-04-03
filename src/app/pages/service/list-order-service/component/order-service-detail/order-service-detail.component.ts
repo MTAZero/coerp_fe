@@ -315,6 +315,7 @@ export class OrderServiceDetailComponent implements OnInit {
     });
 
     const data = {
+      cuo_id: this.orderService ? this.orderService.cuo_id : null,
       list_service_id,
       ...repeatData,
       cuo_address: this.selectedAddress,
@@ -322,7 +323,8 @@ export class OrderServiceDetailComponent implements OnInit {
         ...customerData,
         list_address: this.listAddress
       },
-      list_staff_id: this.selectedStaffs
+      list_staff_id: this.selectedStaffs,
+      cuo_infor_time: this.summary
     };
 
     console.log(data);
@@ -366,15 +368,20 @@ export class OrderServiceDetailComponent implements OnInit {
       st_on_day: [1, null],
       st_on_the_flag: [0, null],
       st_custom_start: [this._convertDateToNgbDate(new Date()), null],
-      st_custom_end: [null, null]
+      st_custom_end: [this._convertDateToNgbDate(new Date()), null]
     });
   }
 
   private _patchData(data: any) {
-    const { customer, cuo_address, list_service } = data;
+    const { customer, cuo_address, list_service, cuo_infor_time, list_staff } = data;
     this.selectedAddress = cuo_address;
     this.listService = list_service;
     this.selectedCustomer = customer;
+    this.summary = cuo_infor_time;
+
+    this.selectedStaffs = list_staff.map(e => {
+      return e.sta_id;
+    });
 
     this.formRepeat.patchValue({
       st_start_date: this._convertDateToNgbDate(data.st_start_date),

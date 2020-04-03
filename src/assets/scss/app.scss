@@ -111,3 +111,11 @@ File: Main Css File
     width: 50%;
   }
 }
+
+ng-select {
+  &.ng-select-disabled {
+    .ng-value {
+      background-color: #6658dd !important;
+    }
+  }
+}
