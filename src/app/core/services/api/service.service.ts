@@ -11,7 +11,8 @@ const router = {
   get_type: '/api/service/get-type',
   get_order_service: '/api/customer-order-service/search',
   create_order_service: '/api/customer-order-service/create',
-  update_order_service: '/api/customer-order-service/update'
+  update_order_service: '/api/customer-order-service/update',
+  get_calendar: '/api/customer-orders/service_by_date'
 };
 
 @Injectable()
@@ -63,5 +64,10 @@ export class ServiceService {
 
   updateOrderService(data?: any) {
     return this.httpClient.putFormData(router.update_order_service, data);
+  }
+
+  getCalendar(filter?: { start_date: any; to_date: any }) {
+    const params = mapToHttpParamsQuery(filter);
+    return this.httpClient.get(router.get_calendar, params);
   }
 }

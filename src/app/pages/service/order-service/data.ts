@@ -1,35 +1,9 @@
-const category = [
-  {
-    name: 'Danger',
-    value: 'bg-danger'
-  },
-  {
-    name: 'Success',
-    value: 'bg-success'
-  },
-  {
-    name: 'Primary',
-    value: 'bg-primary'
-  },
-  {
-    name: 'Info',
-    value: 'bg-info'
-  },
-  {
-    name: 'Dark',
-    value: 'bg-dark'
-  },
-  {
-    name: 'Warning',
-    value: 'bg-warning'
-  }
-];
-
 const calendarEvents = [
   {
     id: 1,
     title: 'Học Ngoại ngữ',
     start: '2020-02-04T08:30:00',
+    end: '2020-02-04T10:30:00',
     backgroundColor: '#1abc9c'
   },
   {
@@ -124,48 +98,6 @@ const calendarEvents = [
   }
 ];
 
-const selectionTime = [
-  {
-    value: '00:00'
-  },
-  {
-    value: '01:00'
-  },
-  {
-    value: '02:00'
-  },
-  {
-    value: '03:00'
-  },
-  {
-    value: '04:00'
-  },
-  {
-    value: '05:00'
-  },
-  {
-    value: '06:00'
-  },
-  {
-    value: '07:00'
-  },
-  {
-    value: '08:00'
-  },
-  {
-    value: '09:00'
-  },
-  {
-    value: '10:00'
-  },
-  {
-    value: '11:00'
-  },
-  {
-    value: '12:00'
-  }
-];
-
 const widgetData = [
   {
     icon: 'fe-heart',
@@ -193,4 +125,4 @@ const widgetData = [
   }
 ];
 
-export { category, calendarEvents, selectionTime, widgetData };
+export { calendarEvents, widgetData };

@@ -15,7 +15,6 @@ import { ServiceModalComponent } from './list-service/component/service-modal/se
 import { ListServiceCategoryModalComponent } from './list-service/component/list-service-category-modal/list-service-category-modal.component';
 import { ServiceCategoryModalComponent } from './list-service/component/service-category-modal/service-category-modal.component';
 import { OrderServiceComponent } from './order-service/order-service.component';
-import { OrderServiceModalComponent } from './order-service/component/order-service-modal/order-service-modal.component';
 import { ReceiveWorkComponent } from './receive-work/receive-work.component';
 import { ListOrderServiceComponent } from './list-order-service/list-order-service.component';
 import { OrderServiceMainComponent } from './list-order-service/component/order-service-main/order-service-main.component';
@@ -28,7 +27,6 @@ import { OrderServiceDetailComponent } from './list-order-service/component/orde
     ListServiceCategoryModalComponent,
     ServiceCategoryModalComponent,
     OrderServiceComponent,
-    OrderServiceModalComponent,
     ReceiveWorkComponent,
     ListOrderServiceComponent,
     OrderServiceMainComponent,
@@ -52,8 +50,7 @@ import { OrderServiceDetailComponent } from './list-order-service/component/orde
   entryComponents: [
     ServiceModalComponent,
     ListServiceCategoryModalComponent,
-    ServiceCategoryModalComponent,
-    OrderServiceModalComponent
+    ServiceCategoryModalComponent
   ]
 })
 export class ServiceModule {}
