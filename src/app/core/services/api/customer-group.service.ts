@@ -3,16 +3,21 @@ import { ApiService } from './api-service';
 import { mapToHttpParamsQuery, mapToFormData } from '../../helpers/helpers';
 
 const router = {
+  load_all: '/api/customer-groups/all',
   load: `/api/customer-groups/search`,
   create: '/api/customer-group/create',
   update: `/api/customer-group/update`,
   delete: `/api/customer-group/delete`,
-  chart: `/api/customer-groups/get-pie-chart`
+  chart: `/api/customer-groups/get-pie-chart`,
 };
 
 @Injectable()
 export class CustomerGroupService {
   constructor(private httpClient: ApiService) {}
+
+  loadAllCustomerGroup() {
+    return this.httpClient.get(router.load_all);
+  }
 
   loadCustomerGroup(filter?: { pageNumber: any; pageSize: any; cg_id: any; name: any }) {
     const params = mapToHttpParamsQuery(filter);

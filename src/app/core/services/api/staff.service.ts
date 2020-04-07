@@ -3,6 +3,7 @@ import { ApiService } from './api-service';
 import { mapToHttpParamsQuery, fmt, mapToFormData } from '../../helpers/helpers';
 
 const router = {
+  load_all: '/api/staffs/all',
   search: '/api/staffs/search-active-name',
   info: '/api/staffs/infor',
   create: `/api/staffs/create`,
@@ -15,12 +16,17 @@ const router = {
   import: '/api/satffs/import',
   export: '/api/satffs/export',
   update_avatar: '/api/staffs/update_avatar',
-  mail_create: '/api/staffs/sendmail_created'
+  mail_create: '/api/staffs/sendmail_created',
+  update_curator: '/api/staff/update-curator',
 };
 
 @Injectable()
 export class StaffService {
   constructor(private httpClient: ApiService) {}
+
+  loadAllStaff() {
+    return this.httpClient.get(router.load_all);
+  }
 
   loadStaffInfo(filter?: { id: number }) {
     const params = mapToHttpParamsQuery(filter);
@@ -100,5 +106,9 @@ export class StaffService {
   sendMailCreate(filter?: { sta_username: any; sta_email: any }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.post(router.mail_create, null, params);
+  }
+
+  updateCurator(data?: any) {
+    return this.httpClient.putFormData(router.update_curator, data);
   }
 }

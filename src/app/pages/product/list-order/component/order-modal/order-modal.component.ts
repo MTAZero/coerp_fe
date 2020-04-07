@@ -14,7 +14,7 @@ import * as moment from 'moment';
 @Component({
   selector: 'app-order-modal',
   templateUrl: './order-modal.component.html',
-  styleUrls: ['./order-modal.component.scss']
+  styleUrls: ['./order-modal.component.scss'],
 })
 export class OrderModalComponent implements OnInit {
   // global variable
@@ -55,7 +55,7 @@ export class OrderModalComponent implements OnInit {
     customer_group_id: '',
     name: '',
     start_date: '2010-01-01',
-    end_date: moment(new Date()).format('YYYY-MM-DD')
+    end_date: moment(new Date()).format('YYYY-MM-DD'),
   };
 
   filterProduct = {
@@ -64,16 +64,7 @@ export class OrderModalComponent implements OnInit {
     search_name: '',
     category_id: '',
     start_date: '2010-01-01',
-    end_date: moment(new Date()).format('YYYY-MM-DD')
-  };
-
-  filterStaff = {
-    pageNumber: 0,
-    pageSize: 100,
-    status: '',
-    name: '',
-    start_date: '2010-01-01',
-    end_date: moment(new Date()).format('YYYY-MM-DD')
+    end_date: moment(new Date()).format('YYYY-MM-DD'),
   };
 
   formOrder: FormGroup;
@@ -122,7 +113,7 @@ export class OrderModalComponent implements OnInit {
       list_product: this.listProduct,
       customer: {
         ...customerData,
-        list_address: this.listAddress
+        list_address: this.listAddress,
       },
       cuo_total_price: this.orderTotal,
       cuo_status: 1,
@@ -131,7 +122,7 @@ export class OrderModalComponent implements OnInit {
       cuo_payment_type: 1,
       cuo_payment_status: 1,
       cuo_ship_tax: this.formOrder.value['cuo_ship_tax'],
-      cuo_id: this.order ? this.order.cuo_id : null
+      cuo_id: this.order ? this.order.cuo_id : null,
     };
     this.passEvent.emit({ event: true, data });
   }
@@ -147,8 +138,8 @@ export class OrderModalComponent implements OnInit {
         confirmButtonText: 'Có',
         cancelButtonText: 'Không',
         confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33'
-      }).then(result => {
+        cancelButtonColor: '#d33',
+      }).then((result) => {
         if (result.value) {
           this.passEvent.emit({ event: false });
         }
@@ -161,7 +152,7 @@ export class OrderModalComponent implements OnInit {
   private initializeForm() {
     this.formOrder = this.formBuilder.group({
       cuo_discount: [0, null],
-      cuo_ship_tax: [0, null]
+      cuo_ship_tax: [0, null],
     });
 
     this.formCustomer = this.formBuilder.group({
@@ -181,7 +172,7 @@ export class OrderModalComponent implements OnInit {
       cu_code: [null, null],
       cu_geocoding: [null, null],
       cu_status: [null, null],
-      cu_curator_id: [null, null]
+      cu_curator_id: [null, null],
     });
   }
 
@@ -193,16 +184,16 @@ export class OrderModalComponent implements OnInit {
     this._patchCustomer();
     // tab product
     this.listProduct = list_product;
-    this.listProduct = this.listProduct.map(item => {
+    this.listProduct = this.listProduct.map((item) => {
       return {
         ...item,
-        op_total_value: (item.op_quantity * item.pu_sale_price * (100 - item.op_discount)) / 100
+        op_total_value: (item.op_quantity * item.pu_sale_price * (100 - item.op_discount)) / 100,
       };
     });
 
     this.formOrder.patchValue({
       cuo_discount: cuo_discount,
-      cuo_ship_tax: cuo_ship_tax
+      cuo_ship_tax: cuo_ship_tax,
     });
     this.sumListProduct();
   }
@@ -239,9 +230,9 @@ export class OrderModalComponent implements OnInit {
       this.products.push({ pu_name: 'Chọn sản phẩm', pu_id: '' });
     });
 
-    const staff$ = this.staffService.searchStaff(this.filterStaff).pipe(takeUntil(this.destroyed$));
+    const staff$ = this.staffService.loadAllStaff().pipe(takeUntil(this.destroyed$));
     staff$.subscribe((res: any) => {
-      this.staffs = res.Data.Results;
+      this.staffs = res.Data;
     });
   }
 
@@ -280,7 +271,7 @@ export class OrderModalComponent implements OnInit {
       cu_address: null,
       cu_geocoding: null,
       cu_status: null,
-      cu_curator_id: null
+      cu_curator_id: null,
     };
     this.searchCustomer = '';
     this.readOnly = false;
@@ -288,23 +279,23 @@ export class OrderModalComponent implements OnInit {
   }
 
   onChangeProvince(e) {
-    const districtId = this.provinces.find(item => item.name === e.target.value).id;
+    const districtId = this.provinces.find((item) => item.name === e.target.value).id;
     this._loadDistrict(districtId);
   }
 
   onChangeDistrict(e) {
-    const wardId = this.districts.find(item => item.name === e.target.value).id;
+    const wardId = this.districts.find((item) => item.name === e.target.value).id;
     this._loadWard(wardId);
   }
 
   onRemoveAddress(address) {
-    this.listAddress = this.listAddress.filter(item => item.sha_id !== address.sha_id);
+    this.listAddress = this.listAddress.filter((item) => item.sha_id !== address.sha_id);
   }
 
   onUpdateAddress(address) {
     this.selectedAddress = address;
     this.formCustomer.patchValue({
-      cu_address: address.sha_detail
+      cu_address: address.sha_detail,
     });
     this._loadProvince();
   }
@@ -322,13 +313,15 @@ export class OrderModalComponent implements OnInit {
 
   onClickUpdateButton() {
     if (this.selectedAddress) {
-      const index = this.listAddress.findIndex(item => item.sha_id === this.selectedAddress.sha_id);
+      const index = this.listAddress.findIndex(
+        (item) => item.sha_id === this.selectedAddress.sha_id
+      );
       this.listAddress[index] = {
         ...this.listAddress[index],
         sha_province: this.formCustomer.controls['cu_province'].value,
         sha_district: this.formCustomer.controls['cu_district'].value,
         sha_ward: this.formCustomer.controls['cu_ward'].value,
-        sha_detail: this.formCustomer.controls['cu_address'].value
+        sha_detail: this.formCustomer.controls['cu_address'].value,
       };
     } else {
       this.listAddress.push({
@@ -336,14 +329,14 @@ export class OrderModalComponent implements OnInit {
         sha_province: this.formCustomer.controls['cu_province'].value,
         sha_district: this.formCustomer.controls['cu_district'].value,
         sha_ward: this.formCustomer.controls['cu_ward'].value,
-        sha_detail: this.formCustomer.controls['cu_address'].value
+        sha_detail: this.formCustomer.controls['cu_address'].value,
       });
     }
 
     this.selectedAddress = null;
     this._loadProvince();
     this.formCustomer.patchValue({
-      cu_address: ''
+      cu_address: '',
     });
   }
 
@@ -365,7 +358,7 @@ export class OrderModalComponent implements OnInit {
         if (this.selectedAddress) {
           this.formCustomer.patchValue({ cu_province: this.selectedAddress.sha_province });
           const provinceId = this.provinces.find(
-            item => item.name === this.selectedAddress.sha_province
+            (item) => item.name === this.selectedAddress.sha_province
           ).id;
           this._loadDistrict(provinceId, true);
         } else {
@@ -387,7 +380,7 @@ export class OrderModalComponent implements OnInit {
         if (this.selectedAddress && isFirst) {
           this.formCustomer.patchValue({ cu_district: this.selectedAddress.sha_district });
           const districtId = this.districts.find(
-            item => item.name === this.selectedAddress.sha_district
+            (item) => item.name === this.selectedAddress.sha_district
           ).id;
           this._loadWard(districtId, true);
         } else {
@@ -452,7 +445,7 @@ export class OrderModalComponent implements OnInit {
       cu_address: customer.cu_address,
       cu_geocoding: customer.cu_geocoding,
       cu_status: customer.cu_status,
-      cu_curator_id: customer.cu_curator_id
+      cu_curator_id: customer.cu_curator_id,
     });
   }
   //#endregion
@@ -463,12 +456,12 @@ export class OrderModalComponent implements OnInit {
   }
 
   onRemoveProduct(product) {
-    this.listProduct = this.listProduct.filter(item => item.op_id !== product.op_id);
+    this.listProduct = this.listProduct.filter((item) => item.op_id !== product.op_id);
     this.sumListProduct();
   }
 
   onChangeQuantity(event, product) {
-    const puIndex = this.listProduct.findIndex(item => item.op_id === product.op_id);
+    const puIndex = this.listProduct.findIndex((item) => item.op_id === product.op_id);
 
     this.listProduct[puIndex] = {
       ...this.listProduct[puIndex],
@@ -477,13 +470,13 @@ export class OrderModalComponent implements OnInit {
         (event.target.value *
           this.listProduct[puIndex].pu_sale_price *
           (100 - this.listProduct[puIndex].op_discount)) /
-        100
+        100,
     };
     this.sumListProduct();
   }
 
   onChangeDiscount(event, product) {
-    const puIndex = this.listProduct.findIndex(item => item.op_id === product.op_id);
+    const puIndex = this.listProduct.findIndex((item) => item.op_id === product.op_id);
 
     this.listProduct[puIndex] = {
       ...this.listProduct[puIndex],
@@ -492,7 +485,7 @@ export class OrderModalComponent implements OnInit {
         (this.listProduct[puIndex].op_quantity *
           this.listProduct[puIndex].pu_sale_price *
           (100 - event.target.value)) /
-        100
+        100,
     };
     this.sumListProduct();
   }
@@ -512,7 +505,7 @@ export class OrderModalComponent implements OnInit {
         op_discount: 0,
         pu_name: product.pu_name,
         max_quantity: product.pu_quantity,
-        op_total_value: product.pu_sale_price
+        op_total_value: product.pu_sale_price,
       });
       this.searchProduct = '';
       this.sumListProduct();
@@ -521,7 +514,7 @@ export class OrderModalComponent implements OnInit {
 
   private sumListProduct() {
     this.orderTotal = 0;
-    this.listProduct.map(item => {
+    this.listProduct.map((item) => {
       this.orderTotal += item.op_total_value;
     });
     this.orderTotal =

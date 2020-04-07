@@ -11,7 +11,7 @@ import * as moment from 'moment';
 @Component({
   selector: 'app-customer-care-modal',
   templateUrl: './customer-care-modal.component.html',
-  styleUrls: ['./customer-care-modal.component.scss']
+  styleUrls: ['./customer-care-modal.component.scss'],
 })
 export class CustomerCareModalComponent implements OnInit {
   private destroyed$ = new Subject();
@@ -41,16 +41,7 @@ export class CustomerCareModalComponent implements OnInit {
     customer_group_id: '',
     name: '',
     start_date: '2010-01-01',
-    end_date: moment(new Date()).format('YYYY-MM-DD')
-  };
-
-  filterStaff = {
-    pageNumber: 0,
-    pageSize: 100,
-    status: '',
-    name: '',
-    start_date: '2010-01-01',
-    end_date: moment(new Date()).format('YYYY-MM-DD')
+    end_date: moment(new Date()).format('YYYY-MM-DD'),
   };
 
   constructor(
@@ -74,7 +65,7 @@ export class CustomerCareModalComponent implements OnInit {
     this.submitted = true;
     let data = {
       customer: this.selectedCustomer,
-      ...this.form.value
+      ...this.form.value,
     };
 
     this.passEvent.emit({ event: true, data });
@@ -89,8 +80,8 @@ export class CustomerCareModalComponent implements OnInit {
         confirmButtonText: 'Có',
         cancelButtonText: 'Không',
         confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33'
-      }).then(result => {
+        cancelButtonColor: '#d33',
+      }).then((result) => {
         if (result.value) {
           this.passEvent.emit({ event: false });
         }
@@ -117,7 +108,7 @@ export class CustomerCareModalComponent implements OnInit {
       tra_content: ['', null],
       tra_rate: ['', null],
       tra_result: ['', null],
-      tra_status: ['', null]
+      tra_status: ['', null],
     });
   }
 
@@ -132,7 +123,7 @@ export class CustomerCareModalComponent implements OnInit {
       tra_rate: data.tra_rate,
       tra_result: data.tra_result,
       tra_status: data.tra_status,
-      tra_id: data.tra_id
+      tra_id: data.tra_id,
     });
   }
 
@@ -164,9 +155,9 @@ export class CustomerCareModalComponent implements OnInit {
       this.customers = res.Data.Results;
     });
 
-    const staff$ = this.staffService.searchStaff(this.filterStaff).pipe(takeUntil(this.destroyed$));
+    const staff$ = this.staffService.loadAllStaff().pipe(takeUntil(this.destroyed$));
     staff$.subscribe((res: any) => {
-      this.staffs = res.Data.Results;
+      this.staffs = res.Data;
     });
   }
 

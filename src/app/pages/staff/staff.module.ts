@@ -6,6 +6,7 @@ import { NgbTabsetModule, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap
 import { UIModule } from '../../shared/ui/ui.module';
 import { NgbModalModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 import { StaffRoutingModule } from './staff-routing.module';
 import { ApiModule } from '../../core/services/api/api.module';
@@ -19,6 +20,7 @@ import { DepartmentModalComponent } from './list-staff/component/department-moda
 import { AddressTabComponent } from './list-staff/component/address-tab/address-tab.component';
 import { AddressModalComponent } from './list-staff/component/address-modal/address-modal.component';
 import { AssignedWorkComponent } from './assigned-work/assigned-work.component';
+import { AssignWorkComponent } from './assign-work/assign-work.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,8 @@ import { AssignedWorkComponent } from './assigned-work/assigned-work.component';
     DepartmentModalComponent,
     AddressTabComponent,
     AddressModalComponent,
-    AssignedWorkComponent
+    AssignedWorkComponent,
+    AssignWorkComponent,
   ],
   imports: [
     CommonModule,
@@ -43,7 +46,8 @@ import { AssignedWorkComponent } from './assigned-work/assigned-work.component';
     NgbPaginationModule,
     StaffRoutingModule,
     ApiModule,
-    NgApexchartsModule
+    NgApexchartsModule,
+    NgSelectModule,
   ],
   entryComponents: [
     StaffModalComponent,
@@ -51,7 +55,7 @@ import { AssignedWorkComponent } from './assigned-work/assigned-work.component';
     PositionModalComponent,
     ListDepartmentModalComponent,
     DepartmentModalComponent,
-    AddressModalComponent
-  ]
+    AddressModalComponent,
+  ],
 })
 export class StaffModule {}

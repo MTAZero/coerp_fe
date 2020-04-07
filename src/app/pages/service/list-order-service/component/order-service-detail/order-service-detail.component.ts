@@ -14,7 +14,7 @@ import { timePeriod, menu, days } from './data';
 @Component({
   selector: 'app-order-service-detail',
   templateUrl: './order-service-detail.component.html',
-  styleUrls: ['./order-service-detail.component.scss']
+  styleUrls: ['./order-service-detail.component.scss'],
 })
 export class OrderServiceDetailComponent implements OnInit {
   private destroyed$ = new Subject();
@@ -57,22 +57,13 @@ export class OrderServiceDetailComponent implements OnInit {
     customer_group_id: '',
     name: '',
     start_date: '2010-01-01',
-    end_date: moment(new Date()).format('YYYY-MM-DD')
+    end_date: moment(new Date()).format('YYYY-MM-DD'),
   };
 
   filterService = {
     pageNumber: 0,
     pageSize: 100,
-    search_name: ''
-  };
-
-  filterStaff = {
-    pageNumber: 0,
-    pageSize: 100,
-    status: '',
-    name: '',
-    start_date: '2010-01-01',
-    end_date: moment(new Date()).format('YYYY-MM-DD')
+    search_name: '',
   };
 
   formCustomer: FormGroup;
@@ -106,7 +97,7 @@ export class OrderServiceDetailComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.formRepeat.valueChanges.subscribe(data => this._updateSummary(data));
+    this.formRepeat.valueChanges.subscribe((data) => this._updateSummary(data));
   }
 
   onClickMenuItem(index: any) {
@@ -125,8 +116,8 @@ export class OrderServiceDetailComponent implements OnInit {
         confirmButtonText: 'Có',
         cancelButtonText: 'Không',
         confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33'
-      }).then(result => {
+        cancelButtonColor: '#d33',
+      }).then((result) => {
         if (result.value) {
           this.onMain.emit(true);
         }
@@ -151,7 +142,7 @@ export class OrderServiceDetailComponent implements OnInit {
       cu_address: null,
       cu_geocoding: null,
       cu_status: null,
-      cu_curator_id: null
+      cu_curator_id: null,
     };
     this.searchCustomer = '';
     this.selectedAddress = null;
@@ -169,23 +160,23 @@ export class OrderServiceDetailComponent implements OnInit {
   }
 
   onChangeProvince(e) {
-    const districtId = this.provinces.find(item => item.name === e.target.value).id;
+    const districtId = this.provinces.find((item) => item.name === e.target.value).id;
     this._loadDistrict(districtId);
   }
 
   onChangeDistrict(e) {
-    const wardId = this.districts.find(item => item.name === e.target.value).id;
+    const wardId = this.districts.find((item) => item.name === e.target.value).id;
     this._loadWard(wardId);
   }
 
   onRemoveAddress(address) {
-    this.listAddress = this.listAddress.filter(item => item.sha_id !== address.sha_id);
+    this.listAddress = this.listAddress.filter((item) => item.sha_id !== address.sha_id);
   }
 
   onUpdateAddress(address) {
     this.selectedAddress = address;
     this.formCustomer.patchValue({
-      cu_address: address.sha_detail
+      cu_address: address.sha_detail,
     });
     this._loadProvince();
   }
@@ -207,7 +198,7 @@ export class OrderServiceDetailComponent implements OnInit {
       sha_province: this.formCustomer.controls['cu_province'].value,
       sha_district: this.formCustomer.controls['cu_district'].value,
       sha_ward: this.formCustomer.controls['cu_ward'].value,
-      sha_detail: this.formCustomer.controls['cu_address'].value
+      sha_detail: this.formCustomer.controls['cu_address'].value,
     });
 
     const newItem = this.listAddress[this.listAddress.length - 1];
@@ -227,7 +218,7 @@ export class OrderServiceDetailComponent implements OnInit {
   }
 
   onRemoveService(service: any) {
-    this.listService = this.listService.filter(item => item.se_id !== service.se_id);
+    this.listService = this.listService.filter((item) => item.se_id !== service.se_id);
   }
 
   onClickWeekDay(day: any) {
@@ -235,37 +226,37 @@ export class OrderServiceDetailComponent implements OnInit {
 
     if (day === 'T2')
       this.formRepeat.patchValue({
-        st_mon_flag: this.formRepeat.value.st_mon_flag === 1 ? 0 : 1
+        st_mon_flag: this.formRepeat.value.st_mon_flag === 1 ? 0 : 1,
       });
 
     if (day === 'T3')
       this.formRepeat.patchValue({
-        st_tue_flag: this.formRepeat.value.st_tue_flag === 1 ? 0 : 1
+        st_tue_flag: this.formRepeat.value.st_tue_flag === 1 ? 0 : 1,
       });
 
     if (day === 'T4')
       this.formRepeat.patchValue({
-        st_wed_flag: this.formRepeat.value.st_wed_flag === 1 ? 0 : 1
+        st_wed_flag: this.formRepeat.value.st_wed_flag === 1 ? 0 : 1,
       });
 
     if (day === 'T5')
       this.formRepeat.patchValue({
-        st_thu_flag: this.formRepeat.value.st_thu_flag === 1 ? 0 : 1
+        st_thu_flag: this.formRepeat.value.st_thu_flag === 1 ? 0 : 1,
       });
 
     if (day === 'T6')
       this.formRepeat.patchValue({
-        st_fri_flag: this.formRepeat.value.st_fri_flag === 1 ? 0 : 1
+        st_fri_flag: this.formRepeat.value.st_fri_flag === 1 ? 0 : 1,
       });
 
     if (day === 'T7')
       this.formRepeat.patchValue({
-        st_sat_flag: this.formRepeat.value.st_sat_flag === 1 ? 0 : 1
+        st_sat_flag: this.formRepeat.value.st_sat_flag === 1 ? 0 : 1,
       });
 
     if (day === 'CN')
       this.formRepeat.patchValue({
-        st_sun_flag: this.formRepeat.value.st_sun_flag === 1 ? 0 : 1
+        st_sun_flag: this.formRepeat.value.st_sun_flag === 1 ? 0 : 1,
       });
   }
 
@@ -293,7 +284,7 @@ export class OrderServiceDetailComponent implements OnInit {
       st_thu_flag: day === 'T5' ? 1 : 0,
       st_fri_flag: day === 'T6' ? 1 : 0,
       st_sat_flag: day === 'T7' ? 1 : 0,
-      st_sun_flag: day === 'CN' ? 1 : 0
+      st_sun_flag: day === 'CN' ? 1 : 0,
     });
   }
 
@@ -310,7 +301,7 @@ export class OrderServiceDetailComponent implements OnInit {
     repeatData.st_on_day_flag = repeatData.st_on_day_flag ? 1 : 0;
     repeatData.st_on_the_flag = repeatData.st_on_day_flag ? 1 : 0;
 
-    const list_service_id = this.listService.map(e => {
+    const list_service_id = this.listService.map((e) => {
       return e.se_id;
     });
 
@@ -321,10 +312,10 @@ export class OrderServiceDetailComponent implements OnInit {
       cuo_address: this.selectedAddress,
       customer: {
         ...customerData,
-        list_address: this.listAddress
+        list_address: this.listAddress,
       },
       list_staff_id: this.selectedStaffs,
-      cuo_infor_time: this.summary
+      cuo_infor_time: this.summary,
     };
 
     console.log(data);
@@ -345,7 +336,7 @@ export class OrderServiceDetailComponent implements OnInit {
       cu_province: ['', null],
       cu_district: ['', null],
       cu_ward: ['', null],
-      cu_note: ['', null]
+      cu_note: ['', null],
     });
 
     this.formRepeat = this.formBuilder.group({
@@ -368,7 +359,7 @@ export class OrderServiceDetailComponent implements OnInit {
       st_on_day: [1, null],
       st_on_the_flag: [0, null],
       st_custom_start: [this._convertDateToNgbDate(new Date()), null],
-      st_custom_end: [this._convertDateToNgbDate(new Date()), null]
+      st_custom_end: [this._convertDateToNgbDate(new Date()), null],
     });
   }
 
@@ -379,7 +370,7 @@ export class OrderServiceDetailComponent implements OnInit {
     this.selectedCustomer = customer;
     this.summary = cuo_infor_time;
 
-    this.selectedStaffs = list_staff.map(e => {
+    this.selectedStaffs = list_staff.map((e) => {
       return e.sta_id;
     });
 
@@ -403,7 +394,7 @@ export class OrderServiceDetailComponent implements OnInit {
       st_on_day: data.st_on_day,
       st_on_the_flag: data.st_on_the_flag ? 1 : 0,
       st_custom_start: this._convertDateToNgbDate(data.st_custom_start),
-      st_custom_end: this._convertDateToNgbDate(data.st_custom_end)
+      st_custom_end: this._convertDateToNgbDate(data.st_custom_end),
     });
     this._patchCustomer();
   }
@@ -431,7 +422,7 @@ export class OrderServiceDetailComponent implements OnInit {
       cu_type: customer.cu_type,
       customer_group_id: customer.customer_group_id,
       source_id: customer.source_id,
-      cu_note: customer.cu_note
+      cu_note: customer.cu_note,
     });
   }
 
@@ -467,9 +458,9 @@ export class OrderServiceDetailComponent implements OnInit {
       this.services.push({ se_name: 'Chọn dịch vụ', se_id: '' });
     });
 
-    const staff$ = this.staffService.searchStaff(this.filterStaff).pipe(takeUntil(this.destroyed$));
+    const staff$ = this.staffService.loadAllStaff().pipe(takeUntil(this.destroyed$));
     staff$.subscribe((res: any) => {
-      this.staffs = res.Data.Results;
+      this.staffs = res.Data;
     });
   }
 
@@ -496,7 +487,7 @@ export class OrderServiceDetailComponent implements OnInit {
         if (this.selectedAddress && isFirst) {
           this.formCustomer.patchValue({ cu_district: this.selectedAddress.sha_district });
           const districtId = this.districts.find(
-            item => item.name === this.selectedAddress.sha_district
+            (item) => item.name === this.selectedAddress.sha_district
           ).id;
           this._loadWard(districtId, true);
         } else {
@@ -553,7 +544,7 @@ export class OrderServiceDetailComponent implements OnInit {
           this.onMain.emit(true);
         } else this._notify(false, res.Message);
       },
-      e => this._notify(false, e.Message)
+      (e) => this._notify(false, e.Message)
     );
   }
 
@@ -568,7 +559,7 @@ export class OrderServiceDetailComponent implements OnInit {
           this.onMain.emit(true);
         } else this._notify(false, res.Message);
       },
-      e => this._notify(false, e.Message)
+      (e) => this._notify(false, e.Message)
     );
   }
 
@@ -589,7 +580,7 @@ export class OrderServiceDetailComponent implements OnInit {
       st_on_day,
       st_on_the_flag,
       st_custom_start,
-      st_custom_end
+      st_custom_end,
     } = data;
     const type = st_repeat_type === 1 ? 'ngày' : st_repeat_type === 2 ? 'tuần' : 'tháng';
     const startCustom = moment(this._convertNgbDateToDate(st_custom_start)).format('DD/MM');
@@ -632,7 +623,7 @@ export class OrderServiceDetailComponent implements OnInit {
       type: isSuccess ? 'success' : 'error',
       title: message,
       showConfirmButton: false,
-      timer: 2000
+      timer: 2000,
     });
   }
 }

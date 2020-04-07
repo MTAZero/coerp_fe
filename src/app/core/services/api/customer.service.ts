@@ -5,6 +5,7 @@ import { mapToHttpParamsQuery, mapToFormData } from '../../helpers/helpers';
 const router = {
   get_all_page: `/api/customers/search`,
   get_by_id: '/api/customers/infor',
+  get_by_curator: '/api/customer/search_by_curator',
   create: `/api/customers/create`,
   update: `/api/customers/update`,
   delete: `/api/customers/delete`,
@@ -16,7 +17,7 @@ const router = {
   delete_location: `/api/ship-addresss/delete`,
   import: `/api/customer/import`,
   update_avatar: '/api/customers/update_avatar',
-  export: '/api/customers/export'
+  export: '/api/customers/export',
 };
 
 @Injectable()
@@ -35,6 +36,16 @@ export class CustomerService {
   }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.get_all_page, params);
+  }
+
+  loadCustomerByCurator(filter?: {
+    pageNumber: any;
+    pageSize: any;
+    search_name: any;
+    cu_curator_id: any;
+  }) {
+    const params = mapToHttpParamsQuery(filter);
+    return this.httpClient.get(router.get_by_curator, params);
   }
 
   exportCustomer(filter?: {
