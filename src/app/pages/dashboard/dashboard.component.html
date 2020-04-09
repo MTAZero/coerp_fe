@@ -1,7 +1,5 @@
 <div class="container-fluid">
-  <app-page-title title="Bảng tin" [breadcrumbItems]="breadCrumbItems"></app-page-title>
-
-  <div class="row">
+  <div class="row pt-1">
     <!-- widget -->
     <ng-template
       [ngTemplateOutlet]="WidgetData"
@@ -203,7 +201,7 @@
                 </button>
                 <button
                   type="button"
-                  class="btn btn-xs "
+                  class="btn btn-xs"
                   [ngClass]="orderMode === 'month' ? 'btn-secondary' : 'btn-light'"
                   (click)="orderMode = 'month'; onChangeOrderFilter()"
                 >

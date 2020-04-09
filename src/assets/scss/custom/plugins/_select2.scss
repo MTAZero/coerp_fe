@@ -2,7 +2,11 @@
 // Select2.scss
 //
 
-@import "~@ng-select/ng-select/themes/default.theme.css";
+@import '~@ng-select/ng-select/themes/default.theme.css';
+
+.ng-select {
+  font-size: smaller;
+}
 
 .ng-select.ng-select-single .ng-select-container {
   height: $input-height !important;
@@ -10,6 +14,7 @@
 
 .ng-select .ng-select-container {
   border: $input-border-width solid $input-border-color !important;
+  min-height: 33px;
 }
 
 .ng-dropdown-panel {
@@ -91,7 +96,7 @@
   .select2-results__option--highlighted[aria-selected] {
     background-color: $primary;
   }
-  .select2-results__option[aria-selected="true"] {
+  .select2-results__option[aria-selected='true'] {
     background-color: $light;
     color: $dark;
     &:hover {

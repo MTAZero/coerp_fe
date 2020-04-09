@@ -5,14 +5,14 @@ import {
   ElementRef,
   ViewChild,
   Input,
-  OnChanges
+  OnChanges,
 } from '@angular/core';
 import MetisMenu from 'metismenujs/dist/metismenujs';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss']
+  styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() isCondensed: boolean;
@@ -26,7 +26,7 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
   constructor() {}
 
   ngOnInit() {
-    this.lightTopbar();
+    this.darkSidebar();
     this.isAdmin = localStorage.getItem('role') === 'Admin';
   }
 

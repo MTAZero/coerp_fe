@@ -1,11 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbModal, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { OrderService } from '../../../core/services/api/order.service';
 import Swal from 'sweetalert2';
-import * as moment from 'moment';
-import { isNullOrUndefined } from 'util';
 import { StaffService } from '../../../core/services/api/staff.service';
 import { CustomerGroupService } from '../../../core/services/api/customer-group.service';
 import { CustomerService } from '../../../core/services/api/customer.service';

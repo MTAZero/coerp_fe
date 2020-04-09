@@ -9,11 +9,10 @@ import { widget, basicColumChart, customerPieChart, ratePieChart, orderData } fr
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
   private destroyed$ = new Subject();
-  breadCrumbItems: Array<{}>;
 
   page = 1;
   pageSize = 10;
@@ -39,11 +38,6 @@ export class DashboardComponent implements OnInit {
   constructor(private statisticService: StatisticService) {}
 
   ngOnInit() {
-    this.breadCrumbItems = [
-      { label: 'ERP', path: '/' },
-      { label: 'Bảng tin', path: '/', active: true }
-    ];
-
     this.customerPieChart = customerPieChart;
     this.ratePieChart = ratePieChart;
 
@@ -101,7 +95,7 @@ export class DashboardComponent implements OnInit {
         month: this.orderMode === 'month',
         week: this.orderMode === 'week',
         day: this.orderMode === 'day',
-        search_name: this.textSearchOrder
+        search_name: this.textSearchOrder,
       })
       .pipe(takeUntil(this.destroyed$));
     order$.subscribe((res: any) => {
@@ -118,7 +112,7 @@ export class DashboardComponent implements OnInit {
       if (res && res.Data) {
         this.customerPieChart.series = [];
         this.customerPieChart.labels = [];
-        res.Data.map(item => {
+        res.Data.map((item) => {
           this.customerPieChart.series.push(item.total_revenue);
           this.customerPieChart.labels.push(item.cg_name);
         });
@@ -134,7 +128,7 @@ export class DashboardComponent implements OnInit {
       if (res && res.Data) {
         this.ratePieChart.series = [];
         this.ratePieChart.labels = [];
-        res.Data.map(item => {
+        res.Data.map((item) => {
           this.ratePieChart.series.push(item.number);
           this.ratePieChart.labels.push(item.cg_name);
         });

@@ -1,9 +1,9 @@
 <app-main-container>
   <div top class="card-body" style="height: 100%;">
-    <div class="row mb-2">
+    <div class="row mb-1">
       <div class="col-sm-6">
         <form class="form-inline">
-          <div class="form-group mb-2 mr-1">
+          <div class="form-group mr-1">
             <input
               class="form-control"
               name="textSearch"
@@ -23,7 +23,7 @@
               category.name
             }}</option>
           </select>
-          <div class="input-group clockpicker mb-2 mr-1">
+          <div class="input-group clockpicker mr-1">
             <input
               ngbDatepicker
               readonly="true"
@@ -39,7 +39,7 @@
               <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
             </div>
           </div>
-          <div class="input-group clockpicker mb-2">
+          <div class="input-group clockpicker">
             <input
               ngbDatepicker
               readonly="true"
@@ -59,25 +59,25 @@
       </div>
       <div class="col-sm-6">
         <div class="text-sm-right">
-          <button type="button" class="btn btn-info mb-2 mr-1">
+          <button type="button" class="btn btn-info mr-1">
             <span class="mdi mdi-cloud-upload"></span>
             Nhập
           </button>
-          <button type="button" class="btn btn-info mb-2 mr-1" (click)="exportProduct()">
+          <button type="button" class="btn btn-info mr-1" (click)="exportProduct()">
             <span class="mdi mdi-cloud-download"></span>
             Xuất
           </button>
-          <a class="btn btn-success mb-2 mr-1 button-link" (click)="openProductModal()"
+          <a class="btn btn-success mr-1 button-link" (click)="openProductModal()"
             ><i class="mdi mdi-plus-circle mr-1"></i> Thêm mới</a
           >
           <a
-            class="btn btn-primary mb-2 mr-1 button-link"
+            class="btn btn-primary mr-1 button-link"
             [ngClass]="selectedProduct ? '' : 'disabled'"
             (click)="openProductModal(selectedProduct)"
             ><i class="mdi mdi-square-edit-outline mr-1"></i> Cập nhật</a
           >
           <a
-            class="btn btn-danger mb-2 mr-1 button-link"
+            class="btn btn-danger mr-1 button-link"
             [ngClass]="selectedProduct ? '' : 'disabled'"
             (click)="openConfirmModal(selectedProduct)"
             ><i class="mdi mdi-delete mr-1"></i> Xóa</a
@@ -123,12 +123,12 @@
                   onerror="this.src='/assets/images/users/user-1.jpg';"
                   alt="Avatar"
                   (click)="selectedProduct = product; file.click()"
-                  style="cursor: pointer;"/>
+                  style="cursor: pointer;" />
                 <input
                   type="file"
                   accept="image/*"
                   #file
-                  style="display:none"
+                  style="display: none;"
                   (change)="readURL($event)"
               /></span>
               {{ product.pu_name }}

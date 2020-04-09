@@ -1,9 +1,9 @@
 <app-main-container>
   <div top class="card-body" style="height: 100%;">
-    <div class="row mb-2">
+    <div class="row mb-1">
       <div class="col-sm-6">
         <form class="form-inline">
-          <div class="form-group mb-2 mr-1">
+          <div class="form-group mr-1">
             <input
               class="form-control"
               name="textSearch"
@@ -59,7 +59,7 @@
       <div class="col-sm-6">
         <div class="text-sm-right">
           <label class="btn btn-info mb-2 mr-1">
-            <input type="file" (change)="setFile($event)" style="display:none" />
+            <input type="file" (change)="setFile($event)" style="display: none;" />
             <a mat-raised-button color="primary">
               <span class="mdi mdi-cloud-upload"></span>
               Nhập

@@ -1,9 +1,9 @@
 <app-main-container [hasBottom]="false">
   <div top class="card-body" style="height: 100%;">
-    <div class="row mb-2">
+    <div class="row mb-1">
       <div class="col-xl-6">
         <form class="form-inline row">
-          <div class="form-group mb-2">
+          <div class="form-group">
             <input
               class="form-control"
               name="textSearch"
@@ -16,25 +16,25 @@
       </div>
       <div class="col-xl-6">
         <div class="text-sm-right">
-          <button type="button" class="btn btn-info mb-2 mr-1">
+          <button type="button" class="btn btn-info mr-1">
             <span class="mdi mdi-cloud-upload"></span>
             Nhập
           </button>
-          <button type="button" class="btn btn-info mb-2 mr-1">
+          <button type="button" class="btn btn-info mr-1">
             <span class="mdi mdi-cloud-download"></span>
             Xuất
           </button>
-          <a class="btn btn-success mb-2 mr-1 button-link" (click)="openSmsCampaignModal()"
+          <a class="btn btn-success mr-1 button-link" (click)="openSmsCampaignModal()"
             ><i class="mdi mdi-plus-circle mr-1"></i> Thêm mới</a
           >
           <a
-            class="btn btn-primary mb-2 mr-1 button-link"
+            class="btn btn-primary mr-1 button-link"
             [ngClass]="selectedStrategy ? '' : 'disabled'"
             (click)="openSmsCampaignModal(selectedStrategy)"
             ><i class="mdi mdi-square-edit-outline mr-1"></i> Cập nhật</a
           >
           <a
-            class="btn btn-danger mb-2 mr-1 button-link"
+            class="btn btn-danger mr-1 button-link"
             [ngClass]="selectedStrategy ? '' : 'disabled'"
             (click)="openConfirmModal(selectedStrategy)"
             ><i class="mdi mdi-delete mr-1"></i> Xóa</a

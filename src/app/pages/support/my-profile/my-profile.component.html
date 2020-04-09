@@ -1,6 +1,4 @@
 <div class="container-fluid">
-  <app-page-title title="Trang của tôi" [breadcrumbItems]="breadCrumbItems"></app-page-title>
-
   <div class="row">
     <div class="col-lg-4 col-xl-4">
       <div class="card-box text-center">
@@ -12,7 +10,13 @@
           (click)="file.click()"
           onerror="this.src='/assets/images/users/user-1.jpg';"
         />
-        <input type="file" accept="image/*" #file style="display:none" (change)="readURL($event)" />
+        <input
+          type="file"
+          accept="image/*"
+          #file
+          style="display: none;"
+          (change)="readURL($event)"
+        />
         <h4 class="mb-0">{{ user?.sta_fullname }}</h4>
         <p class="text-muted">Kiểm thử</p>
 
@@ -38,7 +42,7 @@
           </p>
           <p class="text-muted mb-2 font-13">
             <strong>Email :</strong>
-            <span class="ml-2 ">{{ user?.sta_email }}</span>
+            <span class="ml-2">{{ user?.sta_email }}</span>
           </p>
           <p class="text-muted mb-2 font-13">
             <strong>Địa chỉ :</strong><span class="ml-2">{{ user?.sta_address }}</span>
@@ -179,7 +183,7 @@
                           <div class="text-sm-right">
                             <button
                               type="button"
-                              class="btn btn-xs "
+                              class="btn btn-xs"
                               [ngClass]="orderMode === 'month' ? 'btn-secondary' : 'btn-light'"
                               (click)="orderMode = 'month'; onChangeOrderFilter()"
                             >

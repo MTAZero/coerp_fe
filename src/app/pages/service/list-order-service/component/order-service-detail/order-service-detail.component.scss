@@ -8,12 +8,13 @@
       border-right: 2px solid lightgray;
 
       .item {
-        font-size: 15px;
+        font-size: small;
         cursor: pointer;
         padding: 10px;
 
         &:hover {
           background-color: lightgrey;
+          font-weight: 700;
         }
 
         &.is-selected {

@@ -12,11 +12,10 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-customer-group',
   templateUrl: './customer-group.component.html',
-  styleUrls: ['./customer-group.component.scss']
+  styleUrls: ['./customer-group.component.scss'],
 })
 export class CustomerGroupComponent implements OnInit {
   private destroyed$ = new Subject();
-  breadCrumbItems: Array<{}>;
 
   submitted: boolean;
 
@@ -32,24 +31,18 @@ export class CustomerGroupComponent implements OnInit {
   constructor(private modalService: NgbModal, private customerGroupService: CustomerGroupService) {}
 
   ngOnInit() {
-    this.breadCrumbItems = [
-      { label: 'ERP', path: '/' },
-      { label: 'Khách hàng', path: '/' },
-      { label: 'Nhóm khách hàng', path: '/', active: true }
-    ];
-
     this._fetchData();
   }
 
   openCustomerGroupModal(customerGroup?: any) {
     const modalRef = this.modalService.open(CustomerGroupModalComponent, {
       centered: true,
-      size: 'lg'
+      size: 'lg',
     });
     if (customerGroup) {
       modalRef.componentInstance.customerGroup = customerGroup;
     }
-    modalRef.componentInstance.passEvent.subscribe(res => {
+    modalRef.componentInstance.passEvent.subscribe((res) => {
       if (res.event) {
         if (customerGroup) {
           this._updateCustomerGroup(res.form);
@@ -64,13 +57,13 @@ export class CustomerGroupComponent implements OnInit {
   openListCustomerModal(customerGroup?: any) {
     const modalRef = this.modalService.open(ListCustomerModalComponent, {
       centered: true,
-      size: 'xl'
+      size: 'xl',
     });
 
     if (customerGroup) {
       modalRef.componentInstance.customerGroup = customerGroup;
     }
-    modalRef.componentInstance.passEvent.subscribe(res => {
+    modalRef.componentInstance.passEvent.subscribe((res) => {
       modalRef.close();
     });
   }
@@ -83,8 +76,8 @@ export class CustomerGroupComponent implements OnInit {
       confirmButtonText: 'Xóa',
       cancelButtonText: 'Hủy',
       confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33'
-    }).then(result => {
+      cancelButtonColor: '#d33',
+    }).then((result) => {
       if (result.value) {
         this._removeCustomerGroup(customerGroup);
       }
@@ -103,7 +96,7 @@ export class CustomerGroupComponent implements OnInit {
         pageNumber: this.page,
         pageSize: this.pageSize,
         cg_id: '',
-        name: this.textSearch
+        name: this.textSearch,
       })
       .pipe(takeUntil(this.destroyed$));
     customerGroup$.subscribe((res: any) => {
@@ -142,7 +135,7 @@ export class CustomerGroupComponent implements OnInit {
           this._notify(false, res.Message);
         }
       },
-      e => {
+      (e) => {
         this._notify(false, e.Message);
       }
     );
@@ -162,7 +155,7 @@ export class CustomerGroupComponent implements OnInit {
           this._notify(false, res.Message);
         }
       },
-      e => {
+      (e) => {
         this._notify(false, e.Message);
       }
     );
@@ -182,7 +175,7 @@ export class CustomerGroupComponent implements OnInit {
           this._notify(false, res.Message);
         }
       },
-      e => {
+      (e) => {
         this._notify(false, e.Message);
       }
     );
@@ -195,7 +188,7 @@ export class CustomerGroupComponent implements OnInit {
       type: isSuccess ? 'success' : 'error',
       title: message,
       showConfirmButton: false,
-      timer: 2000
+      timer: 2000,
     });
   }
 }

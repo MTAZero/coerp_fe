@@ -12,11 +12,10 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 @Component({
   selector: 'app-my-profile',
   templateUrl: './my-profile.component.html',
-  styleUrls: ['./my-profile.component.scss']
+  styleUrls: ['./my-profile.component.scss'],
 })
 export class MyProfileComponent implements OnInit {
   private destroyed$ = new Subject();
-  breadCrumbItems: Array<{}>;
   thumbnail: any;
   user: any;
   form: FormGroup;
@@ -45,11 +44,6 @@ export class MyProfileComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.breadCrumbItems = [
-      { label: 'ERP', path: '/' },
-      { label: 'Trang của tôi', path: '/' }
-    ];
-
     this.thumbnail = 'http://27.72.147.222:1230' + localStorage.getItem('thumbnail');
     this._fetchData();
     this._fetchProfile();
@@ -70,7 +64,7 @@ export class MyProfileComponent implements OnInit {
               type: 'success',
               title: 'Cập nhật ảnh đại diện thành công',
               showConfirmButton: false,
-              timer: 2000
+              timer: 2000,
             });
             this.thumbnail = 'http://27.72.147.222:1230' + res.Data;
             localStorage.setItem('thumbnail', res.Data);
@@ -80,7 +74,7 @@ export class MyProfileComponent implements OnInit {
               type: 'error',
               title: 'Cập nhật ảnh đại diện thất bại',
               showConfirmButton: false,
-              timer: 2000
+              timer: 2000,
             });
           }
         },
@@ -90,7 +84,7 @@ export class MyProfileComponent implements OnInit {
             type: 'error',
             title: 'Cập nhật ảnh đại diện thất bại',
             showConfirmButton: false,
-            timer: 2000
+            timer: 2000,
           });
         }
       );
@@ -146,7 +140,7 @@ export class MyProfileComponent implements OnInit {
         month: this.orderMode === 'month',
         week: this.orderMode === 'week',
         day: this.orderMode === 'day',
-        search_name: this.textSearchOrder
+        search_name: this.textSearchOrder,
       })
       .pipe(takeUntil(this.destroyed$));
     order$.subscribe((res: any) => {
@@ -163,7 +157,7 @@ export class MyProfileComponent implements OnInit {
       sta_email: ['', null],
       sta_aboutme: ['', null],
       sta_mobile: ['', null],
-      sta_address: ['', null]
+      sta_address: ['', null],
     });
   }
 
@@ -173,7 +167,7 @@ export class MyProfileComponent implements OnInit {
       sta_email: profile.sta_email,
       sta_aboutme: profile.sta_aboutme,
       sta_mobile: profile.sta_mobile,
-      sta_address: profile.sta_address
+      sta_address: profile.sta_address,
     });
   }
 
@@ -188,7 +182,7 @@ export class MyProfileComponent implements OnInit {
           this._fetchProfile();
         } else this._notify(false, res.Message);
       },
-      e => this._notify(false, e.Message)
+      (e) => this._notify(false, e.Message)
     );
   }
 
@@ -199,7 +193,7 @@ export class MyProfileComponent implements OnInit {
       type: isSuccess ? 'success' : 'error',
       title: message,
       showConfirmButton: false,
-      timer: 2000
+      timer: 2000,
     });
   }
 }

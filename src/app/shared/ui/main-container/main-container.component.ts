@@ -6,8 +6,8 @@ import { ResizeEvent } from 'angular-resizable-element';
   templateUrl: './main-container.component.html',
   styleUrls: ['./main-container.component.scss'],
   host: {
-    '(window:resize)': 'onResize($event)'
-  }
+    '(window:resize)': 'onResize($event)',
+  },
 })
 export class MainContainerComponent implements OnInit, OnChanges {
   @Input() hasBottom = true;
