@@ -1,0 +1,67 @@
+<div class="row justify-content-end">
+  <a
+    class="btn btn-success mb-1 mr-1 button-link"
+    [ngClass]="staffId ? '' : 'disabled'"
+    (click)="openTrainingModal()"
+  >
+    Thêm mới</a
+  >
+  <a
+    class="btn btn-primary mb-1 mr-1 button-link"
+    [ngClass]="selectedTraining ? '' : 'disabled'"
+    (click)="openTrainingModal(selectedTraining)"
+    >Cập nhật</a
+  >
+  <a
+    class="btn btn-danger mb-1 button-link"
+    [ngClass]="selectedTraining ? '' : 'disabled'"
+    (click)="openConfirmModal(selectedTraining)"
+  >
+    Xóa</a
+  >
+</div>
+<div class="table-responsive">
+  <table class="table table-centered table-hover mb-0">
+    <thead>
+      <tr>
+        <th>Mã đào tạo</th>
+        <th>Tên CTĐT</th>
+        <th>Nội dung đào tạo</th>
+        <th>Thời gian bắt đầu</th>
+        <th>Thời gian kết thúc</th>
+        <th>Mục đích đào tạo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let training of listTraining"
+        (click)="onClickTraining(training)"
+        [ngClass]="{
+          'is-selected': training.tn_id === selectedTraining?.tn_id
+        }"
+      >
+        <td>
+          {{ training.tn_code }}
+        </td>
+        <td>
+          {{ training.tn_name }}
+        </td>
+        <td>
+          {{ training.tn_content }}
+        </td>
+        <td>
+          {{ training.tn_start_date | date: 'dd/MM/yyyy' }}
+        </td>
+        <td>
+          {{ training.tn_end_date | date: 'dd/MM/yyyy' }}
+        </td>
+        <td>
+          {{ training.tn_purpose }}
+        </td>
+      </tr>
+      <tr *ngIf="!listTraining || listTraining.length === 0">
+        <td colspan="6">Không có dữ liệu khóa đào tạo</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

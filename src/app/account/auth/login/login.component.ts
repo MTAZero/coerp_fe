@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit, AfterViewInit {
   private destroyed$ = new Subject();
@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
       username: ['', [Validators.required]],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
     });
 
     // reset login status
@@ -84,7 +84,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
               type: 'success',
               title: 'Đăng nhập thành công',
               showConfirmButton: false,
-              timer: 2000
+              timer: 2000,
             });
             this.router.navigate([this.returnUrl]);
           }
@@ -96,7 +96,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
           type: 'error',
           title: 'Đăng nhập thất bại',
           showConfirmButton: false,
-          timer: 2000
+          timer: 2000,
         });
       }
     });

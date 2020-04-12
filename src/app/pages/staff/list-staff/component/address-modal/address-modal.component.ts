@@ -8,12 +8,11 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-address-modal',
   templateUrl: './address-modal.component.html',
-  styleUrls: ['./address-modal.component.scss']
+  styleUrls: ['./address-modal.component.scss'],
 })
 export class AddressModalComponent implements OnInit {
   private destroyed$ = new Subject();
   @Input() address: any;
-  @Input() staffId: any;
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
   form: FormGroup;
   submitted = false;
@@ -28,7 +27,6 @@ export class AddressModalComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.form.patchValue({ staff_id: this.staffId });
     if (this.address) {
       this.patchData(this.address);
     }
@@ -51,8 +49,8 @@ export class AddressModalComponent implements OnInit {
         confirmButtonText: 'Có',
         cancelButtonText: 'Không',
         confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33'
-      }).then(result => {
+        cancelButtonColor: '#d33',
+      }).then((result) => {
         if (result.value) {
           this.passEvent.emit({ event: false });
         }
@@ -63,12 +61,12 @@ export class AddressModalComponent implements OnInit {
   }
 
   onChangeProvince(e) {
-    const districtId = this.provinces.find(item => item.name === e.target.value).id;
+    const districtId = this.provinces.find((item) => item.name === e.target.value).id;
     this._loadDistrict(districtId);
   }
 
   onChangeDistrict(e) {
-    const wardId = this.districts.find(item => item.name === e.target.value).id;
+    const wardId = this.districts.find((item) => item.name === e.target.value).id;
     this._loadWard(wardId);
   }
 
@@ -78,13 +76,12 @@ export class AddressModalComponent implements OnInit {
 
   private initializeForm() {
     this.form = this.formBuilder.group({
-      staff_id: ['', null],
-      unl_id: ['', null],
+      unl_id: [null, null],
       unl_province: ['', [Validators.required]],
       unl_district: ['', [Validators.required]],
       unl_ward: ['', [Validators.required]],
       unl_detail: ['', null],
-      unl_note: ['', null]
+      unl_note: ['', null],
     });
   }
 
@@ -95,7 +92,7 @@ export class AddressModalComponent implements OnInit {
       unl_district: address.unl_district,
       unl_ward: address.unl_ward,
       unl_detail: address.unl_detail,
-      unl_note: address.unl_note
+      unl_note: address.unl_note,
     });
   }
 
@@ -107,7 +104,7 @@ export class AddressModalComponent implements OnInit {
 
         if (this.address) {
           this.form.patchValue({ unl_province: this.address.unl_province });
-          const provinceId = this.provinces.find(item => item.name === this.address.unl_province)
+          const provinceId = this.provinces.find((item) => item.name === this.address.unl_province)
             .id;
           this._loadDistrict(provinceId, true);
         } else {
@@ -128,7 +125,7 @@ export class AddressModalComponent implements OnInit {
 
         if (this.address && isFirst) {
           this.form.patchValue({ unl_district: this.address.unl_district });
-          const districtId = this.districts.find(item => item.name === this.address.unl_district)
+          const districtId = this.districts.find((item) => item.name === this.address.unl_district)
             .id;
           this._loadWard(districtId, true);
         } else {

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PositionModalComponent } from './position-modal.component';
+import { IdentityCardTabComponent } from './identity-card-tab.component';
 
-describe('PositionModalComponent', () => {
-  let component: PositionModalComponent;
-  let fixture: ComponentFixture<PositionModalComponent>;
+describe('IdentityCardTabComponent', () => {
+  let component: IdentityCardTabComponent;
+  let fixture: ComponentFixture<IdentityCardTabComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PositionModalComponent ]
+      declarations: [ IdentityCardTabComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PositionModalComponent);
+    fixture = TestBed.createComponent(IdentityCardTabComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

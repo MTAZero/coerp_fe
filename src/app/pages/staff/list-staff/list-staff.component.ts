@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgbModal, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { StaffModalComponent } from './component/staff-modal/staff-modal.component';
 import { StaffService } from '../../../core/services/api/staff.service';
@@ -11,9 +12,9 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-list-staff',
   templateUrl: './list-staff.component.html',
-  styleUrls: ['./list-staff.component.scss']
+  styleUrls: ['./list-staff.component.scss'],
 })
-export class ListStaffComponent implements OnInit {
+export class ListStaffComponent implements OnInit, OnDestroy {
   private destroyed$ = new Subject();
 
   textSearch = '';
@@ -27,10 +28,19 @@ export class ListStaffComponent implements OnInit {
   selectedStaff = null;
   staffs: any;
 
-  constructor(private modalService: NgbModal, private staffService: StaffService) {}
+  constructor(
+    private modalService: NgbModal,
+    private staffService: StaffService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this._fetchData();
+  }
+
+  ngOnDestroy() {
+    this.destroyed$.next();
+    this.destroyed$.complete();
   }
 
   onClickStaff(staff: any) {
@@ -48,13 +58,13 @@ export class ListStaffComponent implements OnInit {
   openStaffModal(staff?: any) {
     const modalRef = this.modalService.open(StaffModalComponent, {
       centered: true,
-      size: 'lg'
+      size: 'lg',
     });
 
     if (staff) {
       modalRef.componentInstance.staff = staff;
     }
-    modalRef.componentInstance.passEvent.subscribe(res => {
+    modalRef.componentInstance.passEvent.subscribe((res) => {
       if (res.event) {
         if (staff) {
           this._updateStaff(res.form);
@@ -67,6 +77,10 @@ export class ListStaffComponent implements OnInit {
     });
   }
 
+  onRouteDetail(staff?: any) {
+    this.router.navigate(['/staff/list-staff-detail', staff ? staff.sta_id : '']);
+  }
+
   openConfirmModal(staff?: any) {
     Swal.fire({
       title: 'Chắc chắn muốn xóa nhân sự đang chọn?',
@@ -75,8 +89,8 @@ export class ListStaffComponent implements OnInit {
       confirmButtonText: 'Xóa',
       cancelButtonText: 'Hủy',
       confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33'
-    }).then(result => {
+      cancelButtonColor: '#d33',
+    }).then((result) => {
       if (result.value) {
         this._removeStaff(staff);
       }
@@ -93,9 +107,13 @@ export class ListStaffComponent implements OnInit {
   }
 
   onChangeAddress(event) {
-    if (event.reload) {
-      this._fetchData(this.selectedStaff);
-    }
+    var updated = this.selectedStaff;
+    updated.list_undertaken_location = event;
+    this._updateStaff(updated);
+  }
+
+  onChangeTraining(event) {
+    console.log(event);
   }
 
   setFile(event) {
@@ -112,7 +130,7 @@ export class ListStaffComponent implements OnInit {
           this._fetchData();
         } else this._notify(false, res.Message);
       },
-      e => this._notify(false, e.Message)
+      (e) => this._notify(false, e.Message)
     );
   }
 
@@ -124,7 +142,7 @@ export class ListStaffComponent implements OnInit {
         name: this.textSearch,
         status: this.statusSearch,
         start_date: this._convertNgbDateToDate(this.fromDate),
-        end_date: this._convertNgbDateToDate(this.toDate)
+        end_date: this._convertNgbDateToDate(this.toDate),
       })
       .pipe(takeUntil(this.destroyed$));
     export$.subscribe((res: any) => {
@@ -143,7 +161,7 @@ export class ListStaffComponent implements OnInit {
         name: this.textSearch,
         status: this.statusSearch,
         start_date: this._convertNgbDateToDate(this.fromDate),
-        end_date: this._convertNgbDateToDate(this.toDate)
+        end_date: this._convertNgbDateToDate(this.toDate),
       })
       .pipe(takeUntil(this.destroyed$));
     staff$.subscribe((res: any) => {
@@ -151,7 +169,7 @@ export class ListStaffComponent implements OnInit {
         this.totalSize = res.Data.TotalNumberOfRecords;
         this.staffs = res.Data.Results;
         if (selected) {
-          this.selectedStaff = this.staffs.find(item => item.sta_id === selected.sta_id);
+          this.selectedStaff = this.staffs.find((item) => item.sta_id === selected.sta_id);
         } else {
           this.selectedStaff = this.staffs[0];
         }
@@ -171,14 +189,14 @@ export class ListStaffComponent implements OnInit {
           this.staffService
             .sendMailCreate({
               sta_username: data.sta_username,
-              sta_email: data.sta_email
+              sta_email: data.sta_email,
             })
-            .subscribe(res => {
+            .subscribe((res) => {
               console.log(res);
             });
         } else this._notify(false, res.Message);
       },
-      e => this._notify(false, e.Message)
+      (e) => this._notify(false, e.Message)
     );
   }
 
@@ -192,7 +210,7 @@ export class ListStaffComponent implements OnInit {
           this.modalService.dismissAll();
         } else this._notify(false, res.Message);
       },
-      e => this._notify(false, e.Message)
+      (e) => this._notify(false, e.Message)
     );
   }
 
@@ -208,7 +226,7 @@ export class ListStaffComponent implements OnInit {
           this.modalService.dismissAll();
         } else this._notify(false, res.Message);
       },
-      e => this._notify(false, e.Message)
+      (e) => this._notify(false, e.Message)
     );
   }
 
@@ -219,7 +237,7 @@ export class ListStaffComponent implements OnInit {
       type: isSuccess ? 'success' : 'error',
       title: message,
       showConfirmButton: false,
-      timer: 2000
+      timer: 2000,
     });
   }
 

@@ -1,8 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { NgbModal, NgbDate } from '@ng-bootstrap/ng-bootstrap';
-import { ListPositionModalComponent } from '../list-position-modal/list-position-modal.component';
-import { ListDepartmentModalComponent } from '../list-department-modal/list-department-modal.component';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { PositionService } from '../../../../../core/services/api/position.service';
 import { DepartmentService } from '../../../../../core/services/api/department.service';
 import { StaffService } from '../../../../../core/services/api/staff.service';
@@ -14,7 +12,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-staff-modal',
   templateUrl: './staff-modal.component.html',
-  styleUrls: ['./staff-modal.component.scss']
+  styleUrls: ['./staff-modal.component.scss'],
 })
 export class StaffModalComponent implements OnInit {
   private destroyed$ = new Subject();
@@ -29,7 +27,6 @@ export class StaffModalComponent implements OnInit {
 
   constructor(
     public formBuilder: FormBuilder,
-    private modalService: NgbModal,
     private departmentService: DepartmentService,
     private positionService: PositionService,
     private staffService: StaffService
@@ -42,25 +39,6 @@ export class StaffModalComponent implements OnInit {
     if (this.staff) {
       this.patchData(this.staff);
     }
-  }
-
-  openPositionModal() {
-    const modalRef = this.modalService.open(ListPositionModalComponent, {
-      centered: true,
-      size: 'lg'
-    });
-    modalRef.componentInstance.passEvent.subscribe(() => {
-      modalRef.close();
-    });
-  }
-
-  openDepartmentModal() {
-    const modalRef = this.modalService.open(ListDepartmentModalComponent, {
-      centered: true
-    });
-    modalRef.componentInstance.passEvent.subscribe(() => {
-      modalRef.close();
-    });
   }
 
   onClickSubmit() {
@@ -83,8 +61,8 @@ export class StaffModalComponent implements OnInit {
         confirmButtonText: 'Có',
         cancelButtonText: 'Không',
         confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33'
-      }).then(result => {
+        cancelButtonColor: '#d33',
+      }).then((result) => {
         if (result.value) {
           this.passEvent.emit({ event: false });
         }
@@ -113,10 +91,10 @@ export class StaffModalComponent implements OnInit {
       sta_identity_card: ['', null],
       sta_email: [
         '',
-        [Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'), Validators.required]
+        [Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'), Validators.required],
       ],
       sta_identity_card_date: [null, null], // date of issue of certification
-      sta_address: ['', null]
+      sta_address: ['', null],
     });
   }
 
@@ -135,7 +113,7 @@ export class StaffModalComponent implements OnInit {
       sta_sex: staff.sta_sex,
       sta_birthday: this._convertDateToNgbDate(staff.sta_birthday),
       sta_address: staff.sta_address,
-      group_role_id: staff.group_role_id
+      group_role_id: staff.group_role_id,
     });
   }
 

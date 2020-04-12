@@ -22,6 +22,16 @@
             <option value="1">Kích hoạt</option>
             <option value="0">Khóa</option>
           </select>
+          <select
+            class="custom-select mr-1"
+            name="select"
+            [(ngModel)]="statusSearch"
+            (change)="onChangeFilter()"
+          >
+            <option value="">Trạng thái làm việc</option>
+            <option value="1">Kích hoạt</option>
+            <option value="0">Khóa</option>
+          </select>
           <div class="input-group clockpicker mb-2 mr-1">
             <input
               ngbDatepicker
@@ -61,28 +71,26 @@
           <label class="btn btn-info mb-2 mr-1">
             <input type="file" (change)="setFile($event)" style="display: none;" />
             <a mat-raised-button color="primary">
-              <span class="mdi mdi-cloud-upload"></span>
               Nhập
             </a>
           </label>
           <button type="button" class="btn btn-info mb-2 mr-1" (click)="exportStaff()">
-            <span class="mdi mdi-cloud-download"></span>
             Xuất
           </button>
-          <a class="btn btn-success mb-2 mr-1 button-link" (click)="openStaffModal()"
-            ><i class="mdi mdi-plus-circle mr-1"></i> Thêm mới</a
-          >
+          <a class="btn btn-success mb-2 mr-1 button-link" (click)="onRouteDetail()"> Thêm mới</a>
           <a
             class="btn btn-primary mb-2 mr-1 button-link"
             [ngClass]="selectedStaff ? '' : 'disabled'"
-            (click)="openStaffModal(selectedStaff)"
-            ><i class="mdi mdi-square-edit-outline mr-1"></i> Cập nhật</a
+            (click)="onRouteDetail(selectedStaff)"
+          >
+            Cập nhật</a
           >
           <a
             class="btn btn-danger mb-2 mr-1 button-link"
             [ngClass]="selectedStaff ? '' : 'disabled'"
             (click)="openConfirmModal(selectedStaff)"
-            ><i class="mdi mdi-delete mr-1"></i> Xóa</a
+          >
+            Xóa</a
           >
         </div>
       </div>
@@ -92,28 +100,31 @@
       <table class="table table-centered table-hover mb-0">
         <thead>
           <tr>
-            <th>MNV</th>
+            <th>STT</th>
+            <th>Họ và tên</th>
             <th>Tài khoản</th>
-            <th>Tên nhân viên</th>
             <th>Giới tính</th>
             <th>Ngày sinh</th>
             <th>Số điện thoại</th>
             <th>Email</th>
-            <th>Chức vụ</th>
-            <th>Phòng ban</th>
+            <th>Loại hợp đồng</th>
+            <th>Số CMND/Thẻ căn cước</th>
+            <th>Mã số thuế</th>
+            <th>Lương</th>
+            <th>Trạng thái làm việc</th>
             <th>Trạng thái</th>
           </tr>
         </thead>
         <tbody>
           <tr
-            *ngFor="let staff of staffs"
+            *ngFor="let staff of staffs; let i = index"
             (click)="onClickStaff(staff)"
             [ngClass]="{
               'is-selected': staff.sta_id === selectedStaff?.sta_id
             }"
           >
             <td>
-              {{ staff.sta_code }}
+              {{ i + 1 }}
             </td>
             <td>
               <span
@@ -123,10 +134,10 @@
                   alt="user-image"
                   class="rounded-circle avatar-sm"
               /></span>
-              {{ staff.sta_username }}
+              {{ staff.sta_fullname }}
             </td>
             <td>
-              {{ staff.sta_fullname }}
+              {{ staff.sta_username }}
             </td>
             <td>
               <span [ngClass]="staff.sta_sex === 1 ? 'badge badge-primary' : 'badge badge-success'"
@@ -143,10 +154,25 @@
               {{ staff.sta_email }}
             </td>
             <td>
-              {{ staff.position_name }}
+              <span
+                [ngClass]="
+                  staff.sta_type_contact === 1 ? 'badge badge-success' : 'badge badge-danger'
+                "
+                >{{ staff.sta_type_contact === 1 ? 'Parttime' : 'Fulltime' }}
+              </span>
             </td>
+            <td>{{ staff.sta_identity_card }}</td>
             <td>
-              {{ staff.department_name }}
+              {{ staff.sta_tax_code }}
+            </td>
+            <td>{{ staff.sta_salary_to }} - {{ staff.sta_salary_end }}</td>
+            <td>
+              <span
+                [ngClass]="
+                  staff.sta_working_status === 1 ? 'badge badge-success' : 'badge badge-danger'
+                "
+                >{{ staff.sta_working_status === 1 ? 'Đang làm việc' : 'Nghỉ việc' }}
+              </span>
             </td>
             <td>
               <span
@@ -172,13 +198,52 @@
   </div>
   <div bottom style="height: 100%;">
     <ngb-tabset class="nav-bordered">
-      <ngb-tab title="Địa chỉ phụ trách">
+      <ngb-tab title="1. Hộ khẩu thường trú">
         <ng-template ngbTabContent>
-          <app-address-tab
-            [listAddress]="selectedStaff?.list_address"
+          <app-address-permanent-tab
+            [permanent_ward]="selectedStaff?.unl_ward_permanent"
+            [permanent_district]="selectedStaff?.unl_district_permanent"
+            [permanent_province]="selectedStaff?.unl_province_permanent"
+            [permanent_detail]="selectedStaff?.unl_detail_permanent"
+          ></app-address-permanent-tab>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab title="2. Chỗ ở hiện tại">
+        <ng-template ngbTabContent>
+          <app-address-now-tab
+            [now_ward]="selectedStaff?.unl_ward_now"
+            [now_district]="selectedStaff?.unl_district_now"
+            [now_province]="selectedStaff?.unl_province_now"
+            [now_detail]="selectedStaff?.unl_detail_now"
+          ></app-address-now-tab>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab title="3. Thông tin đào tạo">
+        <ng-template ngbTabContent>
+          <app-training-tab
+            [listTraining]="selectedStaff?.list_training"
+            [staffId]="selectedStaff?.sta_id"
+            (formSubmit)="onChangeTraining($event)"
+          ></app-training-tab>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab title="4. Địa chỉ phụ trách">
+        <ng-template ngbTabContent>
+          <app-undertaken-location-tab
+            [listAddress]="selectedStaff?.list_undertaken_location"
             [staffId]="selectedStaff?.sta_id"
             (formSubmit)="onChangeAddress($event)"
-          ></app-address-tab>
+          ></app-undertaken-location-tab>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab title="5. Số CMND/Thẻ căn cước">
+        <ng-template ngbTabContent>
+          <app-identity-card-tab
+            [identity_card]="selectedStaff?.sta_identity_card"
+            [identity_card_date]="selectedStaff?.sta_identity_card_date"
+            [identity_card_date_end]="selectedStaff?.sta_identity_card_date_end"
+            [identity_card_location]="selectedStaff?.sta_identity_card_location"
+          ></app-identity-card-tab>
         </ng-template>
       </ngb-tab>
     </ngb-tabset>

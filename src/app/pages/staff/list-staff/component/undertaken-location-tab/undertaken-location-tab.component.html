@@ -3,19 +3,22 @@
     class="btn btn-success mb-1 mr-1 button-link"
     [ngClass]="staffId ? '' : 'disabled'"
     (click)="openAddressModal()"
-    ><i class="mdi mdi-plus-circle mr-1"></i> Thêm mới</a
+  >
+    Thêm mới</a
   >
   <a
     class="btn btn-primary mb-1 mr-1 button-link"
     [ngClass]="selectedAddress ? '' : 'disabled'"
     (click)="openAddressModal(selectedAddress)"
-    ><i class="mdi mdi-square-edit-outline mr-1"></i> Cập nhật</a
+  >
+    Cập nhật</a
   >
   <a
     class="btn btn-danger mb-1 button-link"
     [ngClass]="selectedAddress ? '' : 'disabled'"
     (click)="openConfirmModal(selectedAddress)"
-    ><i class="mdi mdi-delete mr-1"></i> Xóa</a
+  >
+    Xóa</a
   >
 </div>
 <div class="table-responsive">

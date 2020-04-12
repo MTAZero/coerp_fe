@@ -6,13 +6,14 @@ import {
   NgbCollapseModule,
   NgbDatepickerModule,
   NgbTimepickerModule,
-  NgbDropdownModule
+  NgbDropdownModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { ClickOutsideModule } from 'ng-click-outside';
 import { ResizableModule } from 'angular-resizable-element';
 
 import { SlimscrollDirective } from './slimscroll.directive';
 import { CountToDirective } from './count-to.directive';
+import { TrimTextPipe } from './trim.pipe';
 import { PreloaderComponent } from './preloader/preloader.component';
 import { PagetitleComponent } from './pagetitle/pagetitle.component';
 import { PortletComponent } from './portlet/portlet.component';
@@ -25,12 +26,13 @@ import { MainContainerComponent } from './main-container/main-container.componen
   declarations: [
     SlimscrollDirective,
     CountToDirective,
+    TrimTextPipe,
     PreloaderComponent,
     PagetitleComponent,
     PortletComponent,
     EmaillistComponent,
     WidgetComponent,
-    MainContainerComponent
+    MainContainerComponent,
   ],
   imports: [
     CommonModule,
@@ -40,18 +42,19 @@ import { MainContainerComponent } from './main-container/main-container.componen
     NgbDatepickerModule,
     NgbTimepickerModule,
     NgbDropdownModule,
-    ResizableModule
+    ResizableModule,
   ],
   // tslint:disable-next-line: max-line-length
   exports: [
     SlimscrollDirective,
     CountToDirective,
+    TrimTextPipe,
     PreloaderComponent,
     PagetitleComponent,
     PortletComponent,
     EmaillistComponent,
     WidgetComponent,
-    MainContainerComponent
-  ]
+    MainContainerComponent,
+  ],
 })
 export class UIModule {}
