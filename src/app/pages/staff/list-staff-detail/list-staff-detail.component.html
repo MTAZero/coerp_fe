@@ -90,21 +90,13 @@
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Họ và tên <span>(*)</span></label>
                 <div class="col-6">
-                  <input
-                    class="form-control"
-                    [readonly]="readOnly"
-                    formControlName="sta_fullname"
-                  />
+                  <input class="form-control" [readonly]="isView" formControlName="sta_fullname" />
                 </div>
               </div>
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Tên đăng nhập <span>(*)</span></label>
                 <div class="col-6">
-                  <input
-                    class="form-control"
-                    [readonly]="readOnly"
-                    formControlName="sta_username"
-                  />
+                  <input class="form-control" readonly formControlName="sta_username" />
                 </div>
               </div>
             </div>
@@ -165,7 +157,7 @@
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Phương tiện đi lại</label>
                 <div class="col-6">
-                  <input class="form-control" [readonly]="readOnly" formControlName="sta_traffic" />
+                  <input class="form-control" [readonly]="isView" formControlName="sta_traffic" />
                 </div>
               </div>
             </div>
@@ -217,7 +209,7 @@
                     class="form-control"
                     id="example-number"
                     type="number"
-                    [readonly]="readOnly"
+                    [readonly]="isView"
                     formControlName="sta_salary_to"
                     style="width: 100%;"
                   />
@@ -226,7 +218,7 @@
                     class="form-control"
                     id="example-number"
                     type="number"
-                    [readonly]="readOnly"
+                    [readonly]="isView"
                     formControlName="sta_salary_end"
                     style="width: 100%;"
                   />
@@ -246,11 +238,7 @@
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Mã số thuế</label>
                 <div class="col-6">
-                  <input
-                    class="form-control"
-                    [readonly]="readOnly"
-                    formControlName="sta_tax_code"
-                  />
+                  <input class="form-control" [readonly]="isView" formControlName="sta_tax_code" />
                 </div>
               </div>
               <div class="form-group row mb-3">
@@ -279,7 +267,7 @@
                 <div class="col-6">
                   <input
                     class="form-control"
-                    [readonly]="readOnly"
+                    [readonly]="isView"
                     formControlName="sta_reason_to_end_work"
                   />
                 </div>
@@ -287,7 +275,7 @@
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Ghi chú</label>
                 <div class="col-6">
-                  <input class="form-control" [readonly]="readOnly" formControlName="sta_note" />
+                  <input class="form-control" [readonly]="isView" formControlName="sta_note" />
                 </div>
               </div>
             </div>
@@ -297,18 +285,18 @@
             <h5>Thông tin liên hệ</h5>
             <i class="fe-edit ml-2"></i>
           </div>
-          <div>
+          <div [formGroup]="formContact">
             <div class="form-row">
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Số điện thoại <span>(*)</span></label>
                 <div class="col-6">
-                  <input class="form-control" />
+                  <input class="form-control" [readonly]="isView" formControlName="sta_mobile" />
                 </div>
               </div>
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Email <span>(*)</span></label>
                 <div class="col-6">
-                  <input class="form-control" />
+                  <input class="form-control" [readonly]="isView" formControlName="sta_email" />
                 </div>
               </div>
             </div>
@@ -318,18 +306,35 @@
             <h5>Số CMND/Thẻ căn cước</h5>
             <i class="fe-edit ml-2"></i>
           </div>
-          <div>
+          <div [formGroup]="formIdentityCard">
             <div class="form-row">
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Số CMND/Thẻ căn cước</label>
                 <div class="col-6">
-                  <input class="form-control" />
+                  <input
+                    class="form-control"
+                    [readonly]="isView"
+                    formControlName="sta_identity_card"
+                  />
                 </div>
               </div>
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Ngày cấp</label>
                 <div class="col-6">
-                  <input class="form-control" />
+                  <div class="input-group clockpicker mb-2 mr-1">
+                    <input
+                      ngbDatepicker
+                      readonly="true"
+                      class="form-control"
+                      placeholder="Chọn ngày"
+                      #icd="ngbDatepicker"
+                      formControlName="sta_identity_card_date"
+                      [disabled]="isView"
+                    />
+                    <div class="input-group-append" (click)="icd.toggle()">
+                      <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -337,13 +342,30 @@
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Nơi cấp</label>
                 <div class="col-6">
-                  <input class="form-control" />
+                  <input
+                    class="form-control"
+                    [readonly]="isView"
+                    formControlName="sta_identity_card_location"
+                  />
                 </div>
               </div>
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Ngày hết hạn</label>
                 <div class="col-6">
-                  <input class="form-control" />
+                  <div class="input-group clockpicker mb-2 mr-1">
+                    <input
+                      ngbDatepicker
+                      readonly="true"
+                      class="form-control"
+                      placeholder="Chọn ngày"
+                      #icde="ngbDatepicker"
+                      formControlName="sta_identity_card_date_end"
+                      [disabled]="isView"
+                    />
+                    <div class="input-group-append" (click)="icde.toggle()">
+                      <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -353,18 +375,36 @@
             <h5>Hộ khẩu thường trú</h5>
             <i class="fe-edit ml-2"></i>
           </div>
-          <div>
+          <div [formGroup]="formPermanentAddress">
             <div class="form-row">
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Tỉnh/Thành phố <span>(*)</span></label>
                 <div class="col-6">
-                  <input class="form-control" />
+                  <select
+                    class="custom-select"
+                    formControlName="unl_province_permanent"
+                    class="form-control"
+                    (change)="onChangeProvincePermanent($event)"
+                  >
+                    <option *ngFor="let province of provincePermanent" [value]="province.name">{{
+                      province.name
+                    }}</option>
+                  </select>
                 </div>
               </div>
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Quận/Huyện <span>(*)</span></label>
                 <div class="col-6">
-                  <input class="form-control" />
+                  <select
+                    class="custom-select"
+                    formControlName="unl_district_permanent"
+                    class="form-control"
+                    (change)="onChangeDistrictPermanent($event)"
+                  >
+                    <option *ngFor="let district of districtPermanent" [value]="district.name">{{
+                      district.name
+                    }}</option>
+                  </select>
                 </div>
               </div>
             </div>
@@ -372,13 +412,25 @@
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Xã/Phường <span>(*)</span></label>
                 <div class="col-6">
-                  <input class="form-control" />
+                  <select
+                    class="custom-select"
+                    formControlName="unl_ward_permanent"
+                    class="form-control"
+                  >
+                    <option *ngFor="let ward of wardPermanent" [value]="ward.name">{{
+                      ward.name
+                    }}</option>
+                  </select>
                 </div>
               </div>
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Địa chỉ <span>(*)</span></label>
                 <div class="col-6">
-                  <input class="form-control" />
+                  <input
+                    class="form-control"
+                    [readonly]="isView"
+                    formControlName="unl_detail_permanent"
+                  />
                 </div>
               </div>
             </div>
@@ -388,18 +440,36 @@
             <h5>Chỗ ở hiện tại</h5>
             <i class="fe-edit ml-2"></i>
           </div>
-          <div>
+          <div [formGroup]="formNowAddress">
             <div class="form-row">
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Tỉnh/Thành phố <span>(*)</span></label>
                 <div class="col-6">
-                  <input class="form-control" />
+                  <select
+                    class="custom-select"
+                    formControlName="unl_province_now"
+                    class="form-control"
+                    (change)="onChangeProvinceNow($event)"
+                  >
+                    <option *ngFor="let province of provinceNow" [value]="province.name">{{
+                      province.name
+                    }}</option>
+                  </select>
                 </div>
               </div>
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Quận/Huyện <span>(*)</span></label>
                 <div class="col-6">
-                  <input class="form-control" />
+                  <select
+                    class="custom-select"
+                    formControlName="unl_district_now"
+                    class="form-control"
+                    (change)="onChangeDistrictNow($event)"
+                  >
+                    <option *ngFor="let district of districtNow" [value]="district.name">{{
+                      district.name
+                    }}</option>
+                  </select>
                 </div>
               </div>
             </div>
@@ -407,13 +477,21 @@
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Xã/Phường <span>(*)</span></label>
                 <div class="col-6">
-                  <input class="form-control" />
+                  <select class="custom-select" formControlName="unl_ward_now" class="form-control">
+                    <option *ngFor="let ward of wardNow" [value]="ward.name">{{
+                      ward.name
+                    }}</option>
+                  </select>
                 </div>
               </div>
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Địa chỉ <span>(*)</span></label>
                 <div class="col-6">
-                  <input class="form-control" />
+                  <input
+                    class="form-control"
+                    [readonly]="isView"
+                    formControlName="unl_detail_now"
+                  />
                 </div>
               </div>
             </div>

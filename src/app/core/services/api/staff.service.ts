@@ -4,7 +4,7 @@ import { mapToHttpParamsQuery, fmt, mapToFormData } from '../../helpers/helpers'
 
 const router = {
   search: '/api/staff/search',
-  info: '/api/staff/infor',
+  info: '/api/staff/get_by_id',
   create: `/api/staff/create`,
   update: `/api/staff/update`,
   delete: `/api/staff/delete`,
