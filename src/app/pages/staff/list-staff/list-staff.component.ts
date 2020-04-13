@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbDate } from '@ng-bootstrap/ng-bootstrap';
-import { StaffModalComponent } from './component/staff-modal/staff-modal.component';
 import { StaffService } from '../../../core/services/api/staff.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -53,28 +52,6 @@ export class ListStaffComponent implements OnInit, OnDestroy {
         this.selectedStaff = null;
       }
     }
-  }
-
-  openStaffModal(staff?: any) {
-    const modalRef = this.modalService.open(StaffModalComponent, {
-      centered: true,
-      size: 'lg',
-    });
-
-    if (staff) {
-      modalRef.componentInstance.staff = staff;
-    }
-    modalRef.componentInstance.passEvent.subscribe((res) => {
-      if (res.event) {
-        if (staff) {
-          this._updateStaff(res.form);
-        } else {
-          this._createStaff(res.form);
-        }
-      } else {
-        modalRef.close();
-      }
-    });
   }
 
   onRouteDetail(staff?: any) {

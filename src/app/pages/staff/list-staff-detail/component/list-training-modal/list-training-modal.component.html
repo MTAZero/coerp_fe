@@ -1,0 +1,69 @@
+<div class="modal-header bg-dark">
+  <h4 class="modal-title text-white">Chọn khóa đào tạo</h4>
+  <button type="button" class="close text-white" aria-label="Close" (click)="onClickCancel()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body p-3">
+  <div class="table-responsive">
+    <table class="table table-centered table-hover mb-0">
+      <thead>
+        <tr>
+          <th>
+            <div class="checkbox checkbox-primary checkbox-single">
+              <input
+                type="checkbox"
+                [checked]="selectedTraining?.length === trainings?.length"
+                (change)="checkAll()"
+              />
+              <label></label>
+            </div>
+          </th>
+          <th>Mã đào tạo</th>
+          <th>Tên CTĐT</th>
+          <th>Nội dung đào tạo</th>
+          <th>Thời gian bắt đầu</th>
+          <th>Thời gian kết thúc</th>
+          <th>Mục tiêu đào tạo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let training of trainings; let i = index" (click)="onClickTraining(training)">
+          <td>
+            <div class="checkbox checkbox-primary checkbox-single">
+              <input type="checkbox" [checked]="isSelected(training)" />
+              <label></label>
+            </div>
+          </td>
+          <td>{{ training.tn_code }}</td>
+          <td>
+            {{ training.tn_name }}
+          </td>
+          <td>
+            {{ training.tn_content }}
+          </td>
+          <td>
+            {{ training.tn_start_date | date: 'dd/MM/yyyy' }}
+          </td>
+          <td>
+            {{ training.tn_end_date | date: 'dd/MM/yyyy' }}
+          </td>
+          <td>
+            {{ training.tn_purpose }}
+          </td>
+        </tr>
+        <tr *ngIf="!trainings || trainings.length === 0">
+          <td colspan="6">Không có dữ liệu khóa đào tạo</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="text-right mt-3">
+    <button class="btn btn-danger ml-1" (click)="onClickCancel()">
+      Hủy
+    </button>
+    <button class="btn btn-success ml-1" (click)="onClickSubmit()">
+      Lưu
+    </button>
+  </div>
+</div>

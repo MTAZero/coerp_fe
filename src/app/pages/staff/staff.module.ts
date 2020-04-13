@@ -12,7 +12,6 @@ import { StaffRoutingModule } from './staff-routing.module';
 import { ApiModule } from '../../core/services/api/api.module';
 
 import { ListStaffComponent } from './list-staff/list-staff.component';
-import { StaffModalComponent } from './list-staff/component/staff-modal/staff-modal.component';
 import { AddressModalComponent } from './list-staff/component/address-modal/address-modal.component';
 import { AssignedWorkComponent } from './assigned-work/assigned-work.component';
 import { AssignWorkComponent } from './assign-work/assign-work.component';
@@ -23,11 +22,11 @@ import { TrainingTabComponent } from './list-staff/component/training-tab/traini
 import { IdentityCardTabComponent } from './list-staff/component/identity-card-tab/identity-card-tab.component';
 import { TrainingModalComponent } from './list-staff/component/training-modal/training-modal.component';
 import { ListStaffDetailComponent } from './list-staff-detail/list-staff-detail.component';
+import { ListTrainingModalComponent } from './list-staff-detail/component/list-training-modal/list-training-modal.component';
 
 @NgModule({
   declarations: [
     ListStaffComponent,
-    StaffModalComponent,
     AddressModalComponent,
     AssignedWorkComponent,
     AssignWorkComponent,
@@ -38,6 +37,7 @@ import { ListStaffDetailComponent } from './list-staff-detail/list-staff-detail.
     IdentityCardTabComponent,
     TrainingModalComponent,
     ListStaffDetailComponent,
+    ListTrainingModalComponent,
   ],
   imports: [
     CommonModule,
@@ -53,6 +53,6 @@ import { ListStaffDetailComponent } from './list-staff-detail/list-staff-detail.
     NgApexchartsModule,
     NgSelectModule,
   ],
-  entryComponents: [StaffModalComponent, AddressModalComponent, TrainingModalComponent],
+  entryComponents: [AddressModalComponent, TrainingModalComponent, ListTrainingModalComponent],
 })
 export class StaffModule {}

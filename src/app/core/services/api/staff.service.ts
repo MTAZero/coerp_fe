@@ -13,6 +13,7 @@ const router = {
   role: '/api/group-role/getall',
   position: '/api/position/getall',
   department: '/api/department/getall',
+  search_training: '/api/training/search',
   // pending
   get: '/api/staffs/all',
   create_location: `/api/undertakenLocations/create`,
@@ -57,8 +58,7 @@ export class StaffService {
   }
 
   createStaff(data: any) {
-    const formData = mapToFormData(data);
-    return this.httpClient.post(router.create, formData);
+    return this.httpClient.post(router.create, data);
   }
 
   updateStaff(data?: any) {
@@ -85,6 +85,11 @@ export class StaffService {
 
   loadDepartment() {
     return this.httpClient.get(router.department);
+  }
+
+  searchTraining(filter?: { pageNumber: number; pageSize: number; search_name: string }) {
+    const params = mapToHttpParamsQuery(filter);
+    return this.httpClient.get(router.search_training, params);
   }
   //=============================pending============================================
   loadAllStaff() {

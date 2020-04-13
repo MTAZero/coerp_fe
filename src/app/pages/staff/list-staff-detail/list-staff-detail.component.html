@@ -17,7 +17,10 @@
         <div class="content mb-2" id="content">
           <div id="0" class="row title-section">
             <h5>Loại hợp đồng</h5>
-            <i class="fe-edit ml-2"></i>
+            <i
+              [ngClass]="listView[0] ? 'fe-edit ml-2' : 'fe-save ml-2'"
+              (click)="switchViewType(0)"
+            ></i>
           </div>
           <div [formGroup]="formContractType">
             <div class="row p-2 justify-content-center">
@@ -28,7 +31,7 @@
                   [value]="0"
                   name="sta_type_contact"
                   formControlName="sta_type_contact"
-                  [readonly]="isView"
+                  [disabled]="listView[0]"
                 />
                 <label for="inlineRadio1"> Fulltime </label>
               </div>
@@ -39,7 +42,7 @@
                   [value]="1"
                   name="sta_type_contact"
                   formControlName="sta_type_contact"
-                  [readonly]="isView"
+                  [disabled]="listView[0]"
                 />
                 <label for="inlineRadio2"> Parttime </label>
               </div>
@@ -50,13 +53,13 @@
             >
               <div>Thời gian làm việc:</div>
               <select class="custom-select mr-2 ml-2" formControlName="sw_time_start">
-                <option *ngFor="let time of timePeriod" [disabled]="isView" [value]="time">{{
+                <option *ngFor="let time of timePeriod" [disabled]="listView[0]" [value]="time">{{
                   time
                 }}</option>
               </select>
               <div>-</div>
               <select class="custom-select ml-2" formControlName="sw_time_end">
-                <option *ngFor="let time of timePeriod" [disabled]="isView" [value]="time">{{
+                <option *ngFor="let time of timePeriod" [disabled]="listView[0]" [value]="time">{{
                   time
                 }}</option>
               </select>
@@ -73,7 +76,7 @@
                 <input
                   type="checkbox"
                   (change)="onCheckDay(day)"
-                  [disabled]="isView"
+                  [disabled]="listView[0]"
                   [checked]="checkDay(day) === 1"
                 />
                 <label> {{ day }} </label>
@@ -83,20 +86,53 @@
 
           <div id="1" class="row title-section">
             <h5>Thông tin chung</h5>
-            <i class="fe-edit ml-2"></i>
+            <i
+              [ngClass]="listView[1] ? 'fe-edit ml-2' : 'fe-save ml-2'"
+              (click)="switchViewType(1)"
+            ></i>
           </div>
           <div [formGroup]="formProfile">
             <div class="form-row">
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Họ và tên <span>(*)</span></label>
                 <div class="col-6">
-                  <input class="form-control" [readonly]="isView" formControlName="sta_fullname" />
+                  <input
+                    class="form-control"
+                    [readonly]="listView[1]"
+                    formControlName="sta_fullname"
+                    [ngClass]="{
+                      'is-invalid': submitted && formProfile.controls.sta_fullname.errors
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted && formProfile.controls.sta_fullname.errors"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="formProfile.controls.sta_fullname.errors.required"
+                      >Trường bắt buộc</span
+                    >
+                  </div>
                 </div>
               </div>
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Tên đăng nhập <span>(*)</span></label>
                 <div class="col-6">
-                  <input class="form-control" readonly formControlName="sta_username" />
+                  <input
+                    class="form-control"
+                    [readonly]="sta_id !== ''"
+                    formControlName="sta_username"
+                    [ngClass]="{
+                      'is-invalid': submitted && formProfile.controls.sta_username.errors
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted && formProfile.controls.sta_username.errors"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="formProfile.controls.sta_username.errors.required"
+                      >Trường bắt buộc</span
+                    >
+                  </div>
                 </div>
               </div>
             </div>
@@ -104,21 +140,52 @@
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Nhóm quyền <span>(*)</span></label>
                 <div class="col-6">
-                  <select class="custom-select" formControlName="group_role_id">
-                    <option [disabled]="isView" *ngFor="let role of roles" [value]="role.id">{{
+                  <select
+                    class="custom-select"
+                    formControlName="group_role_id"
+                    [ngClass]="{
+                      'is-invalid': submitted && formProfile.controls.group_role_id.errors
+                    }"
+                  >
+                    <option [disabled]="listView[1]" *ngFor="let role of roles" [value]="role.id">{{
                       role.name
                     }}</option>
                   </select>
+                  <div
+                    *ngIf="submitted && formProfile.controls.group_role_id.errors"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="formProfile.controls.group_role_id.errors.required"
+                      >Trường bắt buộc</span
+                    >
+                  </div>
                 </div>
               </div>
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Chức vụ <span>(*)</span></label>
                 <div class="col-6">
-                  <select class="custom-select" formControlName="position_id">
-                    <option [disabled]="isView" *ngFor="let pos of positions" [value]="pos.id">{{
-                      pos.name
-                    }}</option>
+                  <select
+                    class="custom-select"
+                    formControlName="position_id"
+                    [ngClass]="{
+                      'is-invalid': submitted && formProfile.controls.position_id.errors
+                    }"
+                  >
+                    <option
+                      [disabled]="listView[1]"
+                      *ngFor="let pos of positions"
+                      [value]="pos.id"
+                      >{{ pos.name }}</option
+                    >
                   </select>
+                  <div
+                    *ngIf="submitted && formProfile.controls.position_id.errors"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="formProfile.controls.position_id.errors.required"
+                      >Trường bắt buộc</span
+                    >
+                  </div>
                 </div>
               </div>
             </div>
@@ -127,8 +194,8 @@
                 <label class="col-4 col-form-label">Trạng thái <span>(*)</span></label>
                 <div class="col-6">
                   <select class="custom-select" formControlName="sta_status">
-                    <option [disabled]="isView" [value]="1">Kích hoạt</option>
-                    <option [disabled]="isView" [value]="2">Khóa</option>
+                    <option [disabled]="listView[1]" [value]="1">Kích hoạt</option>
+                    <option [disabled]="listView[1]" [value]="2">Khóa</option>
                   </select>
                 </div>
               </div>
@@ -136,9 +203,12 @@
                 <label class="col-4 col-form-label">Phòng ban</label>
                 <div class="col-6">
                   <select class="custom-select" formControlName="department_id">
-                    <option [disabled]="isView" *ngFor="let dep of departments" [value]="dep.id">{{
-                      dep.name
-                    }}</option>
+                    <option
+                      [disabled]="listView[1]"
+                      *ngFor="let dep of departments"
+                      [value]="dep.id"
+                      >{{ dep.name }}</option
+                    >
                   </select>
                 </div>
               </div>
@@ -148,16 +218,20 @@
                 <label class="col-4 col-form-label">Giới tính</label>
                 <div class="col-6">
                   <select class="custom-select" formControlName="sta_sex">
-                    <option [disabled]="isView" [value]="1">Nam</option>
-                    <option [disabled]="isView" [value]="2">Nữ</option>
-                    <option [disabled]="isView" [value]="3">Giới tính khác</option>
+                    <option [disabled]="listView[1]" [value]="1">Nam</option>
+                    <option [disabled]="listView[1]" [value]="2">Nữ</option>
+                    <option [disabled]="listView[1]" [value]="3">Giới tính khác</option>
                   </select>
                 </div>
               </div>
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Phương tiện đi lại</label>
                 <div class="col-6">
-                  <input class="form-control" [readonly]="isView" formControlName="sta_traffic" />
+                  <input
+                    class="form-control"
+                    [readonly]="listView[1]"
+                    formControlName="sta_traffic"
+                  />
                 </div>
               </div>
             </div>
@@ -173,7 +247,7 @@
                       placeholder="Chọn ngày"
                       #start_work="ngbDatepicker"
                       formControlName="sta_start_work_date"
-                      [disabled]="isView"
+                      [disabled]="listView[1]"
                     />
                     <div class="input-group-append" (click)="start_work.toggle()">
                       <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
@@ -192,7 +266,7 @@
                       placeholder="Chọn ngày"
                       #dob="ngbDatepicker"
                       formControlName="sta_birthday"
-                      [disabled]="isView"
+                      [disabled]="listView[1]"
                     />
                     <div class="input-group-append" (click)="dob.toggle()">
                       <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
@@ -209,7 +283,7 @@
                     class="form-control"
                     id="example-number"
                     type="number"
-                    [readonly]="isView"
+                    [readonly]="listView[1]"
                     formControlName="sta_salary_to"
                     style="width: 100%;"
                   />
@@ -218,7 +292,7 @@
                     class="form-control"
                     id="example-number"
                     type="number"
-                    [readonly]="isView"
+                    [readonly]="listView[1]"
                     formControlName="sta_salary_end"
                     style="width: 100%;"
                   />
@@ -228,8 +302,8 @@
                 <label class="col-4 col-form-label">Trạng thái làm việc <span>(*)</span></label>
                 <div class="col-6">
                   <select class="custom-select" formControlName="sta_working_status">
-                    <option [disabled]="isView" [value]="1">Đang làm việc</option>
-                    <option [disabled]="isView" [value]="2">Nghỉ việc</option>
+                    <option [disabled]="listView[1]" [value]="1">Đang làm việc</option>
+                    <option [disabled]="listView[1]" [value]="2">Nghỉ việc</option>
                   </select>
                 </div>
               </div>
@@ -238,7 +312,11 @@
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Mã số thuế</label>
                 <div class="col-6">
-                  <input class="form-control" [readonly]="isView" formControlName="sta_tax_code" />
+                  <input
+                    class="form-control"
+                    [readonly]="listView[1]"
+                    formControlName="sta_tax_code"
+                  />
                 </div>
               </div>
               <div class="form-group row mb-3">
@@ -252,7 +330,7 @@
                       placeholder="Chọn ngày"
                       #end_work="ngbDatepicker"
                       formControlName="sta_end_work_date"
-                      [disabled]="isView"
+                      [disabled]="listView[1]"
                     />
                     <div class="input-group-append" (click)="end_work.toggle()">
                       <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
@@ -267,7 +345,7 @@
                 <div class="col-6">
                   <input
                     class="form-control"
-                    [readonly]="isView"
+                    [readonly]="listView[1]"
                     formControlName="sta_reason_to_end_work"
                   />
                 </div>
@@ -275,7 +353,7 @@
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Ghi chú</label>
                 <div class="col-6">
-                  <input class="form-control" [readonly]="isView" formControlName="sta_note" />
+                  <input class="form-control" [readonly]="listView[1]" formControlName="sta_note" />
                 </div>
               </div>
             </div>
@@ -283,20 +361,53 @@
 
           <div id="2" class="row title-section">
             <h5>Thông tin liên hệ</h5>
-            <i class="fe-edit ml-2"></i>
+            <i
+              [ngClass]="listView[2] ? 'fe-edit ml-2' : 'fe-save ml-2'"
+              (click)="switchViewType(2)"
+            ></i>
           </div>
           <div [formGroup]="formContact">
             <div class="form-row">
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Số điện thoại <span>(*)</span></label>
                 <div class="col-6">
-                  <input class="form-control" [readonly]="isView" formControlName="sta_mobile" />
+                  <input
+                    class="form-control"
+                    [readonly]="listView[2]"
+                    formControlName="sta_mobile"
+                    [ngClass]="{
+                      'is-invalid': submitted && formContact.controls.sta_mobile.errors
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted && formContact.controls.sta_mobile.errors"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="formContact.controls.sta_mobile.errors.required"
+                      >Trường bắt buộc</span
+                    >
+                  </div>
                 </div>
               </div>
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Email <span>(*)</span></label>
                 <div class="col-6">
-                  <input class="form-control" [readonly]="isView" formControlName="sta_email" />
+                  <input
+                    class="form-control"
+                    [readonly]="listView[2]"
+                    formControlName="sta_email"
+                    [ngClass]="{
+                      'is-invalid': submitted && formContact.controls.sta_email.errors
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted && formContact.controls.sta_email.errors"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="formContact.controls.sta_email.errors.required"
+                      >Trường bắt buộc</span
+                    >
+                  </div>
                 </div>
               </div>
             </div>
@@ -304,7 +415,10 @@
 
           <div id="3" class="row title-section">
             <h5>Số CMND/Thẻ căn cước</h5>
-            <i class="fe-edit ml-2"></i>
+            <i
+              [ngClass]="listView[3] ? 'fe-edit ml-2' : 'fe-save ml-2'"
+              (click)="switchViewType(3)"
+            ></i>
           </div>
           <div [formGroup]="formIdentityCard">
             <div class="form-row">
@@ -313,7 +427,7 @@
                 <div class="col-6">
                   <input
                     class="form-control"
-                    [readonly]="isView"
+                    [readonly]="listView[3]"
                     formControlName="sta_identity_card"
                   />
                 </div>
@@ -329,7 +443,7 @@
                       placeholder="Chọn ngày"
                       #icd="ngbDatepicker"
                       formControlName="sta_identity_card_date"
-                      [disabled]="isView"
+                      [disabled]="listView[3]"
                     />
                     <div class="input-group-append" (click)="icd.toggle()">
                       <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
@@ -344,7 +458,7 @@
                 <div class="col-6">
                   <input
                     class="form-control"
-                    [readonly]="isView"
+                    [readonly]="listView[3]"
                     formControlName="sta_identity_card_location"
                   />
                 </div>
@@ -360,7 +474,7 @@
                       placeholder="Chọn ngày"
                       #icde="ngbDatepicker"
                       formControlName="sta_identity_card_date_end"
-                      [disabled]="isView"
+                      [disabled]="listView[3]"
                     />
                     <div class="input-group-append" (click)="icde.toggle()">
                       <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
@@ -373,7 +487,10 @@
 
           <div id="4" class="row title-section">
             <h5>Hộ khẩu thường trú</h5>
-            <i class="fe-edit ml-2"></i>
+            <i
+              [ngClass]="listView[4] ? 'fe-edit ml-2' : 'fe-save ml-2'"
+              (click)="switchViewType(4)"
+            ></i>
           </div>
           <div [formGroup]="formPermanentAddress">
             <div class="form-row">
@@ -386,9 +503,12 @@
                     class="form-control"
                     (change)="onChangeProvincePermanent($event)"
                   >
-                    <option *ngFor="let province of provincePermanent" [value]="province.name">{{
-                      province.name
-                    }}</option>
+                    <option
+                      *ngFor="let province of provincePermanent"
+                      [disabled]="listView[4]"
+                      [value]="province.name"
+                      >{{ province.name }}</option
+                    >
                   </select>
                 </div>
               </div>
@@ -401,9 +521,12 @@
                     class="form-control"
                     (change)="onChangeDistrictPermanent($event)"
                   >
-                    <option *ngFor="let district of districtPermanent" [value]="district.name">{{
-                      district.name
-                    }}</option>
+                    <option
+                      *ngFor="let district of districtPermanent"
+                      [disabled]="listView[4]"
+                      [value]="district.name"
+                      >{{ district.name }}</option
+                    >
                   </select>
                 </div>
               </div>
@@ -417,9 +540,12 @@
                     formControlName="unl_ward_permanent"
                     class="form-control"
                   >
-                    <option *ngFor="let ward of wardPermanent" [value]="ward.name">{{
-                      ward.name
-                    }}</option>
+                    <option
+                      *ngFor="let ward of wardPermanent"
+                      [disabled]="listView[4]"
+                      [value]="ward.name"
+                      >{{ ward.name }}</option
+                    >
                   </select>
                 </div>
               </div>
@@ -428,9 +554,21 @@
                 <div class="col-6">
                   <input
                     class="form-control"
-                    [readonly]="isView"
+                    [readonly]="listView[4]"
                     formControlName="unl_detail_permanent"
+                    [ngClass]="{
+                      'is-invalid':
+                        submitted && formPermanentAddress.controls.unl_detail_permanent.errors
+                    }"
                   />
+                  <div
+                    *ngIf="submitted && formPermanentAddress.controls.unl_detail_permanent.errors"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="formPermanentAddress.controls.unl_detail_permanent.errors.required"
+                      >Trường bắt buộc</span
+                    >
+                  </div>
                 </div>
               </div>
             </div>
@@ -438,7 +576,10 @@
 
           <div id="5" class="row title-section">
             <h5>Chỗ ở hiện tại</h5>
-            <i class="fe-edit ml-2"></i>
+            <i
+              [ngClass]="listView[5] ? 'fe-edit ml-2' : 'fe-save ml-2'"
+              (click)="switchViewType(5)"
+            ></i>
           </div>
           <div [formGroup]="formNowAddress">
             <div class="form-row">
@@ -451,9 +592,12 @@
                     class="form-control"
                     (change)="onChangeProvinceNow($event)"
                   >
-                    <option *ngFor="let province of provinceNow" [value]="province.name">{{
-                      province.name
-                    }}</option>
+                    <option
+                      *ngFor="let province of provinceNow"
+                      [disabled]="listView[5]"
+                      [value]="province.name"
+                      >{{ province.name }}</option
+                    >
                   </select>
                 </div>
               </div>
@@ -466,9 +610,12 @@
                     class="form-control"
                     (change)="onChangeDistrictNow($event)"
                   >
-                    <option *ngFor="let district of districtNow" [value]="district.name">{{
-                      district.name
-                    }}</option>
+                    <option
+                      *ngFor="let district of districtNow"
+                      [disabled]="listView[5]"
+                      [value]="district.name"
+                      >{{ district.name }}</option
+                    >
                   </select>
                 </div>
               </div>
@@ -478,9 +625,12 @@
                 <label class="col-4 col-form-label">Xã/Phường <span>(*)</span></label>
                 <div class="col-6">
                   <select class="custom-select" formControlName="unl_ward_now" class="form-control">
-                    <option *ngFor="let ward of wardNow" [value]="ward.name">{{
-                      ward.name
-                    }}</option>
+                    <option
+                      *ngFor="let ward of wardNow"
+                      [disabled]="listView[5]"
+                      [value]="ward.name"
+                      >{{ ward.name }}</option
+                    >
                   </select>
                 </div>
               </div>
@@ -489,9 +639,20 @@
                 <div class="col-6">
                   <input
                     class="form-control"
-                    [readonly]="isView"
+                    [readonly]="listView[5]"
                     formControlName="unl_detail_now"
+                    [ngClass]="{
+                      'is-invalid': submitted && formNowAddress.controls.unl_detail_now.errors
+                    }"
                   />
+                  <div
+                    *ngIf="submitted && formNowAddress.controls.unl_detail_now.errors"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="formNowAddress.controls.unl_detail_now.errors.required"
+                      >Trường bắt buộc</span
+                    >
+                  </div>
                 </div>
               </div>
             </div>
@@ -499,8 +660,12 @@
 
           <div id="6" class="row title-section">
             <h5>Thông tin đào tạo</h5>
-            <a class="btn btn-primary btn-xs ml-2 button-link">Thêm mới</a>
-            <i class="fe-edit ml-2"></i>
+            <a class="btn btn-primary btn-xs ml-2 button-link" (click)="onUpdateListTraining()"
+              >Chọn</a
+            >
+            <a class="btn btn-success btn-xs ml-2 button-link" (click)="openTrainingModal()"
+              >Thêm mới</a
+            >
           </div>
           <div class="table-responsive border mb-2">
             <table class="table table-centered table-hover mb-0">
@@ -511,26 +676,56 @@
                   <th>Nội dung đào tạo</th>
                   <th>Thời gian bắt đầu</th>
                   <th>Thời gian kết thúc</th>
-                  <th *ngIf="!isView">Thao tác</th>
+                  <th>Thao tác</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let service of listService">
+                <tr *ngFor="let training of listTraining">
                   <td>
-                    {{ service.se_code }}
+                    {{ training.tn_code }}
                   </td>
-                  <td>{{ service.se_name }}</td>
+                  <td>{{ training.tn_name }}</td>
                   <td>
-                    {{ service.se_price }}
+                    {{ training.tn_content }}
                   </td>
-                  <td>{{ service.service_category_name }}</td>
-                  <td>{{ service.se_note }}</td>
-                  <td *ngIf="!isView">
-                    <a class="action-icon table-button-link"> <i class="mdi mdi-delete"></i></a>
+                  <td>{{ training.tn_start_date | date: 'dd/MM/yyyy' }}</td>
+                  <td>{{ training.tn_end_date | date: 'dd/MM/yyyy' }}</td>
+                  <td></td>
+                </tr>
+                <tr *ngFor="let training of listNewTraining">
+                  <td>
+                    {{ training.tn_code }}
+                  </td>
+                  <td>{{ training.tn_name }}</td>
+                  <td>
+                    {{ training.tn_content }}
+                  </td>
+                  <td>{{ training.tn_start_date | date: 'dd/MM/yyyy' }}</td>
+                  <td>{{ training.tn_end_date | date: 'dd/MM/yyyy' }}</td>
+                  <td>
+                    <a
+                      href="javascript:void(0);"
+                      class="action-icon"
+                      (click)="openTrainingModal(training)"
+                    >
+                      <i class="mdi mdi-square-edit-outline"></i
+                    ></a>
+                    <a
+                      href="javascript:void(0);"
+                      class="action-icon"
+                      (click)="openRemoveTraining(training)"
+                    >
+                      <i class="mdi mdi-delete"></i
+                    ></a>
                   </td>
                 </tr>
-                <tr *ngIf="!listService || listService.length === 0">
-                  <td colspan="6">Không có dữ liệu dịch vụ</td>
+                <tr
+                  *ngIf="
+                    (!listTraining && !listNewTraining) ||
+                    listTraining?.length + listNewTraining?.length === 0
+                  "
+                >
+                  <td colspan="5">Không có dữ liệu khóa đào tạo</td>
                 </tr>
               </tbody>
             </table>
@@ -538,8 +733,9 @@
 
           <div id="7" class="row title-section">
             <h5>Địa chỉ phụ trách</h5>
-            <a class="btn btn-primary btn-xs ml-2 button-link">Thêm mới</a>
-            <i class="fe-edit ml-2"></i>
+            <a class="btn btn-primary btn-xs ml-2 button-link" (click)="openAddressModal()"
+              >Thêm mới</a
+            >
           </div>
           <div class="table-responsive border mb-2">
             <table class="table table-centered table-hover mb-0">
@@ -554,22 +750,27 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let service of listService">
+                <tr *ngFor="let address of listAddress">
                   <td>
-                    {{ service.se_code }}
+                    {{ address.unl_province }}
                   </td>
-                  <td>{{ service.se_name }}</td>
+                  <td>{{ address.unl_district }}</td>
                   <td>
-                    {{ service.se_price }}
+                    {{ address.unl_ward }}
                   </td>
-                  <td>{{ service.service_category_name }}</td>
-                  <td>{{ service.se_note }}</td>
+                  <td>{{ address.unl_detail }}</td>
+                  <td>{{ address.unl_note }}</td>
                   <td *ngIf="!isView">
-                    <a class="action-icon table-button-link"> <i class="mdi mdi-delete"></i></a>
+                    <a class="action-icon table-button-link" (click)="openAddressModal(address)">
+                      <i class="mdi mdi-square-edit-outline"></i
+                    ></a>
+                    <a class="action-icon table-button-link" (click)="onRemoveAddress(address)">
+                      <i class="mdi mdi-delete"></i
+                    ></a>
                   </td>
                 </tr>
-                <tr *ngIf="!listService || listService.length === 0">
-                  <td colspan="6">Không có dữ liệu dịch vụ</td>
+                <tr *ngIf="!listAddress || listAddress.length === 0">
+                  <td colspan="6">Không có dữ liệu địa chỉ phụ trách</td>
                 </tr>
               </tbody>
             </table>
@@ -578,7 +779,9 @@
         <div class="row justify-content-end">
           <div class="text-sm-right">
             <a class="btn btn-success mb-2 mr-1 button-link" (click)="onSubmit()">Lưu lại</a>
-            <a class="btn btn-danger mb-2 mr-1 button-link">{{ isView ? 'Quay lại' : 'Hủy bỏ' }}</a>
+            <a class="btn btn-danger mb-2 mr-1 button-link" (click)="onChangeToMain()">{{
+              isView ? 'Quay lại' : 'Hủy bỏ'
+            }}</a>
           </div>
         </div>
       </div>

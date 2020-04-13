@@ -1,9 +1,12 @@
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDate, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { ListTrainingModalComponent } from '../list-staff-detail/component/list-training-modal/list-training-modal.component';
+import { TrainingModalComponent } from '../list-staff/component/training-modal/training-modal.component';
+import { AddressModalComponent } from '../list-staff/component/address-modal/address-modal.component';
 import { AddressService } from '../../../core/services/api/address.service';
 import { StaffService } from '../../../core/services/api/staff.service';
 import Swal from 'sweetalert2';
@@ -22,10 +25,13 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
   menu: any[];
   days: any[];
   selectedMenuItem = 0;
+  submitted = false;
 
   roles: any;
   positions: any;
   departments: any;
+
+  listView = [true, true, true, true, true, true, true, true];
 
   provincePermanent: any;
   districtPermanent: any;
@@ -33,6 +39,9 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
   provinceNow: any;
   districtNow: any;
   wardNow: any;
+
+  tempTraining = 0;
+  tempAddress = 0;
 
   isView = true;
 
@@ -42,20 +51,22 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
   formIdentityCard: FormGroup;
   formPermanentAddress: FormGroup;
   formNowAddress: FormGroup;
-  listTraining: any[];
-  listAddress: any[];
+  listTraining = [];
+  listAddress = [];
+  listNewTraining = [];
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     public formBuilder: FormBuilder,
     private addressService: AddressService,
-    private staffService: StaffService
+    private staffService: StaffService,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit() {
     this.sta_id = this.route.snapshot.paramMap.get('sta_id');
-    console.log(this.sta_id);
-    this.isView = false;
+    if (this.sta_id === '') this.listView = [false, false, false, false, false, false];
 
     this.timePeriod = timePeriod;
     this.menu = menu;
@@ -66,6 +77,9 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
 
     if (this.sta_id) {
       this._fetchStaff(this.sta_id);
+    } else {
+      this._loadProvincePermanent();
+      this._loadProvinceNow();
     }
   }
 
@@ -81,8 +95,19 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
     content.scroll({ top: el.offsetTop - 60, behavior: 'smooth' });
   }
 
+  switchViewType(index: number) {
+    this.listView[index] = !this.listView[index];
+  }
+
   onChangeToMain() {
-    if (1) {
+    if (
+      this.formContractType.dirty ||
+      this.formProfile.dirty ||
+      this.formContact.dirty ||
+      this.formPermanentAddress.dirty ||
+      this.formNowAddress.dirty ||
+      this.formIdentityCard.dirty
+    ) {
       Swal.fire({
         title: 'Dữ liệu đã bị thay đổi, bạn có chắc chắn muốn hủy thao tác không?',
         type: 'warning',
@@ -93,17 +118,59 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
         cancelButtonColor: '#d33',
       }).then((result) => {
         if (result.value) {
+          this.router.navigate(['/staff/list-staff']);
         }
       });
     } else {
+      this.router.navigate(['/staff/list-staff']);
     }
+  }
+
+  onSubmit() {
+    this.submitted = true;
+    if (
+      this.formContractType.invalid ||
+      this.formProfile.invalid ||
+      this.formContact.invalid ||
+      this.formPermanentAddress.invalid ||
+      this.formNowAddress.invalid ||
+      this.formIdentityCard.invalid
+    )
+      return;
+    const identityForm = this.formIdentityCard.value;
+    identityForm.sta_identity_card_date = this._convertNgbDateToDate(
+      identityForm.sta_identity_card_date
+    );
+    identityForm.sta_identity_card_date_end = this._convertNgbDateToDate(
+      identityForm.sta_identity_card_date_end
+    );
+
+    const profileForm = this.formProfile.value;
+    profileForm.sta_birthday = this._convertNgbDateToDate(profileForm.sta_birthday);
+    profileForm.sta_start_work_date = this._convertNgbDateToDate(profileForm.sta_start_work_date);
+
+    const data = {
+      ...this.formContractType.value,
+      ...profileForm,
+      ...this.formContact.value,
+      ...identityForm,
+      ...this.formPermanentAddress.value,
+      ...this.formNowAddress.value,
+      list_training: this.listTraining.concat(this.listNewTraining),
+      list_undertaken_location: this.listAddress,
+    };
+    console.log(data);
+    if (this.sta_id)
+      this._updateStaff({
+        ...data,
+        sta_id: this.sta_id,
+      });
+    else this._createStaff(data);
   }
 
   //#region Contract Type
 
   onCheckDay(day: any) {
-    if (this.isView) return;
-
     if (day === 'Thứ 2')
       this.formContractType.patchValue({
         st_mon_flag: this.formContractType.value.st_mon_flag === 1 ? 0 : 1,
@@ -176,15 +243,110 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
   }
   //#endregion
 
-  onSubmit() {
-    console.log(this.formContractType.value);
-    console.log(this.formProfile.value);
-    console.log(this.formContact.value);
-    console.log(this.formIdentityCard.value);
-    console.log(this.formPermanentAddress.value);
-    console.log(this.formNowAddress.value);
+  //#region List Training
+  onUpdateListTraining() {
+    const modalRef = this.modalService.open(ListTrainingModalComponent, {
+      centered: true,
+      size: 'lg',
+    });
+    modalRef.componentInstance.listTraining = this.listTraining;
+    modalRef.componentInstance.passEvent.subscribe((res) => {
+      if (res.event) {
+        this.listTraining = res.data;
+      }
+      modalRef.close();
+    });
   }
 
+  openTrainingModal(training?: any) {
+    const modalRef = this.modalService.open(TrainingModalComponent, {
+      centered: true,
+    });
+    modalRef.componentInstance.staffId = this.sta_id;
+    if (training) {
+      modalRef.componentInstance.training = training;
+    }
+    modalRef.componentInstance.passEvent.subscribe((res) => {
+      if (res.event) {
+        if (training) {
+          this.listNewTraining = this.listNewTraining.map((item) => {
+            if (item.tn_id !== res.data.tn_id) return item;
+            return res.data;
+          });
+        } else {
+          this.listNewTraining.push({
+            ...res.data,
+            tn_id: `temp_${this.tempTraining}`,
+          });
+          this.tempTraining++;
+        }
+      }
+      modalRef.close();
+    });
+  }
+
+  openRemoveTraining(training) {
+    Swal.fire({
+      title: 'Chắc chắn muốn xóa khóa đào tạo đang chọn?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Xóa',
+      cancelButtonText: 'Hủy',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+    }).then((result) => {
+      if (result.value) {
+        this.listNewTraining = this.listNewTraining.filter((item) => item.tn_id !== training.tn_id);
+      }
+    });
+  }
+  //#endregion
+
+  //#region List Address
+  openAddressModal(address?: any) {
+    const modalRef = this.modalService.open(AddressModalComponent, {
+      centered: true,
+    });
+    if (address) {
+      modalRef.componentInstance.address = address;
+    }
+    modalRef.componentInstance.passEvent.subscribe((res) => {
+      if (res.event) {
+        if (address) {
+          this.listAddress = this.listAddress.map((item) => {
+            if (item.unl_id !== res.form.unl_id) return item;
+            return res.form;
+          });
+        } else {
+          this.listAddress.push({
+            ...res.form,
+            unl_id: `temp_${this.tempAddress}`,
+          });
+          this.tempAddress++;
+        }
+      }
+      modalRef.close();
+    });
+  }
+
+  onRemoveAddress(address: any) {
+    Swal.fire({
+      title: 'Chắc chắn muốn xóa địa chỉ đang chọn?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Xóa',
+      cancelButtonText: 'Hủy',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+    }).then((result) => {
+      if (result.value) {
+        this.listAddress = this.listAddress.filter((item) => item.unl_id !== address.unl_id);
+      }
+    });
+  }
+  //#endregion
+
+  //#region Private
   private _initializeForm() {
     this.formContractType = this.formBuilder.group({
       sta_type_contact: [0, null],
@@ -204,7 +366,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
       sta_username: ['', [Validators.required]],
       group_role_id: ['', [Validators.required]],
       position_id: ['', [Validators.required]],
-      sta_status: ['', [Validators.required]],
+      sta_status: [1, [Validators.required]],
       department_id: ['', null],
       sta_sex: [1, null],
       sta_traffic: ['', null],
@@ -334,6 +496,9 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
 
     this._loadProvincePermanent();
     this._loadProvinceNow();
+
+    this.listTraining = staff.list_training;
+    this.listAddress = staff.list_undertaken_location;
   }
 
   private _loadProvinceNow() {
@@ -377,7 +542,6 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
   }
 
   private _loadWardNow(districtId: any, isFirst = false) {
-    console.log('now', districtId);
     const wardNow$ = this.addressService
       .loadWard({ district_id: districtId })
       .pipe(takeUntil(this.destroyed$));
@@ -433,7 +597,6 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
   }
 
   private _loadWardPermanent(districtId: any, isFirst = false) {
-    console.log('per', districtId);
     const wardPermanent$ = this.addressService
       .loadWard({ district_id: districtId })
       .pipe(takeUntil(this.destroyed$));
@@ -446,6 +609,39 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
         }
       }
     });
+  }
+
+  private _createStaff(data: any) {
+    const createStaff$ = this.staffService.createStaff(data).pipe(takeUntil(this.destroyed$));
+    createStaff$.subscribe(
+      (res: any) => {
+        if (res && res.Code === 200) {
+          this._notify(true, res.Message);
+
+          this.staffService
+            .sendMailCreate({
+              sta_username: data.sta_username,
+              sta_email: data.sta_email,
+            })
+            .subscribe((res) => {
+              console.log(res);
+            });
+        } else this._notify(false, res.Message);
+      },
+      (e) => this._notify(false, e.Message)
+    );
+  }
+
+  private _updateStaff(updated: any) {
+    const updateStaff$ = this.staffService.updateStaff(updated).pipe(takeUntil(this.destroyed$));
+    updateStaff$.subscribe(
+      (res: any) => {
+        if (res && res.Code === 200) {
+          this._notify(true, res.Message);
+        } else this._notify(false, res.Message);
+      },
+      (e) => this._notify(false, e.Message)
+    );
   }
 
   private _convertNgbDateToDate(ngbDate: any) {
@@ -465,4 +661,16 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
     const day = moment(date).date();
     return new NgbDate(year, month, day);
   }
+
+  private _notify(isSuccess: boolean, message: string) {
+    return Swal.fire({
+      toast: true,
+      position: 'top-end',
+      type: isSuccess ? 'success' : 'error',
+      title: message,
+      showConfirmButton: false,
+      timer: 2000,
+    });
+  }
+  //#endregion
 }

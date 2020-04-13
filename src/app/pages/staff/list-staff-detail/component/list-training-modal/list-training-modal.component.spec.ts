@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StaffModalComponent } from './staff-modal.component';
+import { ListTrainingModalComponent } from './list-training-modal.component';
 
-describe('StaffModalComponent', () => {
-  let component: StaffModalComponent;
-  let fixture: ComponentFixture<StaffModalComponent>;
+describe('ListTrainingModalComponent', () => {
+  let component: ListTrainingModalComponent;
+  let fixture: ComponentFixture<ListTrainingModalComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StaffModalComponent ]
+      declarations: [ ListTrainingModalComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StaffModalComponent);
+    fixture = TestBed.createComponent(ListTrainingModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
