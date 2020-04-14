@@ -200,9 +200,21 @@
                 </div>
               </div>
               <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Phòng ban</label>
+                <label class="col-4 col-form-label"
+                  >Phòng ban
+                  <span *ngIf="formContractType.value.sta_type_contact === 0">(*)</span></label
+                >
                 <div class="col-6">
-                  <select class="custom-select" formControlName="department_id">
+                  <select
+                    class="custom-select"
+                    formControlName="department_id"
+                    [ngClass]="{
+                      'is-invalid':
+                        submitted &&
+                        formContractType.value.sta_type_contact === 0 &&
+                        formProfile.value.department_id === null
+                    }"
+                  >
                     <option
                       [disabled]="listView[1]"
                       *ngFor="let dep of departments"
@@ -210,12 +222,22 @@
                       >{{ dep.name }}</option
                     >
                   </select>
+                  <div
+                    *ngIf="
+                      submitted &&
+                      formContractType.value.sta_type_contact === 0 &&
+                      formProfile.value.department_id === null
+                    "
+                    class="invalid-feedback"
+                  >
+                    <span>Trường bắt buộc</span>
+                  </div>
                 </div>
               </div>
             </div>
             <div class="form-row">
               <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Giới tính</label>
+                <label class="col-4 col-form-label">Giới tính <span>(*)</span></label>
                 <div class="col-6">
                   <select class="custom-select" formControlName="sta_sex">
                     <option [disabled]="listView[1]" [value]="1">Nam</option>
@@ -320,7 +342,10 @@
                 </div>
               </div>
               <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Ngày nghỉ việc</label>
+                <label class="col-4 col-form-label"
+                  >Ngày nghỉ việc
+                  <span *ngIf="formProfile.value.sta_working_status === '2'">(*)</span></label
+                >
                 <div class="col-6">
                   <div class="input-group clockpicker mb-2 mr-1">
                     <input
@@ -331,9 +356,25 @@
                       #end_work="ngbDatepicker"
                       formControlName="sta_end_work_date"
                       [disabled]="listView[1]"
+                      [ngClass]="{
+                        'is-invalid':
+                          submitted &&
+                          formProfile.value.sta_working_status === '2' &&
+                          formProfile.value.sta_end_work_date === null
+                      }"
                     />
                     <div class="input-group-append" (click)="end_work.toggle()">
                       <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                    </div>
+                    <div
+                      *ngIf="
+                        submitted &&
+                        formProfile.value.sta_working_status === '2' &&
+                        formProfile.value.sta_end_work_date === null
+                      "
+                      class="invalid-feedback"
+                    >
+                      <span>Trường bắt buộc</span>
                     </div>
                   </div>
                 </div>
@@ -341,13 +382,32 @@
             </div>
             <div class="form-row">
               <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Lí do nghỉ việc</label>
+                <label class="col-4 col-form-label"
+                  >Lí do nghỉ việc
+                  <span *ngIf="formProfile.value.sta_working_status === '2'">(*)</span></label
+                >
                 <div class="col-6">
                   <input
                     class="form-control"
                     [readonly]="listView[1]"
                     formControlName="sta_reason_to_end_work"
+                    [ngClass]="{
+                      'is-invalid':
+                        submitted &&
+                        formProfile.value.sta_working_status === '2' &&
+                        formProfile.value.sta_reason_to_end_work === ''
+                    }"
                   />
+                  <div
+                    *ngIf="
+                      submitted &&
+                      formProfile.value.sta_working_status === '2' &&
+                      formProfile.value.sta_reason_to_end_work === ''
+                    "
+                    class="invalid-feedback"
+                  >
+                    <span>Trường bắt buộc</span>
+                  </div>
                 </div>
               </div>
               <div class="form-group row mb-3">
@@ -390,23 +450,47 @@
                 </div>
               </div>
               <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Email <span>(*)</span></label>
+                <label class="col-4 col-form-label"
+                  >Email
+                  <span *ngIf="formContractType.value.sta_type_contact === 0">(*)</span></label
+                >
                 <div class="col-6">
                   <input
                     class="form-control"
                     [readonly]="listView[2]"
                     formControlName="sta_email"
                     [ngClass]="{
-                      'is-invalid': submitted && formContact.controls.sta_email.errors
+                      'is-invalid':
+                        submitted &&
+                        (formContact.controls.sta_email.errors ||
+                          (formContractType.value.sta_type_contact === 0 &&
+                            formContact.value.sta_email === ''))
                     }"
                   />
                   <div
-                    *ngIf="submitted && formContact.controls.sta_email.errors"
+                    *ngIf="
+                      submitted &&
+                      (formContact.controls.sta_email.errors ||
+                        (formContractType.value.sta_type_contact === 0 &&
+                          formContact.value.sta_email === ''))
+                    "
                     class="invalid-feedback"
                   >
-                    <span *ngIf="formContact.controls.sta_email.errors.required"
+                    <span
+                      *ngIf="
+                        formContractType.value.sta_type_contact === 0 &&
+                        formContact.value.sta_email === ''
+                      "
                       >Trường bắt buộc</span
                     >
+                    <span
+                      *ngIf="
+                        formContact.value.sta_email !== '' &&
+                        formContact.controls.sta_email.errors.email
+                      "
+                    >
+                      Email sai định dạng
+                    </span>
                   </div>
                 </div>
               </div>
@@ -576,6 +660,15 @@
 
           <div id="5" class="row title-section">
             <h5>Chỗ ở hiện tại</h5>
+            <div class="checkbox checkbox-success form-check-inline ml-3" style="line-height: 2;">
+              <input
+                type="checkbox"
+                [disabled]="listView[5]"
+                (change)="changeCheckSame($event)"
+                [checked]="checkSameAddress()"
+              />
+              <label> giống hộ khẩu thường trú </label>
+            </div>
             <i
               [ngClass]="listView[5] ? 'fe-edit ml-2' : 'fe-save ml-2'"
               (click)="switchViewType(5)"
@@ -671,7 +764,6 @@
             <table class="table table-centered table-hover mb-0">
               <thead>
                 <tr>
-                  <th>Mã đào tạo</th>
                   <th>Tên CTĐT</th>
                   <th>Nội dung đào tạo</th>
                   <th>Thời gian bắt đầu</th>
@@ -681,9 +773,6 @@
               </thead>
               <tbody>
                 <tr *ngFor="let training of listTraining">
-                  <td>
-                    {{ training.tn_code }}
-                  </td>
                   <td>{{ training.tn_name }}</td>
                   <td>
                     {{ training.tn_content }}

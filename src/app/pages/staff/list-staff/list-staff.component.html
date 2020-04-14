@@ -83,7 +83,7 @@
             [ngClass]="selectedStaff ? '' : 'disabled'"
             (click)="onRouteDetail(selectedStaff)"
           >
-            Cập nhật</a
+            Xem & Sửa</a
           >
           <a
             class="btn btn-danger mb-2 mr-1 button-link"
@@ -110,7 +110,6 @@
             <th>Loại hợp đồng</th>
             <th>Số CMND/Thẻ căn cước</th>
             <th>Mã số thuế</th>
-            <th>Lương</th>
             <th>Trạng thái làm việc</th>
             <th>Trạng thái</th>
           </tr>
@@ -140,8 +139,15 @@
               {{ staff.sta_username }}
             </td>
             <td>
-              <span [ngClass]="staff.sta_sex === 1 ? 'badge badge-primary' : 'badge badge-success'"
-                >{{ staff.sta_sex === 1 ? 'Nữ' : 'Nam' }}
+              <span
+                [ngClass]="
+                  staff.sta_sex === 1
+                    ? 'badge badge-success'
+                    : staff.sta_sex === 2
+                    ? 'badge badge-primary'
+                    : 'badge badge-secondary'
+                "
+                >{{ staff.sta_sex === 1 ? 'Nam' : staff.sta_sex === 2 ? 'Nữ' : 'Giới tính khác' }}
               </span>
             </td>
             <td>
@@ -165,7 +171,6 @@
             <td>
               {{ staff.sta_tax_code }}
             </td>
-            <td>{{ staff.sta_salary_to }} - {{ staff.sta_salary_end }}</td>
             <td>
               <span
                 [ngClass]="

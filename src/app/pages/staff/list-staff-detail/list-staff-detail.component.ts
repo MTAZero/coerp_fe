@@ -134,7 +134,15 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
       this.formContact.invalid ||
       this.formPermanentAddress.invalid ||
       this.formNowAddress.invalid ||
-      this.formIdentityCard.invalid
+      this.formIdentityCard.invalid ||
+      (this.formContractType.value.sta_type_contact === 0 &&
+        this.formContact.value.sta_email === '') ||
+      (this.formContractType.value.sta_type_contact === 0 &&
+        this.formProfile.value.department_id === null) ||
+      (this.formProfile.value.sta_working_status === '2' &&
+        this.formProfile.value.sta_end_work_date === null) ||
+      (this.formProfile.value.sta_working_status === '2' &&
+        this.formProfile.value.sta_reason_to_end_work === '')
     )
       return;
     const identityForm = this.formIdentityCard.value;
@@ -231,7 +239,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
   }
   //#endregion
 
-  //#region Permanent Address
+  //#region Now Address
   onChangeProvinceNow(e) {
     const districtId = this.provinceNow.find((item) => item.name === e.target.value).id;
     this._loadDistrictNow(districtId);
@@ -240,6 +248,51 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
   onChangeDistrictNow(e) {
     const wardId = this.districtNow.find((item) => item.name === e.target.value).id;
     this._loadWardNow(wardId);
+  }
+
+  checkSameAddress() {
+    const {
+      unl_detail_permanent,
+      unl_province_permanent,
+      unl_district_permanent,
+      unl_ward_permanent,
+    } = this.formPermanentAddress.value;
+
+    const {
+      unl_detail_now,
+      unl_province_now,
+      unl_district_now,
+      unl_ward_now,
+    } = this.formNowAddress.value;
+
+    return (
+      unl_detail_permanent === unl_detail_now &&
+      unl_province_permanent === unl_province_now &&
+      unl_district_permanent === unl_district_now &&
+      unl_ward_permanent === unl_ward_now
+    );
+  }
+
+  changeCheckSame(event: any) {
+    if (event.target.checked) {
+      const {
+        unl_detail_permanent,
+        unl_province_permanent,
+        unl_district_permanent,
+        unl_ward_permanent,
+      } = this.formPermanentAddress.value;
+
+      this.provinceNow = this.provincePermanent;
+      this.districtNow = this.districtPermanent;
+      this.wardNow = this.wardPermanent;
+
+      this.formNowAddress.patchValue({
+        unl_ward_now: unl_ward_permanent,
+        unl_district_now: unl_district_permanent,
+        unl_province_now: unl_province_permanent,
+        unl_detail_now: unl_detail_permanent,
+      });
+    }
   }
   //#endregion
 
@@ -365,7 +418,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
       sta_fullname: ['', [Validators.required]],
       sta_username: ['', [Validators.required]],
       group_role_id: ['', [Validators.required]],
-      position_id: ['', [Validators.required]],
+      position_id: [null, [Validators.required]],
       sta_status: [1, [Validators.required]],
       department_id: ['', null],
       sta_sex: [1, null],
@@ -383,7 +436,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
 
     this.formContact = this.formBuilder.group({
       sta_mobile: ['', [Validators.required]],
-      sta_email: ['', [Validators.required]],
+      sta_email: ['', [Validators.email]],
     });
 
     this.formIdentityCard = this.formBuilder.group({
@@ -617,6 +670,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
       (res: any) => {
         if (res && res.Code === 200) {
           this._notify(true, res.Message);
+          this.router.navigate(['/staff/list-staff']);
 
           this.staffService
             .sendMailCreate({
@@ -638,6 +692,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
       (res: any) => {
         if (res && res.Code === 200) {
           this._notify(true, res.Message);
+          this.router.navigate(['/staff/list-staff']);
         } else this._notify(false, res.Message);
       },
       (e) => this._notify(false, e.Message)
