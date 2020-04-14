@@ -122,7 +122,9 @@
                     [readonly]="sta_id !== ''"
                     formControlName="sta_username"
                     [ngClass]="{
-                      'is-invalid': submitted && formProfile.controls.sta_username.errors
+                      'is-invalid':
+                        submitted &&
+                        (formProfile.controls.sta_username.errors || errorField === 'sta_username')
                     }"
                   />
                   <div
@@ -436,7 +438,9 @@
                     [readonly]="listView[2]"
                     formControlName="sta_mobile"
                     [ngClass]="{
-                      'is-invalid': submitted && formContact.controls.sta_mobile.errors
+                      'is-invalid':
+                        submitted &&
+                        (formContact.controls.sta_mobile.errors || errorField === 'sta_mobile')
                     }"
                   />
                   <div
@@ -463,6 +467,7 @@
                       'is-invalid':
                         submitted &&
                         (formContact.controls.sta_email.errors ||
+                          errorField === 'sta_email' ||
                           (formContractType.value.sta_type_contact === 0 &&
                             formContact.value.sta_email === ''))
                     }"

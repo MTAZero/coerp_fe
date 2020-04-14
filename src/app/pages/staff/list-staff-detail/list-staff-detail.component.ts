@@ -26,6 +26,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
   days: any[];
   selectedMenuItem = 0;
   submitted = false;
+  errorField = null;
 
   roles: any;
   positions: any;
@@ -490,8 +491,8 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
   private _patchStaff(staff: any) {
     this.formContractType.patchValue({
       sta_type_contact: staff.sta_type_contact,
-      sw_time_start: staff.sw_time_start,
-      sw_time_end: staff.sw_time_end ? 1 : 0,
+      sw_time_start: staff.sw_time_start ? staff.sw_time_start.substr(0, 5) : '',
+      sw_time_end: staff.sw_time_end ? staff.sw_time_end.substr(0, 5) : '',
       st_sun_flag: staff.st_sun_flag ? 1 : 0,
       st_mon_flag: staff.st_mon_flag ? 1 : 0,
       st_tue_flag: staff.st_tue_flag ? 1 : 0,
@@ -680,9 +681,15 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
             .subscribe((res) => {
               console.log(res);
             });
-        } else this._notify(false, res.Message);
+        } else {
+          this._notify(false, res.Message);
+          this.errorField = res.Error;
+        }
       },
-      (e) => this._notify(false, e.Message)
+      (e) => {
+        this._notify(false, e.Message);
+        this.errorField = e.Error;
+      }
     );
   }
 
@@ -693,9 +700,15 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
         if (res && res.Code === 200) {
           this._notify(true, res.Message);
           this.router.navigate(['/staff/list-staff']);
-        } else this._notify(false, res.Message);
+        } else {
+          this._notify(false, res.Message);
+          this.errorField = res.Error;
+        }
       },
-      (e) => this._notify(false, e.Message)
+      (e) => {
+        this._notify(false, e.Message);
+        this.errorField = e.Error;
+      }
     );
   }
 

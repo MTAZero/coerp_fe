@@ -18,6 +18,7 @@ export class ListStaffComponent implements OnInit, OnDestroy {
 
   textSearch = '';
   statusSearch = '';
+  workingStatusSearch = '';
   fromDate = this._convertDateToNgbDate(new Date('2010-01-01'));
   toDate = this._convertDateToNgbDate(new Date());
   page = 1;
@@ -118,6 +119,7 @@ export class ListStaffComponent implements OnInit, OnDestroy {
         pageSize: this.pageSize,
         name: this.textSearch,
         status: this.statusSearch,
+        sta_working_status: this.workingStatusSearch,
         start_date: this._convertNgbDateToDate(this.fromDate),
         end_date: this._convertNgbDateToDate(this.toDate),
       })
@@ -137,6 +139,7 @@ export class ListStaffComponent implements OnInit, OnDestroy {
         pageSize: this.pageSize,
         name: this.textSearch,
         status: this.statusSearch,
+        sta_working_status: this.workingStatusSearch,
         start_date: this._convertNgbDateToDate(this.fromDate),
         end_date: this._convertNgbDateToDate(this.toDate),
       })

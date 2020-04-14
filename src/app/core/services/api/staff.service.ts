@@ -37,6 +37,7 @@ export class StaffService {
     pageNumber: number;
     pageSize: number;
     status: string;
+    sta_working_status: string;
     name: string;
     start_date: any;
     end_date: any;
@@ -49,6 +50,7 @@ export class StaffService {
     pageNumber: number;
     pageSize: number;
     status: string;
+    sta_working_status: string;
     name: string;
     start_date: any;
     end_date: any;

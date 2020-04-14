@@ -25,12 +25,12 @@
           <select
             class="custom-select mr-1"
             name="select"
-            [(ngModel)]="statusSearch"
+            [(ngModel)]="workingStatusSearch"
             (change)="onChangeFilter()"
           >
             <option value="">Trạng thái làm việc</option>
-            <option value="1">Kích hoạt</option>
-            <option value="0">Khóa</option>
+            <option value="1">Đang làm việc</option>
+            <option value="2">Nghỉ việc</option>
           </select>
           <div class="input-group clockpicker mb-2 mr-1">
             <input
