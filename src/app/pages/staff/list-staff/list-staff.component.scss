@@ -1,7 +1,11 @@
 :host {
+  .card-body {
+    padding: 0;
+    padding-top: 10px;
+  }
+
   .form-inline {
     align-items: baseline;
-    flex-flow: row;
   }
 
   a {

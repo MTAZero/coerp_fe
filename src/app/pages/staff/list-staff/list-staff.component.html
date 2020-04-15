@@ -1,9 +1,9 @@
 <app-main-container>
   <div top class="card-body" style="height: 100%;">
-    <div class="row mb-1">
-      <div class="col-sm-6">
+    <div class="row">
+      <div class="col-sm-8">
         <form class="form-inline">
-          <div class="form-group mr-1">
+          <div class="form-group ml-1 mr-1 mb-2">
             <input
               class="form-control"
               name="textSearch"
@@ -13,7 +13,7 @@
             />
           </div>
           <select
-            class="custom-select mr-1"
+            class="custom-select mr-1 mb-2"
             name="select"
             [(ngModel)]="statusSearch"
             (change)="onChangeFilter()"
@@ -23,7 +23,7 @@
             <option value="0">Khóa</option>
           </select>
           <select
-            class="custom-select mr-1"
+            class="custom-select mr-1 mb-2"
             name="select"
             [(ngModel)]="workingStatusSearch"
             (change)="onChangeFilter()"
@@ -66,7 +66,7 @@
           </div>
         </form>
       </div>
-      <div class="col-sm-6">
+      <div class="col-sm-4">
         <div class="text-sm-right">
           <label class="btn btn-info mb-2 mr-1">
             <input type="file" (change)="setFile($event)" style="display: none;" />

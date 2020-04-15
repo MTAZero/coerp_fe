@@ -93,7 +93,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
     this.selectedMenuItem = index;
     const el = document.getElementById(index);
     const content = document.getElementById('content');
-    content.scroll({ top: el.offsetTop - 60, behavior: 'smooth' });
+    content.scroll({ top: el.offsetTop - 50, behavior: 'smooth' });
   }
 
   switchViewType(index: number) {

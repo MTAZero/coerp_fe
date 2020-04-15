@@ -1,4 +1,8 @@
 :host {
+  .card-body {
+    padding: 0;
+  }
+
   .staff-detail {
     display: flex;
     height: 100%;
