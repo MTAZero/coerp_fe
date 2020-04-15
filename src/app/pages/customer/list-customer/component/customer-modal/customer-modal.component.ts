@@ -2,9 +2,6 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { NgbModal, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { CustomerService } from '../../../../../core/services/api/customer.service';
-import { ListSourceModalComponent } from '../list-source-modal/list-source-modal.component';
-import { ListCustomerTypeModalComponent } from '../list-customer-type-modal/list-customer-type-modal.component';
-import { ListCustomerGroupModalComponent } from '../list-customer-group-modal/list-customer-group-modal.component';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import * as moment from 'moment';
@@ -13,7 +10,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-customer-modal',
   templateUrl: './customer-modal.component.html',
-  styleUrls: ['./customer-modal.component.scss']
+  styleUrls: ['./customer-modal.component.scss'],
 })
 export class CustomerModalComponent implements OnInit {
   private destroyed$ = new Subject();
@@ -42,30 +39,30 @@ export class CustomerModalComponent implements OnInit {
   }
 
   openSourceModal() {
-    const modalRef = this.modalService.open(ListSourceModalComponent, {
-      centered: true
-    });
-    modalRef.componentInstance.passEvent.subscribe(res => {
-      modalRef.close();
-    });
+    // const modalRef = this.modalService.open(ListSourceModalComponent, {
+    //   centered: true,
+    // });
+    // modalRef.componentInstance.passEvent.subscribe((res) => {
+    //   modalRef.close();
+    // });
   }
 
   openCustomerTypeModal() {
-    const modalRef = this.modalService.open(ListCustomerTypeModalComponent, {
-      centered: true
-    });
-    modalRef.componentInstance.passEvent.subscribe(res => {
-      modalRef.close();
-    });
+    // const modalRef = this.modalService.open(ListCustomerTypeModalComponent, {
+    //   centered: true,
+    // });
+    // modalRef.componentInstance.passEvent.subscribe((res) => {
+    //   modalRef.close();
+    // });
   }
 
   openCustomerGroupModal() {
-    const modalRef = this.modalService.open(ListCustomerGroupModalComponent, {
-      centered: true
-    });
-    modalRef.componentInstance.passEvent.subscribe(res => {
-      modalRef.close();
-    });
+    // const modalRef = this.modalService.open(ListCustomerGroupModalComponent, {
+    //   centered: true,
+    // });
+    // modalRef.componentInstance.passEvent.subscribe((res) => {
+    //   modalRef.close();
+    // });
   }
 
   onClickSubmit() {
@@ -87,8 +84,8 @@ export class CustomerModalComponent implements OnInit {
         confirmButtonText: 'Có',
         cancelButtonText: 'Không',
         confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33'
-      }).then(result => {
+        cancelButtonColor: '#d33',
+      }).then((result) => {
         if (result.value) {
           this.passEvent.emit({ event: false });
         }
@@ -113,7 +110,7 @@ export class CustomerModalComponent implements OnInit {
       cu_geocoding: ['', null],
       customer_group_id: ['', [Validators.required]],
       source_id: ['', [Validators.required]],
-      cu_birthday: [null, null]
+      cu_birthday: [null, null],
     });
   }
 
@@ -128,7 +125,7 @@ export class CustomerModalComponent implements OnInit {
       cu_geocoding: customer.cu_geocoding,
       customer_group_id: customer.customer_group_id,
       source_id: customer.source_id,
-      cu_birthday: this._convertDateToNgbDate(customer.cu_birthday)
+      cu_birthday: this._convertDateToNgbDate(customer.cu_birthday),
     });
   }
 

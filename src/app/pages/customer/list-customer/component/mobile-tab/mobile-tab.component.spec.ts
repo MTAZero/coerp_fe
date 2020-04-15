@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CustomerTypeModalComponent } from './customer-type-modal.component';
+import { MobileTabComponent } from './mobile-tab.component';
 
-describe('CustomerTypeModalComponent', () => {
-  let component: CustomerTypeModalComponent;
-  let fixture: ComponentFixture<CustomerTypeModalComponent>;
+describe('MobileTabComponent', () => {
+  let component: MobileTabComponent;
+  let fixture: ComponentFixture<MobileTabComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CustomerTypeModalComponent ]
+      declarations: [ MobileTabComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CustomerTypeModalComponent);
+    fixture = TestBed.createComponent(MobileTabComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

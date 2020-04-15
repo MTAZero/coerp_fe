@@ -228,6 +228,16 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
 
   //#endregion
 
+  //#region Profile
+  onChangeWorkStatus(event) {
+    if (event.target.value === '1')
+      this.formProfile.patchValue({
+        sta_end_work_date: null,
+        sta_reason_to_end_work: '',
+      });
+  }
+  //#endregion
+
   //#region Permanent Address
   onChangeProvincePermanent(e) {
     const districtId = this.provincePermanent.find((item) => item.name === e.target.value).id;

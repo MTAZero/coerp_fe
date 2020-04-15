@@ -1,9 +1,9 @@
 <app-main-container>
   <div top class="card-body" style="height: 100%;">
-    <div class="row mb-1">
-      <div class="col-xl-6">
-        <div class="form-inline row mb-1">
-          <div class="form-group">
+    <div class="row">
+      <div class="col-sm-8">
+        <form class="form-inline">
+          <div class="form-group ml-1 mr-1 mb-2">
             <input
               class="form-control"
               name="textSearch"
@@ -12,31 +12,36 @@
               (input)="onChangeFilter()"
             />
           </div>
-          <div class="col-lg-auto">
-            <select
-              class="custom-select mr-1"
-              name="type"
-              [(ngModel)]="typeSearch"
-              (change)="onChangeFilter()"
-            >
-              <option value="">Loại khách hàng</option>
-              <option *ngFor="let type of types" [value]="type.id">{{ type.name }}</option>
-            </select>
-            <select
-              class="custom-select"
-              name="group"
-              [(ngModel)]="groupSearch"
-              (change)="onChangeFilter()"
-            >
-              <option value="">Nhóm khách hàng</option>
-              <option *ngFor="let group of groups" [value]="group.cg_id">{{
-                group.cg_name
-              }}</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-inline row">
-          <div class="input-group clockpicker mr-2">
+          <select
+            class="custom-select mr-1"
+            name="type"
+            [(ngModel)]="typeSearch"
+            (change)="onChangeFilter()"
+          >
+            <option value="">Loại khách hàng</option>
+            <option *ngFor="let type of types" [value]="type.id">{{ type.name }}</option>
+          </select>
+          <select
+            class="custom-select mr-1"
+            name="group"
+            [(ngModel)]="groupSearch"
+            (change)="onChangeFilter()"
+          >
+            <option value="">Nhóm khách hàng</option>
+            <option *ngFor="let group of groups" [value]="group.cg_id">{{ group.cg_name }}</option>
+          </select>
+          <select
+            class="custom-select mr-1"
+            name="source"
+            [(ngModel)]="sourceSearch"
+            (change)="onChangeFilter()"
+          >
+            <option value="">Nguồn</option>
+            <option *ngFor="let source of sources" [value]="source.src_id">{{
+              source.src_name
+            }}</option>
+          </select>
+          <div class="input-group clockpicker mb-2 mr-1">
             <input
               ngbDatepicker
               readonly="true"
@@ -52,7 +57,7 @@
               <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
             </div>
           </div>
-          <div class="input-group clockpicker mr-2">
+          <div class="input-group clockpicker mb-2">
             <input
               ngbDatepicker
               readonly="true"
@@ -68,46 +73,32 @@
               <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
             </div>
           </div>
-          <select
-            class="custom-select mr-1"
-            name="source"
-            [(ngModel)]="sourceSearch"
-            (change)="onChangeFilter()"
-          >
-            <option value="">Nguồn</option>
-            <option *ngFor="let source of sources" [value]="source.src_id">{{
-              source.src_name
-            }}</option>
-          </select>
-        </div>
+        </form>
       </div>
-      <div class="col-xl-6 mb-1">
+      <div class="col-sm-4">
         <div class="text-sm-right">
-          <label class="btn btn-info mr-1 mb-0">
+          <label class="btn btn-info mb-2 mr-1">
             <input type="file" (change)="setFile($event)" style="display: none;" />
             <a mat-raised-button color="primary">
-              <span class="mdi mdi-cloud-upload"></span>
               Nhập
             </a>
           </label>
-          <button type="button" class="btn btn-info mr-1" (click)="exportCustomer()">
-            <span class="mdi mdi-cloud-download"></span>
+          <button type="button" class="btn btn-info mb-2 mr-1" (click)="exportCustomer()">
             Xuất
           </button>
-          <a class="btn btn-success mr-1 button-link" (click)="openCustomerModal()"
-            ><i class="mdi mdi-plus-circle mr-1"></i> Thêm mới</a
-          >
+          <a class="btn btn-success mb-2 mr-1 button-link"> Thêm mới</a>
           <a
-            class="btn btn-primary mr-1 button-link"
+            class="btn btn-primary mb-2 mr-1 button-link"
             [ngClass]="selectedCustomer ? '' : 'disabled'"
-            (click)="openCustomerModal(selectedCustomer)"
-            ><i class="mdi mdi-square-edit-outline mr-1"></i> Cập nhật</a
+          >
+            Xem & Sửa</a
           >
           <a
-            class="btn btn-danger mr-1 button-link"
+            class="btn btn-danger mb-2 mr-1 button-link"
             [ngClass]="selectedCustomer ? '' : 'disabled'"
             (click)="openConfirmModal(selectedCustomer)"
-            ><i class="mdi mdi-delete mr-1"></i> Xóa</a
+          >
+            Xóa</a
           >
         </div>
       </div>
@@ -117,28 +108,35 @@
       <table class="table table-centered table-hover mb-0">
         <thead>
           <tr>
-            <th>MKH</th>
-            <th>Tên khách hàng</th>
+            <th>STT</th>
+            <th>Mã khách hàng</th>
+            <th>Họ và tên</th>
             <th>Số điện thoại</th>
             <th>Email</th>
             <th>Loại khách hàng</th>
             <th>Nhóm khách hàng</th>
             <th>Địa chỉ</th>
             <th>Ngày sinh</th>
+            <th>Trạng thái</th>
             <th>Nguồn</th>
-            <th>Thông tin lưu ý</th>
+            <th>Sử dụng dịch vụ</th>
+            <th>Đặt dịch vụ</th>
             <th>Nhân viên phụ trách</th>
             <th>Ngày tạo</th>
+            <th>Ghi chú</th>
           </tr>
         </thead>
         <tbody>
           <tr
-            *ngFor="let customer of customers"
+            *ngFor="let customer of customers; let i = index"
             (click)="onClickCustomer(customer)"
             [ngClass]="{
               'is-selected': customer.cu_id === selectedCustomer?.cu_id
             }"
           >
+            <td>
+              {{ i + 1 }}
+            </td>
             <td>
               {{ customer.cu_code }}
             </td>
@@ -167,7 +165,7 @@
               {{ customer.cu_email }}
             </td>
             <td>
-              {{ customer.cu_type_name }}
+              {{ customer.cu_type }}
             </td>
             <td>
               <span class="badge badge-danger">
@@ -181,10 +179,16 @@
               {{ customer.cu_birthday | date: 'dd/MM/yyyy' }}
             </td>
             <td>
-              {{ customer.source_name }}
+              {{ customer.cu_status }}
             </td>
             <td>
-              {{ customer.cu_note }}
+              {{ customer.cu_source_name }}
+            </td>
+            <td>
+              {{ customer.cu_flag_used }}
+            </td>
+            <td>
+              {{ customer.cu_flag_order }}
             </td>
             <td>
               {{ customer.cu_curator_name }}
@@ -192,9 +196,12 @@
             <td>
               {{ customer.cu_create_date | date: 'dd/MM/yyyy' }}
             </td>
+            <td>
+              {{ customer.cu_note }}
+            </td>
           </tr>
           <tr *ngIf="customers?.length === 0">
-            <td colspan="12">Không có dữ liệu khách hàng</td>
+            <td colspan="16">Không có dữ liệu khách hàng</td>
           </tr>
         </tbody>
       </table>
@@ -210,21 +217,26 @@
   </div>
   <div bottom style="height: 100%;">
     <ngb-tabset class="nav-bordered">
-      <ngb-tab title="Lịch sử mua">
+      <ngb-tab title="1. Số điện thoại">
+        <ng-template ngbTabContent>
+          <app-mobile-tab></app-mobile-tab>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab title="2. Lịch sử mua hàng">
         <ng-template ngbTabContent>
           <app-purchase-history-tab
             [listCustomerOrder]="selectedCustomer?.list_customer_order"
           ></app-purchase-history-tab>
         </ng-template>
       </ngb-tab>
-      <ngb-tab title="Lịch sử chăm sóc">
+      <ngb-tab title="3. Lịch sử chăm sóc">
         <ng-template ngbTabContent>
           <app-care-history-tab
             [listTransaction]="selectedCustomer?.list_transaction"
           ></app-care-history-tab>
         </ng-template>
       </ngb-tab>
-      <ngb-tab title="Địa chỉ nhận hàng">
+      <ngb-tab title="4. Địa chỉ nhận hàng">
         <ng-template ngbTabContent>
           <app-address-tab
             [listAddress]="selectedCustomer?.list_address"

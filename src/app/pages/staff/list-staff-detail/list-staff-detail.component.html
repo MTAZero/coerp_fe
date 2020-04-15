@@ -23,7 +23,7 @@
             ></i>
           </div>
           <div [formGroup]="formContractType">
-            <div class="row p-2 justify-content-center">
+            <div class="row justify-content-center">
               <div class="radio radio-info form-check-inline mr-5">
                 <input
                   type="radio"
@@ -48,7 +48,7 @@
               </div>
             </div>
             <div
-              class="row form-inline mb-2 justify-content-center"
+              class="row form-inline mb-2 mt-2 justify-content-center"
               *ngIf="formContractType.value.sta_type_contact === 1"
             >
               <div>Thời gian làm việc:</div>
@@ -325,7 +325,11 @@
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Trạng thái làm việc <span>(*)</span></label>
                 <div class="col-6">
-                  <select class="custom-select" formControlName="sta_working_status">
+                  <select
+                    class="custom-select"
+                    formControlName="sta_working_status"
+                    (change)="onChangeWorkStatus($event)"
+                  >
                     <option [disabled]="listView[1]" [value]="1">Đang làm việc</option>
                     <option [disabled]="listView[1]" [value]="2">Nghỉ việc</option>
                   </select>

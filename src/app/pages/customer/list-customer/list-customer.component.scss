@@ -1,11 +1,11 @@
 :host {
+  .card-body {
+    padding: 0;
+    padding-top: 10px;
+  }
+
   .form-inline {
     align-items: baseline;
-    flex-flow: row;
-
-    .clockpicker {
-      width: 210px;
-    }
   }
 
   a {
@@ -20,7 +20,7 @@
     max-height: calc(100% - 150px);
 
     table {
-      min-width: 1400px;
+      min-width: 1300px;
       border-spacing: 0;
       border-collapse: separate;
     }

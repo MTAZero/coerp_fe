@@ -12,18 +12,13 @@ import { CustomerModalComponent } from './list-customer/component/customer-modal
 import { PurchaseHistoryTabComponent } from './list-customer/component/purchase-history-tab/purchase-history-tab.component';
 import { CareHistoryTabComponent } from './list-customer/component/care-history-tab/care-history-tab.component';
 import { AddressTabComponent } from './list-customer/component/address-tab/address-tab.component';
-import { ListSourceModalComponent } from './list-customer/component/list-source-modal/list-source-modal.component';
-import { SourceModalComponent } from './list-customer/component/source-modal/source-modal.component';
-import { ListCustomerTypeModalComponent } from './list-customer/component/list-customer-type-modal/list-customer-type-modal.component';
-import { CustomerTypeModalComponent } from './list-customer/component/customer-type-modal/customer-type-modal.component';
-import { CustomerGroupModalComponent as CustomerGroupMini } from './list-customer/component/customer-group-modal/customer-group-modal.component';
-import { ListCustomerGroupModalComponent } from './list-customer/component/list-customer-group-modal/list-customer-group-modal.component';
 import { AddresModalComponent } from './list-customer/component/addres-modal/addres-modal.component';
 import { CustomerGroupComponent } from './customer-group/customer-group.component';
 import { CustomerCareComponent } from './customer-care/customer-care.component';
 import { CustomerCareModalComponent } from './customer-care/component/customer-care-modal/customer-care-modal.component';
 import { ListCustomerModalComponent } from './customer-group/component/list-customer-modal/list-customer-modal.component';
 import { CustomerGroupModalComponent } from './customer-group/component/customer-group-modal/customer-group-modal.component';
+import { MobileTabComponent } from './list-customer/component/mobile-tab/mobile-tab.component';
 
 @NgModule({
   declarations: [
@@ -32,18 +27,13 @@ import { CustomerGroupModalComponent } from './customer-group/component/customer
     PurchaseHistoryTabComponent,
     CareHistoryTabComponent,
     AddressTabComponent,
-    ListSourceModalComponent,
-    SourceModalComponent,
-    ListCustomerTypeModalComponent,
-    CustomerTypeModalComponent,
-    CustomerGroupModalComponent,
-    ListCustomerGroupModalComponent,
     AddresModalComponent,
     CustomerGroupComponent,
     CustomerCareComponent,
     CustomerCareModalComponent,
     ListCustomerModalComponent,
-    CustomerGroupMini
+    MobileTabComponent,
+    CustomerGroupModalComponent,
   ],
   imports: [
     CommonModule,
@@ -56,23 +46,16 @@ import { CustomerGroupModalComponent } from './customer-group/component/customer
     NgbModalModule,
     NgbPaginationModule,
     Ng2SearchPipeModule,
-    NgApexchartsModule
+    NgApexchartsModule,
   ],
   entryComponents: [
     CustomerModalComponent,
-    ListCustomerGroupModalComponent,
-    ListSourceModalComponent,
-    SourceModalComponent,
-    ListCustomerTypeModalComponent,
-    ListCustomerGroupModalComponent,
-    CustomerTypeModalComponent,
     CustomerGroupModalComponent,
     AddresModalComponent,
     CustomerCareModalComponent,
-    ListCustomerGroupModalComponent,
     CustomerGroupModalComponent,
-    CustomerGroupMini,
-    ListCustomerModalComponent
-  ]
+    ListCustomerModalComponent,
+    CustomerGroupModalComponent,
+  ],
 })
 export class CustomerModule {}

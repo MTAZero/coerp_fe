@@ -91,7 +91,9 @@ export class ListStaffComponent implements OnInit, OnDestroy {
   }
 
   onChangeTraining(event) {
-    console.log(event);
+    var updated = this.selectedStaff;
+    updated.list_training = event;
+    this._updateStaff(updated);
   }
 
   setFile(event) {
