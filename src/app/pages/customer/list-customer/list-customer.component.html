@@ -86,10 +86,11 @@
           <button type="button" class="btn btn-info mb-2 mr-1" (click)="exportCustomer()">
             Xuất
           </button>
-          <a class="btn btn-success mb-2 mr-1 button-link"> Thêm mới</a>
+          <a class="btn btn-success mb-2 mr-1 button-link" (click)="onRouteDetail()"> Thêm mới</a>
           <a
             class="btn btn-primary mb-2 mr-1 button-link"
             [ngClass]="selectedCustomer ? '' : 'disabled'"
+            (click)="onRouteDetail(selectedCustomer)"
           >
             Xem & Sửa</a
           >

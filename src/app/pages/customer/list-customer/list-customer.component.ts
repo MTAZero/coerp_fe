@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgbModal, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { CustomerModalComponent } from './component/customer-modal/customer-modal.component';
 import { isNullOrUndefined } from 'util';
@@ -7,13 +7,14 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import * as moment from 'moment';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-customer',
   templateUrl: './list-customer.component.html',
-  styleUrls: ['./list-customer.component.scss']
+  styleUrls: ['./list-customer.component.scss'],
 })
-export class ListCustomerComponent implements OnInit {
+export class ListCustomerComponent implements OnInit, OnDestroy {
   private destroyed$ = new Subject();
 
   submitted: boolean;
@@ -27,17 +28,26 @@ export class ListCustomerComponent implements OnInit {
   groupSearch = '';
   fromDate = this._convertDateToNgbDate(new Date('2010-01-01'));
   toDate = this._convertDateToNgbDate(new Date());
-  page = 0;
+  page = 1;
   pageSize = 10;
   totalSize = 0;
 
   selectedCustomer = null;
   customers: any;
 
-  constructor(private modalService: NgbModal, private customerService: CustomerService) {}
+  constructor(
+    private modalService: NgbModal,
+    private customerService: CustomerService,
+    private router: Router
+  ) {}
   ngOnInit() {
     this._fetchData();
     this._fetchFilter();
+  }
+
+  ngOnDestroy() {
+    this.destroyed$.next();
+    this.destroyed$.complete();
   }
 
   onClickCustomer(customer: any) {
@@ -52,24 +62,8 @@ export class ListCustomerComponent implements OnInit {
     }
   }
 
-  openCustomerModal(customer?: any) {
-    const modalRef = this.modalService.open(CustomerModalComponent, {
-      centered: true,
-      size: 'lg'
-    });
-    if (customer) {
-      modalRef.componentInstance.customer = customer;
-    }
-    modalRef.componentInstance.passEvent.subscribe(res => {
-      if (res.event) {
-        if (customer) {
-          this._updateCustomer(res.form);
-        } else {
-          this._createCustomer(res.form);
-        }
-      }
-      modalRef.close();
-    });
+  onRouteDetail(customer?: any) {
+    this.router.navigate(['/customer/list-customer-detail', customer ? customer.cu_id : '']);
   }
 
   openConfirmModal(customer?: any) {
@@ -80,8 +74,8 @@ export class ListCustomerComponent implements OnInit {
       confirmButtonText: 'Xóa',
       cancelButtonText: 'Hủy',
       confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33'
-    }).then(result => {
+      cancelButtonColor: '#d33',
+    }).then((result) => {
       if (result.value) {
         this._removeCustomer(customer);
       }
@@ -117,7 +111,7 @@ export class ListCustomerComponent implements OnInit {
           this._fetchData();
         } else this._notify(false, res.Message);
       },
-      e => this._notify(false, e.Message)
+      (e) => this._notify(false, e.Message)
     );
   }
 
@@ -135,7 +129,7 @@ export class ListCustomerComponent implements OnInit {
             this._fetchData(this.selectedCustomer);
           } else this._notify(false, res.Message);
         },
-        e => this._notify(false, e.Message)
+        (e) => this._notify(false, e.Message)
       );
       // const reader = new FileReader();
       // reader.onload = e => (this.thumbnail = reader.result);
@@ -153,7 +147,7 @@ export class ListCustomerComponent implements OnInit {
         customer_group_id: this.groupSearch,
         name: this.textSearch,
         start_date: this._convertNgbDateToDate(this.fromDate),
-        end_date: this._convertNgbDateToDate(this.toDate)
+        end_date: this._convertNgbDateToDate(this.toDate),
       })
       .pipe(takeUntil(this.destroyed$));
     export$.subscribe((res: any) => {
@@ -174,7 +168,7 @@ export class ListCustomerComponent implements OnInit {
         customer_group_id: this.groupSearch,
         name: this.textSearch,
         start_date: this._convertNgbDateToDate(this.fromDate),
-        end_date: this._convertNgbDateToDate(this.toDate)
+        end_date: this._convertNgbDateToDate(this.toDate),
       })
       .pipe(takeUntil(this.destroyed$));
     customer$.subscribe((res: any) => {
@@ -183,7 +177,7 @@ export class ListCustomerComponent implements OnInit {
         this.customers = res.Data.Results;
 
         if (selected) {
-          this.selectedCustomer = this.customers.find(item => item.cu_id === selected.cu_id);
+          this.selectedCustomer = this.customers.find((item) => item.cu_id === selected.cu_id);
         } else {
           this.selectedCustomer = this.customers[0];
         }
@@ -223,7 +217,7 @@ export class ListCustomerComponent implements OnInit {
           this.modalService.dismissAll();
         } else this._notify(false, res.Message);
       },
-      e => this._notify(false, e.Message)
+      (e) => this._notify(false, e.Message)
     );
   }
 
@@ -239,7 +233,7 @@ export class ListCustomerComponent implements OnInit {
           this.modalService.dismissAll();
         } else this._notify(false, res.Message);
       },
-      e => this._notify(false, e.Message)
+      (e) => this._notify(false, e.Message)
     );
   }
 
@@ -255,7 +249,7 @@ export class ListCustomerComponent implements OnInit {
           this.modalService.dismissAll();
         } else this._notify(false, res.Message);
       },
-      e => this._notify(false, e.Message)
+      (e) => this._notify(false, e.Message)
     );
   }
 
@@ -266,7 +260,7 @@ export class ListCustomerComponent implements OnInit {
       type: isSuccess ? 'success' : 'error',
       title: message,
       showConfirmButton: false,
-      timer: 2000
+      timer: 2000,
     });
   }
 

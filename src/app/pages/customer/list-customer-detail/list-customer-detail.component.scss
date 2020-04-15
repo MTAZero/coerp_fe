@@ -1,0 +1,68 @@
+:host {
+  .card-body {
+    padding: 0;
+  }
+
+  .customer-detail {
+    display: flex;
+    height: 100%;
+
+    .menu {
+      width: 200px;
+      border-right: 2px solid lightgray;
+
+      .item {
+        font-size: small;
+        cursor: pointer;
+        padding: 10px;
+
+        &:hover {
+          background-color: lightgrey;
+          font-weight: 700;
+        }
+
+        &.is-selected {
+          background-color: lightgray;
+        }
+      }
+    }
+
+    .main {
+      width: 100%;
+      max-height: 100%;
+    }
+
+    .content {
+      height: calc(100% - 40px);
+      overflow: auto;
+      padding-left: 20px;
+
+      .row {
+        margin: 0;
+      }
+
+      .form-row {
+        margin: 0;
+      }
+
+      span {
+        color: red;
+      }
+
+      .title-section {
+        padding: 5px 0px;
+        align-items: center;
+
+        i {
+          font-size: medium;
+          cursor: pointer;
+        }
+      }
+
+      .form-inline {
+        align-items: baseline;
+        flex-flow: row;
+      }
+    }
+  }
+}
