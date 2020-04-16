@@ -62,7 +62,7 @@ export class TrainingModalComponent implements OnInit {
 
   private initializeForm() {
     this.form = this.formBuilder.group({
-      tn_id: [null, null],
+      tn_id: ['temp_0', null],
       tn_code: [null, null],
       tn_name: [null, [Validators.required]],
       tn_content: ['', null],

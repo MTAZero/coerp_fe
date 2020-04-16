@@ -76,7 +76,7 @@ export class AddressModalComponent implements OnInit {
 
   private initializeForm() {
     this.form = this.formBuilder.group({
-      unl_id: [null, null],
+      unl_id: ['temp_0', null],
       unl_province: ['', [Validators.required]],
       unl_district: ['', [Validators.required]],
       unl_ward: ['', [Validators.required]],

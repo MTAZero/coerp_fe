@@ -451,24 +451,24 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
     });
 
     this.formIdentityCard = this.formBuilder.group({
-      sta_identity_card: ['', null],
+      sta_identity_card: ['', [Validators.pattern(/^\d+$/)]],
       sta_identity_card_date: [null, null],
       sta_identity_card_date_end: [null, null],
       sta_identity_card_location: ['', null],
     });
 
     this.formPermanentAddress = this.formBuilder.group({
-      unl_ward_permanent: ['', [Validators.required]],
-      unl_district_permanent: ['', [Validators.required]],
-      unl_province_permanent: ['', [Validators.required]],
-      unl_detail_permanent: ['', [Validators.required]],
+      unl_ward_permanent: [null, [Validators.required]],
+      unl_district_permanent: [null, [Validators.required]],
+      unl_province_permanent: [null, [Validators.required]],
+      unl_detail_permanent: [null, [Validators.required]],
     });
 
     this.formNowAddress = this.formBuilder.group({
-      unl_ward_now: ['', [Validators.required]],
-      unl_district_now: ['', [Validators.required]],
-      unl_province_now: ['', [Validators.required]],
-      unl_detail_now: ['', [Validators.required]],
+      unl_ward_now: [null, [Validators.required]],
+      unl_district_now: [null, [Validators.required]],
+      unl_province_now: [null, [Validators.required]],
+      unl_detail_now: [null, [Validators.required]],
     });
   }
 
@@ -571,7 +571,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
       if (res && res.Data) {
         this.provinceNow = res.Data;
 
-        if (this.formNowAddress.value.unl_province_now === '') {
+        if (this.formNowAddress.value.unl_province_now === null) {
           this.formNowAddress.patchValue({ unl_province_now: res.Data[0].name });
           this._loadDistrictNow(res.Data[0].id);
         } else {
@@ -592,7 +592,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
       if (res && res.Data) {
         this.districtNow = res.Data;
 
-        if (this.formNowAddress.value.unl_district_now === '' || !isFirst) {
+        if (this.formNowAddress.value.unl_district_now === null || !isFirst) {
           this.formNowAddress.patchValue({ unl_district_now: res.Data[0].name });
           this._loadWardNow(res.Data[0].id);
         } else {
@@ -613,7 +613,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
       if (res && res.Data) {
         this.wardNow = res.Data;
 
-        if (this.formNowAddress.value.unl_ward_now === '' || !isFirst) {
+        if (this.formNowAddress.value.unl_ward_now === null || !isFirst) {
           this.formNowAddress.patchValue({ unl_ward_now: res.Data[0].name });
         }
       }
@@ -625,8 +625,8 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
     provincePermanent$.subscribe((res: any) => {
       if (res && res.Data) {
         this.provincePermanent = res.Data;
-
-        if (this.formPermanentAddress.value.unl_province_permanent === '') {
+        console.log(this.formPermanentAddress.value);
+        if (this.formPermanentAddress.value.unl_province_permanent === null) {
           this.formPermanentAddress.patchValue({ unl_province_permanent: res.Data[0].name });
           this._loadDistrictPermanent(res.Data[0].id);
         } else {
@@ -647,7 +647,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
       if (res && res.Data) {
         this.districtPermanent = res.Data;
 
-        if (this.formPermanentAddress.value.unl_district_permanent === '' || !isFirst) {
+        if (this.formPermanentAddress.value.unl_district_permanent === null || !isFirst) {
           this.formPermanentAddress.patchValue({ unl_district_permanent: res.Data[0].name });
           this._loadWardPermanent(res.Data[0].id);
         } else {
@@ -668,7 +668,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
       if (res && res.Data) {
         this.wardPermanent = res.Data;
 
-        if (this.formPermanentAddress.value.unl_ward_permanent === '' || !isFirst) {
+        if (this.formPermanentAddress.value.unl_ward_permanent === null || !isFirst) {
           this.formPermanentAddress.patchValue({ unl_ward_permanent: res.Data[0].name });
         }
       }

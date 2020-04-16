@@ -522,7 +522,18 @@
                     class="form-control"
                     [readonly]="listView[3]"
                     formControlName="sta_identity_card"
+                    [ngClass]="{
+                      'is-invalid': submitted && formIdentityCard.controls.sta_identity_card.errors
+                    }"
                   />
+                  <div
+                    *ngIf="submitted && formIdentityCard.controls.sta_identity_card.errors"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="formIdentityCard.controls.sta_identity_card.errors.pattern"
+                      >Chỉ chứa các chữ số</span
+                    >
+                  </div>
                 </div>
               </div>
               <div class="form-group row mb-3">
