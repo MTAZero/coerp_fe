@@ -8,7 +8,7 @@ import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-list-customer-modal',
   templateUrl: './list-customer-modal.component.html',
-  styleUrls: ['./list-customer-modal.component.scss']
+  styleUrls: ['./list-customer-modal.component.scss'],
 })
 export class ListCustomerModalComponent implements OnInit {
   private destroyed$ = new Subject();
@@ -32,7 +32,7 @@ export class ListCustomerModalComponent implements OnInit {
 
   private _fetchData() {
     const customer$ = this.customerService
-      .loadCustomer({
+      .searchCustomer({
         pageNumber: this.page,
         pageSize: this.pageSize,
         source_id: '',
@@ -40,7 +40,7 @@ export class ListCustomerModalComponent implements OnInit {
         customer_group_id: this.customerGroup.cg_id,
         name: '',
         start_date: this._convertDateToNgbDate(new Date('2010-01-01')),
-        end_date: this._convertDateToNgbDate(new Date())
+        end_date: this._convertDateToNgbDate(new Date()),
       })
       .pipe(takeUntil(this.destroyed$));
     customer$.subscribe((res: any) => {

@@ -159,29 +159,6 @@ export class ListStaffComponent implements OnInit, OnDestroy {
     });
   }
 
-  private _createStaff(data: any) {
-    const createStaff$ = this.staffService.createStaff(data).pipe(takeUntil(this.destroyed$));
-    createStaff$.subscribe(
-      (res: any) => {
-        if (res && res.Code === 200) {
-          this._notify(true, res.Message);
-          this._fetchData();
-          this.modalService.dismissAll();
-
-          this.staffService
-            .sendMailCreate({
-              sta_username: data.sta_username,
-              sta_email: data.sta_email,
-            })
-            .subscribe((res) => {
-              console.log(res);
-            });
-        } else this._notify(false, res.Message);
-      },
-      (e) => this._notify(false, e.Message)
-    );
-  }
-
   private _updateStaff(updated: any) {
     const updateStaff$ = this.staffService.updateStaff(updated).pipe(takeUntil(this.destroyed$));
     updateStaff$.subscribe(

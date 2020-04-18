@@ -50,9 +50,9 @@
                 <div class="col-6">
                   <select
                     class="custom-select"
-                    formControlName="cu_source_id"
+                    formControlName="source_id"
                     [ngClass]="{
-                      'is-invalid': submitted && formProfile.controls.cu_source_id.errors
+                      'is-invalid': submitted && formProfile.controls.source_id.errors
                     }"
                   >
                     <option
@@ -63,10 +63,10 @@
                     >
                   </select>
                   <div
-                    *ngIf="submitted && formProfile.controls.cu_source_id.errors"
+                    *ngIf="submitted && formProfile.controls.source_id.errors"
                     class="invalid-feedback"
                   >
-                    <span *ngIf="formProfile.controls.cu_source_id.errors.required"
+                    <span *ngIf="formProfile.controls.source_id.errors.required"
                       >Trường bắt buộc</span
                     >
                   </div>
@@ -84,12 +84,8 @@
                       'is-invalid': submitted && formProfile.controls.cu_type.errors
                     }"
                   >
-                    <option
-                      [disabled]="listView[0]"
-                      *ngFor="let type of customerTypes"
-                      [value]="type.id"
-                      >{{ type.name }}</option
-                    >
+                    <option [value]="1" [disabled]="listView[0]">Khách lẻ</option>
+                    <option [value]="0" [disabled]="listView[0]">Khách sỉ</option>
                   </select>
                   <div
                     *ngIf="submitted && formProfile.controls.cu_type.errors"
@@ -184,26 +180,21 @@
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Đặt dịch vụ <span>(*)</span></label>
                 <div class="col-6">
-                  <select class="custom-select" formControlName="cu_flag_order">
-                    <option [disabled]="listView[0]" [value]="1">Nam</option>
-                    <option [disabled]="listView[0]" [value]="2">Nữ</option>
-                    <option [disabled]="listView[0]" [value]="3">Giới tính khác</option>
-                  </select>
-                  <!-- <div *ngIf="submitted && formProfile.controls.cu_flag_order.errors" class="invalid-feedback">
-                                        <span *ngIf="formContact.controls.cu_flag_order.errors.required">
-                                            Trường bắt buộc
-                                        </span>
-                                    </div> -->
+                  <select class="custom-select" formControlName="cu_flag_order"> </select>
+                  <div
+                    *ngIf="submitted && formProfile.controls.cu_flag_order.errors"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="formProfile.controls.cu_flag_order.errors.required"
+                      >Trường bắt buộc</span
+                    >
+                  </div>
                 </div>
               </div>
               <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Sử dụng dịch vụ</label>
+                <label class="col-4 col-form-label">Sử dụng dịch vụ <span>(*)</span></label>
                 <div class="col-6">
-                  <select class="custom-select" formControlName="cu_flag_used">
-                    <option [disabled]="listView[0]" [value]="1">Nam</option>
-                    <option [disabled]="listView[0]" [value]="2">Nữ</option>
-                    <option [disabled]="listView[0]" [value]="3">Giới tính khác</option>
-                  </select>
+                  <select class="custom-select" formControlName="cu_flag_used"> </select>
                   <div
                     *ngIf="submitted && formProfile.controls.cu_flag_used.errors"
                     class="invalid-feedback"
@@ -226,13 +217,8 @@
                       'is-invalid': submitted && formProfile.controls.cu_status.errors
                     }"
                   >
-                    <option
-                      [disabled]="listView[0]"
-                      *ngFor="let group of customerGroups"
-                      [value]="group.id"
-                    >
-                      {{ group.name }}</option
-                    >
+                    <option [disabled]="listView[0]" [value]="1">Kích hoạt</option>
+                    <option [disabled]="listView[0]" [value]="2">Khóa</option>
                   </select>
                   <div
                     *ngIf="submitted && formProfile.controls.cu_status.errors"
@@ -267,7 +253,7 @@
                 <div class="col-6">
                   <select
                     class="custom-select"
-                    formControlName="unl_province"
+                    formControlName="sha_province_now"
                     class="form-control"
                     (change)="onChangeProvince($event)"
                   >
@@ -285,7 +271,7 @@
                 <div class="col-6">
                   <select
                     class="custom-select"
-                    formControlName="unl_district"
+                    formControlName="sha_district_now"
                     class="form-control"
                     (change)="onChangeDistrict($event)"
                   >
@@ -303,7 +289,7 @@
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Xã/Phường <span>(*)</span></label>
                 <div class="col-6">
-                  <select class="custom-select" formControlName="unl_ward" class="form-control">
+                  <select class="custom-select" formControlName="sha_ward_now" class="form-control">
                     <option
                       *ngFor="let ward of ward"
                       [disabled]="listView[1]"
@@ -319,16 +305,16 @@
                   <input
                     class="form-control"
                     [readonly]="listView[1]"
-                    formControlName="unl_detail"
+                    formControlName="sha_detail_now"
                     [ngClass]="{
-                      'is-invalid': submitted && formAddress.controls.unl_detail.errors
+                      'is-invalid': submitted && formAddress.controls.sha_detail_now.errors
                     }"
                   />
                   <div
-                    *ngIf="submitted && formAddress.controls.unl_detail.errors"
+                    *ngIf="submitted && formAddress.controls.sha_detail_now.errors"
                     class="invalid-feedback"
                   >
-                    <span *ngIf="formAddress.controls.unl_detail.errors.required"
+                    <span *ngIf="formAddress.controls.sha_detail_now.errors.required"
                       >Trường bắt buộc</span
                     >
                   </div>
@@ -337,12 +323,9 @@
             </div>
           </div>
 
-          <!-- <div id="6" class="row title-section">
-            <h5>Thông tin đào tạo</h5>
-            <a class="btn btn-primary btn-xs ml-2 button-link" (click)="onUpdateListTraining()"
-              >Chọn</a
-            >
-            <a class="btn btn-success btn-xs ml-2 button-link" (click)="openTrainingModal()"
+          <div id="2" class="row title-section">
+            <h5>{{ menu[2] }}</h5>
+            <a class="btn btn-success btn-xs ml-2 button-link" (click)="openMobileModal()"
               >Thêm mới</a
             >
           </div>
@@ -350,64 +333,39 @@
             <table class="table table-centered table-hover mb-0">
               <thead>
                 <tr>
-                  <th>Tên CTĐT</th>
-                  <th>Nội dung đào tạo</th>
-                  <th>Thời gian bắt đầu</th>
-                  <th>Thời gian kết thúc</th>
+                  <th>Loại số điện thoại</th>
+                  <th>Số điện thoại</th>
+                  <th>Ghi chú</th>
                   <th>Thao tác</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let training of listTraining">
-                  <td>{{ training.tn_name }}</td>
+                <tr *ngFor="let mobile of listMobile">
                   <td>
-                    {{ training.tn_content }}
+                    {{ mobile.cp_type_name }}
                   </td>
-                  <td>{{ training.tn_start_date | date: 'dd/MM/yyyy' }}</td>
-                  <td>{{ training.tn_end_date | date: 'dd/MM/yyyy' }}</td>
-                  <td></td>
-                </tr>
-                <tr *ngFor="let training of listNewTraining">
+                  <td>{{ mobile.cp_phone_number }}</td>
                   <td>
-                    {{ training.tn_code }}
+                    {{ mobile.cp_note }}
                   </td>
-                  <td>{{ training.tn_name }}</td>
                   <td>
-                    {{ training.tn_content }}
-                  </td>
-                  <td>{{ training.tn_start_date | date: 'dd/MM/yyyy' }}</td>
-                  <td>{{ training.tn_end_date | date: 'dd/MM/yyyy' }}</td>
-                  <td>
-                    <a
-                      href="javascript:void(0);"
-                      class="action-icon"
-                      (click)="openTrainingModal(training)"
-                    >
+                    <a class="action-icon table-button-link" (click)="openMobileModal(mobile)">
                       <i class="mdi mdi-square-edit-outline"></i
                     ></a>
-                    <a
-                      href="javascript:void(0);"
-                      class="action-icon"
-                      (click)="openRemoveTraining(training)"
-                    >
+                    <a class="action-icon table-button-link" (click)="onRemoveMobile(mobile)">
                       <i class="mdi mdi-delete"></i
                     ></a>
                   </td>
                 </tr>
-                <tr
-                  *ngIf="
-                    (!listTraining && !listNewTraining) ||
-                    listTraining?.length + listNewTraining?.length === 0
-                  "
-                >
-                  <td colspan="5">Không có dữ liệu khóa đào tạo</td>
+                <tr *ngIf="!listMobile || listMobile.length === 0">
+                  <td colspan="4">Không có dữ liệu số điện thoại</td>
                 </tr>
               </tbody>
             </table>
           </div>
 
-          <div id="7" class="row title-section">
-            <h5>Địa chỉ phụ trách</h5>
+          <div id="3" class="row title-section">
+            <h5>{{ menu[3] }}</h5>
             <a class="btn btn-primary btn-xs ml-2 button-link" (click)="openAddressModal()"
               >Thêm mới</a
             >
@@ -421,21 +379,21 @@
                   <th>Phường/Xã</th>
                   <th>Địa chỉ</th>
                   <th>Ghi chú</th>
-                  <th *ngIf="!isView">Thao tác</th>
+                  <th>Thao tác</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let address of listAddress">
                   <td>
-                    {{ address.unl_province }}
+                    {{ address.sha_province }}
                   </td>
-                  <td>{{ address.unl_district }}</td>
+                  <td>{{ address.sha_district }}</td>
                   <td>
-                    {{ address.unl_ward }}
+                    {{ address.sha_ward }}
                   </td>
-                  <td>{{ address.unl_detail }}</td>
-                  <td>{{ address.unl_note }}</td>
-                  <td *ngIf="!isView">
+                  <td>{{ address.sha_detail }}</td>
+                  <td>{{ address.sha_note }}</td>
+                  <td>
                     <a class="action-icon table-button-link" (click)="openAddressModal(address)">
                       <i class="mdi mdi-square-edit-outline"></i
                     ></a>
@@ -445,18 +403,16 @@
                   </td>
                 </tr>
                 <tr *ngIf="!listAddress || listAddress.length === 0">
-                  <td colspan="6">Không có dữ liệu địa chỉ phụ trách</td>
+                  <td colspan="6">Không có dữ liệu địa chỉ nhân hàng</td>
                 </tr>
               </tbody>
             </table>
-          </div> -->
+          </div>
         </div>
         <div class="row justify-content-end mr-2">
           <div class="text-sm-right">
             <a class="btn btn-success mb-2 mr-1 button-link" (click)="onSubmit()">Lưu lại</a>
-            <a class="btn btn-danger mb-2 mr-1 button-link" (click)="onChangeToMain()">{{
-              isView ? 'Quay lại' : 'Hủy bỏ'
-            }}</a>
+            <a class="btn btn-danger mb-2 mr-1 button-link" (click)="onChangeToMain()">Quay lại </a>
           </div>
         </div>
       </div>

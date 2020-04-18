@@ -2,10 +2,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { NgbDate, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Subject } from 'rxjs';
+import { Subject, from } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AddressService } from '../../../core/services/api/address.service';
 import { CustomerService } from '../../../core/services/api/customer.service';
+import { MobileModalComponent } from '../list-customer/component/mobile-modal/mobile-modal.component';
+import { AddresModalComponent } from '../list-customer/component/addres-modal/addres-modal.component';
 import Swal from 'sweetalert2';
 import * as moment from 'moment';
 import { menu } from './data';
@@ -24,7 +26,6 @@ export class ListCustomerDetailComponent implements OnInit, OnDestroy {
   errorField = null;
 
   sources: any;
-  customerTypes: any;
   customerGroups: any;
 
   listView = [true, true];
@@ -33,14 +34,13 @@ export class ListCustomerDetailComponent implements OnInit, OnDestroy {
   district: any;
   ward: any;
 
-  tempTraining = 0;
+  tempMobile = 0;
   tempAddress = 0;
 
   formProfile: FormGroup;
   formAddress: FormGroup;
-  listTraining = [];
+  listMobile = [];
   listAddress = [];
-  listNewTraining = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -138,51 +138,37 @@ export class ListCustomerDetailComponent implements OnInit, OnDestroy {
   }
   //#endregion
 
-  //#region List Training
-  onUpdateListTraining() {
-    // const modalRef = this.modalService.open(ListTrainingModalComponent, {
-    //   centered: true,
-    //   size: 'lg',
-    // });
-    // modalRef.componentInstance.listTraining = this.listTraining;
-    // modalRef.componentInstance.passEvent.subscribe((res) => {
-    //   if (res.event) {
-    //     this.listTraining = res.data;
-    //   }
-    //   modalRef.close();
-    // });
+  //#region List Mobile
+  openMobileModal(mobile?: any) {
+    const modalRef = this.modalService.open(MobileModalComponent, {
+      centered: true,
+    });
+    modalRef.componentInstance.customerId = this.cu_id;
+    if (mobile) {
+      modalRef.componentInstance.mobile = mobile;
+    }
+    modalRef.componentInstance.passEvent.subscribe((res) => {
+      if (res.event) {
+        if (mobile) {
+          this.listMobile = this.listMobile.map((item) => {
+            if (item.cp_id !== res.data.cp_id) return item;
+            return res.data;
+          });
+        } else {
+          this.listMobile.push({
+            ...res.data,
+            cp_id: `temp_${this.tempMobile}`,
+          });
+          this.tempMobile++;
+        }
+      }
+      modalRef.close();
+    });
   }
 
-  openTrainingModal(training?: any) {
-    // const modalRef = this.modalService.open(TrainingModalComponent, {
-    //   centered: true,
-    // });
-    // modalRef.componentInstance.customerId = this.sta_id;
-    // if (training) {
-    //   modalRef.componentInstance.training = training;
-    // }
-    // modalRef.componentInstance.passEvent.subscribe((res) => {
-    //   if (res.event) {
-    //     if (training) {
-    //       this.listNewTraining = this.listNewTraining.map((item) => {
-    //         if (item.tn_id !== res.data.tn_id) return item;
-    //         return res.data;
-    //       });
-    //     } else {
-    //       this.listNewTraining.push({
-    //         ...res.data,
-    //         tn_id: `temp_${this.tempTraining}`,
-    //       });
-    //       this.tempTraining++;
-    //     }
-    //   }
-    //   modalRef.close();
-    // });
-  }
-
-  openRemoveTraining(training) {
+  openRemoveMobile(mobile) {
     Swal.fire({
-      title: 'Chắc chắn muốn xóa khóa đào tạo đang chọn?',
+      title: 'Chắc chắn muốn xóa số điện thoại đang chọn?',
       type: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Xóa',
@@ -191,7 +177,7 @@ export class ListCustomerDetailComponent implements OnInit, OnDestroy {
       cancelButtonColor: '#d33',
     }).then((result) => {
       if (result.value) {
-        this.listNewTraining = this.listNewTraining.filter((item) => item.tn_id !== training.tn_id);
+        this.listMobile = this.listMobile.filter((item) => item.cp_id !== mobile.cp_id);
       }
     });
   }
@@ -199,29 +185,29 @@ export class ListCustomerDetailComponent implements OnInit, OnDestroy {
 
   //#region List Address
   openAddressModal(address?: any) {
-    // const modalRef = this.modalService.open(AddressModalComponent, {
-    //   centered: true,
-    // });
-    // if (address) {
-    //   modalRef.componentInstance.address = address;
-    // }
-    // modalRef.componentInstance.passEvent.subscribe((res) => {
-    //   if (res.event) {
-    //     if (address) {
-    //       this.listAddress = this.listAddress.map((item) => {
-    //         if (item.unl_id !== res.form.unl_id) return item;
-    //         return res.form;
-    //       });
-    //     } else {
-    //       this.listAddress.push({
-    //         ...res.form,
-    //         unl_id: `temp_${this.tempAddress}`,
-    //       });
-    //       this.tempAddress++;
-    //     }
-    //   }
-    //   modalRef.close();
-    // });
+    const modalRef = this.modalService.open(AddresModalComponent, {
+      centered: true,
+    });
+    if (address) {
+      modalRef.componentInstance.address = address;
+    }
+    modalRef.componentInstance.passEvent.subscribe((res) => {
+      if (res.event) {
+        if (address) {
+          this.listAddress = this.listAddress.map((item) => {
+            if (item.sha_id !== res.form.sha_id) return item;
+            return res.form;
+          });
+        } else {
+          this.listAddress.push({
+            ...res.form,
+            sha_id: `temp_${this.tempAddress}`,
+          });
+          this.tempAddress++;
+        }
+      }
+      modalRef.close();
+    });
   }
 
   onRemoveAddress(address: any) {
@@ -235,7 +221,7 @@ export class ListCustomerDetailComponent implements OnInit, OnDestroy {
       cancelButtonColor: '#d33',
     }).then((result) => {
       if (result.value) {
-        this.listAddress = this.listAddress.filter((item) => item.unl_id !== address.unl_id);
+        this.listAddress = this.listAddress.filter((item) => item.sha_id !== address.sha_id);
       }
     });
   }
@@ -245,8 +231,8 @@ export class ListCustomerDetailComponent implements OnInit, OnDestroy {
   private _initializeForm() {
     this.formProfile = this.formBuilder.group({
       cu_fullname: ['', [Validators.required]],
-      cu_source_id: ['', [Validators.required]],
-      cu_type: ['', [Validators.required]],
+      source_id: ['', [Validators.required]],
+      cu_type: [1, [Validators.required]],
       cu_birthday: [null, [Validators.required]],
       customer_group_id: ['', [Validators.required]],
       cu_email: ['', [Validators.email]],
@@ -257,32 +243,27 @@ export class ListCustomerDetailComponent implements OnInit, OnDestroy {
     });
 
     this.formAddress = this.formBuilder.group({
-      unl_ward: ['', [Validators.required]],
-      unl_district: ['', [Validators.required]],
-      unl_province: ['', [Validators.required]],
-      unl_detail: ['', [Validators.required]],
+      sha_ward_now: [null, [Validators.required]],
+      sha_district_now: [null, [Validators.required]],
+      sha_province_now: [null, [Validators.required]],
+      sha_detail_now: [null, [Validators.required]],
     });
   }
 
   private _fetchFilter() {
-    const source$ = this.customerService.loadSourceFilter().pipe(takeUntil(this.destroyed$));
+    const source$ = this.customerService.loadSource().pipe(takeUntil(this.destroyed$));
     source$.subscribe((res: any) => {
       this.sources = res.Data;
     });
 
-    const customerGroup$ = this.customerService.loadGroupFilter().pipe(takeUntil(this.destroyed$));
+    const customerGroup$ = this.customerService.loadGroup().pipe(takeUntil(this.destroyed$));
     customerGroup$.subscribe((res: any) => {
       this.customerGroups = res.Data;
-    });
-
-    const customerType$ = this.customerService.loadTypeFilter().pipe(takeUntil(this.destroyed$));
-    customerType$.subscribe((res: any) => {
-      this.customerTypes = res.Data;
     });
   }
 
   private _fetchCustomer(cu_id: any) {
-    const info$ = this.customerService.loadCustomerById({ cu_id }).pipe(takeUntil(this.destroyed$));
+    const info$ = this.customerService.loadCustomerInfo({ cu_id }).pipe(takeUntil(this.destroyed$));
     info$.subscribe((res: any) => {
       if (res && res.Data) {
         this._patchCustomer(res.Data);
@@ -293,7 +274,7 @@ export class ListCustomerDetailComponent implements OnInit, OnDestroy {
   private _patchCustomer(customer: any) {
     this.formProfile.patchValue({
       cu_fullname: customer.cu_fullname,
-      cu_source_id: customer.cu_source_id,
+      source_id: customer.source_id,
       cu_type: customer.cu_type,
       cu_birthday: this._convertDateToNgbDate(customer.cu_birthday),
       customer_group_id: customer.customer_group_id,
@@ -305,13 +286,16 @@ export class ListCustomerDetailComponent implements OnInit, OnDestroy {
     });
 
     this.formAddress.patchValue({
-      unl_ward: customer.unl_ward,
-      unl_district: customer.unl_district,
-      unl_province: customer.unl_province,
-      unl_detail: customer.unl_detail,
+      sha_ward_now: customer.sha_ward_now,
+      sha_district_now: customer.sha_district_now,
+      sha_province_now: customer.sha_province_now,
+      sha_detail_now: customer.sha_detail_now,
     });
 
     this._loadProvince();
+
+    this.listMobile = customer.list_customer_phone;
+    this.listAddress = customer.list_ship_address;
   }
 
   private _loadProvince() {
@@ -320,12 +304,12 @@ export class ListCustomerDetailComponent implements OnInit, OnDestroy {
       if (res && res.Data) {
         this.province = res.Data;
 
-        if (this.formAddress.value.unl_province === '') {
-          this.formAddress.patchValue({ unl_province: res.Data[0].name });
+        if (this.formAddress.value.sha_province_now === null) {
+          this.formAddress.patchValue({ sha_province_now: res.Data[0].name });
           this._loadDistrict(res.Data[0].id);
         } else {
           const provinceId = this.province.find(
-            (item: any) => item.name === this.formAddress.value.unl_province
+            (item: any) => item.name === this.formAddress.value.sha_province_now
           ).id;
           this._loadDistrict(provinceId, true);
         }
@@ -341,12 +325,12 @@ export class ListCustomerDetailComponent implements OnInit, OnDestroy {
       if (res && res.Data) {
         this.district = res.Data;
 
-        if (this.formAddress.value.unl_district === '' || !isFirst) {
-          this.formAddress.patchValue({ unl_district: res.Data[0].name });
+        if (this.formAddress.value.sha_district_now === null || !isFirst) {
+          this.formAddress.patchValue({ sha_district_now: res.Data[0].name });
           this._loadWard(res.Data[0].id);
         } else {
           const districtId = this.district.find(
-            (item: any) => item.name === this.formAddress.value.unl_district
+            (item: any) => item.name === this.formAddress.value.sha_district_now
           ).id;
           this._loadWard(districtId, true);
         }
@@ -362,8 +346,8 @@ export class ListCustomerDetailComponent implements OnInit, OnDestroy {
       if (res && res.Data) {
         this.ward = res.Data;
 
-        if (this.formAddress.value.unl_ward === '' || !isFirst) {
-          this.formAddress.patchValue({ unl_ward: res.Data[0].name });
+        if (this.formAddress.value.sha_ward_now === null || !isFirst) {
+          this.formAddress.patchValue({ sha_ward_now: res.Data[0].name });
         }
       }
     });

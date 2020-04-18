@@ -401,7 +401,7 @@ export class OrderServiceDetailComponent implements OnInit {
 
   private _fetchCustomer(cu_id: any) {
     const customer$ = this.customerService
-      .loadCustomerById({ cu_id })
+      .loadCustomerInfo({ cu_id })
       .pipe(takeUntil(this.destroyed$));
 
     customer$.subscribe((res: any) => {
@@ -427,23 +427,18 @@ export class OrderServiceDetailComponent implements OnInit {
   }
 
   private _fetchFilter() {
-    const sources$ = this.customerService.loadSourceFilter().pipe(takeUntil(this.destroyed$));
+    const sources$ = this.customerService.loadSource().pipe(takeUntil(this.destroyed$));
     sources$.subscribe((res: any) => {
       this.sources = res.Data;
     });
 
-    const group$ = this.customerService.loadGroupFilter().pipe(takeUntil(this.destroyed$));
+    const group$ = this.customerService.loadGroup().pipe(takeUntil(this.destroyed$));
     group$.subscribe((res: any) => {
       this.groups = res.Data;
     });
 
-    const type$ = this.customerService.loadTypeFilter().pipe(takeUntil(this.destroyed$));
-    type$.subscribe((res: any) => {
-      this.types = res.Data;
-    });
-
     const customer$ = this.customerService
-      .loadCustomer(this.filterCustomer)
+      .searchCustomer(this.filterCustomer)
       .pipe(takeUntil(this.destroyed$));
     customer$.subscribe((res: any) => {
       this.customers = res.Data.Results;

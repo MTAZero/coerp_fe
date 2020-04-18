@@ -625,7 +625,6 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
     provincePermanent$.subscribe((res: any) => {
       if (res && res.Data) {
         this.provincePermanent = res.Data;
-        console.log(this.formPermanentAddress.value);
         if (this.formPermanentAddress.value.unl_province_permanent === null) {
           this.formPermanentAddress.patchValue({ unl_province_permanent: res.Data[0].name });
           this._loadDistrictPermanent(res.Data[0].id);

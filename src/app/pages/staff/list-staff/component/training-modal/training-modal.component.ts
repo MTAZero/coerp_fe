@@ -65,9 +65,9 @@ export class TrainingModalComponent implements OnInit {
       tn_id: ['temp_0', null],
       tn_code: [null, null],
       tn_name: [null, [Validators.required]],
-      tn_content: ['', null],
-      tn_start_date: [null, null],
-      tn_end_date: [null, null],
+      tn_content: ['', [Validators.required]],
+      tn_start_date: [null, [Validators.required]],
+      tn_end_date: [null, [Validators.required]],
       tn_purpose: ['', null],
     });
   }

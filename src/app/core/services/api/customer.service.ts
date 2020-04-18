@@ -3,28 +3,34 @@ import { ApiService } from './api-service';
 import { mapToHttpParamsQuery, mapToFormData } from '../../helpers/helpers';
 
 const router = {
-  get_all_page: `/api/customers/search`,
-  get_by_id: '/api/customers/infor',
+  get: '/api/customer/getall',
+  search: '/api/customer/search',
+  info: '/api/customer/get_by_id',
+  create: '/api/customer/create',
+  update: '/api/customer/update',
+  delete: '/api/customer/delete',
+  export: '/api/customer/export',
+  source: '/api/source/getall',
+  group: `/api/customer_group/getall`,
+  // pending
   get_by_curator: '/api/customer/search_by_curator',
-  create: `/api/customers/create`,
-  update: `/api/customers/update`,
-  delete: `/api/customers/delete`,
-  source: `/api/sources/all`,
-  type: `/api/customers/type`,
-  group: `/api/customer-groups/all`,
   create_location: `/api/ship-addresss/create`,
   update_location: `/api/ship-addresss/update`,
   delete_location: `/api/ship-addresss/delete`,
   import: `/api/customer/import`,
   update_avatar: '/api/customers/update_avatar',
-  export: '/api/customers/export',
 };
 
 @Injectable()
 export class CustomerService {
   constructor(private httpClient: ApiService) {}
 
-  loadCustomer(filter?: {
+  loadCustomerInfo(filter?: { cu_id: any }) {
+    const params = mapToHttpParamsQuery(filter);
+    return this.httpClient.get(router.info, params);
+  }
+
+  searchCustomer(filter?: {
     pageNumber: any;
     pageSize: any;
     source_id: any;
@@ -35,17 +41,7 @@ export class CustomerService {
     end_date: any;
   }) {
     const params = mapToHttpParamsQuery(filter);
-    return this.httpClient.get(router.get_all_page, params);
-  }
-
-  loadCustomerByCurator(filter?: {
-    pageNumber: any;
-    pageSize: any;
-    search_name: any;
-    cu_curator_id: any;
-  }) {
-    const params = mapToHttpParamsQuery(filter);
-    return this.httpClient.get(router.get_by_curator, params);
+    return this.httpClient.get(router.search, params);
   }
 
   exportCustomer(filter?: {
@@ -62,19 +58,12 @@ export class CustomerService {
     return this.httpClient.get(router.export, params);
   }
 
-  loadCustomerById(filter?: { cu_id: any }) {
-    const params = mapToHttpParamsQuery(filter);
-    return this.httpClient.get(router.get_by_id, params);
-  }
-
   createCustomer(data: any) {
-    const formData = mapToFormData(data);
-    return this.httpClient.post(router.create, formData);
+    return this.httpClient.post(router.create, data);
   }
 
   updateCustomer(data?: any) {
-    const formData = mapToFormData(data);
-    return this.httpClient.putFormData(router.update, formData);
+    return this.httpClient.putFormData(router.update, data);
   }
 
   removeCustomer(filter?: { customerId: number }) {
@@ -82,15 +71,21 @@ export class CustomerService {
     return this.httpClient.delete(router.delete, params);
   }
 
-  loadSourceFilter() {
+  loadCustomerByCurator(filter?: {
+    pageNumber: any;
+    pageSize: any;
+    search_name: any;
+    cu_curator_id: any;
+  }) {
+    const params = mapToHttpParamsQuery(filter);
+    return this.httpClient.get(router.get_by_curator, params);
+  }
+
+  loadSource() {
     return this.httpClient.get(router.source);
   }
 
-  loadTypeFilter() {
-    return this.httpClient.get(router.type);
-  }
-
-  loadGroupFilter() {
+  loadGroup() {
     return this.httpClient.get(router.group);
   }
 

@@ -8,7 +8,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-addres-modal',
   templateUrl: './addres-modal.component.html',
-  styleUrls: ['./addres-modal.component.scss']
+  styleUrls: ['./addres-modal.component.scss'],
 })
 export class AddresModalComponent implements OnInit {
   private destroyed$ = new Subject();
@@ -51,8 +51,8 @@ export class AddresModalComponent implements OnInit {
         confirmButtonText: 'Có',
         cancelButtonText: 'Không',
         confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33'
-      }).then(result => {
+        cancelButtonColor: '#d33',
+      }).then((result) => {
         if (result.value) {
           this.passEvent.emit({ event: false });
         }
@@ -63,12 +63,12 @@ export class AddresModalComponent implements OnInit {
   }
 
   onChangeProvince(e) {
-    const districtId = this.provinces.find(item => item.name === e.target.value).id;
+    const districtId = this.provinces.find((item) => item.name === e.target.value).id;
     this._loadDistrict(districtId);
   }
 
   onChangeDistrict(e) {
-    const wardId = this.districts.find(item => item.name === e.target.value).id;
+    const wardId = this.districts.find((item) => item.name === e.target.value).id;
     this._loadWard(wardId);
   }
 
@@ -78,13 +78,12 @@ export class AddresModalComponent implements OnInit {
 
   private initializeForm() {
     this.form = this.formBuilder.group({
-      customer_id: ['', null],
-      sha_id: ['', null],
+      sha_id: ['temp_0', null],
       sha_province: ['', [Validators.required]],
       sha_district: ['', [Validators.required]],
       sha_ward: ['', [Validators.required]],
       sha_detail: ['', null],
-      sha_note: ['', null]
+      sha_note: ['', null],
     });
   }
 
@@ -95,7 +94,7 @@ export class AddresModalComponent implements OnInit {
       sha_district: address.sha_district,
       sha_ward: address.sha_ward,
       sha_detail: address.sha_detail,
-      sha_note: address.sha_note
+      sha_note: address.sha_note,
     });
   }
 
@@ -107,7 +106,7 @@ export class AddresModalComponent implements OnInit {
 
         if (this.address) {
           this.form.patchValue({ sha_province: this.address.sha_province });
-          const provinceId = this.provinces.find(item => item.name === this.address.sha_province)
+          const provinceId = this.provinces.find((item) => item.name === this.address.sha_province)
             .id;
           this._loadDistrict(provinceId, true);
         } else {
@@ -128,7 +127,7 @@ export class AddresModalComponent implements OnInit {
 
         if (this.address && isFirst) {
           this.form.patchValue({ sha_district: this.address.sha_district });
-          const districtId = this.districts.find(item => item.name === this.address.sha_district)
+          const districtId = this.districts.find((item) => item.name === this.address.sha_district)
             .id;
           this._loadWard(districtId, true);
         } else {

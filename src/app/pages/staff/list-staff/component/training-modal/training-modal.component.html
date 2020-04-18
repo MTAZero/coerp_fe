@@ -6,19 +6,37 @@
 </div>
 <div class="modal-body p-3" [formGroup]="form">
   <div class="form-group row mb-3">
-    <label class="col-4 col-form-label">Tên khóa học</label>
+    <label class="col-4 col-form-label">Tên khóa học <span>(*)</span></label>
     <div class="col-8">
-      <input class="form-control" formControlName="tn_name" />
+      <input
+        class="form-control"
+        formControlName="tn_name"
+        [ngClass]="{
+          'is-invalid': submitted && form.controls.tn_name.errors
+        }"
+      />
+      <div *ngIf="submitted && form.controls.tn_name.errors" class="invalid-feedback">
+        <span *ngIf="form.controls.tn_name.errors.required">Trường bắt buộc</span>
+      </div>
     </div>
   </div>
   <div class="form-group row mb-3">
-    <label class="col-4 col-form-label">Nội dung khóa học</label>
+    <label class="col-4 col-form-label">Nội dung khóa học <span>(*)</span></label>
     <div class="col-8">
-      <input class="form-control" formControlName="tn_content" />
+      <input
+        class="form-control"
+        formControlName="tn_content"
+        [ngClass]="{
+          'is-invalid': submitted && form.controls.tn_content.errors
+        }"
+      />
+      <div *ngIf="submitted && form.controls.tn_content.errors" class="invalid-feedback">
+        <span *ngIf="form.controls.tn_content.errors.required">Trường bắt buộc</span>
+      </div>
     </div>
   </div>
   <div class="form-group row mb-3">
-    <label class="col-4 col-form-label">Từ ngày</label>
+    <label class="col-4 col-form-label">Từ ngày <span>(*)</span></label>
     <div class="col-8">
       <div class="input-group clockpicker mb-2 mr-1">
         <input
@@ -30,15 +48,21 @@
           name="from"
           [maxDate]="tn_end_date"
           formControlName="tn_start_date"
+          [ngClass]="{
+            'is-invalid': submitted && form.controls.tn_start_date.errors
+          }"
         />
         <div class="input-group-append" (click)="from.toggle()">
           <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+        </div>
+        <div *ngIf="submitted && form.controls.tn_start_date.errors" class="invalid-feedback">
+          <span *ngIf="form.controls.tn_start_date.errors.required">Trường bắt buộc</span>
         </div>
       </div>
     </div>
   </div>
   <div class="form-group row mb-3">
-    <label class="col-4 col-form-label">Đến ngày</label>
+    <label class="col-4 col-form-label">Đến ngày <span>(*)</span></label>
     <div class="col-8">
       <div class="input-group clockpicker mb-2">
         <input
@@ -50,9 +74,15 @@
           name="to"
           [minDate]="tn_start_date"
           formControlName="tn_end_date"
+          [ngClass]="{
+            'is-invalid': submitted && form.controls.tn_end_date.errors
+          }"
         />
         <div class="input-group-append" (click)="to.toggle()">
           <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+        </div>
+        <div *ngIf="submitted && form.controls.tn_end_date.errors" class="invalid-feedback">
+          <span *ngIf="form.controls.tn_end_date.errors.required">Trường bắt buộc</span>
         </div>
       </div>
     </div>

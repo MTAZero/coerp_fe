@@ -16,14 +16,14 @@
       <div class="main">
         <div class="content mb-2" id="content">
           <div id="0" class="row title-section">
-            <h5>Loại hợp đồng</h5>
+            <h5>{{ menu[0] }}</h5>
             <i
               [ngClass]="listView[0] ? 'fe-edit ml-2' : 'fe-save ml-2'"
               (click)="switchViewType(0)"
             ></i>
           </div>
           <div [formGroup]="formContractType">
-            <div class="row justify-content-center">
+            <div class="row justify-content-center" *ngIf="listView[0]">
               <div class="radio radio-info form-check-inline mr-5">
                 <input
                   type="radio"
@@ -31,7 +31,7 @@
                   [value]="0"
                   name="sta_type_contact"
                   formControlName="sta_type_contact"
-                  [disabled]="listView[0]"
+                  disabled
                 />
                 <label for="inlineRadio1"> Fulltime </label>
               </div>
@@ -42,7 +42,29 @@
                   [value]="1"
                   name="sta_type_contact"
                   formControlName="sta_type_contact"
-                  [disabled]="listView[0]"
+                  disabled
+                />
+                <label for="inlineRadio2"> Parttime </label>
+              </div>
+            </div>
+            <div class="row justify-content-center" *ngIf="!listView[0]">
+              <div class="radio radio-info form-check-inline mr-5">
+                <input
+                  type="radio"
+                  id="inlineRadio1"
+                  [value]="0"
+                  name="sta_type_contact"
+                  formControlName="sta_type_contact"
+                />
+                <label for="inlineRadio1"> Fulltime </label>
+              </div>
+              <div class="radio form-check-inline">
+                <input
+                  type="radio"
+                  id="inlineRadio2"
+                  [value]="1"
+                  name="sta_type_contact"
+                  formControlName="sta_type_contact"
                 />
                 <label for="inlineRadio2"> Parttime </label>
               </div>
@@ -85,7 +107,7 @@
           </div>
 
           <div id="1" class="row title-section">
-            <h5>Thông tin chung</h5>
+            <h5>{{ menu[1] }}</h5>
             <i
               [ngClass]="listView[1] ? 'fe-edit ml-2' : 'fe-save ml-2'"
               (click)="switchViewType(1)"
@@ -195,10 +217,22 @@
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Trạng thái <span>(*)</span></label>
                 <div class="col-6">
-                  <select class="custom-select" formControlName="sta_status">
+                  <select
+                    class="custom-select"
+                    formControlName="sta_status"
+                    [ngClass]="{
+                      'is-invalid': submitted && formProfile.controls.sta_status.errors
+                    }"
+                  >
                     <option [disabled]="listView[1]" [value]="1">Kích hoạt</option>
                     <option [disabled]="listView[1]" [value]="2">Khóa</option>
                   </select>
+                  <div
+                    *ngIf="submitted && submitted && formProfile.controls.sta_status.errors"
+                    class="invalid-feedback"
+                  >
+                    <span>Trường bắt buộc</span>
+                  </div>
                 </div>
               </div>
               <div class="form-group row mb-3">
@@ -241,11 +275,23 @@
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Giới tính <span>(*)</span></label>
                 <div class="col-6">
-                  <select class="custom-select" formControlName="sta_sex">
+                  <select
+                    class="custom-select"
+                    formControlName="sta_sex"
+                    [ngClass]="{
+                      'is-invalid': submitted && formProfile.controls.sta_sex.errors
+                    }"
+                  >
                     <option [disabled]="listView[1]" [value]="1">Nam</option>
                     <option [disabled]="listView[1]" [value]="2">Nữ</option>
                     <option [disabled]="listView[1]" [value]="3">Giới tính khác</option>
                   </select>
+                  <div
+                    *ngIf="submitted && formProfile.controls.sta_sex.errors"
+                    class="invalid-feedback"
+                  >
+                    <span>Trường bắt buộc</span>
+                  </div>
                 </div>
               </div>
               <div class="form-group row mb-3">
@@ -329,10 +375,19 @@
                     class="custom-select"
                     formControlName="sta_working_status"
                     (change)="onChangeWorkStatus($event)"
+                    [ngClass]="{
+                      'is-invalid': submitted && formProfile.controls.sta_working_status.errors
+                    }"
                   >
                     <option [disabled]="listView[1]" [value]="1">Đang làm việc</option>
                     <option [disabled]="listView[1]" [value]="2">Nghỉ việc</option>
                   </select>
+                  <div
+                    *ngIf="submitted && formProfile.controls.sta_working_status.errors"
+                    class="invalid-feedback"
+                  >
+                    <span>Trường bắt buộc</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -426,7 +481,7 @@
           </div>
 
           <div id="2" class="row title-section">
-            <h5>Thông tin liên hệ</h5>
+            <h5>{{ menu[2] }}</h5>
             <i
               [ngClass]="listView[2] ? 'fe-edit ml-2' : 'fe-save ml-2'"
               (click)="switchViewType(2)"
@@ -507,7 +562,7 @@
           </div>
 
           <div id="3" class="row title-section">
-            <h5>Số CMND/Thẻ căn cước</h5>
+            <h5>{{ menu[3] }}</h5>
             <i
               [ngClass]="listView[3] ? 'fe-edit ml-2' : 'fe-save ml-2'"
               (click)="switchViewType(3)"
@@ -590,7 +645,7 @@
           </div>
 
           <div id="4" class="row title-section">
-            <h5>Hộ khẩu thường trú</h5>
+            <h5>{{ menu[4] }}</h5>
             <i
               [ngClass]="listView[4] ? 'fe-edit ml-2' : 'fe-save ml-2'"
               (click)="switchViewType(4)"
@@ -679,7 +734,7 @@
           </div>
 
           <div id="5" class="row title-section">
-            <h5>Chỗ ở hiện tại</h5>
+            <h5>{{ menu[5] }}</h5>
             <div class="checkbox checkbox-success form-check-inline ml-3" style="line-height: 2;">
               <input
                 type="checkbox"
@@ -772,7 +827,7 @@
           </div>
 
           <div id="6" class="row title-section">
-            <h5>Thông tin đào tạo</h5>
+            <h5>{{ menu[6] }}</h5>
             <a class="btn btn-primary btn-xs ml-2 button-link" (click)="onUpdateListTraining()"
               >Chọn</a
             >
@@ -841,7 +896,7 @@
           </div>
 
           <div id="7" class="row title-section">
-            <h5>Địa chỉ phụ trách</h5>
+            <h5>{{ menu[7] }}</h5>
             <a class="btn btn-primary btn-xs ml-2 button-link" (click)="openAddressModal()"
               >Thêm mới</a
             >
@@ -855,7 +910,7 @@
                   <th>Phường/Xã</th>
                   <th>Địa chỉ</th>
                   <th>Ghi chú</th>
-                  <th *ngIf="!isView">Thao tác</th>
+                  <th>Thao tác</th>
                 </tr>
               </thead>
               <tbody>
@@ -869,7 +924,7 @@
                   </td>
                   <td>{{ address.unl_detail }}</td>
                   <td>{{ address.unl_note }}</td>
-                  <td *ngIf="!isView">
+                  <td>
                     <a class="action-icon table-button-link" (click)="openAddressModal(address)">
                       <i class="mdi mdi-square-edit-outline"></i
                     ></a>
@@ -888,9 +943,9 @@
         <div class="row justify-content-end mr-2">
           <div class="text-sm-right">
             <a class="btn btn-success mb-2 mr-1 button-link" (click)="onSubmit()">Lưu lại</a>
-            <a class="btn btn-danger mb-2 mr-1 button-link" (click)="onChangeToMain()">{{
-              isView ? 'Quay lại' : 'Hủy bỏ'
-            }}</a>
+            <a class="btn btn-danger mb-2 mr-1 button-link" (click)="onChangeToMain()">
+              Quay lại
+            </a>
           </div>
         </div>
       </div>

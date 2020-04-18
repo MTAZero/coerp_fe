@@ -149,7 +149,7 @@ export class CustomerCareModalComponent implements OnInit {
     });
 
     const customer$ = this.customerService
-      .loadCustomer(this.filterCustomer)
+      .searchCustomer(this.filterCustomer)
       .pipe(takeUntil(this.destroyed$));
     customer$.subscribe((res: any) => {
       this.customers = res.Data.Results;

@@ -8,7 +8,6 @@ import { NgbModalModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap'
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { CustomerRoutingModule } from './customer-routing.module';
 import { ListCustomerComponent } from './list-customer/list-customer.component';
-import { CustomerModalComponent } from './list-customer/component/customer-modal/customer-modal.component';
 import { PurchaseHistoryTabComponent } from './list-customer/component/purchase-history-tab/purchase-history-tab.component';
 import { CareHistoryTabComponent } from './list-customer/component/care-history-tab/care-history-tab.component';
 import { AddressTabComponent } from './list-customer/component/address-tab/address-tab.component';
@@ -20,11 +19,11 @@ import { ListCustomerModalComponent } from './customer-group/component/list-cust
 import { CustomerGroupModalComponent } from './customer-group/component/customer-group-modal/customer-group-modal.component';
 import { MobileTabComponent } from './list-customer/component/mobile-tab/mobile-tab.component';
 import { ListCustomerDetailComponent } from './list-customer-detail/list-customer-detail.component';
+import { MobileModalComponent } from './list-customer/component/mobile-modal/mobile-modal.component';
 
 @NgModule({
   declarations: [
     ListCustomerComponent,
-    CustomerModalComponent,
     PurchaseHistoryTabComponent,
     CareHistoryTabComponent,
     AddressTabComponent,
@@ -36,6 +35,7 @@ import { ListCustomerDetailComponent } from './list-customer-detail/list-custome
     MobileTabComponent,
     CustomerGroupModalComponent,
     ListCustomerDetailComponent,
+    MobileModalComponent,
   ],
   imports: [
     CommonModule,
@@ -51,13 +51,13 @@ import { ListCustomerDetailComponent } from './list-customer-detail/list-custome
     NgApexchartsModule,
   ],
   entryComponents: [
-    CustomerModalComponent,
     CustomerGroupModalComponent,
     AddresModalComponent,
     CustomerCareModalComponent,
     CustomerGroupModalComponent,
     ListCustomerModalComponent,
     CustomerGroupModalComponent,
+    MobileModalComponent,
   ],
 })
 export class CustomerModule {}

@@ -1,31 +1,26 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddresModalComponent } from '../addres-modal/addres-modal.component';
-import { CustomerService } from '../../../../../core/services/api/customer.service';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
 import { isNullOrUndefined } from 'util';
 import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-address-tab',
   templateUrl: './address-tab.component.html',
-  styleUrls: ['./address-tab.component.scss']
+  styleUrls: ['./address-tab.component.scss'],
 })
 export class AddressTabComponent implements OnInit, OnChanges {
   @Input() listAddress: any;
   @Input() customerId: any;
   @Output() formSubmit: any = new EventEmitter();
-  private destroyed$ = new Subject();
   selectedAddress = null;
 
-  constructor(private modalService: NgbModal, private customerService: CustomerService) {}
+  constructor(private modalService: NgbModal) {}
 
   ngOnInit() {}
 
   ngOnChanges() {
     if (!this.customerId) this.selectedAddress = null;
-    console.log(this.listAddress);
   }
 
   onClickAddress(address: any) {
@@ -42,13 +37,12 @@ export class AddressTabComponent implements OnInit, OnChanges {
 
   openAddressModal(address?: any) {
     const modalRef = this.modalService.open(AddresModalComponent, {
-      centered: true
+      centered: true,
     });
-    modalRef.componentInstance.customerId = this.customerId;
     if (address) {
       modalRef.componentInstance.address = address;
     }
-    modalRef.componentInstance.passEvent.subscribe(res => {
+    modalRef.componentInstance.passEvent.subscribe((res) => {
       if (res.event) {
         if (address) {
           this._updateAddress(res.form);
@@ -68,8 +62,8 @@ export class AddressTabComponent implements OnInit, OnChanges {
       confirmButtonText: 'Xóa',
       cancelButtonText: 'Hủy',
       confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33'
-    }).then(result => {
+      cancelButtonColor: '#d33',
+    }).then((result) => {
       if (result.value) {
         this._removeAddress(address);
       }
@@ -77,61 +71,20 @@ export class AddressTabComponent implements OnInit, OnChanges {
   }
 
   private _createAddress(data: any) {
-    const createAddress$ = this.customerService
-      .createShipAddress(data)
-      .pipe(takeUntil(this.destroyed$));
-    createAddress$.subscribe(
-      (res: any) => {
-        if (res && res.Code === 200) {
-          this._notify(true, res.Message);
-          this.formSubmit.emit({ reload: true });
-          this.modalService.dismissAll();
-        } else this._notify(false, res.Message);
-      },
-      e => this._notify(false, e.Message)
-    );
+    const updatedList = this.listAddress.concat(data);
+    this.formSubmit.emit(updatedList);
   }
 
   private _updateAddress(updated: any) {
-    const updateAddress$ = this.customerService
-      .updateShipAddress(updated)
-      .pipe(takeUntil(this.destroyed$));
-    updateAddress$.subscribe(
-      (res: any) => {
-        if (res && res.Code === 200) {
-          this._notify(true, res.Message);
-          this.formSubmit.emit({ reload: true });
-          this.modalService.dismissAll();
-        } else this._notify(false, res.Message);
-      },
-      e => this._notify(false, e.Message)
-    );
+    const updatedList = this.listAddress.map((item) => {
+      if (item.sha_id !== updated.sha_id) return item;
+      return updated;
+    });
+    this.formSubmit.emit(updatedList);
   }
 
   private _removeAddress(address: any) {
-    const removeAddress$ = this.customerService
-      .removeShipAddress({ shipaddressId: address.sha_id })
-      .pipe(takeUntil(this.destroyed$));
-    removeAddress$.subscribe(
-      (res: any) => {
-        if (res && res.Code === 200) {
-          this._notify(true, res.Message);
-          this.formSubmit.emit({ reload: true });
-          this.modalService.dismissAll();
-        } else this._notify(false, res.Message);
-      },
-      e => this._notify(false, e.Message)
-    );
-  }
-
-  private _notify(isSuccess: boolean, message: string) {
-    return Swal.fire({
-      toast: true,
-      position: 'top-end',
-      type: isSuccess ? 'success' : 'error',
-      title: message,
-      showConfirmButton: false,
-      timer: 2000
-    });
+    const updatedList = this.listAddress.filter((item) => item.sha_id !== address.sha_id);
+    this.formSubmit.emit(updatedList);
   }
 }

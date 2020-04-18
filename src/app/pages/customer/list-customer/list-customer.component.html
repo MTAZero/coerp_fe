@@ -19,7 +19,8 @@
             (change)="onChangeFilter()"
           >
             <option value="">Loại khách hàng</option>
-            <option *ngFor="let type of types" [value]="type.id">{{ type.name }}</option>
+            <option [value]="1">Khách lẻ</option>
+            <option [value]="0">Khách sỉ</option>
           </select>
           <select
             class="custom-select mr-1"
@@ -28,7 +29,7 @@
             (change)="onChangeFilter()"
           >
             <option value="">Nhóm khách hàng</option>
-            <option *ngFor="let group of groups" [value]="group.cg_id">{{ group.cg_name }}</option>
+            <option *ngFor="let group of groups" [value]="group.id">{{ group.name }}</option>
           </select>
           <select
             class="custom-select mr-1"
@@ -37,9 +38,7 @@
             (change)="onChangeFilter()"
           >
             <option value="">Nguồn</option>
-            <option *ngFor="let source of sources" [value]="source.src_id">{{
-              source.src_name
-            }}</option>
+            <option *ngFor="let source of sources" [value]="source.id">{{ source.name }}</option>
           </select>
           <div class="input-group clockpicker mb-2 mr-1">
             <input
@@ -112,13 +111,10 @@
             <th>STT</th>
             <th>Mã khách hàng</th>
             <th>Họ và tên</th>
-            <th>Số điện thoại</th>
             <th>Email</th>
             <th>Loại khách hàng</th>
             <th>Nhóm khách hàng</th>
-            <th>Địa chỉ</th>
             <th>Ngày sinh</th>
-            <th>Trạng thái</th>
             <th>Nguồn</th>
             <th>Sử dụng dịch vụ</th>
             <th>Đặt dịch vụ</th>
@@ -160,36 +156,29 @@
               {{ customer.cu_fullname }}
             </td>
             <td>
-              {{ customer.cu_mobile }}
-            </td>
-            <td>
               {{ customer.cu_email }}
             </td>
             <td>
-              {{ customer.cu_type }}
-            </td>
-            <td>
-              <span class="badge badge-danger">
-                {{ customer.customer_group_name }}
+              <span
+                [ngClass]="customer.cu_type === 1 ? 'badge badge-danger' : 'badge badge-success'"
+              >
+                {{ customer.cu_type_name }}
               </span>
             </td>
             <td>
-              {{ customer.cu_address }}
+              {{ customer.customer_group_name }}
             </td>
             <td>
               {{ customer.cu_birthday | date: 'dd/MM/yyyy' }}
             </td>
             <td>
-              {{ customer.cu_status }}
+              {{ customer.source_name }}
             </td>
             <td>
-              {{ customer.cu_source_name }}
+              {{ customer.cu_flag_used_name }}
             </td>
             <td>
-              {{ customer.cu_flag_used }}
-            </td>
-            <td>
-              {{ customer.cu_flag_order }}
+              {{ customer.cu_flag_order_name }}
             </td>
             <td>
               {{ customer.cu_curator_name }}
@@ -220,7 +209,11 @@
     <ngb-tabset class="nav-bordered">
       <ngb-tab title="1. Số điện thoại">
         <ng-template ngbTabContent>
-          <app-mobile-tab></app-mobile-tab>
+          <app-mobile-tab
+            [listMobile]="selectedCustomer?.list_customer_phone"
+            [customerId]="selectedCustomer?.cu_id"
+            (formSubmit)="onChangeMobile($event)"
+          ></app-mobile-tab>
         </ng-template>
       </ngb-tab>
       <ngb-tab title="2. Lịch sử mua hàng">
@@ -240,9 +233,9 @@
       <ngb-tab title="4. Địa chỉ nhận hàng">
         <ng-template ngbTabContent>
           <app-address-tab
-            [listAddress]="selectedCustomer?.list_address"
+            [listAddress]="selectedCustomer?.list_ship_address"
             [customerId]="selectedCustomer?.cu_id"
-            (formSubmit)="onChange($event)"
+            (formSubmit)="onChangeAddress($event)"
           ></app-address-tab>
         </ng-template>
       </ngb-tab>

@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgbModal, NgbDate } from '@ng-bootstrap/ng-bootstrap';
-import { CustomerModalComponent } from './component/customer-modal/customer-modal.component';
 import { isNullOrUndefined } from 'util';
 import { CustomerService } from '../../../core/services/api/customer.service';
 import { Subject } from 'rxjs';
@@ -17,9 +16,7 @@ import { Router } from '@angular/router';
 export class ListCustomerComponent implements OnInit, OnDestroy {
   private destroyed$ = new Subject();
 
-  submitted: boolean;
   sources: any;
-  types: any;
   groups: any;
 
   textSearch = '';
@@ -40,6 +37,7 @@ export class ListCustomerComponent implements OnInit, OnDestroy {
     private customerService: CustomerService,
     private router: Router
   ) {}
+
   ngOnInit() {
     this._fetchData();
     this._fetchFilter();
@@ -91,10 +89,16 @@ export class ListCustomerComponent implements OnInit, OnDestroy {
     this._fetchData(this.selectedCustomer);
   }
 
-  onChange(event) {
-    if (event.reload) {
-      this._fetchData(this.selectedCustomer);
-    }
+  onChangeAddress(event) {
+    var updated = this.selectedCustomer;
+    updated.list_ship_address = event;
+    this._updateCustomer(updated);
+  }
+
+  onChangeMobile(event) {
+    var updated = this.selectedCustomer;
+    updated.list_customer_phone = event;
+    this._updateCustomer(updated);
   }
 
   setFile(event) {
@@ -160,7 +164,7 @@ export class ListCustomerComponent implements OnInit, OnDestroy {
 
   private _fetchData(selected?: any) {
     const customer$ = this.customerService
-      .loadCustomer({
+      .searchCustomer({
         pageNumber: this.page - 1,
         pageSize: this.pageSize,
         source_id: this.sourceSearch,
@@ -186,39 +190,17 @@ export class ListCustomerComponent implements OnInit, OnDestroy {
   }
 
   private _fetchFilter() {
-    const sources$ = this.customerService.loadSourceFilter().pipe(takeUntil(this.destroyed$));
+    const sources$ = this.customerService.loadSource().pipe(takeUntil(this.destroyed$));
 
     sources$.subscribe((res: any) => {
       this.sources = res.Data;
     });
 
-    const type$ = this.customerService.loadTypeFilter().pipe(takeUntil(this.destroyed$));
-
-    type$.subscribe((res: any) => {
-      this.types = res.Data;
-    });
-
-    const group$ = this.customerService.loadGroupFilter().pipe(takeUntil(this.destroyed$));
+    const group$ = this.customerService.loadGroup().pipe(takeUntil(this.destroyed$));
 
     group$.subscribe((res: any) => {
       this.groups = res.Data;
     });
-  }
-
-  private _createCustomer(data: any) {
-    const createCustomer$ = this.customerService
-      .createCustomer(data)
-      .pipe(takeUntil(this.destroyed$));
-    createCustomer$.subscribe(
-      (res: any) => {
-        if (res && res.Code === 200) {
-          this._notify(true, res.Message);
-          this._fetchData();
-          this.modalService.dismissAll();
-        } else this._notify(false, res.Message);
-      },
-      (e) => this._notify(false, e.Message)
-    );
   }
 
   private _updateCustomer(updated: any) {
@@ -229,7 +211,7 @@ export class ListCustomerComponent implements OnInit, OnDestroy {
       (res: any) => {
         if (res && res.Code === 200) {
           this._notify(true, res.Message);
-          this._fetchData();
+          this._fetchData(this.selectedCustomer);
           this.modalService.dismissAll();
         } else this._notify(false, res.Message);
       },

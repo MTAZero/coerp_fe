@@ -1,1 +1,55 @@
-<p>mobile-tab works!</p>
+<div class="row justify-content-end">
+  <a
+    class="btn btn-success mb-1 mr-1 button-link"
+    [ngClass]="customerId ? '' : 'disabled'"
+    (click)="openMobileModal()"
+  >
+    Thêm mới</a
+  >
+  <a
+    class="btn btn-primary mb-1 mr-1 button-link"
+    [ngClass]="selectedMobile ? '' : 'disabled'"
+    (click)="openMobileModal(selectedMobile)"
+    >Cập nhật</a
+  >
+  <a
+    class="btn btn-danger mb-1 button-link"
+    [ngClass]="selectedMobile ? '' : 'disabled'"
+    (click)="openConfirmModal(selectedMobile)"
+  >
+    Xóa</a
+  >
+</div>
+<div class="table-responsive">
+  <table class="table table-centered table-hover mb-0">
+    <thead>
+      <tr>
+        <th>Loại số điện thoại</th>
+        <th>Số điện thoại</th>
+        <th>Ghi chú</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let mobile of listMobile"
+        (click)="onClickMobile(mobile)"
+        [ngClass]="{
+          'is-selected': mobile.cp_id === selectedMobile?.cp_id
+        }"
+      >
+        <td>
+          {{ mobile.cp_type_name }}
+        </td>
+        <td>
+          {{ mobile.cp_phone_number }}
+        </td>
+        <td>
+          {{ mobile.cp_note }}
+        </td>
+      </tr>
+      <tr *ngIf="!listMobile || listMobile.length === 0">
+        <td colspan="3">Không có dữ liệu số điện thoại</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

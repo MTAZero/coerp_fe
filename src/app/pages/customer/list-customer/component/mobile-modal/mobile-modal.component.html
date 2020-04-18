@@ -1,0 +1,61 @@
+<div class="modal-header bg-dark">
+  <h4 class="modal-title text-white">{{ mobile ? 'Sửa' : 'Thêm' }} số điện thoại</h4>
+  <button class="close text-white" aria-label="Close" (click)="onClickCancel()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body p-3" [formGroup]="form">
+  <div class="form-group row mb-3">
+    <label class="col-4 col-form-label">Loại số điện thoại <span>(*)</span></label>
+    <div class="col-8">
+      <input
+        class="form-control"
+        formControlName="cp_type"
+        [ngClass]="{
+          'is-invalid': submitted && form.controls.cp_type.errors
+        }"
+      />
+      <div *ngIf="submitted && form.controls.cp_type.errors" class="invalid-feedback">
+        <span *ngIf="form.controls.cp_type.errors.required">Trường bắt buộc</span>
+      </div>
+    </div>
+  </div>
+  <div class="form-group row mb-3">
+    <label class="col-4 col-form-label">Số điện thoại <span>(*)</span></label>
+    <div class="col-8">
+      <input
+        class="form-control"
+        formControlName="cp_phone_number"
+        [ngClass]="{
+          'is-invalid': submitted && form.controls.cp_phone_number.errors
+        }"
+      />
+      <div *ngIf="submitted && form.controls.cp_phone_number.errors" class="invalid-feedback">
+        <span *ngIf="form.controls.cp_phone_number.errors.required">Trường bắt buộc</span>
+      </div>
+    </div>
+  </div>
+  <div class="form-group row mb-3">
+    <label class="col-4 col-form-label">Ghi chú <span>(*)</span></label>
+    <div class="col-8">
+      <input
+        class="form-control"
+        formControlName="cp_note"
+        [ngClass]="{
+          'is-invalid': submitted && form.controls.cp_note.errors
+        }"
+      />
+      <div *ngIf="submitted && form.controls.cp_note.errors" class="invalid-feedback">
+        <span *ngIf="form.controls.cp_note.errors.required">Trường bắt buộc</span>
+      </div>
+    </div>
+  </div>
+  <div class="text-right mt-3">
+    <button class="btn btn-success ml-1" (click)="onClickSubmit()">
+      Lưu
+    </button>
+    <button class="btn btn-danger ml-1" (click)="onClickCancel()">
+      Hủy
+    </button>
+  </div>
+</div>
