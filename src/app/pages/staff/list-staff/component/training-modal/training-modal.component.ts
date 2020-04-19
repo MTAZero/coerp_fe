@@ -3,6 +3,7 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import Swal from 'sweetalert2';
 import * as moment from 'moment';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { isUndefined } from 'util';
 
 @Component({
   selector: 'app-training-modal',
@@ -98,6 +99,7 @@ export class TrainingModalComponent implements OnInit {
     if (!ngbDate) {
       return '';
     }
+    if (isUndefined(ngbDate.year)) return ngbDate;
     const newDate = new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
     return moment(newDate).format();
   }

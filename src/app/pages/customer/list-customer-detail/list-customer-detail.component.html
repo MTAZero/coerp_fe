@@ -32,16 +32,19 @@
                     [readonly]="listView[0]"
                     formControlName="cu_fullname"
                     [ngClass]="{
-                      'is-invalid': submitted && formProfile.controls.cu_fullname.errors
+                      'is-invalid':
+                        submitted &&
+                        (formProfile.controls.cu_fullname.errors || errorField === 'cu_fullname')
                     }"
                   />
                   <div
-                    *ngIf="submitted && formProfile.controls.cu_fullname.errors"
+                    *ngIf="
+                      submitted &&
+                      (formProfile.controls.cu_fullname.errors || errorField === 'cu_fullname')
+                    "
                     class="invalid-feedback"
                   >
-                    <span *ngIf="formProfile.controls.cu_fullname.errors.required"
-                      >Trường bắt buộc</span
-                    >
+                    <span>Trường bắt buộc</span>
                   </div>
                 </div>
               </div>
@@ -84,8 +87,8 @@
                       'is-invalid': submitted && formProfile.controls.cu_type.errors
                     }"
                   >
-                    <option [value]="1" [disabled]="listView[0]">Khách lẻ</option>
-                    <option [value]="0" [disabled]="listView[0]">Khách sỉ</option>
+                    <option [value]="2" [disabled]="listView[0]">Khách lẻ</option>
+                    <option [value]="1" [disabled]="listView[0]">Khách sỉ</option>
                   </select>
                   <div
                     *ngIf="submitted && formProfile.controls.cu_type.errors"
@@ -319,16 +322,21 @@
                     [readonly]="listView[1]"
                     formControlName="sha_detail_now"
                     [ngClass]="{
-                      'is-invalid': submitted && formAddress.controls.sha_detail_now.errors
+                      'is-invalid':
+                        submitted &&
+                        (formAddress.controls.sha_detail_now.errors ||
+                          errorField === 'sha_detail_now')
                     }"
                   />
                   <div
-                    *ngIf="submitted && formAddress.controls.sha_detail_now.errors"
+                    *ngIf="
+                      submitted &&
+                      (formAddress.controls.sha_detail_now.errors ||
+                        errorField === 'sha_detail_now')
+                    "
                     class="invalid-feedback"
                   >
-                    <span *ngIf="formAddress.controls.sha_detail_now.errors.required"
-                      >Trường bắt buộc</span
-                    >
+                    <span>Trường bắt buộc</span>
                   </div>
                 </div>
               </div>

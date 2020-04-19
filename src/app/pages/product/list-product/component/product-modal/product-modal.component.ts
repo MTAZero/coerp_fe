@@ -8,11 +8,12 @@ import { Subject } from 'rxjs';
 import * as moment from 'moment';
 import { ProductService } from 'src/app/core/services/api/product.service';
 import Swal from 'sweetalert2';
+import { isUndefined } from 'util';
 
 @Component({
   selector: 'app-product-modal',
   templateUrl: './product-modal.component.html',
-  styleUrls: ['./product-modal.component.scss']
+  styleUrls: ['./product-modal.component.scss'],
 })
 export class ProductModalComponent implements OnInit {
   private destroyed$ = new Subject();
@@ -43,7 +44,7 @@ export class ProductModalComponent implements OnInit {
   openUnitModal() {
     const modalRef = this.modalService.open(ListUnitModalComponent, {
       centered: true,
-      size: 'lg'
+      size: 'lg',
     });
     modalRef.componentInstance.passEvent.subscribe(() => {
       modalRef.close();
@@ -53,7 +54,7 @@ export class ProductModalComponent implements OnInit {
   openProductTypeModal() {
     const modalRef = this.modalService.open(ListProductTypeModalComponent, {
       centered: true,
-      size: 'lg'
+      size: 'lg',
     });
     modalRef.componentInstance.passEvent.subscribe(() => {
       modalRef.close();
@@ -79,8 +80,8 @@ export class ProductModalComponent implements OnInit {
         confirmButtonText: 'Có',
         cancelButtonText: 'Không',
         confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33'
-      }).then(result => {
+        cancelButtonColor: '#d33',
+      }).then((result) => {
         if (result.value) {
           this.passEvent.emit({ event: false });
         }
@@ -109,7 +110,7 @@ export class ProductModalComponent implements OnInit {
       provider_id: ['', [Validators.required]],
       pu_tax: ['', [Validators.required]],
       pu_expired_date: [null, null],
-      pu_weight: ['', null]
+      pu_weight: ['', null],
     });
   }
 
@@ -129,7 +130,7 @@ export class ProductModalComponent implements OnInit {
       provider_id: product.provider_id,
       pu_tax: product.pu_tax,
       pu_expired_date: this._convertDateToNgbDate(product.pu_expired_date),
-      pu_weight: product.pu_weight
+      pu_weight: product.pu_weight,
     });
   }
 
@@ -167,6 +168,7 @@ export class ProductModalComponent implements OnInit {
     if (!ngbDate) {
       return '';
     }
+    if (isUndefined(ngbDate.year)) return ngbDate;
     const newDate = new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
     return moment(newDate).format();
   }

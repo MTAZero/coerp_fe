@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { ProductModalComponent } from './component/product-modal/product-modal.component';
-import { isNullOrUndefined } from 'util';
+import { isNullOrUndefined, isUndefined } from 'util';
 import { ProductService } from '../../../core/services/api/product.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-list-product',
   templateUrl: './list-product.component.html',
-  styleUrls: ['./list-product.component.scss']
+  styleUrls: ['./list-product.component.scss'],
 })
 export class ListProductComponent implements OnInit {
   private destroyed$ = new Subject();
@@ -51,13 +51,13 @@ export class ListProductComponent implements OnInit {
   openProductModal(product?: any) {
     const modalRef = this.modalService.open(ProductModalComponent, {
       centered: true,
-      size: 'lg'
+      size: 'lg',
     });
     if (product) {
       this.onClickProduct(product);
       modalRef.componentInstance.product = product;
     }
-    modalRef.componentInstance.passEvent.subscribe(res => {
+    modalRef.componentInstance.passEvent.subscribe((res) => {
       if (res.event) {
         if (product) {
           this._updateProduct(res.form);
@@ -78,8 +78,8 @@ export class ListProductComponent implements OnInit {
       confirmButtonText: 'Xóa',
       cancelButtonText: 'Hủy',
       confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33'
-    }).then(result => {
+      cancelButtonColor: '#d33',
+    }).then((result) => {
       if (result.value) {
         this._removeProduct(product);
       }
@@ -110,7 +110,7 @@ export class ListProductComponent implements OnInit {
             this.modalService.dismissAll();
           } else this._notify(false, res.Message);
         },
-        e => this._notify(false, e.Message)
+        (e) => this._notify(false, e.Message)
       );
       // const reader = new FileReader();
       // reader.onload = e => (this.thumbnail = reader.result);
@@ -127,7 +127,7 @@ export class ListProductComponent implements OnInit {
         search_name: this.textSearch,
         category_id: this.categorySearch,
         start_date: this._convertNgbDateToDate(this.fromDate),
-        end_date: this._convertNgbDateToDate(this.toDate)
+        end_date: this._convertNgbDateToDate(this.toDate),
       })
       .pipe(takeUntil(this.destroyed$));
     export$.subscribe((res: any) => {
@@ -146,7 +146,7 @@ export class ListProductComponent implements OnInit {
         search_name: this.textSearch,
         category_id: this.categorySearch,
         start_date: this._convertNgbDateToDate(this.fromDate),
-        end_date: this._convertNgbDateToDate(this.toDate)
+        end_date: this._convertNgbDateToDate(this.toDate),
       })
       .pipe(takeUntil(this.destroyed$));
     product$.subscribe((res: any) => {
@@ -155,7 +155,7 @@ export class ListProductComponent implements OnInit {
         this.products = res.Data.Results;
 
         if (selected) {
-          this.selectedProduct = this.products.find(item => item.pu_id === selected.pu_id);
+          this.selectedProduct = this.products.find((item) => item.pu_id === selected.pu_id);
         } else {
           this.selectedProduct = this.products[0];
         }
@@ -181,7 +181,7 @@ export class ListProductComponent implements OnInit {
           this.modalService.dismissAll();
         } else this._notify(false, res.Message);
       },
-      e => this._notify(false, e.Message)
+      (e) => this._notify(false, e.Message)
     );
   }
 
@@ -197,7 +197,7 @@ export class ListProductComponent implements OnInit {
           this.modalService.dismissAll();
         } else this._notify(false, res.Message);
       },
-      e => this._notify(false, e.Message)
+      (e) => this._notify(false, e.Message)
     );
   }
 
@@ -213,7 +213,7 @@ export class ListProductComponent implements OnInit {
           this.modalService.dismissAll();
         } else this._notify(false, res.Message);
       },
-      e => this._notify(false, e.Message)
+      (e) => this._notify(false, e.Message)
     );
   }
 
@@ -224,7 +224,7 @@ export class ListProductComponent implements OnInit {
       type: isSuccess ? 'success' : 'error',
       title: message,
       showConfirmButton: false,
-      timer: 2000
+      timer: 2000,
     });
   }
 
@@ -242,6 +242,7 @@ export class ListProductComponent implements OnInit {
     if (!ngbDate) {
       return '';
     }
+    if (isUndefined(ngbDate.year)) return ngbDate;
     const newDate = new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
     return moment(newDate).format('YYYY-MM-DD');
   }

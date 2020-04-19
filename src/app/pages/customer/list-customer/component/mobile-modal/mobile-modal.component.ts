@@ -68,7 +68,7 @@ export class MobileModalComponent implements OnInit {
       cp_id: ['temp_0', null],
       cp_type: [1, [Validators.required]],
       cp_type_name: ['Số chính', null],
-      cp_phone_number: ['', [Validators.required]],
+      cp_phone_number: ['', [Validators.required, Validators.pattern(/^(\d{10}|\d{11})$/g)]],
       cp_note: ['', null],
     });
   }

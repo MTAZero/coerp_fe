@@ -11,6 +11,7 @@ import { AddresModalComponent } from '../list-customer/component/addres-modal/ad
 import Swal from 'sweetalert2';
 import * as moment from 'moment';
 import { menu } from './data';
+import { isDate, isUndefined } from 'util';
 
 @Component({
   selector: 'app-list-customer-detail',
@@ -106,6 +107,12 @@ export class ListCustomerDetailComponent implements OnInit, OnDestroy {
   onSubmit() {
     this.submitted = true;
     if (this.formProfile.invalid || this.formAddress.invalid) return;
+    if (this.formProfile.value.cu_fullname.trim() === '') return (this.errorField = 'cu_fullname');
+    if (
+      this.formProfile.value.sha_detail_now &&
+      this.formProfile.value.sha_detail_now.trim() === ''
+    )
+      return (this.errorField = 'sha_detail_now');
 
     const profileForm = this.formProfile.value;
     profileForm.cu_birthday = this._convertNgbDateToDate(profileForm.cu_birthday);
@@ -168,7 +175,7 @@ export class ListCustomerDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  openRemoveMobile(mobile) {
+  onRemoveMobile(mobile) {
     Swal.fire({
       title: 'Chắc chắn muốn xóa số điện thoại đang chọn?',
       type: 'warning',
@@ -401,6 +408,7 @@ export class ListCustomerDetailComponent implements OnInit, OnDestroy {
     if (!ngbDate) {
       return '';
     }
+    if (isUndefined(ngbDate.year)) return ngbDate;
     const newDate = new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
     return moment(newDate).format();
   }

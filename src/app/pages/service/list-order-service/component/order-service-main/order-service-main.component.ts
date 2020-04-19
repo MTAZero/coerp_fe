@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
-import { isNullOrUndefined } from 'util';
+import { isNullOrUndefined, isUndefined } from 'util';
 import * as moment from 'moment';
 import Swal from 'sweetalert2';
 import { Subject } from 'rxjs';
@@ -13,7 +13,7 @@ import { StatisticService } from '../../../../../core/services/api/statistic.ser
 @Component({
   selector: 'app-order-service-main',
   templateUrl: './order-service-main.component.html',
-  styleUrls: ['./order-service-main.component.scss']
+  styleUrls: ['./order-service-main.component.scss'],
 })
 export class OrderServiceMainComponent implements OnInit {
   @Output() onDetail: EventEmitter<any> = new EventEmitter();
@@ -59,7 +59,7 @@ export class OrderServiceMainComponent implements OnInit {
   onChangeToDetail(type: string) {
     this.onDetail.emit({
       type,
-      data: type === 'create' ? null : this.selectedOrderService
+      data: type === 'create' ? null : this.selectedOrderService,
     });
   }
 
@@ -71,8 +71,8 @@ export class OrderServiceMainComponent implements OnInit {
       confirmButtonText: 'Xóa',
       cancelButtonText: 'Hủy',
       confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33'
-    }).then(result => {
+      cancelButtonColor: '#d33',
+    }).then((result) => {
       if (result.value) {
         this._removeOrder(orderService);
       }
@@ -95,7 +95,7 @@ export class OrderServiceMainComponent implements OnInit {
         pageSize: this.pageSize,
         search_name: this.textSearch,
         start_date: this._convertNgbDateToDate(this.fromDate),
-        end_date: this._convertNgbDateToDate(this.toDate)
+        end_date: this._convertNgbDateToDate(this.toDate),
       })
       .pipe(takeUntil(this.destroyed$));
     orderService$.subscribe((res: any) => {
@@ -105,7 +105,7 @@ export class OrderServiceMainComponent implements OnInit {
 
         if (selected) {
           this.selectedOrderService = this.orderServices.find(
-            item => item.cuo_id === selected.cuo_id
+            (item) => item.cuo_id === selected.cuo_id
           );
         } else {
           this.selectedOrderService = this.orderServices[0];
@@ -120,7 +120,7 @@ export class OrderServiceMainComponent implements OnInit {
       if (res && res.Data) {
         this.customerPieChart.series = [];
         this.customerPieChart.labels = [];
-        res.Data.map(item => {
+        res.Data.map((item) => {
           this.customerPieChart.series.push(item.total_revenue);
           this.customerPieChart.labels.push(item.cg_name);
         });
@@ -136,7 +136,7 @@ export class OrderServiceMainComponent implements OnInit {
       if (res && res.Data) {
         this.ratePieChart.series = [];
         this.ratePieChart.labels = [];
-        res.Data.map(item => {
+        res.Data.map((item) => {
           this.ratePieChart.series.push(item.number);
           this.ratePieChart.labels.push(item.cg_name);
         });
@@ -152,7 +152,7 @@ export class OrderServiceMainComponent implements OnInit {
       type: isSuccess ? 'success' : 'error',
       title: message,
       showConfirmButton: false,
-      timer: 2000
+      timer: 2000,
     });
   }
 
@@ -179,7 +179,7 @@ export class OrderServiceMainComponent implements OnInit {
           this._fetchData();
         } else this._notify(false, res.Message);
       },
-      e => this._notify(false, e.Message)
+      (e) => this._notify(false, e.Message)
     );
   }
 
@@ -197,6 +197,7 @@ export class OrderServiceMainComponent implements OnInit {
     if (!ngbDate) {
       return '';
     }
+    if (isUndefined(ngbDate.year)) return ngbDate;
     const newDate = new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
     return moment(newDate).format('YYYY-MM-DD');
   }

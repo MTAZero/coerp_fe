@@ -10,6 +10,7 @@ import { ServiceService } from '../../../../../core/services/api/service.service
 import Swal from 'sweetalert2';
 import * as moment from 'moment';
 import { timePeriod, menu, days } from './data';
+import { isUndefined } from 'util';
 
 @Component({
   selector: 'app-order-service-detail',
@@ -524,6 +525,7 @@ export class OrderServiceDetailComponent implements OnInit {
     if (!ngbDate) {
       return '';
     }
+    if (isUndefined(ngbDate.year)) return ngbDate;
     const newDate = new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
     return moment(newDate).format();
   }

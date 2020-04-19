@@ -4,7 +4,7 @@ import { NgbModal, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { StaffService } from '../../../core/services/api/staff.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { isNullOrUndefined } from 'util';
+import { isNullOrUndefined, isUndefined } from 'util';
 import * as moment from 'moment';
 import Swal from 'sweetalert2';
 
@@ -214,6 +214,7 @@ export class ListStaffComponent implements OnInit, OnDestroy {
     if (!ngbDate) {
       return '';
     }
+    if (isUndefined(ngbDate.year)) return ngbDate;
     const newDate = new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
     return moment(newDate).format('YYYY-MM-DD');
   }

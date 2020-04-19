@@ -6,12 +6,12 @@ import { takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../../core/services/api/order.service';
 import Swal from 'sweetalert2';
 import * as moment from 'moment';
-import { isNullOrUndefined } from 'util';
+import { isNullOrUndefined, isUndefined } from 'util';
 
 @Component({
   selector: 'app-list-order',
   templateUrl: './list-order.component.html',
-  styleUrls: ['./list-order.component.scss']
+  styleUrls: ['./list-order.component.scss'],
 })
 export class ListOrderComponent implements OnInit {
   private destroyed$ = new Subject();
@@ -52,13 +52,13 @@ export class ListOrderComponent implements OnInit {
   openOrderModal(order?: any, isView = false) {
     const modalRef = this.modalService.open(OrderModalComponent, {
       centered: true,
-      size: 'xl'
+      size: 'xl',
     });
     if (order) {
       modalRef.componentInstance.order = order;
       modalRef.componentInstance.isView = isView;
     }
-    modalRef.componentInstance.passEvent.subscribe(res => {
+    modalRef.componentInstance.passEvent.subscribe((res) => {
       if (res.event) {
         if (order) {
           this._updateOrder(res.data);
@@ -78,8 +78,8 @@ export class ListOrderComponent implements OnInit {
       confirmButtonText: 'Xóa',
       cancelButtonText: 'Hủy',
       confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33'
-    }).then(result => {
+      cancelButtonColor: '#d33',
+    }).then((result) => {
       if (result.value) {
         this._removeOrder(order);
       }
@@ -99,7 +99,7 @@ export class ListOrderComponent implements OnInit {
     const changeStatus$ = this.orderService
       .updateOrderStatus({
         cuo_id: order.cuo_id,
-        cuo_status: event.target.value
+        cuo_status: event.target.value,
       })
       .pipe(takeUntil(this.destroyed$));
 
@@ -111,7 +111,7 @@ export class ListOrderComponent implements OnInit {
           this.modalService.dismissAll();
         } else this._notify(false, res.Message);
       },
-      e => this._notify(false, e.Message)
+      (e) => this._notify(false, e.Message)
     );
   }
 
@@ -123,7 +123,7 @@ export class ListOrderComponent implements OnInit {
         payment_type_id: this.paymentMethodSearch,
         name: this.textSearch,
         start_date: this._convertNgbDateToDate(this.fromDate),
-        end_date: this._convertNgbDateToDate(this.toDate)
+        end_date: this._convertNgbDateToDate(this.toDate),
       })
       .pipe(takeUntil(this.destroyed$));
     export$.subscribe((res: any) => {
@@ -142,7 +142,7 @@ export class ListOrderComponent implements OnInit {
         payment_type_id: this.paymentMethodSearch,
         code: this.textSearch,
         start_date: this._convertNgbDateToDate(this.fromDate),
-        end_date: this._convertNgbDateToDate(this.toDate)
+        end_date: this._convertNgbDateToDate(this.toDate),
       })
       .pipe(takeUntil(this.destroyed$));
     order$.subscribe((res: any) => {
@@ -151,7 +151,7 @@ export class ListOrderComponent implements OnInit {
         this.orders = res.Data.Results;
 
         if (selected) {
-          this.selectedOrder = this.orders.find(item => item.cuo_id === selected.cuo_id);
+          this.selectedOrder = this.orders.find((item) => item.cuo_id === selected.cuo_id);
         } else {
           this.selectedOrder = this.orders[0];
         }
@@ -183,7 +183,7 @@ export class ListOrderComponent implements OnInit {
           this.modalService.dismissAll();
         } else this._notify(false, res.Message);
       },
-      e => this._notify(false, e.Message)
+      (e) => this._notify(false, e.Message)
     );
   }
 
@@ -197,7 +197,7 @@ export class ListOrderComponent implements OnInit {
           this.modalService.dismissAll();
         } else this._notify(false, res.Message);
       },
-      e => this._notify(false, e.Message)
+      (e) => this._notify(false, e.Message)
     );
   }
 
@@ -213,7 +213,7 @@ export class ListOrderComponent implements OnInit {
           this.modalService.dismissAll();
         } else this._notify(false, res.Message);
       },
-      e => this._notify(false, e.Message)
+      (e) => this._notify(false, e.Message)
     );
   }
 
@@ -224,7 +224,7 @@ export class ListOrderComponent implements OnInit {
       type: isSuccess ? 'success' : 'error',
       title: message,
       showConfirmButton: false,
-      timer: 2000
+      timer: 2000,
     });
   }
 
@@ -242,6 +242,7 @@ export class ListOrderComponent implements OnInit {
     if (!ngbDate) {
       return '';
     }
+    if (isUndefined(ngbDate.year)) return ngbDate;
     const newDate = new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
     return moment(newDate).format('YYYY-MM-DD');
   }

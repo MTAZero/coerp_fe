@@ -13,7 +13,7 @@
         formControlName="cp_type"
         (change)="changePhoneType($event)"
         [ngClass]="{
-          'is-invalid': submitted && formProfile.controls.cp_type.errors
+          'is-invalid': submitted && form.controls.cp_type.errors
         }"
       >
         <option [value]="1">Số chính</option>
@@ -37,6 +37,7 @@
       />
       <div *ngIf="submitted && form.controls.cp_phone_number.errors" class="invalid-feedback">
         <span *ngIf="form.controls.cp_phone_number.errors.required">Trường bắt buộc</span>
+        <span *ngIf="form.controls.cp_phone_number.errors.pattern">Sai định dạng</span>
       </div>
     </div>
   </div>
