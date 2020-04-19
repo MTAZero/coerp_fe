@@ -107,12 +107,17 @@ export class ListCustomerDetailComponent implements OnInit, OnDestroy {
   onSubmit() {
     this.submitted = true;
     if (this.formProfile.invalid || this.formAddress.invalid) return;
-    if (this.formProfile.value.cu_fullname.trim() === '') return (this.errorField = 'cu_fullname');
+    if (this.formProfile.value.cu_fullname.trim() === '') {
+      this.errorField = 'cu_fullname';
+      return;
+    }
     if (
       this.formProfile.value.sha_detail_now &&
       this.formProfile.value.sha_detail_now.trim() === ''
-    )
-      return (this.errorField = 'sha_detail_now');
+    ) {
+      this.errorField = 'sha_detail_now';
+      return;
+    }
 
     const profileForm = this.formProfile.value;
     profileForm.cu_birthday = this._convertNgbDateToDate(profileForm.cu_birthday);
