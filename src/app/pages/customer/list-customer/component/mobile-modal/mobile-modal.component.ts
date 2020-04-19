@@ -23,6 +23,13 @@ export class MobileModalComponent implements OnInit {
     }
   }
 
+  changePhoneType(event: any) {
+    const type = event.target.value;
+    this.form.patchValue({
+      cp_type_name: type === '1' ? 'Số chính' : type === '2' ? 'Số nhà' : 'Số công ty',
+    });
+  }
+
   onClickSubmit() {
     this.submitted = true;
 
@@ -60,8 +67,9 @@ export class MobileModalComponent implements OnInit {
     this.form = this.formBuilder.group({
       cp_id: ['temp_0', null],
       cp_type: [1, [Validators.required]],
+      cp_type_name: ['Số chính', null],
       cp_phone_number: ['', [Validators.required]],
-      cp_note: ['', [Validators.required]],
+      cp_note: ['', null],
     });
   }
 
@@ -69,6 +77,7 @@ export class MobileModalComponent implements OnInit {
     this.form.patchValue({
       cp_id: mobile.cp_id,
       cp_type: mobile.cp_type,
+      cp_type_name: mobile.cp_type_name,
       cp_phone_number: mobile.cp_phone_number,
       cp_note: mobile.cp_note,
     });

@@ -162,14 +162,19 @@
                     [readonly]="listView[0]"
                     formControlName="cu_email"
                     [ngClass]="{
-                      'is-invalid': submitted && formProfile.controls.cu_email.errors
+                      'is-invalid':
+                        submitted &&
+                        (formProfile.controls.cu_email.errors || errorField === 'cu_email')
                     }"
                   />
                   <div
-                    *ngIf="submitted && formProfile.controls.cu_email.errors"
+                    *ngIf="
+                      submitted &&
+                      (formProfile.controls.cu_email.errors || errorField === 'cu_email')
+                    "
                     class="invalid-feedback"
                   >
-                    <span *ngIf="formContact.controls.sta_email.errors.email">
+                    <span>
                       Email sai định dạng
                     </span>
                   </div>
