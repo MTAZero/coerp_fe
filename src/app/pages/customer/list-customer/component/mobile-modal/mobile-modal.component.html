@@ -8,13 +8,17 @@
   <div class="form-group row mb-3">
     <label class="col-4 col-form-label">Loại số điện thoại <span>(*)</span></label>
     <div class="col-8">
-      <input
-        class="form-control"
+      <select
+        class="custom-select"
         formControlName="cp_type"
         [ngClass]="{
-          'is-invalid': submitted && form.controls.cp_type.errors
+          'is-invalid': submitted && formProfile.controls.cp_type.errors
         }"
-      />
+      >
+        <option [value]="1">Số chính</option>
+        <option [value]="2">Số nhà</option>
+        <option [value]="3">Số công ty</option>
+      </select>
       <div *ngIf="submitted && form.controls.cp_type.errors" class="invalid-feedback">
         <span *ngIf="form.controls.cp_type.errors.required">Trường bắt buộc</span>
       </div>

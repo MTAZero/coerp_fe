@@ -113,6 +113,8 @@ export class ListCustomerDetailComponent implements OnInit, OnDestroy {
     const data = {
       ...profileForm,
       ...this.formAddress.value,
+      list_customer_phone: this.listMobile,
+      list_ship_address: this.listAddress,
     };
     console.log(data);
     if (this.cu_id)

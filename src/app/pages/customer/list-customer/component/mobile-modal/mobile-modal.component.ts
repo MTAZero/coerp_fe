@@ -59,7 +59,7 @@ export class MobileModalComponent implements OnInit {
   private initializeForm() {
     this.form = this.formBuilder.group({
       cp_id: ['temp_0', null],
-      cp_type: ['', [Validators.required]],
+      cp_type: [1, [Validators.required]],
       cp_phone_number: ['', [Validators.required]],
       cp_note: ['', [Validators.required]],
     });
