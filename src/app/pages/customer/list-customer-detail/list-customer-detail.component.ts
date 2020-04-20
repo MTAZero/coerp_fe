@@ -30,6 +30,7 @@ export class ListCustomerDetailComponent implements OnInit, OnDestroy {
   customerGroups: any;
 
   listView = [true, true];
+  isChange = false;
 
   province: any;
   district: any;
@@ -85,7 +86,7 @@ export class ListCustomerDetailComponent implements OnInit, OnDestroy {
   }
 
   onChangeToMain() {
-    if (this.formProfile.dirty || this.formAddress.dirty) {
+    if (this.formProfile.dirty || this.formAddress.dirty || this.isChange) {
       Swal.fire({
         title: 'Dữ liệu đã bị thay đổi, bạn có chắc chắn muốn hủy thao tác không?',
         type: 'warning',
@@ -163,12 +164,14 @@ export class ListCustomerDetailComponent implements OnInit, OnDestroy {
             if (item.cp_id !== res.data.cp_id) return item;
             return res.data;
           });
+          this.isChange = true;
         } else {
           this.listMobile.push({
             ...res.data,
             cp_id: `temp_${this.tempMobile}`,
           });
           this.tempMobile++;
+          this.isChange = true;
         }
       }
       modalRef.close();
@@ -187,6 +190,7 @@ export class ListCustomerDetailComponent implements OnInit, OnDestroy {
     }).then((result) => {
       if (result.value) {
         this.listMobile = this.listMobile.filter((item) => item.cp_id !== mobile.cp_id);
+        this.isChange = true;
       }
     });
   }
@@ -207,12 +211,14 @@ export class ListCustomerDetailComponent implements OnInit, OnDestroy {
             if (item.sha_id !== res.form.sha_id) return item;
             return res.form;
           });
+          this.isChange = true;
         } else {
           this.listAddress.push({
             ...res.form,
             sha_id: `temp_${this.tempAddress}`,
           });
           this.tempAddress++;
+          this.isChange = true;
         }
       }
       modalRef.close();
@@ -231,6 +237,7 @@ export class ListCustomerDetailComponent implements OnInit, OnDestroy {
     }).then((result) => {
       if (result.value) {
         this.listAddress = this.listAddress.filter((item) => item.sha_id !== address.sha_id);
+        this.isChange = true;
       }
     });
   }

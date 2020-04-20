@@ -21,6 +21,10 @@ export class TrainingTabComponent implements OnInit {
 
   ngOnChanges() {
     if (!this.staffId) this.selectedTraining = null;
+    if (this.selectedTraining)
+      this.selectedTraining = this.listTraining.filter(
+        (item) => item.tn_id === this.selectedTraining.tn_id
+      )[0];
   }
 
   onClickTraining(training: any) {

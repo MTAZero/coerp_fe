@@ -21,6 +21,10 @@ export class MobileTabComponent implements OnInit {
 
   ngOnChanges() {
     if (!this.customerId) this.selectedMobile = null;
+    if (this.selectedMobile)
+      this.selectedMobile = this.listMobile.filter(
+        (item) => item.cp_id === this.selectedMobile.cp_id
+      )[0];
   }
 
   onClickMobile(mobile: any) {

@@ -21,6 +21,10 @@ export class AddressTabComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     if (!this.customerId) this.selectedAddress = null;
+    if (this.selectedAddress)
+      this.selectedAddress = this.listAddress.filter(
+        (item) => item.sha_id === this.selectedAddress.sha_id
+      )[0];
   }
 
   onClickAddress(address: any) {

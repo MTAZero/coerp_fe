@@ -21,6 +21,10 @@ export class UndertakenLocationTabComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     if (this.staffId) this.selectedAddress = null;
+    if (this.selectedAddress)
+      this.selectedAddress = this.listAddress.filter(
+        (item) => item.unl_id === this.selectedAddress.unl_id
+      )[0];
   }
 
   onClickAddress(address: any) {

@@ -214,7 +214,7 @@
                     *ngIf="submitted && formProfile.controls.cu_flag_used.errors"
                     class="invalid-feedback"
                   >
-                    <span *ngIf="formContact.controls.cu_flag_used.errors.required">
+                    <span *ngIf="formProfile.controls.cu_flag_used.errors.required">
                       Trường bắt buộc
                     </span>
                   </div>
@@ -431,7 +431,13 @@
         </div>
         <div class="row justify-content-end mr-2">
           <div class="text-sm-right">
-            <a class="btn btn-success mb-2 mr-1 button-link" (click)="onSubmit()">Lưu lại</a>
+            <button
+              class="btn btn-success mb-2 mr-1 button-link"
+              [disabled]="!isChange && !formProfile.dirty && !formAddress.dirty"
+              (click)="onSubmit()"
+            >
+              Lưu lại
+            </button>
             <a class="btn btn-danger mb-2 mr-1 button-link" (click)="onChangeToMain()">Quay lại </a>
           </div>
         </div>
