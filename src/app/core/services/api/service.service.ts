@@ -3,16 +3,21 @@ import { ApiService } from './api-service';
 import { mapToHttpParamsQuery, mapToFormData } from '../../helpers/helpers';
 
 const router = {
+  search_order_service: '/api/customer_order_service/search',
+  info_order_service: '/api/customer_order_service/get_by_id',
+  create_order_service: '/api/customer_order_service/create',
+  update_order_service: '/api/customer_order_service/update',
+  delete_order_service: '/api/customer_order_service/delete',
+  gen_work_time: '/api/customer_order_service/gen_work_time',
+  get_free_staff: '/api/customer_order_service/get_staffs_free',
+  //pending
   get_all: `/api/service/get-search-infor`,
   create: `/api/service/create`,
   update: `/api/service/update`,
   delete: `/api/service/delete`,
   get_category: '/api/service-category/get-name',
   get_type: '/api/service/get-type',
-  get_order_service: '/api/customer-order-service/search',
-  create_order_service: '/api/customer-order-service/create',
-  update_order_service: '/api/customer-order-service/update',
-  get_calendar: '/api/customer-orders/service_by_date'
+  get_calendar: '/api/customer-orders/service_by_date',
 };
 
 @Injectable()
@@ -47,7 +52,17 @@ export class ServiceService {
     return this.httpClient.get(router.get_type);
   }
 
-  loadOrderService(filter?: {
+  getCalendar(filter?: { start_date: any; to_date: any }) {
+    const params = mapToHttpParamsQuery(filter);
+    return this.httpClient.get(router.get_calendar, params);
+  }
+
+  loadOrderServiceInfo(filter?: { cuo_id: any }) {
+    const params = mapToHttpParamsQuery(filter);
+    return this.httpClient.get(router.info_order_service, params);
+  }
+
+  searchOrderService(filter?: {
     pageSize: number;
     pageNumber: number;
     search_name: string;
@@ -55,7 +70,7 @@ export class ServiceService {
     end_date: string;
   }) {
     const params = mapToHttpParamsQuery(filter);
-    return this.httpClient.get(router.get_order_service, params);
+    return this.httpClient.get(router.search_order_service, params);
   }
 
   createOrderService(data: any) {
@@ -66,8 +81,18 @@ export class ServiceService {
     return this.httpClient.putFormData(router.update_order_service, data);
   }
 
-  getCalendar(filter?: { start_date: any; to_date: any }) {
+  removeOrderService(filter?: { cuo_id: any }) {
     const params = mapToHttpParamsQuery(filter);
-    return this.httpClient.get(router.get_calendar, params);
+    return this.httpClient.delete(router.delete, params);
+  }
+
+  genWorkTime(filter?: { pageNumber: number; pageSize: number }) {
+    const params = mapToHttpParamsQuery(filter);
+    return this.httpClient.get(router.gen_work_time, params);
+  }
+
+  getFreeStaff(filter?: { fullName: string }) {
+    const params = mapToHttpParamsQuery(filter);
+    return this.httpClient.get(router.get_free_staff, params);
   }
 }

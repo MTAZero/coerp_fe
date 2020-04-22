@@ -11,11 +11,11 @@ import Swal from 'sweetalert2';
 import { ServiceService } from '../../../core/services/api/service.service';
 
 @Component({
-  selector: 'app-order-service',
-  templateUrl: './order-service.component.html',
-  styleUrls: ['./order-service.component.scss']
+  selector: 'app-order-service-calendar',
+  templateUrl: './order-service-calendar.component.html',
+  styleUrls: ['./order-service-calendar.component.scss'],
 })
-export class OrderServiceComponent implements OnInit {
+export class OrderServiceCalendarComponent implements OnInit {
   private destroyed$ = new Subject();
   // calendar plugin
   calendarPlugins = [dayGridPlugin, bootstrapPlugin, timeGrigPlugin, interactionPlugin];
@@ -40,13 +40,9 @@ export class OrderServiceComponent implements OnInit {
       type: 'info',
       html:
         '<p>Bắt đầu: ' +
-        moment(e.event.start)
-          .format('HH:mm / DD-MM-YYYY')
-          .toString() +
+        moment(e.event.start).format('HH:mm / DD-MM-YYYY').toString() +
         '<p>Kết thúc: ' +
-        moment(e.event.end)
-          .format('HH:mm / DD-MM-YYYY')
-          .toString()
+        moment(e.event.end).format('HH:mm / DD-MM-YYYY').toString(),
     });
   }
 
@@ -67,22 +63,22 @@ export class OrderServiceComponent implements OnInit {
     const calendar$ = this.serviceService
       .getCalendar({
         start_date: moment(start).format('YYYY-MM-DD'),
-        to_date: moment(end).format('YYYY-MM-DD')
+        to_date: moment(end).format('YYYY-MM-DD'),
       })
       .pipe(takeUntil(this.destroyed$));
 
     calendar$.subscribe((res: any) => {
       this.calendarEvents = [];
-      res.Data.forEach(day => {
+      res.Data.forEach((day) => {
         const { work_time, list_service } = day;
         const work_day = work_time.substr(0, 11);
 
-        list_service.forEach(time => {
+        list_service.forEach((time) => {
           const { start_time, end_time, service_name } = time;
           this.calendarEvents.push({
             title: service_name,
             start: work_day.concat(start_time),
-            end: work_day.concat(end_time)
+            end: work_day.concat(end_time),
           });
         });
       });

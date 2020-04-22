@@ -101,7 +101,7 @@
                 </div>
               </div>
               <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Ngày sinh <span>(*)</span></label>
+                <label class="col-4 col-form-label">Ngày sinh</label>
                 <div class="col-6">
                   <div class="input-group clockpicker mb-2 mr-1">
                     <input
@@ -112,18 +112,9 @@
                       #dob="ngbDatepicker"
                       formControlName="cu_birthday"
                       [disabled]="listView[0]"
-                      [ngClass]="{
-                        'is-invalid': submitted && formProfile.controls.cu_birthday.errors
-                      }"
                     />
                     <div class="input-group-append" (click)="dob.toggle()">
                       <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                    </div>
-                    <div
-                      *ngIf="submitted && formProfile.controls.cu_birthday.errors"
-                      class="invalid-feedback"
-                    >
-                      <span>Trường bắt buộc</span>
                     </div>
                   </div>
                 </div>

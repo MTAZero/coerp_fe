@@ -90,7 +90,7 @@ export class OrderServiceMainComponent implements OnInit {
 
   private _fetchData(selected?: any) {
     const orderService$ = this.serviceService
-      .loadOrderService({
+      .searchOrderService({
         pageNumber: this.page - 1,
         pageSize: this.pageSize,
         search_name: this.textSearch,

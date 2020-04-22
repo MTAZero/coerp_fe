@@ -1,11 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-purchase-history-tab',
-  templateUrl: './purchase-history-tab.component.html',
-  styleUrls: ['./purchase-history-tab.component.scss'],
+  selector: 'app-service-history-tab',
+  templateUrl: './service-history-tab.component.html',
+  styleUrls: ['./service-history-tab.component.scss'],
 })
-export class PurchaseHistoryTabComponent implements OnInit {
+export class ServiceHistoryTabComponent implements OnInit {
   @Input() listCustomerOrder: any;
 
   selectedOrder = null;

@@ -2,7 +2,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { NgbDate, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Subject, from } from 'rxjs';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AddressService } from '../../../core/services/api/address.service';
 import { CustomerService } from '../../../core/services/api/customer.service';
@@ -11,7 +11,7 @@ import { AddresModalComponent } from '../list-customer/component/addres-modal/ad
 import Swal from 'sweetalert2';
 import * as moment from 'moment';
 import { menu } from './data';
-import { isDate, isUndefined } from 'util';
+import { isUndefined } from 'util';
 
 @Component({
   selector: 'app-list-customer-detail',
@@ -249,7 +249,7 @@ export class ListCustomerDetailComponent implements OnInit, OnDestroy {
       cu_fullname: ['', [Validators.required]],
       source_id: ['', [Validators.required]],
       cu_type: [1, [Validators.required]],
-      cu_birthday: [this._convertDateToNgbDate(new Date(1995, 0, 1)), [Validators.required]],
+      cu_birthday: [this._convertDateToNgbDate(new Date(1995, 0, 1)), null],
       customer_group_id: ['', [Validators.required]],
       cu_email: ['', [Validators.email]],
       cu_flag_order: [1, [Validators.required]],

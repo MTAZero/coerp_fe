@@ -56,6 +56,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
   listTraining = [];
   listAddress = [];
   listNewTraining = [];
+  listWorkTime = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -147,6 +148,10 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
         this.formProfile.value.sta_reason_to_end_work === '')
     )
       return;
+
+    const list_staff_work_time = this.transformData();
+    if (list_staff_work_time.length === 0) return this._notify(false, 'Chưa chọn ngày làm việc');
+
     const identityForm = this.formIdentityCard.value;
     identityForm.sta_identity_card_date = this._convertNgbDateToDate(
       identityForm.sta_identity_card_date
@@ -168,6 +173,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
       ...this.formNowAddress.value,
       list_training: this.listTraining.concat(this.listNewTraining),
       list_undertaken_location: this.listAddress,
+      list_staff_work_time,
     };
     console.log(data);
     if (this.sta_id)
@@ -180,51 +186,61 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
 
   //#region Contract Type
 
-  onCheckDay(day: any) {
-    if (day === 'Thứ 2')
-      this.formContractType.patchValue({
-        st_mon_flag: this.formContractType.value.st_mon_flag === 1 ? 0 : 1,
+  transformWorkTime(list_staff_work_time: any) {
+    if (!list_staff_work_time) return;
+    this.listWorkTime = [[], [], [], [], [], [], []];
+    list_staff_work_time.forEach((item) => {
+      const { sw_day_flag, sw_time_start, sw_time_end } = item;
+      const index = parseInt(sw_day_flag[2]) - 2;
+      this.listWorkTime[index].push({
+        sw_time_start: sw_time_start.substr(0, 5),
+        sw_time_end: sw_time_end.substr(0, 5),
       });
-
-    if (day === 'Thứ 3')
-      this.formContractType.patchValue({
-        st_tue_flag: this.formContractType.value.st_tue_flag === 1 ? 0 : 1,
-      });
-
-    if (day === 'Thứ 4')
-      this.formContractType.patchValue({
-        st_wed_flag: this.formContractType.value.st_wed_flag === 1 ? 0 : 1,
-      });
-
-    if (day === 'Thứ 5')
-      this.formContractType.patchValue({
-        st_thu_flag: this.formContractType.value.st_thu_flag === 1 ? 0 : 1,
-      });
-
-    if (day === 'Thứ 6')
-      this.formContractType.patchValue({
-        st_fri_flag: this.formContractType.value.st_fri_flag === 1 ? 0 : 1,
-      });
-
-    if (day === 'Thứ 7')
-      this.formContractType.patchValue({
-        st_sat_flag: this.formContractType.value.st_sat_flag === 1 ? 0 : 1,
-      });
-
-    if (day === 'Chủ nhật')
-      this.formContractType.patchValue({
-        st_sun_flag: this.formContractType.value.st_sun_flag === 1 ? 0 : 1,
-      });
+    });
   }
 
-  checkDay(day: any) {
-    if (day === 'Thứ 2') return this.formContractType.value.st_mon_flag;
-    if (day === 'Thứ 3') return this.formContractType.value.st_tue_flag;
-    if (day === 'Thứ 4') return this.formContractType.value.st_wed_flag;
-    if (day === 'Thứ 5') return this.formContractType.value.st_thu_flag;
-    if (day === 'Thứ 6') return this.formContractType.value.st_fri_flag;
-    if (day === 'Thứ 7') return this.formContractType.value.st_sat_flag;
-    if (day === 'Chủ nhật') return this.formContractType.value.st_sun_flag;
+  transformData() {
+    var data = [];
+    this.listWorkTime.forEach((item, index) => {
+      if (item.length === 0) return;
+      item.forEach((time) => {
+        data.push({
+          ...time,
+          sw_day_flag: `TH${index + 2}`,
+        });
+      });
+    });
+    return data;
+  }
+
+  onClickPlus(index: number) {
+    this.listWorkTime[index].push({
+      sw_time_start: '08:30',
+      sw_time_end: '16:00',
+    });
+  }
+
+  onChangeStart(index, timeIndex, event) {
+    this.listWorkTime[index][timeIndex] = {
+      ...this.listWorkTime[index][timeIndex],
+      sw_time_start: event.target.value,
+    };
+  }
+
+  onChangeEnd(index, timeIndex, event) {
+    this.listWorkTime[index][timeIndex] = {
+      ...this.listWorkTime[index][timeIndex],
+      sw_time_end: event.target.value,
+    };
+  }
+
+  onCheckDay(index: any) {
+    if (this.listWorkTime[index].length !== 0) this.listWorkTime[index] = [];
+    else
+      this.listWorkTime[index].push({
+        sw_time_start: '08:30',
+        sw_time_end: '16:00',
+      });
   }
 
   //#endregion
@@ -415,15 +431,6 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
   private _initializeForm() {
     this.formContractType = this.formBuilder.group({
       sta_type_contact: [0, null],
-      sw_time_start: ['08:30', null],
-      sw_time_end: ['17:00', null],
-      st_sun_flag: 0,
-      st_mon_flag: 1,
-      st_tue_flag: 1,
-      st_wed_flag: 1,
-      st_thu_flag: 1,
-      st_fri_flag: 1,
-      st_sat_flag: 0,
     });
 
     this.formProfile = this.formBuilder.group({
@@ -437,8 +444,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
       sta_traffic: ['', null],
       sta_start_work_date: [this._convertDateToNgbDate(new Date(2020, 0, 1)), null],
       sta_birthday: [this._convertDateToNgbDate(new Date(1995, 0, 1)), null],
-      sta_salary_to: [0, [Validators.required]],
-      sta_salary_end: [20, [Validators.required]],
+      sta_salary: [30, [Validators.required]],
       sta_working_status: [1, [Validators.required]],
       sta_tax_code: ['', null],
       sta_end_work_date: [null, null],
@@ -502,15 +508,6 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
   private _patchStaff(staff: any) {
     this.formContractType.patchValue({
       sta_type_contact: staff.sta_type_contact,
-      sw_time_start: staff.sw_time_start ? staff.sw_time_start.substr(0, 5) : '',
-      sw_time_end: staff.sw_time_end ? staff.sw_time_end.substr(0, 5) : '',
-      st_sun_flag: staff.st_sun_flag ? 1 : 0,
-      st_mon_flag: staff.st_mon_flag ? 1 : 0,
-      st_tue_flag: staff.st_tue_flag ? 1 : 0,
-      st_wed_flag: staff.st_wed_flag ? 1 : 0,
-      st_thu_flag: staff.st_thu_flag ? 1 : 0,
-      st_fri_flag: staff.st_fri_flag ? 1 : 0,
-      st_sat_flag: staff.st_sat_flag ? 1 : 0,
     });
 
     this.formProfile.patchValue({
@@ -524,8 +521,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
       sta_traffic: staff.sta_traffic,
       sta_start_work_date: this._convertDateToNgbDate(staff.sta_start_work_date),
       sta_birthday: this._convertDateToNgbDate(staff.sta_birthday),
-      sta_salary_to: staff.sta_salary_to,
-      sta_salary_end: staff.sta_salary_end,
+      sta_salary: staff.sta_salary,
       sta_working_status: staff.sta_working_status,
       sta_tax_code: staff.sta_tax_code,
       sta_end_work_date: this._convertDateToNgbDate(staff.sta_end_work_date),
@@ -564,6 +560,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
 
     this.listTraining = staff.list_training;
     this.listAddress = staff.list_undertaken_location;
+    this.transformWorkTime(staff.list_staff_work_time);
   }
 
   private _loadProvinceNow() {

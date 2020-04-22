@@ -20,6 +20,7 @@ import { CustomerGroupModalComponent } from './customer-group/component/customer
 import { MobileTabComponent } from './list-customer/component/mobile-tab/mobile-tab.component';
 import { ListCustomerDetailComponent } from './list-customer-detail/list-customer-detail.component';
 import { MobileModalComponent } from './list-customer/component/mobile-modal/mobile-modal.component';
+import { ServiceHistoryTabComponent } from './list-customer/component/service-history-tab/service-history-tab.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { MobileModalComponent } from './list-customer/component/mobile-modal/mob
     CustomerGroupModalComponent,
     ListCustomerDetailComponent,
     MobileModalComponent,
+    ServiceHistoryTabComponent,
   ],
   imports: [
     CommonModule,

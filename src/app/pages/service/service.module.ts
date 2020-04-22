@@ -14,11 +14,12 @@ import { ListServiceComponent } from './list-service/list-service.component';
 import { ServiceModalComponent } from './list-service/component/service-modal/service-modal.component';
 import { ListServiceCategoryModalComponent } from './list-service/component/list-service-category-modal/list-service-category-modal.component';
 import { ServiceCategoryModalComponent } from './list-service/component/service-category-modal/service-category-modal.component';
-import { OrderServiceComponent } from './order-service/order-service.component';
+import { OrderServiceCalendarComponent } from './order-service-calendar/order-service-calendar.component';
 import { ReceiveWorkComponent } from './receive-work/receive-work.component';
 import { ListOrderServiceComponent } from './list-order-service/list-order-service.component';
 import { OrderServiceMainComponent } from './list-order-service/component/order-service-main/order-service-main.component';
 import { OrderServiceDetailComponent } from './list-order-service/component/order-service-detail/order-service-detail.component';
+import { ListOrderServiceDetailComponent } from './list-order-service-detail/list-order-service-detail.component';
 
 @NgModule({
   declarations: [
@@ -26,11 +27,12 @@ import { OrderServiceDetailComponent } from './list-order-service/component/orde
     ServiceModalComponent,
     ListServiceCategoryModalComponent,
     ServiceCategoryModalComponent,
-    OrderServiceComponent,
+    OrderServiceCalendarComponent,
     ReceiveWorkComponent,
     ListOrderServiceComponent,
     OrderServiceMainComponent,
-    OrderServiceDetailComponent
+    OrderServiceDetailComponent,
+    ListOrderServiceDetailComponent,
   ],
   imports: [
     CommonModule,
@@ -45,12 +47,12 @@ import { OrderServiceDetailComponent } from './list-order-service/component/orde
     Ng2SearchPipeModule,
     FullCalendarModule,
     NgApexchartsModule,
-    NgSelectModule
+    NgSelectModule,
   ],
   entryComponents: [
     ServiceModalComponent,
     ListServiceCategoryModalComponent,
-    ServiceCategoryModalComponent
-  ]
+    ServiceCategoryModalComponent,
+  ],
 })
 export class ServiceModule {}

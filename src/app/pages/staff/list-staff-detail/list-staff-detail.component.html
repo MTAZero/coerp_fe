@@ -23,7 +23,7 @@
             ></i>
           </div>
           <div [formGroup]="formContractType">
-            <div class="row justify-content-center" *ngIf="listView[0]">
+            <div class="row justify-content-center mb-2" *ngIf="listView[0]">
               <div class="radio radio-info form-check-inline mr-5">
                 <input
                   type="radio"
@@ -47,7 +47,7 @@
                 <label for="inlineRadio2"> Parttime </label>
               </div>
             </div>
-            <div class="row justify-content-center" *ngIf="!listView[0]">
+            <div class="row justify-content-center mb-2" *ngIf="!listView[0]">
               <div class="radio radio-info form-check-inline mr-5">
                 <input
                   type="radio"
@@ -69,24 +69,77 @@
                 <label for="inlineRadio2"> Parttime </label>
               </div>
             </div>
-            <div
-              class="row form-inline mb-2 mt-2 justify-content-center"
-              *ngIf="formContractType.value.sta_type_contact === 1"
-            >
-              <div>Thời gian làm việc:</div>
-              <select class="custom-select mr-2 ml-2" formControlName="sw_time_start">
-                <option *ngFor="let time of timePeriod" [disabled]="listView[0]" [value]="time">{{
-                  time
-                }}</option>
-              </select>
-              <div>-</div>
-              <select class="custom-select ml-2" formControlName="sw_time_end">
-                <option *ngFor="let time of timePeriod" [disabled]="listView[0]" [value]="time">{{
-                  time
-                }}</option>
-              </select>
+            <div class="row" *ngIf="formContractType.value.sta_type_contact === 1">
+              <div
+                *ngFor="let day of days; let i = index"
+                class="col-6 d-flex"
+                [ngClass]="i % 2 === 0 ? 'justify-content-end pr-4' : 'justify-content-start pl-4'"
+              >
+                <div
+                  class="checkbox checkbox-success mb-2"
+                  style="line-height: 2; width: 100px;"
+                  [ngClass]="i % 2 === 0 && listWorkTime[i].length === 0 ? 'pr-300' : ''"
+                >
+                  <input
+                    [id]="day"
+                    type="checkbox"
+                    (change)="onCheckDay(i)"
+                    [disabled]="listView[0]"
+                    [checked]="listWorkTime[i].length !== 0"
+                  />
+                  <label [for]="day">
+                    {{ day }}
+                  </label>
+                </div>
+                <div style="line-height: 2;" *ngIf="listWorkTime[i].length !== 0">
+                  Thời gian làm việc:
+                </div>
+                <div class="time-container">
+                  <div
+                    class="form-inline mb-2 justify-content-center"
+                    *ngFor="let time of listWorkTime[i]; let timeIndex = index"
+                  >
+                    <select
+                      class="custom-select mr-2 ml-2"
+                      [value]="time.sw_time_start"
+                      (change)="onChangeStart(i, timeIndex, $event)"
+                    >
+                      <option
+                        *ngFor="let time of timePeriod"
+                        [disabled]="listView[0]"
+                        [value]="time"
+                        >{{ time }}</option
+                      >
+                    </select>
+                    <div>-</div>
+                    <select
+                      class="custom-select ml-2"
+                      [value]="time.sw_time_end"
+                      (change)="onChangeEnd(i, timeIndex, $event)"
+                    >
+                      <option
+                        *ngFor="let time of timePeriod"
+                        [disabled]="listView[0]"
+                        [value]="time"
+                        >{{ time }}</option
+                      >
+                    </select>
+                  </div>
+                  <div
+                    class="row justify-content-center mb-2"
+                    *ngIf="!listView[0] && listWorkTime[i].length !== 0"
+                  >
+                    <i
+                      class="fe-plus-circle"
+                      style="font-size: large; cursor: pointer;"
+                      (click)="onClickPlus(i)"
+                    ></i>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div
+
+            <!-- <div
               class="row mb-2 ml-2 justify-content-center"
               *ngIf="formContractType.value.sta_type_contact === 1"
             >
@@ -103,7 +156,7 @@
                 />
                 <label> {{ day }} </label>
               </div>
-            </div>
+            </div> -->
           </div>
 
           <div id="1" class="row title-section">
@@ -354,18 +407,18 @@
                     id="example-number"
                     type="number"
                     [readonly]="listView[1]"
-                    formControlName="sta_salary_to"
+                    formControlName="sta_salary"
                     style="width: 100%;"
+                    [ngClass]="{
+                      'is-invalid': submitted && formProfile.controls.sta_salary.errors
+                    }"
                   />
-                  <div class="ml-2 mr-2">-</div>
-                  <input
-                    class="form-control"
-                    id="example-number"
-                    type="number"
-                    [readonly]="listView[1]"
-                    formControlName="sta_salary_end"
-                    style="width: 100%;"
-                  />
+                  <div
+                    *ngIf="submitted && formProfile.controls.sta_salary.errors"
+                    class="invalid-feedback"
+                  >
+                    <span>Trường bắt buộc</span>
+                  </div>
                 </div>
               </div>
               <div class="form-group row mb-3">

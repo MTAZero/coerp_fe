@@ -219,7 +219,7 @@
       <ngb-tab title="2. Lịch sử mua hàng">
         <ng-template ngbTabContent>
           <app-purchase-history-tab
-            [listCustomerOrder]="selectedCustomer?.list_customer_order"
+            [listCustomerOrder]="selectedCustomer?.list_customer_order_product"
           ></app-purchase-history-tab>
         </ng-template>
       </ngb-tab>
@@ -237,6 +237,13 @@
             [customerId]="selectedCustomer?.cu_id"
             (formSubmit)="onChangeAddress($event)"
           ></app-address-tab>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab title="5. Lịch sử sử dụng dịch vụ">
+        <ng-template ngbTabContent>
+          <app-service-history-tab
+            [listCustomerOrder]="selectedCustomer?.list_customer_order_service"
+          ></app-service-history-tab>
         </ng-template>
       </ngb-tab>
     </ngb-tabset>

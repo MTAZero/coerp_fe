@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { NgbModal, NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { isNullOrUndefined, isUndefined } from 'util';
 import { CustomerService } from '../../../core/services/api/customer.service';
 import { Subject } from 'rxjs';
@@ -32,11 +32,7 @@ export class ListCustomerComponent implements OnInit, OnDestroy {
   selectedCustomer = null;
   customers: any;
 
-  constructor(
-    private modalService: NgbModal,
-    private customerService: CustomerService,
-    private router: Router
-  ) {}
+  constructor(private customerService: CustomerService, private router: Router) {}
 
   ngOnInit() {
     this._fetchData();
@@ -212,7 +208,6 @@ export class ListCustomerComponent implements OnInit, OnDestroy {
         if (res && res.Code === 200) {
           this._notify(true, res.Message);
           this._fetchData(this.selectedCustomer);
-          this.modalService.dismissAll();
         } else this._notify(false, res.Message);
       },
       (e) => this._notify(false, e.Message)
@@ -228,7 +223,6 @@ export class ListCustomerComponent implements OnInit, OnDestroy {
         if (res && res.Code === 200) {
           this._notify(true, res.Message);
           this._fetchData();
-          this.modalService.dismissAll();
         } else this._notify(false, res.Message);
       },
       (e) => this._notify(false, e.Message)

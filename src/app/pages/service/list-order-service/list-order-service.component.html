@@ -1,14 +1,228 @@
 <app-main-container [hasBottom]="false">
   <div top class="card-body" style="height: 100%;">
-    <app-order-service-main
-      (onDetail)="onDetail($event)"
-      *ngIf="!isDetail"
-    ></app-order-service-main>
-    <app-order-service-detail
-      (onMain)="onMain($event)"
-      *ngIf="isDetail"
-      [type]="type"
-      [orderService]="orderService"
-    ></app-order-service-detail>
+    <div class="row">
+      <div class="col-xl-3" *ngIf="1 === 0">
+        <app-portlet
+          title="Thống kê mức độ hài lòng"
+          color="white"
+          text="center"
+          headerClass="title header-title border-0 my-1"
+          [isLoading]="rateLoading"
+          (onContentRefresh)="contentRefresh('rate')"
+        >
+          <div class="card-body text-center pt-0" *ngIf="!rateLoading">
+            <apx-chart
+              [series]="ratePieChart.series"
+              [chart]="ratePieChart"
+              [labels]="ratePieChart.labels"
+              [dataLabels]="ratePieChart.dataLabels"
+              [legend]="ratePieChart.legend"
+              [plotOptions]="ratePieChart.option"
+            >
+            </apx-chart>
+          </div>
+        </app-portlet>
+      </div>
+
+      <div class="col-xl-3" *ngIf="1 === 0">
+        <app-portlet
+          title="Thống kê nhóm khách hàng"
+          color="white"
+          text="center"
+          headerClass="title header-title border-0 my-1"
+          [isLoading]="customerLoading"
+          (onContentRefresh)="contentRefresh('customer')"
+        >
+          <div class="card-body text-center pt-0" *ngIf="!customerLoading">
+            <apx-chart
+              [series]="customerPieChart.series"
+              [chart]="customerPieChart"
+              [labels]="customerPieChart.labels"
+              [dataLabels]="customerPieChart.dataLabels"
+              [legend]="customerPieChart.legend"
+              [plotOptions]="customerPieChart.option"
+            >
+            </apx-chart>
+          </div>
+        </app-portlet>
+      </div>
+      <div class="col-xl-3" *ngIf="1 === 0">
+        <app-portlet
+          title="Thống kê nguồn khách hàng"
+          color="white"
+          text="center"
+          headerClass="title header-title border-0 my-1"
+          (onContentRefresh)="contentRefresh()"
+        >
+          <div class="card-body text-center pt-0">
+            <apx-chart
+              [series]="customerPieChart.series"
+              [chart]="customerPieChart"
+              [labels]="customerPieChart.labels"
+              [dataLabels]="customerPieChart.dataLabels"
+              [legend]="customerPieChart.legend"
+              [plotOptions]="customerPieChart.option"
+            >
+            </apx-chart>
+          </div>
+        </app-portlet>
+      </div>
+      <div class="col-xl-3" *ngIf="1 === 0">
+        <app-portlet
+          title="Tổng doanh thu"
+          color="white"
+          text="center"
+          headerClass="title header-title border-0 my-1"
+          (onContentRefresh)="contentRefresh()"
+        >
+          <div class="card-body text-center pt-0">
+            <apx-chart
+              class="apex-charts"
+              [series]="basicColumChart.series"
+              [chart]="basicColumChart.chart"
+              [plotOptions]="basicColumChart.plotOptions"
+              [yaxis]="basicColumChart.yaxis"
+              [grid]="basicColumChart.grid"
+              [tooltip]="basicColumChart.tooltip"
+              [stroke]="basicColumChart.stroke"
+              [dataLabels]="basicColumChart.dataLabels"
+              [xaxis]="basicColumChart.xaxis"
+              [legend]="basicColumChart.legend"
+              [colors]="basicColumChart.colors"
+              [fill]="basicColumChart.fill"
+            >
+            </apx-chart>
+          </div>
+        </app-portlet>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-6 mb-2">
+        <form class="form-inline row">
+          <div class="form-group mr-1">
+            <input
+              class="form-control"
+              name="textSearch"
+              placeholder="Tìm kiếm..."
+              [(ngModel)]="textSearch"
+              (input)="onChangeFilter()"
+            />
+          </div>
+          <div class="input-group clockpicker mr-1">
+            <input
+              ngbDatepicker
+              class="form-control"
+              placeholder="yyyy-mm-dd"
+              #from="ngbDatepicker"
+              name="from"
+              [maxDate]="toDate"
+              [(ngModel)]="fromDate"
+              (dateSelect)="onChangeFilter()"
+            />
+            <div class="input-group-append" (click)="from.toggle()">
+              <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+            </div>
+          </div>
+          <div class="input-group clockpicker">
+            <input
+              ngbDatepicker
+              class="form-control"
+              placeholder="yyyy-mm-dd"
+              #to="ngbDatepicker"
+              name="to"
+              [minDate]="fromDate"
+              [(ngModel)]="toDate"
+              (dateSelect)="onChangeFilter()"
+            />
+            <div class="input-group-append" (click)="to.toggle()">
+              <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-xl-6">
+        <div class="text-sm-right">
+          <button type="button" class="btn btn-info mr-1">
+            Nhập
+          </button>
+          <button type="button" class="btn btn-info mr-1">
+            Xuất
+          </button>
+          <a class="btn btn-success mr-1 button-link" (click)="onRouteDetail()"> Thêm mới</a>
+          <a
+            class="btn btn-primary mr-1 button-link"
+            [ngClass]="selectedOrderService ? '' : 'disabled'"
+            (click)="onRouteDetail(selectedOrderService)"
+          >
+            Xem & Sửa</a
+          >
+          <a
+            class="btn btn-danger mr-1 button-link"
+            [ngClass]="selectedOrderService ? '' : 'disabled'"
+            (click)="openConfirmModal(selectedOrderService)"
+          >
+            Xóa</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-centered table-hover mb-0">
+        <thead>
+          <tr>
+            <th>MDV</th>
+            <th>Khách hàng</th>
+            <th>Số điện thoại</th>
+            <th>Địa chỉ</th>
+            <th>Ngày tạo</th>
+            <th>Đánh giá</th>
+            <th>Góp ý</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let orderService of orderServices; let i = index"
+            (click)="onClickOrderService(orderService)"
+            [ngClass]="{
+              'is-selected': orderService.cuo_id === selectedOrderService?.cuo_id
+            }"
+          >
+            <td>
+              {{ orderService.cuo_code }}
+            </td>
+            <td>
+              {{ orderService.cu_fullname }}
+            </td>
+            <td>
+              {{ orderService.cu_mobile }}
+            </td>
+            <td>
+              {{ orderService.cuo_address }}
+            </td>
+            <td>
+              {{ orderService.cuo_date | date: 'dd/MM/yyyy' }}
+            </td>
+            <td>
+              {{ orderService.cuo_evaluation }}
+            </td>
+            <td>
+              {{ orderService.cuo_feedback }}
+            </td>
+          </tr>
+          <tr *ngIf="orderServices?.length === 0">
+            <td colspan="7">Không có dữ liệu lịch dịch vụ</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <ul class="pagination pagination-rounded justify-content-end my-3">
+      <ngb-pagination
+        (pageChange)="onPageChange($event)"
+        [pageSize]="pageSize"
+        [(page)]="page"
+        [collectionSize]="totalSize"
+      ></ngb-pagination>
+    </ul>
   </div>
 </app-main-container>
