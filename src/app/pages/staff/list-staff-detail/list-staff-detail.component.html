@@ -138,25 +138,6 @@
                 </div>
               </div>
             </div>
-
-            <!-- <div
-              class="row mb-2 ml-2 justify-content-center"
-              *ngIf="formContractType.value.sta_type_contact === 1"
-            >
-              <div
-                class="checkbox checkbox-success form-check-inline mr-4"
-                style="line-height: 2;"
-                *ngFor="let day of days"
-              >
-                <input
-                  type="checkbox"
-                  (change)="onCheckDay(day)"
-                  [disabled]="listView[0]"
-                  [checked]="checkDay(day) === 1"
-                />
-                <label> {{ day }} </label>
-              </div>
-            </div> -->
           </div>
 
           <div id="1" class="row title-section">
@@ -401,7 +382,7 @@
             <div class="form-row">
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Lương <span>(*)</span></label>
-                <div class="col-6 form-inline">
+                <div class="col-6">
                   <input
                     class="form-control"
                     id="example-number"

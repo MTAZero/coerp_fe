@@ -47,6 +47,10 @@
 
       span {
         color: red;
+
+        i {
+          color: initial;
+        }
       }
 
       .title-section {
@@ -94,6 +98,33 @@
           &.small {
             max-width: 50px;
           }
+        }
+      }
+    }
+
+    .table-responsive {
+      overflow: auto;
+      max-height: 250px;
+
+      table {
+        border-spacing: 0;
+        border-collapse: separate;
+      }
+
+      thead {
+        th {
+          position: sticky;
+          top: 0;
+          z-index: 2;
+          background-color: white;
+        }
+      }
+
+      tr {
+        cursor: pointer;
+
+        &.is-selected {
+          background-color: lightgray;
         }
       }
     }

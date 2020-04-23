@@ -44,6 +44,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
 
   tempTraining = 0;
   tempAddress = 0;
+  tempWorkTime = 0;
 
   isView = true;
 
@@ -192,6 +193,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
       const { sw_day_flag, sw_time_start, sw_time_end } = item;
       const index = parseInt(sw_day_flag[2]) - 2;
       this.listWorkTime[index].push({
+        ...item,
         sw_time_start: sw_time_start.substr(0, 5),
         sw_time_end: sw_time_end.substr(0, 5),
       });
@@ -214,9 +216,11 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
 
   onClickPlus(index: number) {
     this.listWorkTime[index].push({
+      sw_id: `sw_${this.tempWorkTime}`,
       sw_time_start: '08:30',
       sw_time_end: '16:00',
     });
+    this.tempWorkTime++;
   }
 
   onChangeStart(index, timeIndex, event) {
@@ -235,11 +239,14 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
 
   onCheckDay(index: any) {
     if (this.listWorkTime[index].length !== 0) this.listWorkTime[index] = [];
-    else
+    else {
       this.listWorkTime[index].push({
+        sw_id: `sw_${this.tempWorkTime}`,
         sw_time_start: '08:30',
         sw_time_end: '16:00',
       });
+      this.tempWorkTime++;
+    }
   }
 
   //#endregion

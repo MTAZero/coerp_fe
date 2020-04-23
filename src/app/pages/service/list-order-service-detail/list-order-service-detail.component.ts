@@ -57,7 +57,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
   selectedCustomer: any;
   selectedAddress = null;
   searchCustomer = '';
-  searchService = '';
+  searchService: any;
 
   filterCustomer = {
     pageNumber: 0,
@@ -267,7 +267,6 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
 
   //#region List Address
   onClickAddress(address: any) {
-    //if (this.isView) return;
     this.selectedAddress =
       (address.sha_detail ? `${address.sha_detail}, ` : '') +
       address.sha_ward +
@@ -324,14 +323,18 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
   //#endregion
 
   //#region List Service
-  // changeDatalistService(e: any) {
-  //   this.searchService = { se_name: 'Chọn dịch vụ', se_id: '' };
-  //   if (e.se_id !== '') this.listService.push(e);
-  // }
+  changeDatalistService(e: any) {
+    this.searchService = { se_name: 'Chọn dịch vụ', se_id: '' };
+    if (e.se_id !== '') {
+      this.listService.push(e);
+      this.isChange = true;
+    }
+  }
 
-  // onRemoveService(service: any) {
-  //   this.listService = this.listService.filter((item) => item.se_id !== service.se_id);
-  // }
+  onRemoveService(service: any) {
+    this.listService = this.listService.filter((item) => item.se_id !== service.se_id);
+    this.isChange = true;
+  }
   //#endregion
 
   //#region Repeat
@@ -526,6 +529,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
     service$.subscribe((res: any) => {
       this.services = res.Data.Results;
       this.services.push({ se_name: 'Chọn dịch vụ', se_id: '' });
+      this.services = this.services.reverse();
     });
 
     const staff$ = this.staffService.loadAllStaff().pipe(takeUntil(this.destroyed$));

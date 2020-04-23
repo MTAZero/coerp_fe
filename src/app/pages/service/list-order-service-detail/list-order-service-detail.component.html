@@ -398,6 +398,7 @@
             <table class="table table-centered table-hover mb-0">
               <thead>
                 <tr>
+                  <th></th>
                   <th>Thành phố</th>
                   <th>Quận/Huyện</th>
                   <th>Phường/Xã</th>
@@ -407,7 +408,21 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let address of listAddress">
+                <tr *ngFor="let address of listAddress" (click)="onClickAddress(address)">
+                  <td>
+                    <span
+                      class="fe-check-circle icon mr-2"
+                      *ngIf="
+                        (address.sha_detail ? address.sha_detail + ', ' : '') +
+                          address.sha_ward +
+                          ', ' +
+                          address.sha_district +
+                          ', ' +
+                          address.sha_province ===
+                        selectedAddress
+                      "
+                    ></span>
+                  </td>
                   <td>
                     {{ address.sha_province }}
                   </td>
@@ -432,127 +447,19 @@
               </tbody>
             </table>
           </div>
-          <!-- <div id="1" class="row title-section">
-            <h5>{{ menu[1] }}</h5>
-            <a class="btn btn-success btn-xs ml-2 button-link" (click)="openAddressModal()"
-              >Thêm mới</a
-            >
-          </div>
-          <div [formGroup]="formCustomer" *ngIf="selectedCustomer">
-            <div class="row" *ngIf="!isView">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <input
-                    class="form-control"
-                    formControlName="cu_address"
-                    placeholder="Địa chỉ chi tiết"
-                  />
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="form-group">
-                  <select
-                    class="custom-select"
-                    formControlName="cu_province"
-                    (change)="onChangeProvince($event)"
-                  >
-                    <option
-                      *ngFor="let province of provinces"
-                      [disabled]="isView"
-                      [value]="province.name"
-                    >
-                      {{ province.name }}</option
-                    >
-                  </select>
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="form-group">
-                  <select
-                    class="custom-select"
-                    formControlName="cu_district"
-                    (change)="onChangeDistrict($event)"
-                  >
-                    <option
-                      *ngFor="let district of districts"
-                      [disabled]="isView"
-                      [value]="district.name"
-                    >
-                      {{ district.name }}</option
-                    >
-                  </select>
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="form-group">
-                  <select class="custom-select" formControlName="cu_ward">
-                    <option *ngFor="let ward of wards" [disabled]="isView" [value]="ward.name">{{
-                      ward.name
-                    }}</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="table-responsive border mb-2">
-              <table class="table table-centered table-hover mb-0">
-                <thead>
-                  <tr>
-                    <th>Địa chỉ chi tiết</th>
-                    <th>Xã/Phường</th>
-                    <th>Quận/Huyện</th>
-                    <th>Tỉnh/Thành phố</th>
-                    <th *ngIf="!readOnly">Thao tác</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let address of listAddress" (click)="onClickAddress(address)">
-                    <td>
-                      <span
-                        class="fe-check-circle icon mr-2"
-                        *ngIf="
-                          (address.sha_detail ? address.sha_detail + ', ' : '') +
-                            address.sha_ward +
-                            ', ' +
-                            address.sha_district +
-                            ', ' +
-                            address.sha_province ===
-                          selectedAddress
-                        "
-                      ></span>
-                      {{ address.sha_detail }}
-                    </td>
-                    <td>
-                      {{ address.sha_ward }}
-                    </td>
-                    <td>
-                      {{ address.sha_district }}
-                    </td>
-                    <td>
-                      {{ address.sha_province }}
-                    </td>
-                    <td *ngIf="!readOnly">
-                      <a class="action-icon table-button-link" (click)="onUpdateAddress(address)">
-                        <i class="mdi mdi-square-edit-outline"></i
-                      ></a>
-                      <a class="action-icon table-button-link" (click)="onRemoveAddress(address)">
-                        <i class="mdi mdi-delete"></i
-                      ></a>
-                    </td>
-                  </tr>
-                  <tr *ngIf="!listAddress || listAddress?.length === 0">
-                    <td colspan="6">Không có dữ liệu địa chỉ</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
 
-          <div id="2" class="row justify-content-between title-section bg-light mb-2">
-            <h4><i class="mdi mdi-account-circle mr-1"></i>THÔNG TIN DỊCH VỤ</h4>
-            <div class="row align-items-center" *ngIf="!isView">
+          <div id="2" class="row title-section justify-content-between mb-2">
+            <div class="d-flex align-items-center">
+              <h5>{{ menu[2] }}</h5>
+              <i
+                [ngClass]="listView[2] ? 'fe-edit ml-2' : 'fe-save ml-2'"
+                (click)="switchViewType(2)"
+              ></i>
+            </div>
+            <div class="row align-items-center" *ngIf="listView[2]">
               <ng-select
                 placeholder="Chọn dịch vụ"
-                style="width: 500px;"
+                style="width: 300px;"
                 [items]="services"
                 bindLabel="se_name"
                 bindValue="se_id"
@@ -568,36 +475,53 @@
             <table class="table table-centered table-hover mb-0">
               <thead>
                 <tr>
-                  <th>MDV</th>
+                  <th>STT</th>
+                  <th>Mã dịch vụ</th>
                   <th>Tên dịch vụ</th>
-                  <th>Giá</th>
                   <th>Loại dịch vụ</th>
+                  <th>Giá</th>
+                  <th>Giảm giá (%)</th>
                   <th>Ghi chú</th>
-                  <th *ngIf="!isView">Thao tác</th>
+                  <th>Thao tác</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let service of listService">
+                <tr *ngFor="let service of listService; let i = index">
+                  <td>
+                    {{ i + 1 }}
+                  </td>
                   <td>
                     {{ service.se_code }}
                   </td>
                   <td>{{ service.se_name }}</td>
+                  <td>{{ service.se_type_name }}</td>
                   <td>
                     {{ service.se_price }}
                   </td>
-                  <td>{{ service.service_category_name }}</td>
+                  <td>
+                    {{ service.sale_off }}
+                  </td>
                   <td>{{ service.se_note }}</td>
-                  <td *ngIf="!isView">
+                  <td>
                     <a class="action-icon table-button-link" (click)="onRemoveService(service)">
                       <i class="mdi mdi-delete"></i
                     ></a>
                   </td>
                 </tr>
                 <tr *ngIf="listService.length === 0">
-                  <td colspan="6">Không có dữ liệu dịch vụ</td>
+                  <td colspan="8">Không có dữ liệu dịch vụ</td>
                 </tr>
               </tbody>
             </table>
+          </div>
+          <div class="form-row">
+            <div class="form-group row mb-3"></div>
+            <div class="form-group row mb-3">
+              <label class="col-4 col-form-label">Khuyến mãi (%): </label>
+              <div class="col-6">
+                <input class="form-control" />
+              </div>
+            </div>
           </div>
 
           <div id="3" class="row title-section bg-light mb-2">
@@ -780,23 +704,70 @@
             <span class="mdi mdi-information-outline icon mr-1"></span>
             {{ summary }}
           </div>
-          <h4>Nhân viên phụ trách</h4>
-          <div>
-            <div class="form-group col-sm-auto">
-              <ng-select
-                [disabled]="isView"
-                style="width: 100%;"
-                name="customerGroups"
-                [items]="staffs"
-                [multiple]="true"
-                bindLabel="sta_fullname"
-                [closeOnSelect]="false"
-                bindValue="sta_id"
-                [(ngModel)]="selectedStaffs"
-              >
-              </ng-select>
-            </div>
-          </div> -->
+          <h6>Ngày làm việc</h6>
+          <div class="table-responsive border mb-2">
+            <table class="table table-centered table-hover mb-0">
+              <thead>
+                <tr>
+                  <th>STT</th>
+                  <th>Nhân viên phụ trách</th>
+                  <th>Ngày làm</th>
+                  <th>Thời gian bắt đầu</th>
+                  <th>Thời gian kết thúc</th>
+                  <th>Làm thêm giờ</th>
+                  <th>Thời gian làm thêm giờ</th>
+                  <th>Trạng thái công việc</th>
+                  <th>Đánh giá nhân sự</th>
+                  <th>Tổng lương</th>
+                  <th>Ghi chú</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let exe of listExecutor; let i = index">
+                  <td>
+                    {{ i + 1 }}
+                  </td>
+                  <td>
+                    {{ exe.staff_name }}
+                  </td>
+                  <td>{{ exe.work_time | date: 'dd/MM/yyyy' }}</td>
+                  <td>{{ exe.start_time }}</td>
+                  <td>
+                    {{ exe.end_time }}
+                  </td>
+                  <td>
+                    <div
+                      [ngClass]="
+                        exe.exe_flag_overtime ? 'badge badge-success' : 'badge badge-primary'
+                      "
+                    >
+                      {{ exe.exe_flag_overtime_name }}
+                    </div>
+                  </td>
+                  <td>{{ exe.exe_time_overtime }}</td>
+                  <td>{{ exe.exe_status_name }}</td>
+                  <td>{{ exe.exe_evaluate }}</td>
+                  <td></td>
+                  <td>{{ exe.exe_note }}</td>
+                </tr>
+                <tr *ngIf="listExecutor.length === 0">
+                  <td colspan="11">Không có dữ liệu thời gian làm việc</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="row justify-content-end mr-2">
+          <div class="text-sm-right">
+            <button
+              class="btn btn-success mb-2 mr-1 button-link"
+              [disabled]="!isChange && !formCustomer.dirty && !formRepeat.dirty"
+              (click)="onSubmit()"
+            >
+              Lưu lại
+            </button>
+            <a class="btn btn-danger mb-2 mr-1 button-link" (click)="onChangeToMain()">Quay lại </a>
+          </div>
         </div>
       </div>
     </div>
