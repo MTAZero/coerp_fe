@@ -1,9 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDate, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { MobileModalComponent } from '../../customer/list-customer/component/mobile-modal/mobile-modal.component';
+import { AddresModalComponent } from '../../customer/list-customer/component/addres-modal/addres-modal.component';
 import { CustomerService } from './../../../core/services/api/customer.service';
 import { AddressService } from './../../../core/services/api/address.service';
 import { StaffService } from './../../../core/services/api/staff.service';
@@ -54,6 +56,8 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
   timePeriod: any;
   selectedCustomer: any;
   selectedAddress = null;
+  searchCustomer = '';
+  searchService = '';
 
   filterCustomer = {
     pageNumber: 0,
@@ -75,6 +79,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private modalService: NgbModal,
     public formBuilder: FormBuilder,
     private customerService: CustomerService,
     private addressService: AddressService,
@@ -182,37 +187,82 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
     this._loadWard(wardId);
   }
 
-  // onClickCreateCustomer() {
-  //   this.selectedCustomer = {
-  //     cu_id: null,
-  //     cu_code: null,
-  //     cu_fullname: '',
-  //     cu_mobile: '',
-  //     cu_email: '',
-  //     cu_birthday: null,
-  //     customer_group_id: 1,
-  //     cu_type: 1,
-  //     source_id: 1,
-  //     cu_note: '',
-  //     cu_address: null,
-  //     cu_geocoding: null,
-  //     cu_status: null,
-  //     cu_curator_id: null,
-  //   };
-  //   this.searchCustomer = '';
-  //   this.selectedAddress = null;
-  //   this.readOnly = false;
-  //   this._patchCustomer();
-  // }
+  onClickCreateCustomer() {
+    this.selectedCustomer = {
+      cu_id: null,
+      cu_fullname: '',
+      source_id: '',
+      cu_type: 1,
+      cu_birthday: this._convertDateToNgbDate(new Date(1995, 0, 1)),
+      customer_group_id: '',
+      cu_email: '',
+      cu_flag_order: 1,
+      cu_flag_used: 1,
+      cu_status: 1,
+      cu_note: '',
+      sha_ward_now: null,
+      sha_district_now: null,
+      sha_province_now: null,
+      sha_detail_now: null,
+    };
+    this.searchCustomer = '';
+    this.selectedAddress = null;
+    this._patchCustomer();
+  }
 
-  // changeDatalistCustomer(e: any) {
-  //   this.readOnly = true;
-  //   if (!e || e.cu_id === '') {
-  //     this.selectedCustomer = null;
-  //   } else {
-  //     this._fetchCustomer(e.cu_id);
-  //   }
-  // }
+  changeDatalistCustomer(e: any) {
+    if (!e || e.cu_id === '') {
+      this.selectedCustomer = null;
+    } else {
+      this._fetchCustomer(e.cu_id);
+    }
+  }
+
+  openMobileModal(mobile?: any) {
+    const modalRef = this.modalService.open(MobileModalComponent, {
+      centered: true,
+    });
+    modalRef.componentInstance.customerId = this.selectedCustomer.cu_id;
+    if (mobile) {
+      modalRef.componentInstance.mobile = mobile;
+    }
+    modalRef.componentInstance.passEvent.subscribe((res) => {
+      if (res.event) {
+        if (mobile) {
+          this.listMobile = this.listMobile.map((item) => {
+            if (item.cp_id !== res.data.cp_id) return item;
+            return res.data;
+          });
+          this.isChange = true;
+        } else {
+          this.listMobile.push({
+            ...res.data,
+            cp_id: `temp_${this.tempMobile}`,
+          });
+          this.tempMobile++;
+          this.isChange = true;
+        }
+      }
+      modalRef.close();
+    });
+  }
+
+  onRemoveMobile(mobile) {
+    Swal.fire({
+      title: 'Chắc chắn muốn xóa số điện thoại đang chọn?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Xóa',
+      cancelButtonText: 'Hủy',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+    }).then((result) => {
+      if (result.value) {
+        this.listMobile = this.listMobile.filter((item) => item.cp_id !== mobile.cp_id);
+        this.isChange = true;
+      }
+    });
+  }
   //#endregion
 
   //#region List Address
@@ -227,52 +277,32 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
       address.sha_province;
   }
 
-  // onClickCreateButton() {
-  //   this.listAddress.push({
-  //     sha_id: this.listAddress.length,
-  //     sha_province: this.formCustomer.controls['cu_province'].value,
-  //     sha_district: this.formCustomer.controls['cu_district'].value,
-  //     sha_ward: this.formCustomer.controls['cu_ward'].value,
-  //     sha_detail: this.formCustomer.controls['cu_address'].value,
-  //   });
-
-  //   const newItem = this.listAddress[this.listAddress.length - 1];
-  //   this.selectedAddress =
-  //     (newItem.sha_detail ? `${newItem.sha_detail}, ` : '') +
-  //     newItem.sha_ward +
-  //     ', ' +
-  //     newItem.sha_district +
-  //     ', ' +
-  //     newItem.sha_province;
-  //   this._loadProvince();
-  // }
-
   openAddressModal(address?: any) {
-    // const modalRef = this.modalService.open(AddresModalComponent, {
-    //   centered: true,
-    // });
-    // if (address) {
-    //   modalRef.componentInstance.address = address;
-    // }
-    // modalRef.componentInstance.passEvent.subscribe((res) => {
-    //   if (res.event) {
-    //     if (address) {
-    //       this.listAddress = this.listAddress.map((item) => {
-    //         if (item.sha_id !== res.form.sha_id) return item;
-    //         return res.form;
-    //       });
-    //       this.isChange = true;
-    //     } else {
-    //       this.listAddress.push({
-    //         ...res.form,
-    //         sha_id: `temp_${this.tempAddress}`,
-    //       });
-    //       this.tempAddress++;
-    //       this.isChange = true;
-    //     }
-    //   }
-    //   modalRef.close();
-    // });
+    const modalRef = this.modalService.open(AddresModalComponent, {
+      centered: true,
+    });
+    if (address) {
+      modalRef.componentInstance.address = address;
+    }
+    modalRef.componentInstance.passEvent.subscribe((res) => {
+      if (res.event) {
+        if (address) {
+          this.listAddress = this.listAddress.map((item) => {
+            if (item.sha_id !== res.form.sha_id) return item;
+            return res.form;
+          });
+          this.isChange = true;
+        } else {
+          this.listAddress.push({
+            ...res.form,
+            sha_id: `temp_${this.tempAddress}`,
+          });
+          this.tempAddress++;
+          this.isChange = true;
+        }
+      }
+      modalRef.close();
+    });
   }
 
   onRemoveAddress(address: any) {
@@ -433,7 +463,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
       cu_id: [null, null],
       cu_fullname: ['', [Validators.required]],
       source_id: ['', [Validators.required]],
-      cu_type: ['', [Validators.required]],
+      cu_type: [1, [Validators.required]],
       cu_birthday: [this._convertDateToNgbDate(new Date(1995, 0, 1)), null],
       customer_group_id: ['', [Validators.required]],
       cu_email: ['', [Validators.email]],
@@ -559,6 +589,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
 
     this._loadProvince();
 
+    this.selectedCustomer = orderService.customer;
     this.listMobile = orderService.customer.list_customer_phone;
     this.listAddress = orderService.customer.list_ship_address;
     this.listService = orderService.list_service;
@@ -662,6 +693,40 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
     );
   }
 
+  private _fetchCustomer(cu_id: any) {
+    const customer$ = this.customerService
+      .loadCustomerInfo({ cu_id })
+      .pipe(takeUntil(this.destroyed$));
+
+    customer$.subscribe((res: any) => {
+      this.selectedCustomer = res.Data;
+      this._patchCustomer();
+    });
+  }
+
+  private _patchCustomer() {
+    const customer = this.selectedCustomer;
+
+    this.listAddress = customer.list_ship_address ? customer.list_ship_address : [];
+    this.formCustomer.patchValue({
+      cu_id: customer.cu_id,
+      cu_fullname: customer.cu_fullname,
+      source_id: customer.source_id,
+      cu_type: customer.cu_type,
+      cu_birthday: this._convertDateToNgbDate(customer.cu_birthday),
+      customer_group_id: customer.customer_group_id,
+      cu_email: customer.cu_email,
+      cu_flag_order: customer.cu_flag_order,
+      cu_flag_used: customer.cu_flag_used,
+      cu_status: customer.cu_status,
+      cu_note: customer.cu_note,
+      sha_ward_now: customer.sha_ward_now,
+      sha_district_now: customer.sha_district_now,
+      sha_province_now: customer.sha_province_now,
+      sha_detail_now: customer.sha_detail_now,
+    });
+  }
+
   private _convertDateToNgbDate(date: any) {
     if (!date) {
       return null;
@@ -692,31 +757,4 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
     });
   }
   //#endregion
-
-  private _fetchCustomer(cu_id: any) {
-    const customer$ = this.customerService
-      .loadCustomerInfo({ cu_id })
-      .pipe(takeUntil(this.destroyed$));
-
-    customer$.subscribe((res: any) => {
-      this.selectedCustomer = res.Data;
-      this._patchCustomer();
-    });
-  }
-
-  private _patchCustomer() {
-    const customer = this.selectedCustomer;
-
-    this.listAddress = customer.list_address ? customer.list_address : [];
-    this.formCustomer.patchValue({
-      cu_id: customer.cu_id,
-      cu_fullname: customer.cu_fullname,
-      cu_mobile: customer.cu_mobile,
-      cu_email: customer.cu_email,
-      cu_type: customer.cu_type,
-      customer_group_id: customer.customer_group_id,
-      source_id: customer.source_id,
-      cu_note: customer.cu_note,
-    });
-  }
 }

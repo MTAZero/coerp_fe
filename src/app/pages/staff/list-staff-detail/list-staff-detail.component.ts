@@ -56,7 +56,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
   listTraining = [];
   listAddress = [];
   listNewTraining = [];
-  listWorkTime = [];
+  listWorkTime = [[], [], [], [], [], [], []];
 
   constructor(
     private route: ActivatedRoute,
@@ -188,7 +188,6 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
 
   transformWorkTime(list_staff_work_time: any) {
     if (!list_staff_work_time) return;
-    this.listWorkTime = [[], [], [], [], [], [], []];
     list_staff_work_time.forEach((item) => {
       const { sw_day_flag, sw_time_start, sw_time_end } = item;
       const index = parseInt(sw_day_flag[2]) - 2;

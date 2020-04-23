@@ -20,6 +20,7 @@ import { ListOrderServiceComponent } from './list-order-service/list-order-servi
 import { OrderServiceMainComponent } from './list-order-service/component/order-service-main/order-service-main.component';
 import { OrderServiceDetailComponent } from './list-order-service/component/order-service-detail/order-service-detail.component';
 import { ListOrderServiceDetailComponent } from './list-order-service-detail/list-order-service-detail.component';
+import { CustomerModule } from '../customer/customer.module';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { ListOrderServiceDetailComponent } from './list-order-service-detail/lis
     FullCalendarModule,
     NgApexchartsModule,
     NgSelectModule,
+    CustomerModule,
   ],
   entryComponents: [
     ServiceModalComponent,

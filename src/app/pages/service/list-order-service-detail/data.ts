@@ -46,10 +46,10 @@ const timePeriod = [
   '22:00',
   '22:30',
   '23:00',
-  '23:30'
+  '23:30',
 ];
 
-const menu = ['Thông tin khách hàng', 'Thông tin địa chỉ', 'Thông tin dịch vụ', 'Lịch làm việc'];
+const menu = ['Thông tin khách hàng', 'Địa chỉ nhận hàng', 'Thông tin dịch vụ', 'Lịch làm việc'];
 
 const days = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
 
