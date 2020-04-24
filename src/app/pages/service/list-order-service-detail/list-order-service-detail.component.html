@@ -23,7 +23,7 @@
                 (click)="switchViewType(0)"
               ></i>
             </div>
-            <div class="row align-items-center" *ngIf="listView[0]">
+            <div class="row align-items-center" *ngIf="!listView[0]">
               <ng-select
                 placeholder="Chọn khách hàng"
                 [ngModelOptions]="{ standalone: true }"
@@ -456,7 +456,7 @@
                 (click)="switchViewType(2)"
               ></i>
             </div>
-            <div class="row align-items-center" *ngIf="listView[2]">
+            <div class="row align-items-center" *ngIf="!listView[2]">
               <ng-select
                 placeholder="Chọn dịch vụ"
                 style="width: 300px;"
@@ -519,13 +519,22 @@
             <div class="form-group row mb-3">
               <label class="col-4 col-form-label">Khuyến mãi (%): </label>
               <div class="col-6">
-                <input class="form-control" />
+                <input
+                  type="number"
+                  class="form-control"
+                  [readonly]="listView[2]"
+                  [(ngModel)]="cuo_discount"
+                />
               </div>
             </div>
           </div>
 
-          <div id="3" class="row title-section bg-light mb-2">
-            <h4><i class="mdi mdi-account-circle mr-1"></i>LỊCH LÀM VIỆC</h4>
+          <div id="3" class="row title-section mb-2">
+            <h5>{{ menu[3] }}</h5>
+            <i
+              [ngClass]="listView[3] ? 'fe-edit ml-2' : 'fe-save ml-2'"
+              (click)="switchViewType(3)"
+            ></i>
           </div>
           <div [formGroup]="formRepeat">
             <div class="form-inline">
@@ -576,7 +585,7 @@
               </select>
             </div>
             <div *ngIf="formRepeat.value.st_repeat === 1" class="repeat-setting">
-              <h4>Tùy chỉnh lặp lại</h4>
+              <h6>Tùy chỉnh lặp lại</h6>
               <div class="form-inline">
                 <label class="mr-2">Bắt đầu</label>
                 <div class="input-group clockpicker mb-2 mr-1">
@@ -704,7 +713,13 @@
             <span class="mdi mdi-information-outline icon mr-1"></span>
             {{ summary }}
           </div>
-          <h6>Ngày làm việc</h6>
+          <div class="row justify-content-between align-items-center">
+            <h6>Ngày làm việc</h6>
+            <a class="btn btn-success btn-xs mr-2 button-link" (click)="onGenerateWorkTime()"
+              >Sinh ngày làm việc</a
+            >
+          </div>
+
           <div class="table-responsive border mb-2">
             <table class="table table-centered table-hover mb-0">
               <thead>
@@ -723,7 +738,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let exe of listExecutor; let i = index">
+                <tr *ngFor="let exe of listExecutor; let i = index" (click)="onClickExecutor(exe)">
                   <td>
                     {{ i + 1 }}
                   </td>
@@ -741,11 +756,19 @@
                         exe.exe_flag_overtime ? 'badge badge-success' : 'badge badge-primary'
                       "
                     >
-                      {{ exe.exe_flag_overtime_name }}
+                      {{ exe.exe_flag_overtime ? 'Có' : 'Không' }}
                     </div>
                   </td>
                   <td>{{ exe.exe_time_overtime }}</td>
-                  <td>{{ exe.exe_status_name }}</td>
+                  <td>
+                    <div
+                      [ngClass]="
+                        exe.exe_status === 1 ? 'badge badge-success' : 'badge badge-primary'
+                      "
+                    >
+                      {{ exe.exe_status === 1 ? 'Đã làm' : 'Chưa làm' }}
+                    </div>
+                  </td>
                   <td>{{ exe.exe_evaluate }}</td>
                   <td></td>
                   <td>{{ exe.exe_note }}</td>

@@ -21,6 +21,7 @@ import { OrderServiceMainComponent } from './list-order-service/component/order-
 import { OrderServiceDetailComponent } from './list-order-service/component/order-service-detail/order-service-detail.component';
 import { ListOrderServiceDetailComponent } from './list-order-service-detail/list-order-service-detail.component';
 import { CustomerModule } from '../customer/customer.module';
+import { ExecutorModalComponent } from './list-order-service-detail/component/executor-modal/executor-modal.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { CustomerModule } from '../customer/customer.module';
     OrderServiceMainComponent,
     OrderServiceDetailComponent,
     ListOrderServiceDetailComponent,
+    ExecutorModalComponent,
   ],
   imports: [
     CommonModule,
@@ -55,6 +57,7 @@ import { CustomerModule } from '../customer/customer.module';
     ServiceModalComponent,
     ListServiceCategoryModalComponent,
     ServiceCategoryModalComponent,
+    ExecutorModalComponent,
   ],
 })
 export class ServiceModule {}

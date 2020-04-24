@@ -43,6 +43,7 @@ export class AddressTabComponent implements OnInit, OnChanges {
     const modalRef = this.modalService.open(AddresModalComponent, {
       centered: true,
     });
+    modalRef.componentInstance.listAddress = this.listAddress;
     if (address) {
       modalRef.componentInstance.address = address;
     }

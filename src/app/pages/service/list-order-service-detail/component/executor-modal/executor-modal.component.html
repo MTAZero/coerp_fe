@@ -1,0 +1,106 @@
+<div class="modal-header bg-dark">
+  <h4 class="modal-title text-white">Sửa ngày làm việc</h4>
+  <button class="close text-white" aria-label="Close" (click)="onClickCancel()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body p-3" [formGroup]="form">
+  <div class="form-group row mb-3">
+    <label class="col-5 col-form-label">Ngày làm</label>
+    <div class="col-7">
+      <input class="form-control" formControlName="work_time" readonly />
+    </div>
+  </div>
+  <div class="form-group row mb-3">
+    <label class="col-5 col-form-label">Thời gian bắt đầu</label>
+    <div class="col-7">
+      <input class="form-control" formControlName="start_time" readonly />
+    </div>
+  </div>
+  <div class="form-group row mb-3">
+    <label class="col-5 col-form-label">Thời gian kết thúc</label>
+    <div class="col-7">
+      <input class="form-control" formControlName="end_time" readonly />
+    </div>
+  </div>
+  <div class="form-group row mb-3">
+    <label class="col-5 col-form-label">Nhân viên phụ trách <span>(*)</span></label>
+    <div class="col-7">
+      <select
+        class="custom-select"
+        formControlName="staff_id"
+        (change)="onChangeStaff($event)"
+        [ngClass]="{
+          'is-invalid': submitted && form.controls.staff_id.errors
+        }"
+      >
+        <option *ngFor="let staff of staffs" [value]="staff.id">{{ staff.name }}</option>
+      </select>
+      <div *ngIf="submitted && form.controls.staff_id.errors" class="invalid-feedback">
+        <span *ngIf="form.controls.staff_id.errors.required">Trường bắt buộc</span>
+      </div>
+    </div>
+  </div>
+  <div class="form-group row mb-3">
+    <label class="col-5 col-form-label">Làm thêm giờ <span>(*)</span></label>
+    <div class="col-7">
+      <select
+        class="custom-select"
+        formControlName="exe_flag_overtime"
+        [ngClass]="{
+          'is-invalid': submitted && form.controls.exe_flag_overtime.errors
+        }"
+      >
+        <option [value]="1">Có</option>
+        <option [value]="0">Không</option>
+      </select>
+      <div *ngIf="submitted && form.controls.exe_flag_overtime.errors" class="invalid-feedback">
+        <span *ngIf="form.controls.exe_flag_overtime.errors.required">Trường bắt buộc</span>
+      </div>
+    </div>
+  </div>
+  <div class="form-group row mb-3" *ngIf="form.value.exe_flag_overtime === '1'">
+    <label class="col-5 col-form-label">Số giờ làm thêm <span>(*)</span></label>
+    <div class="col-7">
+      <input class="form-control" formControlName="exe_time_overtime" />
+    </div>
+  </div>
+  <div class="form-group row mb-3">
+    <label class="col-5 col-form-label">Trạng thái <span>(*)</span></label>
+    <div class="col-7">
+      <select
+        class="custom-select"
+        formControlName="exe_status"
+        [ngClass]="{
+          'is-invalid': submitted && form.controls.exe_status.errors
+        }"
+      >
+        <option [value]="1">Đã làm</option>
+        <option [value]="2">Chưa làm</option>
+      </select>
+      <div *ngIf="submitted && form.controls.exe_status.errors" class="invalid-feedback">
+        <span *ngIf="form.controls.exe_status.errors.required">Trường bắt buộc</span>
+      </div>
+    </div>
+  </div>
+  <div class="form-group row mb-3">
+    <label class="col-5 col-form-label">Đánh giá</label>
+    <div class="col-7">
+      <input type="number" max="5" min="1" class="form-control" formControlName="exe_evaluate" />
+    </div>
+  </div>
+  <div class="form-group row mb-3">
+    <label class="col-5 col-form-label">Ghi chú</label>
+    <div class="col-7">
+      <input class="form-control" formControlName="exe_note" />
+    </div>
+  </div>
+  <div class="text-right mt-3">
+    <button class="btn btn-success ml-1" (click)="onClickSubmit()">
+      Lưu
+    </button>
+    <button class="btn btn-danger ml-1" (click)="onClickCancel()">
+      Hủy
+    </button>
+  </div>
+</div>

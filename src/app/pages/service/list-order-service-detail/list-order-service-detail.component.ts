@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbDate, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { ExecutorModalComponent } from './component/executor-modal/executor-modal.component';
 import { MobileModalComponent } from '../../customer/list-customer/component/mobile-modal/mobile-modal.component';
 import { AddresModalComponent } from '../../customer/list-customer/component/addres-modal/addres-modal.component';
 import { CustomerService } from './../../../core/services/api/customer.service';
@@ -50,6 +51,8 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
   listAddress = [];
   listService = [];
   listExecutor = [];
+  cuo_discount = null;
+  cuo_color_show = null;
 
   days: any[];
   summary = '';
@@ -146,34 +149,37 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    // if (this.selectedStaffs.length === 0)
-    //   return this._notify(false, 'Chưa chọn nhân viên phụ trách');
-    // const customerData = this.formCustomer.value;
-    // const repeatData = this.formRepeat.value;
-    // repeatData.st_start_date = this._convertNgbDateToDate(repeatData.st_start_date);
-    // repeatData.st_end_date = this._convertNgbDateToDate(repeatData.st_end_date);
-    // repeatData.st_custom_start = this._convertNgbDateToDate(repeatData.st_custom_start);
-    // repeatData.st_custom_end = this._convertNgbDateToDate(repeatData.st_custom_end);
-    // repeatData.st_on_day_flag = repeatData.st_on_day_flag ? 1 : 0;
-    // repeatData.st_on_the_flag = repeatData.st_on_day_flag ? 1 : 0;
-    // const list_service_id = this.listService.map((e) => {
-    //   return e.se_id;
-    // });
-    // const data = {
-    //   cuo_id: this.orderService ? this.orderService.cuo_id : null,
-    //   list_service_id,
-    //   ...repeatData,
-    //   cuo_address: this.selectedAddress,
-    //   customer: {
-    //     ...customerData,
-    //     list_address: this.listAddress,
-    //   },
-    //   list_staff_id: this.selectedStaffs,
-    //   cuo_infor_time: this.summary,
-    // };
-    // console.log(data);
-    // if (this.type === 'update') this._updateOrderService(data);
-    // if (this.type === 'create') this._createOrderService(data);
+    if (this.formCustomer.invalid || this.formRepeat.invalid || !this._checkValidExecutor()) return;
+
+    const customerData = this.formCustomer.value;
+    const repeatData = this.formRepeat.value;
+    repeatData.st_start_date = this._convertNgbDateToDate(repeatData.st_start_date);
+    repeatData.st_end_date = this._convertNgbDateToDate(repeatData.st_end_date);
+    repeatData.st_custom_start = this._convertNgbDateToDate(repeatData.st_custom_start);
+    repeatData.st_custom_end = this._convertNgbDateToDate(repeatData.st_custom_end);
+    repeatData.st_on_day_flag = repeatData.st_on_day_flag ? 1 : 0;
+    repeatData.st_on_the_flag = repeatData.st_on_day_flag ? 1 : 0;
+
+    const data = {
+      cuo_color_show: this.cuo_color_show,
+      cuo_discount: this.cuo_discount,
+      ...repeatData,
+      customer: {
+        ...customerData,
+        list_customer_phone: this.listMobile,
+        list_ship_address: this.listAddress,
+      },
+      list_service: this.listService,
+      list_executor: this.listExecutor,
+      cuo_infor_time: this.summary,
+    };
+    console.log(data);
+    if (this.cuo_id)
+      this._updateOrderService({
+        ...data,
+        cuo_id: this.cuo_id,
+      });
+    else this._createOrderService(data);
   }
 
   //#region Customer
@@ -222,7 +228,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
     const modalRef = this.modalService.open(MobileModalComponent, {
       centered: true,
     });
-    modalRef.componentInstance.customerId = this.selectedCustomer.cu_id;
+    modalRef.componentInstance.listMobile = this.listMobile;
     if (mobile) {
       modalRef.componentInstance.mobile = mobile;
     }
@@ -280,6 +286,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
     const modalRef = this.modalService.open(AddresModalComponent, {
       centered: true,
     });
+    modalRef.componentInstance.listAddress = this.listAddress;
     if (address) {
       modalRef.componentInstance.address = address;
     }
@@ -404,6 +411,60 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
       st_sat_flag: day === 'T7' ? 1 : 0,
       st_sun_flag: day === 'CN' ? 1 : 0,
     });
+  }
+
+  onGenerateWorkTime() {
+    let repeatData = this.formRepeat.value;
+    repeatData.st_start_date = this._convertNgbDateToDate(repeatData.st_start_date);
+    repeatData.st_end_date = this._convertNgbDateToDate(repeatData.st_end_date);
+    repeatData.st_custom_start = this._convertNgbDateToDate(repeatData.st_custom_start);
+    repeatData.st_custom_end = this._convertNgbDateToDate(repeatData.st_custom_end);
+    repeatData.st_on_day_flag = repeatData.st_on_day_flag ? 1 : 0;
+    repeatData.st_on_the_flag = repeatData.st_on_day_flag ? 1 : 0;
+
+    const genTime$ = this.serviceService
+      .genWorkTime({ pageNumber: 0, pageSize: 1000 }, repeatData)
+      .pipe(takeUntil(this.destroyed$));
+    genTime$.subscribe((res: any) => {
+      if (res && res.Data) {
+        this.listExecutor = res.Data.Results;
+        this.listExecutor = this.listExecutor.map((item) => {
+          return {
+            ...item,
+            start_time: item.start_time.substr(0, 5),
+            end_time: item.end_time.substr(0, 5),
+          };
+        });
+      }
+    });
+  }
+
+  onClickExecutor(exe?: any) {
+    const modalRef = this.modalService.open(ExecutorModalComponent, {
+      centered: true,
+    });
+
+    modalRef.componentInstance.exe = exe;
+
+    modalRef.componentInstance.passEvent.subscribe((res) => {
+      if (res.event) {
+        this.listExecutor = this.listExecutor.map((item) => {
+          if (item.work_time.substr(0, 10) !== res.data.work_time) return item;
+          return res.data;
+        });
+        this.isChange = true;
+      }
+      modalRef.close();
+    });
+  }
+
+  private _checkValidExecutor() {
+    let res = true;
+    this.listExecutor.forEach((item) => {
+      if (!item.staff_id || item.staff_id === '') res = false;
+    });
+
+    return res;
   }
 
   private _updateSummary(data: any) {
@@ -598,6 +659,8 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
     this.listAddress = orderService.customer.list_ship_address;
     this.listService = orderService.list_service;
     this.listExecutor = orderService.list_executor;
+    this.cuo_discount = orderService.cuo_discount;
+    this.cuo_color_show = orderService.cuo_color_show;
   }
 
   private _loadProvince() {

@@ -394,6 +394,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
     const modalRef = this.modalService.open(AddressModalComponent, {
       centered: true,
     });
+    modalRef.componentInstance.listAddress = this.listAddress;
     if (address) {
       modalRef.componentInstance.address = address;
     }

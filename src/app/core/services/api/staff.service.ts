@@ -9,6 +9,7 @@ const router = {
   update: `/api/staff/update`,
   delete: `/api/staff/delete`,
   export: '/api/staff/export',
+  export_template: '/api/staff/export_template',
   mail_create: '/api/staffs/sendmail_created',
   role: '/api/group-role/getall',
   position: '/api/position/getall',
@@ -57,6 +58,10 @@ export class StaffService {
   }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.export, params);
+  }
+
+  exportTemplate() {
+    return this.httpClient.get(router.export_template);
   }
 
   createStaff(data: any) {

@@ -43,7 +43,7 @@ export class MobileTabComponent implements OnInit {
     const modalRef = this.modalService.open(MobileModalComponent, {
       centered: true,
     });
-    modalRef.componentInstance.customerId = this.customerId;
+    modalRef.componentInstance.listMobile = this.listMobile;
     if (mobile) {
       modalRef.componentInstance.mobile = mobile;
     }

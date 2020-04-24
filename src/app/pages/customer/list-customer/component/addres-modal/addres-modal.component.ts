@@ -13,7 +13,7 @@ import Swal from 'sweetalert2';
 export class AddresModalComponent implements OnInit {
   private destroyed$ = new Subject();
   @Input() address: any;
-  @Input() customerId: any;
+  @Input() listAddress: any;
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
   form: FormGroup;
   submitted = false;
@@ -28,7 +28,6 @@ export class AddresModalComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.form.patchValue({ customer_id: this.customerId });
     if (this.address) {
       this.patchData(this.address);
     }
@@ -37,7 +36,19 @@ export class AddresModalComponent implements OnInit {
   onClickSubmit() {
     this.submitted = true;
 
-    if (this.form.valid) {
+    let isConflict = false;
+    this.listAddress.forEach((item) => {
+      if (
+        item.sha_province === this.form.value.sha_province &&
+        item.sha_district === this.form.value.sha_district &&
+        item.sha_ward === this.form.value.sha_ward &&
+        item.sha_detail.trim() === this.form.value.sha_detail.trim()
+      )
+        isConflict = true;
+    });
+    if (isConflict) this._notify(false, 'Địa chỉ nhận hàng đã tồn tại');
+
+    if (this.form.valid && !isConflict) {
       this.passEvent.emit({ event: true, form: this.form.value });
     }
   }
@@ -152,6 +163,17 @@ export class AddresModalComponent implements OnInit {
           this.form.patchValue({ sha_ward: res.Data[0].name });
         }
       }
+    });
+  }
+
+  private _notify(isSuccess: boolean, message: string) {
+    return Swal.fire({
+      toast: true,
+      position: 'top-end',
+      type: isSuccess ? 'success' : 'error',
+      title: message,
+      showConfirmButton: false,
+      timer: 2000,
     });
   }
 }

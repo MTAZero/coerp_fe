@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 })
 export class MobileModalComponent implements OnInit {
   @Input() mobile: any;
+  @Input() listMobile: any;
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
   form: FormGroup;
   submitted = false;
@@ -33,7 +34,13 @@ export class MobileModalComponent implements OnInit {
   onClickSubmit() {
     this.submitted = true;
 
-    if (this.form.valid) {
+    let isConflict = false;
+    this.listMobile.forEach((item) => {
+      if (item.cp_phone_number.trim() === this.form.value.cp_phone_number.trim()) isConflict = true;
+    });
+    if (isConflict) this._notify(false, 'Số điện thoại đã tồn tại');
+
+    if (this.form.valid && !isConflict) {
       const data = this.form.value;
       this.passEvent.emit({ event: true, data });
     }
@@ -80,6 +87,17 @@ export class MobileModalComponent implements OnInit {
       cp_type_name: mobile.cp_type_name,
       cp_phone_number: mobile.cp_phone_number,
       cp_note: mobile.cp_note,
+    });
+  }
+
+  private _notify(isSuccess: boolean, message: string) {
+    return Swal.fire({
+      toast: true,
+      position: 'top-end',
+      type: isSuccess ? 'success' : 'error',
+      title: message,
+      showConfirmButton: false,
+      timer: 2000,
     });
   }
 }

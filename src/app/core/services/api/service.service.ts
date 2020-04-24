@@ -86,13 +86,13 @@ export class ServiceService {
     return this.httpClient.delete(router.delete, params);
   }
 
-  genWorkTime(filter?: { pageNumber: number; pageSize: number }) {
+  genWorkTime(filter?: { pageNumber: number; pageSize: number }, body?: any) {
     const params = mapToHttpParamsQuery(filter);
-    return this.httpClient.get(router.gen_work_time, params);
+    return this.httpClient.post(router.gen_work_time, body, params);
   }
 
-  getFreeStaff(filter?: { fullName: string }) {
+  getFreeStaff(filter?: { fullName: string }, body?: any) {
     const params = mapToHttpParamsQuery(filter);
-    return this.httpClient.get(router.get_free_staff, params);
+    return this.httpClient.post(router.get_free_staff, body, params);
   }
 }

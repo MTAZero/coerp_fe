@@ -153,7 +153,7 @@ export class ListCustomerDetailComponent implements OnInit, OnDestroy {
     const modalRef = this.modalService.open(MobileModalComponent, {
       centered: true,
     });
-    modalRef.componentInstance.customerId = this.cu_id;
+    modalRef.componentInstance.listMobile = this.listMobile;
     if (mobile) {
       modalRef.componentInstance.mobile = mobile;
     }
@@ -201,6 +201,7 @@ export class ListCustomerDetailComponent implements OnInit, OnDestroy {
     const modalRef = this.modalService.open(AddresModalComponent, {
       centered: true,
     });
+    modalRef.componentInstance.listAddress = this.listAddress;
     if (address) {
       modalRef.componentInstance.address = address;
     }

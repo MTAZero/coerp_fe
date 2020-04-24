@@ -13,6 +13,7 @@ import Swal from 'sweetalert2';
 export class AddressModalComponent implements OnInit {
   private destroyed$ = new Subject();
   @Input() address: any;
+  @Input() listAddress: any;
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
   form: FormGroup;
   submitted = false;
@@ -35,7 +36,19 @@ export class AddressModalComponent implements OnInit {
   onClickSubmit() {
     this.submitted = true;
 
-    if (this.form.valid) {
+    let isConflict = false;
+    this.listAddress.forEach((item) => {
+      if (
+        item.unl_province === this.form.value.unl_province &&
+        item.unl_district === this.form.value.unl_district &&
+        item.unl_ward === this.form.value.unl_ward &&
+        item.unl_detail.trim() === this.form.value.unl_detail.trim()
+      )
+        isConflict = true;
+    });
+    if (isConflict) this._notify(false, 'Địa chỉ phụ trách đã tồn tại');
+
+    if (this.form.valid && !isConflict) {
       this.passEvent.emit({ event: true, form: this.form.value });
     }
   }
@@ -150,6 +163,17 @@ export class AddressModalComponent implements OnInit {
           this.form.patchValue({ unl_ward: res.Data[0].name });
         }
       }
+    });
+  }
+
+  private _notify(isSuccess: boolean, message: string) {
+    return Swal.fire({
+      toast: true,
+      position: 'top-end',
+      type: isSuccess ? 'success' : 'error',
+      title: message,
+      showConfirmButton: false,
+      timer: 2000,
     });
   }
 }
