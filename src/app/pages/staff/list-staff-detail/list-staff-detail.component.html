@@ -124,6 +124,13 @@
                         >{{ time }}</option
                       >
                     </select>
+                    <div class="ml-2" *ngIf="!listView[0]">
+                      <i
+                        class="fe-minus-circle"
+                        style="font-size: large; cursor: pointer;"
+                        (click)="onClickMinus(i, timeIndex)"
+                      ></i>
+                    </div>
                   </div>
                   <div
                     class="row justify-content-center mb-2"
@@ -351,6 +358,8 @@
                       placeholder="Chọn ngày"
                       #start_work="ngbDatepicker"
                       formControlName="sta_start_work_date"
+                      [minDate]="formProfile.value.sta_birthday"
+                      [maxDate]="formProfile.value.sta_end_work_date"
                       [disabled]="listView[1]"
                     />
                     <div class="input-group-append" (click)="start_work.toggle()">
@@ -371,6 +380,7 @@
                       #dob="ngbDatepicker"
                       formControlName="sta_birthday"
                       [disabled]="listView[1]"
+                      [maxDate]="formProfile.value.sta_start_work_date"
                     />
                     <div class="input-group-append" (click)="dob.toggle()">
                       <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
@@ -450,6 +460,7 @@
                       placeholder="Chọn ngày"
                       #end_work="ngbDatepicker"
                       formControlName="sta_end_work_date"
+                      [minDate]="formProfile.value.sta_start_work_date"
                       [disabled]="listView[1]"
                       [ngClass]="{
                         'is-invalid':
@@ -490,14 +501,14 @@
                       'is-invalid':
                         submitted &&
                         formProfile.value.sta_working_status === '2' &&
-                        formProfile.value.sta_reason_to_end_work === ''
+                        !formProfile.value.sta_reason_to_end_work
                     }"
                   />
                   <div
                     *ngIf="
                       submitted &&
                       formProfile.value.sta_working_status === '2' &&
-                      formProfile.value.sta_reason_to_end_work === ''
+                      !formProfile.value.sta_reason_to_end_work
                     "
                     class="invalid-feedback"
                   >
@@ -542,6 +553,9 @@
                   >
                     <span *ngIf="formContact.controls.sta_mobile.errors.required"
                       >Trường bắt buộc</span
+                    >
+                    <span *ngIf="formContact.controls.sta_mobile.errors.pattern"
+                      >Sai định dạng</span
                     >
                   </div>
                 </div>
@@ -636,7 +650,7 @@
                       placeholder="Chọn ngày"
                       #icd="ngbDatepicker"
                       formControlName="sta_identity_card_date"
-                      [disabled]="listView[3]"
+                      [disabled]="listView[3] || formIdentityCard.value.sta_identity_card === ''"
                     />
                     <div class="input-group-append" (click)="icd.toggle()">
                       <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
@@ -651,7 +665,7 @@
                 <div class="col-6">
                   <input
                     class="form-control"
-                    [readonly]="listView[3]"
+                    [readonly]="listView[3] || formIdentityCard.value.sta_identity_card === ''"
                     formControlName="sta_identity_card_location"
                   />
                 </div>
@@ -667,7 +681,7 @@
                       placeholder="Chọn ngày"
                       #icde="ngbDatepicker"
                       formControlName="sta_identity_card_date_end"
-                      [disabled]="listView[3]"
+                      [disabled]="listView[3] || formIdentityCard.value.sta_identity_card === ''"
                     />
                     <div class="input-group-append" (click)="icde.toggle()">
                       <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
@@ -877,6 +891,8 @@
                   <th>Nội dung đào tạo</th>
                   <th>Thời gian bắt đầu</th>
                   <th>Thời gian kết thúc</th>
+                  <th>Mục đích đào tạo</th>
+                  <th>Đánh giá</th>
                   <th>Thao tác</th>
                 </tr>
               </thead>
@@ -888,18 +904,34 @@
                   </td>
                   <td>{{ training.tn_start_date | date: 'dd/MM/yyyy' }}</td>
                   <td>{{ training.tn_end_date | date: 'dd/MM/yyyy' }}</td>
-                  <td></td>
+                  <td>{{ training.tn_purpose }}</td>
+                  <td>{{ training.ts_evaluate }}</td>
+                  <td>
+                    <a
+                      href="javascript:void(0);"
+                      class="action-icon"
+                      (click)="openTrainingModal(training)"
+                    >
+                      <i class="mdi mdi-square-edit-outline"></i
+                    ></a>
+                    <a
+                      href="javascript:void(0);"
+                      class="action-icon"
+                      (click)="openRemoveTraining(training)"
+                    >
+                      <i class="mdi mdi-delete"></i
+                    ></a>
+                  </td>
                 </tr>
                 <tr *ngFor="let training of listNewTraining">
-                  <td>
-                    {{ training.tn_code }}
-                  </td>
                   <td>{{ training.tn_name }}</td>
                   <td>
                     {{ training.tn_content }}
                   </td>
                   <td>{{ training.tn_start_date | date: 'dd/MM/yyyy' }}</td>
                   <td>{{ training.tn_end_date | date: 'dd/MM/yyyy' }}</td>
+                  <td>{{ training.tn_purpose }}</td>
+                  <td>{{ training.ts_evaluate }}</td>
                   <td>
                     <a
                       href="javascript:void(0);"
@@ -923,7 +955,7 @@
                     listTraining?.length + listNewTraining?.length === 0
                   "
                 >
-                  <td colspan="5">Không có dữ liệu khóa đào tạo</td>
+                  <td colspan="7">Không có dữ liệu khóa đào tạo</td>
                 </tr>
               </tbody>
             </table>

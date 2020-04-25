@@ -146,12 +146,13 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
       (this.formProfile.value.sta_working_status === '2' &&
         this.formProfile.value.sta_end_work_date === null) ||
       (this.formProfile.value.sta_working_status === '2' &&
-        this.formProfile.value.sta_reason_to_end_work === '')
+        !this.formProfile.value.sta_reason_to_end_work)
     )
       return;
 
     const list_staff_work_time = this.transformData();
-    if (list_staff_work_time.length === 0) return this._notify(false, 'Chưa chọn ngày làm việc');
+    if (this.formContractType.value.sta_type_contact === 1 && list_staff_work_time.length === 0)
+      return this._notify(false, 'Chưa chọn ngày làm việc');
 
     const identityForm = this.formIdentityCard.value;
     identityForm.sta_identity_card_date = this._convertNgbDateToDate(
@@ -164,6 +165,8 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
     const profileForm = this.formProfile.value;
     profileForm.sta_birthday = this._convertNgbDateToDate(profileForm.sta_birthday);
     profileForm.sta_start_work_date = this._convertNgbDateToDate(profileForm.sta_start_work_date);
+    profileForm.sta_end_work_date = this._convertNgbDateToDate(profileForm.sta_end_work_date);
+    profileForm.sta_username = profileForm.sta_username.trim().toLowerCase();
 
     const data = {
       ...this.formContractType.value,
@@ -221,6 +224,10 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
       sw_time_end: '16:00',
     });
     this.tempWorkTime++;
+  }
+
+  onClickMinus(index: number, timeIndex: number) {
+    this.listWorkTime[index].splice(timeIndex, 1);
   }
 
   onChangeStart(index, timeIndex, event) {
@@ -360,6 +367,10 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
             if (item.tn_id !== res.data.tn_id) return item;
             return res.data;
           });
+          this.listTraining = this.listTraining.map((item) => {
+            if (item.tn_id !== res.data.tn_id) return item;
+            return res.data;
+          });
         } else {
           this.listNewTraining.push({
             ...res.data,
@@ -455,12 +466,12 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
       sta_working_status: [1, [Validators.required]],
       sta_tax_code: ['', null],
       sta_end_work_date: [null, null],
-      sta_reason_to_end_work: ['', null],
+      sta_reason_to_end_work: [null, null],
       sta_note: ['', null],
     });
 
     this.formContact = this.formBuilder.group({
-      sta_mobile: ['', [Validators.required]],
+      sta_mobile: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
       sta_email: ['', [Validators.email]],
     });
 

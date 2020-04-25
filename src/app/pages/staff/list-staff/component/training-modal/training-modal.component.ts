@@ -70,6 +70,7 @@ export class TrainingModalComponent implements OnInit {
       tn_start_date: [null, [Validators.required]],
       tn_end_date: [null, [Validators.required]],
       tn_purpose: ['', null],
+      ts_evaluate: ['', null],
     });
   }
 
@@ -82,6 +83,7 @@ export class TrainingModalComponent implements OnInit {
       tn_start_date: this._convertDateToNgbDate(training.tn_start_date),
       tn_end_date: this._convertDateToNgbDate(training.tn_end_date),
       tn_purpose: training.tn_purpose,
+      ts_evaluate: training.ts_evaluate,
     });
   }
 

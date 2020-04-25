@@ -152,6 +152,8 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
     if (this.formCustomer.invalid || this.formRepeat.invalid || !this._checkValidExecutor()) return;
 
     const customerData = this.formCustomer.value;
+    customerData.cu_birthday = this._convertNgbDateToDate(customerData.cu_birthday);
+
     const repeatData = this.formRepeat.value;
     repeatData.st_start_date = this._convertNgbDateToDate(repeatData.st_start_date);
     repeatData.st_end_date = this._convertNgbDateToDate(repeatData.st_end_date);
@@ -339,8 +341,20 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
   }
 
   onRemoveService(service: any) {
-    this.listService = this.listService.filter((item) => item.se_id !== service.se_id);
-    this.isChange = true;
+    Swal.fire({
+      title: 'Chắc chắn muốn xóa dịch vụ đang chọn?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Xóa',
+      cancelButtonText: 'Hủy',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+    }).then((result) => {
+      if (result.value) {
+        this.listService = this.listService.filter((item) => item.se_id !== service.se_id);
+        this.isChange = true;
+      }
+    });
   }
   //#endregion
 
@@ -463,7 +477,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
     this.listExecutor.forEach((item) => {
       if (!item.staff_id || item.staff_id === '') res = false;
     });
-
+    if (!res) this._notify(false, 'Chưa phân công cho một số thời gian làm việc');
     return res;
   }
 
@@ -544,8 +558,8 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
     this.formRepeat = this.formBuilder.group({
       st_start_date: [this._convertDateToNgbDate(new Date()), null],
       st_end_date: [this._convertDateToNgbDate(new Date()), null],
-      st_start_time: ['07:00', null],
-      st_end_time: ['07:00', null],
+      st_start_time: ['08:30', null],
+      st_end_time: ['11:00', null],
       st_repeat_type: [1, null],
       st_sun_flag: [0, null],
       st_mon_flag: [0, null],
@@ -774,7 +788,9 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
   private _patchCustomer() {
     const customer = this.selectedCustomer;
 
+    this._loadProvince();
     this.listAddress = customer.list_ship_address ? customer.list_ship_address : [];
+    this.listMobile = customer.list_customer_phone ? customer.list_customer_phone : [];
     this.formCustomer.patchValue({
       cu_id: customer.cu_id,
       cu_fullname: customer.cu_fullname,
