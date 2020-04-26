@@ -1,7 +1,11 @@
 :host {
+  .card-body {
+    padding: 0;
+    padding-top: 10px;
+  }
+
   .form-inline {
     align-items: baseline;
-    flex-flow: row;
   }
 
   a {
@@ -13,7 +17,7 @@
 
   .table-responsive {
     overflow: auto;
-    max-height: calc(100% - 150px);
+    max-height: calc(100% - 100px);
 
     table {
       min-width: 1400px;

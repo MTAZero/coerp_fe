@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { simplePieChart } from './data';
 import { ChartType } from './opportunities.model';
@@ -8,13 +8,14 @@ import { CustomerGroupService } from '../../../core/services/api/customer-group.
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-customer-group',
   templateUrl: './customer-group.component.html',
   styleUrls: ['./customer-group.component.scss'],
 })
-export class CustomerGroupComponent implements OnInit {
+export class CustomerGroupComponent implements OnInit, OnDestroy {
   private destroyed$ = new Subject();
 
   submitted: boolean;
@@ -28,30 +29,23 @@ export class CustomerGroupComponent implements OnInit {
 
   simplePieChart: ChartType;
 
-  constructor(private modalService: NgbModal, private customerGroupService: CustomerGroupService) {}
+  constructor(
+    private modalService: NgbModal,
+    private customerGroupService: CustomerGroupService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this._fetchData();
   }
 
-  openCustomerGroupModal(customerGroup?: any) {
-    const modalRef = this.modalService.open(CustomerGroupModalComponent, {
-      centered: true,
-      size: 'lg',
-    });
-    if (customerGroup) {
-      modalRef.componentInstance.customerGroup = customerGroup;
-    }
-    modalRef.componentInstance.passEvent.subscribe((res) => {
-      if (res.event) {
-        if (customerGroup) {
-          this._updateCustomerGroup(res.form);
-        } else {
-          this._createCustomerGroup(res.form);
-        }
-      }
-      modalRef.close();
-    });
+  ngOnDestroy() {
+    this.destroyed$.next();
+    this.destroyed$.complete();
+  }
+
+  onRouteDetail(group?: any) {
+    this.router.navigate(['/customer/customer-group-detail', group ? group.cg_id : '']);
   }
 
   openListCustomerModal(customerGroup?: any) {
@@ -119,46 +113,6 @@ export class CustomerGroupComponent implements OnInit {
         this.simplePieChart.labels = labels;
       }
     });
-  }
-
-  private _createCustomerGroup(data: any) {
-    const createCustomerGroup$ = this.customerGroupService
-      .createCustomerGroup(data)
-      .pipe(takeUntil(this.destroyed$));
-    createCustomerGroup$.subscribe(
-      (res: any) => {
-        if (res && res.Code === 200) {
-          this._notify(true, res.Message);
-          this._fetchData();
-          this.modalService.dismissAll();
-        } else {
-          this._notify(false, res.Message);
-        }
-      },
-      (e) => {
-        this._notify(false, e.Message);
-      }
-    );
-  }
-
-  private _updateCustomerGroup(updated: any) {
-    const updateCustomerGroup$ = this.customerGroupService
-      .updateCustomerGroup(updated)
-      .pipe(takeUntil(this.destroyed$));
-    updateCustomerGroup$.subscribe(
-      (res: any) => {
-        if (res && res.Code === 200) {
-          this._notify(true, res.Message);
-          this._fetchData();
-          this.modalService.dismissAll();
-        } else {
-          this._notify(false, res.Message);
-        }
-      },
-      (e) => {
-        this._notify(false, e.Message);
-      }
-    );
   }
 
   private _removeCustomerGroup(customerGroup: any) {

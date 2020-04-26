@@ -1,19 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { NgbModal, NgbDate } from '@ng-bootstrap/ng-bootstrap';
-import { ProductModalComponent } from './component/product-modal/product-modal.component';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { isNullOrUndefined, isUndefined } from 'util';
 import { ProductService } from '../../../core/services/api/product.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import * as moment from 'moment';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-product',
   templateUrl: './list-product.component.html',
   styleUrls: ['./list-product.component.scss'],
 })
-export class ListProductComponent implements OnInit {
+export class ListProductComponent implements OnInit, OnDestroy {
   private destroyed$ = new Subject();
 
   submitted: boolean;
@@ -23,17 +23,22 @@ export class ListProductComponent implements OnInit {
   categorySearch = '';
   fromDate = this._convertDateToNgbDate(new Date('2010-01-01'));
   toDate = this._convertDateToNgbDate(new Date());
-  page = 0;
+  page = 1;
   pageSize = 10;
   totalSize = 0;
 
   selectedProduct = null;
   products: any;
 
-  constructor(private modalService: NgbModal, private productService: ProductService) {}
+  constructor(private productService: ProductService, private router: Router) {}
   ngOnInit() {
     this._fetchData();
     this._fetchFilter();
+  }
+
+  ngOnDestroy() {
+    this.destroyed$.next();
+    this.destroyed$.complete();
   }
 
   onClickProduct(product: any) {
@@ -48,25 +53,8 @@ export class ListProductComponent implements OnInit {
     }
   }
 
-  openProductModal(product?: any) {
-    const modalRef = this.modalService.open(ProductModalComponent, {
-      centered: true,
-      size: 'lg',
-    });
-    if (product) {
-      this.onClickProduct(product);
-      modalRef.componentInstance.product = product;
-    }
-    modalRef.componentInstance.passEvent.subscribe((res) => {
-      if (res.event) {
-        if (product) {
-          this._updateProduct(res.form);
-        } else {
-          this._createProduct(res.form);
-        }
-      }
-      modalRef.close();
-    });
+  onRouteDetail(product?: any) {
+    this.router.navigate(['/product/list-product-detail', product ? product.pu_id : '']);
   }
 
   openConfirmModal(product?: any) {
@@ -107,7 +95,6 @@ export class ListProductComponent implements OnInit {
           if (res && res.Code == 200) {
             this._notify(true, res.Message);
             this._fetchData();
-            this.modalService.dismissAll();
           } else this._notify(false, res.Message);
         },
         (e) => this._notify(false, e.Message)
@@ -140,7 +127,7 @@ export class ListProductComponent implements OnInit {
 
   private _fetchData(selected?: any) {
     const product$ = this.productService
-      .loadProduct({
+      .searchProduct({
         pageNumber: this.page - 1,
         pageSize: this.pageSize,
         search_name: this.textSearch,
@@ -165,40 +152,9 @@ export class ListProductComponent implements OnInit {
 
   private _fetchFilter() {
     const category$ = this.productService.loadCategory().pipe(takeUntil(this.destroyed$));
-
     category$.subscribe((res: any) => {
       this.categories = res.Data;
     });
-  }
-
-  private _createProduct(data: any) {
-    const createProduct$ = this.productService.createProduct(data).pipe(takeUntil(this.destroyed$));
-    createProduct$.subscribe(
-      (res: any) => {
-        if (res && res.Code == 200) {
-          this._notify(true, res.Message);
-          this._fetchData();
-          this.modalService.dismissAll();
-        } else this._notify(false, res.Message);
-      },
-      (e) => this._notify(false, e.Message)
-    );
-  }
-
-  private _updateProduct(updated: any) {
-    const updateProduct$ = this.productService
-      .updateProduct(updated)
-      .pipe(takeUntil(this.destroyed$));
-    updateProduct$.subscribe(
-      (res: any) => {
-        if (res && res.Code == 200) {
-          this._notify(true, res.Message);
-          this._fetchData();
-          this.modalService.dismissAll();
-        } else this._notify(false, res.Message);
-      },
-      (e) => this._notify(false, e.Message)
-    );
   }
 
   private _removeProduct(product: any) {
@@ -210,7 +166,6 @@ export class ListProductComponent implements OnInit {
         if (res && res.Code == 200) {
           this._notify(true, res.Message);
           this._fetchData();
-          this.modalService.dismissAll();
         } else this._notify(false, res.Message);
       },
       (e) => this._notify(false, e.Message)

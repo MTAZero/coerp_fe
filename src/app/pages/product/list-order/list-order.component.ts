@@ -1,19 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { NgbModal, NgbDate } from '@ng-bootstrap/ng-bootstrap';
-import { OrderModalComponent } from './component/order-modal/order-modal.component';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { OrderService } from '../../../core/services/api/order.service';
 import Swal from 'sweetalert2';
 import * as moment from 'moment';
 import { isNullOrUndefined, isUndefined } from 'util';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-order',
   templateUrl: './list-order.component.html',
   styleUrls: ['./list-order.component.scss'],
 })
-export class ListOrderComponent implements OnInit {
+export class ListOrderComponent implements OnInit, OnDestroy {
   private destroyed$ = new Subject();
 
   submitted: boolean;
@@ -24,17 +24,22 @@ export class ListOrderComponent implements OnInit {
   paymentMethodSearch = '';
   fromDate = this._convertDateToNgbDate(new Date('2010-01-01'));
   toDate = this._convertDateToNgbDate(new Date());
-  page = 0;
+  page = 1;
   pageSize = 10;
   totalSize = 0;
 
   orders: any;
   selectedOrder = null;
 
-  constructor(private modalService: NgbModal, private orderService: OrderService) {}
+  constructor(private orderService: OrderService, private router: Router) {}
   ngOnInit() {
     this._fetchData();
     this._fetchFilter();
+  }
+
+  ngOnDestroy() {
+    this.destroyed$.next();
+    this.destroyed$.complete();
   }
 
   onClickOrder(order: any) {
@@ -49,25 +54,8 @@ export class ListOrderComponent implements OnInit {
     }
   }
 
-  openOrderModal(order?: any, isView = false) {
-    const modalRef = this.modalService.open(OrderModalComponent, {
-      centered: true,
-      size: 'xl',
-    });
-    if (order) {
-      modalRef.componentInstance.order = order;
-      modalRef.componentInstance.isView = isView;
-    }
-    modalRef.componentInstance.passEvent.subscribe((res) => {
-      if (res.event) {
-        if (order) {
-          this._updateOrder(res.data);
-        } else {
-          this._createOrder(res.data);
-        }
-      }
-      modalRef.close();
-    });
+  onRouteDetail(order?: any) {
+    this.router.navigate(['/product/list-order-detail', order ? order.cuo_id : '']);
   }
 
   openConfirmModal(order?: any) {
@@ -108,7 +96,6 @@ export class ListOrderComponent implements OnInit {
         if (res && res.Code == 200) {
           this._notify(true, res.Message);
           this._fetchData();
-          this.modalService.dismissAll();
         } else this._notify(false, res.Message);
       },
       (e) => this._notify(false, e.Message)
@@ -161,44 +148,14 @@ export class ListOrderComponent implements OnInit {
 
   private _fetchFilter() {
     const paymentMethod$ = this.orderService.loadPaymentMethod().pipe(takeUntil(this.destroyed$));
-
     paymentMethod$.subscribe((res: any) => {
       this.paymentMethods = res.Data;
     });
 
     const orderStatus$ = this.orderService.loadOrderStatus().pipe(takeUntil(this.destroyed$));
-
     orderStatus$.subscribe((res: any) => {
       this.orderStatus = res.Data;
     });
-  }
-
-  private _createOrder(data: any) {
-    const createOrder$ = this.orderService.createOrder(data).pipe(takeUntil(this.destroyed$));
-    createOrder$.subscribe(
-      (res: any) => {
-        if (res && res.Code == 200) {
-          this._notify(true, res.Message);
-          this._fetchData();
-          this.modalService.dismissAll();
-        } else this._notify(false, res.Message);
-      },
-      (e) => this._notify(false, e.Message)
-    );
-  }
-
-  private _updateOrder(updated: any) {
-    const updateOrder$ = this.orderService.updateOrder(updated).pipe(takeUntil(this.destroyed$));
-    updateOrder$.subscribe(
-      (res: any) => {
-        if (res && res.Code == 200) {
-          this._notify(true, res.Message);
-          this._fetchData();
-          this.modalService.dismissAll();
-        } else this._notify(false, res.Message);
-      },
-      (e) => this._notify(false, e.Message)
-    );
   }
 
   private _removeOrder(order: any) {
@@ -210,7 +167,6 @@ export class ListOrderComponent implements OnInit {
         if (res && res.Code == 200) {
           this._notify(true, res.Message);
           this._fetchData();
-          this.modalService.dismissAll();
         } else this._notify(false, res.Message);
       },
       (e) => this._notify(false, e.Message)

@@ -1,0 +1,57 @@
+<app-main-container [hasBottom]="false">
+  <div top class="card-body pb-2" style="height: 100%;">
+    <div class="main">
+      <div [formGroup]="form">
+        <div class="form-row">
+          <div class="form-group row mb-3">
+            <label class="col-4 col-form-label">Nhóm khách hàng <span>(*)</span></label>
+            <div class="col-6">
+              <input
+                class="form-control"
+                formControlName="cg_name"
+                [ngClass]="{
+                  'is-invalid': submitted && form.controls.cg_name.errors
+                }"
+              />
+              <div *ngIf="submitted && form.controls.cg_name.errors" class="invalid-feedback">
+                <span *ngIf="form.controls.cg_name.errors.required">Trường bắt buộc</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group row mb-3">
+            <label class="col-4 col-form-label">Chi tiết <span>(*)</span></label>
+            <div class="col-6">
+              <input
+                class="form-control"
+                formControlName="cg_description"
+                [ngClass]="{
+                  'is-invalid': submitted && form.controls.cg_description.errors
+                }"
+              />
+              <div
+                *ngIf="submitted && form.controls.cg_description.errors"
+                class="invalid-feedback"
+              >
+                <span *ngIf="form.controls.cg_description.errors.required">Trường bắt buộc</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row justify-content-end mr-2">
+        <div class="text-sm-right">
+          <button
+            class="btn btn-success mb-2 mr-1 button-link"
+            [disabled]="!form.dirty"
+            (click)="onSubmit()"
+          >
+            Lưu lại
+          </button>
+          <a class="btn btn-danger mb-2 mr-1 button-link" (click)="onChangeToMain()">Quay lại </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-main-container>

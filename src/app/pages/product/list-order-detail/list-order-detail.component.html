@@ -1,0 +1,673 @@
+<app-main-container [hasBottom]="false">
+  <div top class="card-body pb-2" style="height: 100%;">
+    <div class="service-detail">
+      <div class="menu">
+        <div
+          class="item"
+          *ngFor="let item of menu; let i = index"
+          [ngClass]="{
+            'is-selected': i === selectedMenuItem
+          }"
+          (click)="onClickMenuItem(i)"
+        >
+          {{ item }}
+        </div>
+      </div>
+      <div class="main">
+        <div class="content mb-2" id="content">
+          <div id="0" class="row title-section justify-content-between mb-2">
+            <div class="d-flex align-items-center">
+              <h5>{{ menu[0] }}</h5>
+              <i
+                [ngClass]="listView[0] ? 'fe-edit ml-2' : 'fe-save ml-2'"
+                (click)="switchViewType(0)"
+              ></i>
+            </div>
+            <div class="row align-items-center" *ngIf="!listView[0]">
+              <ng-select
+                placeholder="Chọn khách hàng"
+                [ngModelOptions]="{ standalone: true }"
+                style="width: 180px;"
+                [items]="customers"
+                bindLabel="cu_fullname"
+                bindValue="cu_id"
+                name="searchCustomer"
+                [(ngModel)]="searchCustomer"
+                (change)="changeDatalistCustomer($event)"
+              >
+              </ng-select>
+              <a class="btn btn-success button-link ml-1 mr-2" (click)="onClickCreateCustomer()"
+                >Thêm mới</a
+              >
+            </div>
+          </div>
+          <div [formGroup]="formCustomer" *ngIf="selectedCustomer">
+            <h6>Thông tin chung</h6>
+            <div class="form-row">
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Họ và tên <span>(*)</span></label>
+                <div class="col-6">
+                  <input
+                    class="form-control"
+                    [readonly]="listView[0]"
+                    formControlName="cu_fullname"
+                    [ngClass]="{
+                      'is-invalid':
+                        submitted &&
+                        (formCustomer.controls.cu_fullname.errors || errorField === 'cu_fullname')
+                    }"
+                  />
+                  <div
+                    *ngIf="
+                      submitted &&
+                      (formCustomer.controls.cu_fullname.errors || errorField === 'cu_fullname')
+                    "
+                    class="invalid-feedback"
+                  >
+                    <span>Trường bắt buộc</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Nguồn <span>(*)</span></label>
+                <div class="col-6">
+                  <select
+                    class="custom-select"
+                    formControlName="source_id"
+                    [ngClass]="{
+                      'is-invalid': submitted && formCustomer.controls.source_id.errors
+                    }"
+                  >
+                    <option
+                      [disabled]="listView[0]"
+                      *ngFor="let source of sources"
+                      [value]="source.id"
+                      >{{ source.name }}</option
+                    >
+                  </select>
+                  <div
+                    *ngIf="submitted && formCustomer.controls.source_id.errors"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="formCustomer.controls.source_id.errors.required"
+                      >Trường bắt buộc</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Loại khách hàng <span>(*)</span></label>
+                <div class="col-6">
+                  <select
+                    class="custom-select"
+                    formControlName="cu_type"
+                    [ngClass]="{
+                      'is-invalid': submitted && formCustomer.controls.cu_type.errors
+                    }"
+                  >
+                    <option [value]="2" [disabled]="listView[0]">Khách lẻ</option>
+                    <option [value]="1" [disabled]="listView[0]">Khách sỉ</option>
+                  </select>
+                  <div
+                    *ngIf="submitted && formCustomer.controls.cu_type.errors"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="formCustomer.controls.cu_type.errors.required"
+                      >Trường bắt buộc</span
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Ngày sinh</label>
+                <div class="col-6">
+                  <div class="input-group clockpicker mb-2 mr-1">
+                    <input
+                      ngbDatepicker
+                      readonly="true"
+                      class="form-control"
+                      placeholder="Chọn ngày"
+                      #dob="ngbDatepicker"
+                      formControlName="cu_birthday"
+                      [disabled]="listView[0]"
+                    />
+                    <div class="input-group-append" (click)="dob.toggle()">
+                      <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Nhóm khách hàng <span>(*)</span></label>
+                <div class="col-6">
+                  <select
+                    class="custom-select"
+                    formControlName="customer_group_id"
+                    [ngClass]="{
+                      'is-invalid': submitted && formCustomer.controls.customer_group_id.errors
+                    }"
+                  >
+                    <option
+                      [disabled]="listView[0]"
+                      *ngFor="let group of customerGroups"
+                      [value]="group.id"
+                      >{{ group.name }}
+                    </option>
+                  </select>
+                  <div
+                    *ngIf="submitted && formCustomer.controls.customer_group_id.errors"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="formCustomer.controls.customer_group_id.errors.required"
+                      >Trường bắt buộc</span
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Email </label>
+                <div class="col-6">
+                  <input
+                    class="form-control"
+                    [readonly]="listView[0]"
+                    formControlName="cu_email"
+                    [ngClass]="{
+                      'is-invalid': submitted && errorField === 'cu_email'
+                    }"
+                  />
+                  <div *ngIf="submitted && errorField === 'cu_email'" class="invalid-feedback">
+                    <span>
+                      Email sai định dạng
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Đặt dịch vụ <span>(*)</span></label>
+                <div class="col-6">
+                  <select class="custom-select" formControlName="cu_flag_order">
+                    <option [disabled]="listView[0]" [value]="1">Cần đặt</option>
+                    <option [disabled]="listView[0]" [value]="2">Đã đặt</option>
+                    <option [disabled]="listView[0]" [value]="3">Chưa đặt</option>
+                  </select>
+                  <div
+                    *ngIf="submitted && formCustomer.controls.cu_flag_order.errors"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="formCustomer.controls.cu_flag_order.errors.required"
+                      >Trường bắt buộc</span
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Sử dụng dịch vụ <span>(*)</span></label>
+                <div class="col-6">
+                  <select class="custom-select" formControlName="cu_flag_used">
+                    <option [disabled]="listView[0]" [value]="1">Cần sử dụng</option>
+                    <option [disabled]="listView[0]" [value]="2">Chưa sử dụng</option>
+                  </select>
+                  <div
+                    *ngIf="submitted && formCustomer.controls.cu_flag_used.errors"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="formCustomer.controls.cu_flag_used.errors.required">
+                      Trường bắt buộc
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Trạng thái <span>(*)</span></label>
+                <div class="col-6">
+                  <select
+                    class="custom-select"
+                    formControlName="cu_status"
+                    [ngClass]="{
+                      'is-invalid': submitted && formCustomer.controls.cu_status.errors
+                    }"
+                  >
+                    <option [disabled]="listView[0]" [value]="1">Kích hoạt</option>
+                    <option [disabled]="listView[0]" [value]="2">Khóa</option>
+                  </select>
+                  <div
+                    *ngIf="submitted && formCustomer.controls.cu_status.errors"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="formCustomer.controls.cu_status.errors.required"
+                      >Trường bắt buộc</span
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Ghi chú </label>
+                <div class="col-6">
+                  <input class="form-control" [readonly]="listView[0]" formControlName="cu_note" />
+                </div>
+              </div>
+            </div>
+            <h6>Địa chỉ</h6>
+            <div class="form-row">
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Tỉnh/Thành phố <span>(*)</span></label>
+                <div class="col-6">
+                  <select
+                    class="custom-select"
+                    formControlName="sha_province_now"
+                    class="form-control"
+                    (change)="onChangeProvince($event)"
+                  >
+                    <option
+                      *ngFor="let province of province"
+                      [disabled]="listView[0]"
+                      [value]="province.name"
+                      >{{ province.name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Quận/Huyện <span>(*)</span></label>
+                <div class="col-6">
+                  <select
+                    class="custom-select"
+                    formControlName="sha_district_now"
+                    class="form-control"
+                    (change)="onChangeDistrict($event)"
+                  >
+                    <option
+                      *ngFor="let district of district"
+                      [disabled]="listView[0]"
+                      [value]="district.name"
+                      >{{ district.name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Xã/Phường <span>(*)</span></label>
+                <div class="col-6">
+                  <select class="custom-select" formControlName="sha_ward_now" class="form-control">
+                    <option *ngFor="let ward of ward" [disabled]="listView[0]" [value]="ward.name">
+                      {{ ward.name }}</option
+                    >
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Địa chỉ <span>(*)</span></label>
+                <div class="col-6">
+                  <input
+                    class="form-control"
+                    [readonly]="listView[0]"
+                    formControlName="sha_detail_now"
+                    [ngClass]="{
+                      'is-invalid':
+                        submitted &&
+                        (formCustomer.controls.sha_detail_now.errors ||
+                          errorField === 'sha_detail_now')
+                    }"
+                  />
+                  <div
+                    *ngIf="
+                      submitted &&
+                      (formCustomer.controls.sha_detail_now.errors ||
+                        errorField === 'sha_detail_now')
+                    "
+                    class="invalid-feedback"
+                  >
+                    <span>Trường bắt buộc</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="selectedCustomer">
+            <h6>
+              Số điện thoại
+              <a class="btn btn-success btn-xs ml-2 button-link" (click)="openMobileModal()"
+                >Thêm mới</a
+              >
+            </h6>
+            <div class="table-responsive border mb-2">
+              <table class="table table-centered table-hover mb-0">
+                <thead>
+                  <tr>
+                    <th>Loại số điện thoại</th>
+                    <th>Số điện thoại</th>
+                    <th>Ghi chú</th>
+                    <th>Thao tác</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let mobile of listMobile">
+                    <td>
+                      {{ mobile.cp_type_name }}
+                    </td>
+                    <td>{{ mobile.cp_phone_number }}</td>
+                    <td>
+                      {{ mobile.cp_note }}
+                    </td>
+                    <td>
+                      <a class="action-icon table-button-link" (click)="openMobileModal(mobile)">
+                        <i class="mdi mdi-square-edit-outline"></i
+                      ></a>
+                      <a class="action-icon table-button-link" (click)="onRemoveMobile(mobile)">
+                        <i class="mdi mdi-delete"></i
+                      ></a>
+                    </td>
+                  </tr>
+                  <tr *ngIf="!listMobile || listMobile.length === 0">
+                    <td colspan="4">Không có dữ liệu số điện thoại</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div id="1" class="row title-section">
+            <h5>{{ menu[1] }}</h5>
+            <a class="btn btn-primary btn-xs ml-2 button-link" (click)="openAddressModal()"
+              >Thêm mới</a
+            >
+          </div>
+          <div class="table-responsive border mb-2">
+            <table class="table table-centered table-hover mb-0">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Thành phố</th>
+                  <th>Quận/Huyện</th>
+                  <th>Phường/Xã</th>
+                  <th>Địa chỉ</th>
+                  <th>Ghi chú</th>
+                  <th>Thao tác</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let address of listAddress" (click)="onClickAddress(address)">
+                  <td>
+                    <span
+                      class="fe-check-circle icon mr-2"
+                      *ngIf="
+                        (address.sha_detail ? address.sha_detail + ', ' : '') +
+                          address.sha_ward +
+                          ', ' +
+                          address.sha_district +
+                          ', ' +
+                          address.sha_province ===
+                        cuo_address
+                      "
+                    ></span>
+                  </td>
+                  <td>
+                    {{ address.sha_province }}
+                  </td>
+                  <td>{{ address.sha_district }}</td>
+                  <td>
+                    {{ address.sha_ward }}
+                  </td>
+                  <td>{{ address.sha_detail }}</td>
+                  <td>{{ address.sha_note }}</td>
+                  <td>
+                    <a class="action-icon table-button-link" (click)="openAddressModal(address)">
+                      <i class="mdi mdi-square-edit-outline"></i
+                    ></a>
+                    <a class="action-icon table-button-link" (click)="onRemoveAddress(address)">
+                      <i class="mdi mdi-delete"></i
+                    ></a>
+                  </td>
+                </tr>
+                <tr *ngIf="!listAddress || listAddress.length === 0">
+                  <td colspan="6">Không có dữ liệu địa chỉ nhân hàng</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div id="2" class="row title-section justify-content-between mb-2">
+            <div class="d-flex align-items-center">
+              <h5>{{ menu[2] }}</h5>
+              <i
+                [ngClass]="listView[2] ? 'fe-edit ml-2' : 'fe-save ml-2'"
+                (click)="switchViewType(2)"
+              ></i>
+            </div>
+            <div class="row align-items-center" *ngIf="!listView[2]">
+              <ng-select
+                placeholder="Chọn sản phẩm"
+                style="width: 300px;"
+                [items]="products"
+                bindLabel="pu_name"
+                bindValue="pu_id"
+                name="searchProduct"
+                [(ngModel)]="searchProduct"
+                [clearable]="false"
+                (change)="changeDatalistProduct($event)"
+              >
+              </ng-select>
+            </div>
+          </div>
+          <div class="table-responsive border mb-2">
+            <table class="table table-centered table-hover mb-0">
+              <thead>
+                <tr>
+                  <th>STT</th>
+                  <th>Tên sản phẩm</th>
+                  <th>Số lượng</th>
+                  <th>Đơn giá</th>
+                  <th>Giảm giá (%)</th>
+                  <th>Tổng tiền</th>
+                  <th>Thao tác</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let product of listProduct; let i = index">
+                  <td>
+                    {{ i + 1 }}
+                  </td>
+                  <td>
+                    {{ product.pu_name }}
+                  </td>
+                  <td>
+                    <input
+                      class="form-control"
+                      [readonly]="isView"
+                      style="max-width: 100px;"
+                      type="number"
+                      [max]="product.max_quantity"
+                      [value]="product.op_quantity"
+                      (change)="onChangeQuantity($event, product)"
+                    />
+                  </td>
+                  <td>
+                    {{ product.pu_sale_price }}
+                  </td>
+                  <td>
+                    <input
+                      class="form-control"
+                      [readonly]="isView"
+                      style="max-width: 100px;"
+                      type="number"
+                      [max]="100"
+                      [value]="product.op_discount"
+                      (change)="onChangeDiscount($event, product)"
+                    />
+                  </td>
+                  <td>{{ product.op_total_value }}</td>
+                  <td>
+                    <a class="action-icon table-button-link" (click)="onRemoveProduct(product)">
+                      <i class="mdi mdi-delete"></i
+                    ></a>
+                  </td>
+                </tr>
+                <tr *ngIf="listProduct.length === 0">
+                  <td colspan="7">Không có dữ liệu sản phẩm</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div [formGroup]="formOrder">
+            <div class="form-row">
+              <div class="form-group row mb-1"></div>
+              <div class="form-group row mb-1">
+                <label class="col-4 col-form-label">Khuyến mãi (%): </label>
+                <div class="col-6">
+                  <input
+                    type="number"
+                    max="100"
+                    [readonly]="listView[2]"
+                    class="form-control"
+                    (change)="sumListProduct()"
+                    formControlName="cuo_discount"
+                    placeholder="Nhập khuyến mãi"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group row mb-1"></div>
+              <div class="form-group row mb-1">
+                <label class="col-4 col-form-label">Phí vận chuyển: </label>
+                <div class="col-6">
+                  <input
+                    [readonly]="listView[2]"
+                    class="form-control"
+                    (change)="sumListProduct()"
+                    formControlName="cuo_ship_tax"
+                    placeholder="Nhập phí vận chuyển"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4"></div>
+            <div class="col-6 text-right">
+              TỔNG ĐƠN HÀNG
+            </div>
+          </div>
+          <div class="row mb-1">
+            <div class="col-4"></div>
+            <div class="col-6 text-right" style="font-weight: 700;">
+              {{ orderTotal | currency: 'VND' }}
+            </div>
+          </div>
+
+          <div id="3" class="row title-section mb-2">
+            <h5>{{ menu[3] }}</h5>
+          </div>
+          <div class="row">
+            <div class="col-md-8"></div>
+            <div class="col-md-2 text-right">Ngày tạo</div>
+            <div class="col-md-2 text-right" style="font-weight: bold;">
+              {{ createdDate | date: 'dd/MM/yyyy' }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-8"></div>
+            <div class="col-md-2 text-right">Trạng thái</div>
+            <div class="col-md-2 text-right" style="font-weight: bold;">
+              Chưa hoàn thành
+            </div>
+          </div>
+          <div class="text-right mt-2">
+            Địa chỉ giao hàng
+          </div>
+          <div class="text-right">
+            {{ formCustomer.value['cu_fullname'] }}
+          </div>
+          <div class="text-right">
+            {{ cuo_address }}
+          </div>
+          <div class="text-right mt-2">
+            Chi tiết đơn hàng
+          </div>
+          <div class="table-responsive border mb-2">
+            <table class="table table-centered table-hover mb-0">
+              <thead>
+                <tr>
+                  <th>Tên sản phẩm</th>
+                  <th>Số lượng</th>
+                  <th>Đơn giá</th>
+                  <th>Giảm giá (%)</th>
+                  <th>Tổng</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let product of listProduct">
+                  <td>
+                    {{ product.pu_name }}
+                  </td>
+                  <td>
+                    {{ product.op_quantity }}
+                  </td>
+                  <td>
+                    {{ product.pu_sale_price }}
+                  </td>
+                  <td>
+                    {{ product.op_discount }}
+                  </td>
+                  <td>{{ product.op_total_value }}</td>
+                </tr>
+                <tr *ngIf="listProduct.length === 0">
+                  <td colspan="6">Không có dữ liệu địa chỉ</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="row">
+            <div class="col-md-8"></div>
+            <div class="col-md-2 text-right">Khuyến mãi</div>
+            <div class="col-md-2" style="font-weight: bold;">
+              {{ formOrder.value['cuo_discount'] }}%
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-8"></div>
+            <div class="col-md-2 text-right">Phí vận chuyển</div>
+            <div class="col-md-2" style="font-weight: bold;">
+              {{ formOrder.value['cuo_ship_tax'] }} VNĐ
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-8">
+              <div>Ghi chú</div>
+              <div>{{ formCustomer.value['cu_note'] }}</div>
+            </div>
+            <div class="col-md-2 text-right" style="color: inherit; font-weight: normal;">
+              Tổng đơn hàng
+            </div>
+            <div class="col-md-2" style="font-weight: bold; color: inherit;">
+              {{ orderTotal | currency: 'VND' }}
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-end mr-2">
+          <div class="text-sm-right">
+            <button
+              class="btn btn-success mb-2 mr-1 button-link"
+              [disabled]="!isChange && !formCustomer.dirty && !formOrder.dirty"
+              (click)="onSubmit()"
+            >
+              Lưu lại
+            </button>
+            <a class="btn btn-danger mb-2 mr-1 button-link" (click)="onChangeToMain()">Quay lại </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-main-container>

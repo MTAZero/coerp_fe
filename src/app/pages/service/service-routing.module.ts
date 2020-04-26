@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { ListServiceComponent } from './list-service/list-service.component';
+import { ListServiceDetailComponent } from './list-service-detail/list-service-detail.component';
 import { OrderServiceCalendarComponent } from './order-service-calendar/order-service-calendar.component';
 import { ReceiveWorkComponent } from './receive-work/receive-work.component';
 import { ListOrderServiceComponent } from './list-order-service/list-order-service.component';
@@ -11,6 +12,10 @@ const routes: Routes = [
   {
     path: 'list-service',
     component: ListServiceComponent,
+  },
+  {
+    path: 'list-service-detail/:se_id',
+    component: ListServiceDetailComponent,
   },
   {
     path: 'order-service-calendar',

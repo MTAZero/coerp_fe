@@ -3,23 +3,23 @@ import { ApiService } from './api-service';
 import { mapToHttpParamsQuery, mapToFormData } from '../../helpers/helpers';
 
 const router = {
-  get_all_page: `/api/products/search`,
-  get_by_id: `/api/products/infor`,
+  search: `/api/products/search`,
+  info: `/api/products/get_by_id`,
   create: `/api/products/create`,
   update: `/api/products/update`,
   delete: `/api/products/delete`,
-  category: `/api/product-categorys/get-name`,
-  supplier: `/api/suppliers/get-name`,
+  category: `/api/products/get_category`,
+  supplier: `/api/products/get_supplier`,
   unit: `/api/products/unit`,
   update_image: '/api/products/update_image',
-  export: '/api/product/export'
+  export: '/api/product/export',
 };
 
 @Injectable()
 export class ProductService {
   constructor(private httpClient: ApiService) {}
 
-  loadProduct(filter?: {
+  searchProduct(filter?: {
     pageNumber: any;
     pageSize: any;
     search_name: any;
@@ -28,7 +28,7 @@ export class ProductService {
     end_date: any;
   }) {
     const params = mapToHttpParamsQuery(filter);
-    return this.httpClient.get(router.get_all_page, params);
+    return this.httpClient.get(router.search, params);
   }
 
   exportProduct(filter?: {
@@ -43,9 +43,9 @@ export class ProductService {
     return this.httpClient.get(router.export, params);
   }
 
-  loadProductById(filter?: { pu_id: any }) {
+  loadProductInfo(filter?: { pu_id: any }) {
     const params = mapToHttpParamsQuery(filter);
-    return this.httpClient.get(router.get_by_id, params);
+    return this.httpClient.get(router.info, params);
   }
 
   createProduct(data: any) {

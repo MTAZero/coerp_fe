@@ -28,6 +28,10 @@ export class TrainingModalComponent implements OnInit {
 
   onClickSubmit() {
     this.submitted = true;
+    if (this.form.value.tn_name.trim() === '')
+      return this._notify(false, 'Tên khóa học không được để trống');
+    if (this.form.value.tn_content.trim() === '')
+      return this._notify(false, 'Nội dung khóa học không được để trống');
 
     if (this.form.valid) {
       const data = this.form.value;
@@ -35,6 +39,31 @@ export class TrainingModalComponent implements OnInit {
       data.tn_end_date = this._convertNgbDateToDate(data.tn_end_date);
       this.passEvent.emit({ event: true, data });
     }
+  }
+
+  onChangeEvaluate(event) {
+    console.log(event.target.value);
+    const evaluate = event.target.value;
+
+    if (evaluate === 1)
+      this.form.patchValue({
+        ts_evaluate_name: 'Tốt',
+      });
+
+    if (evaluate === 2)
+      this.form.patchValue({
+        ts_evaluate_name: 'Khá',
+      });
+
+    if (evaluate === 3)
+      this.form.patchValue({
+        ts_evaluate_name: 'Trung bình',
+      });
+
+    if (evaluate === 4)
+      this.form.patchValue({
+        ts_evaluate_name: 'Yếu',
+      });
   }
 
   onClickCancel() {
@@ -71,6 +100,7 @@ export class TrainingModalComponent implements OnInit {
       tn_end_date: [null, [Validators.required]],
       tn_purpose: ['', null],
       ts_evaluate: ['', null],
+      ts_evaluate_name: ['', null],
     });
   }
 
@@ -84,6 +114,7 @@ export class TrainingModalComponent implements OnInit {
       tn_end_date: this._convertDateToNgbDate(training.tn_end_date),
       tn_purpose: training.tn_purpose,
       ts_evaluate: training.ts_evaluate,
+      ts_evaluate_name: training.ts_evaluate_name,
     });
   }
 
@@ -104,5 +135,16 @@ export class TrainingModalComponent implements OnInit {
     if (isUndefined(ngbDate.year)) return ngbDate;
     const newDate = new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
     return moment(newDate).format();
+  }
+
+  private _notify(isSuccess: boolean, message: string) {
+    return Swal.fire({
+      toast: true,
+      position: 'top-end',
+      type: isSuccess ? 'success' : 'error',
+      title: message,
+      showConfirmButton: false,
+      timer: 2000,
+    });
   }
 }

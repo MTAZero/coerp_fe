@@ -10,8 +10,8 @@ import * as moment from 'moment';
   templateUrl: './product-statistic.component.html',
   styleUrls: ['./product-statistic.component.scss'],
   host: {
-    '(window:resize)': 'onResize($event)'
-  }
+    '(window:resize)': 'onResize($event)',
+  },
 })
 export class ProductStatisticComponent implements OnInit {
   height: number = 300;
@@ -76,13 +76,13 @@ export class ProductStatisticComponent implements OnInit {
 
   private _fetchData() {
     const product$ = this.productService
-      .loadProduct({
+      .searchProduct({
         pageNumber: this.page,
         pageSize: this.pageSize,
         search_name: this.textSearch,
         category_id: this.categorySearch,
         start_date: '2010-01-01',
-        end_date: moment(new Date()).format('YYYY-MM-DD')
+        end_date: moment(new Date()).format('YYYY-MM-DD'),
       })
       .pipe(takeUntil(this.destroyed$));
     product$.subscribe((res: any) => {

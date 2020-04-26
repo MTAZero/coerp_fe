@@ -1,0 +1,156 @@
+<app-main-container [hasBottom]="false">
+  <div top class="card-body" style="height: 100%;">
+    <div class="row">
+      <div class="col-lg-6 mb-1">
+        <form class="form-inline">
+          <div class="form-group mr-1 ml-1">
+            <input
+              class="form-control"
+              name="textSearch"
+              placeholder="Tìm kiếm..."
+              [(ngModel)]="textSearch"
+              (input)="onChangeFilter()"
+            />
+          </div>
+          <div class="input-group clockpicker mr-1">
+            <input
+              ngbDatepicker
+              readonly="true"
+              class="form-control"
+              placeholder="yyyy-mm-dd"
+              #from="ngbDatepicker"
+              name="from"
+              [maxDate]="toDate"
+              [(ngModel)]="fromDate"
+              (dateSelect)="onChangeFilter()"
+            />
+            <div class="input-group-append" (click)="from.toggle()">
+              <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+            </div>
+          </div>
+          <div class="input-group clockpicker">
+            <input
+              ngbDatepicker
+              readonly="true"
+              class="form-control"
+              placeholder="yyyy-mm-dd"
+              #to="ngbDatepicker"
+              name="to"
+              [minDate]="fromDate"
+              [(ngModel)]="toDate"
+              (dateSelect)="onChangeFilter()"
+            />
+            <div class="input-group-append" (click)="to.toggle()">
+              <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-lg-6">
+        <div class="text-sm-right">
+          <button type="button" class="btn btn-info mr-1">
+            Nhập
+          </button>
+          <button type="button" class="btn btn-info mr-1" (click)="exportTransaction()">
+            Xuất
+          </button>
+          <a class="btn btn-success mr-1 button-link" (click)="onRouteDetail()"> Thêm mới</a>
+          <a
+            class="btn btn-primary mr-1 button-link"
+            [ngClass]="selectedTransaction ? '' : 'disabled'"
+            (click)="onRouteDetail(selectedTransaction)"
+          >
+            Xem & Sửa</a
+          >
+          <a
+            class="btn btn-danger mr-1 button-link"
+            [ngClass]="selectedTransaction ? '' : 'disabled'"
+            (click)="openConfirmModal(selectedTransaction)"
+          >
+            Xóa</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-centered table-hover mb-0">
+        <thead>
+          <tr>
+            <th>STT</th>
+            <th>Tiêu đề</th>
+            <th>Nội dung</th>
+            <th>Đánh giá</th>
+            <th>Loại giao dịch</th>
+            <th>Kết quả</th>
+            <th>Mức độ ưu tiên</th>
+            <th>Phụ trách</th>
+            <th>Khách hàng</th>
+            <th>Trạng thái</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let transaction of transactions; let i = index"
+            (click)="onClickOrder(transaction)"
+            [ngClass]="{
+              'is-selected': transaction.tra_id === selectedTransaction?.tra_id
+            }"
+          >
+            <td>
+              {{ i + 1 }}
+            </td>
+            <td>
+              {{ transaction.tra_title }}
+            </td>
+            <td>
+              {{ transaction.tra_content }}
+            </td>
+            <td>
+              {{ transaction.tra_rate_name }}
+            </td>
+            <td>
+              {{ transaction.tra_type_name }}
+            </td>
+            <td>
+              {{ transaction.tra_result }}
+            </td>
+            <td>
+              {{ transaction.tra_priority_name }}
+            </td>
+            <td>
+              {{ transaction.staff_name }}
+            </td>
+            <td>
+              {{ transaction.customer_name }}
+            </td>
+            <td>
+              <span
+                class="badge"
+                [ngClass]="
+                  transaction.tra_status === 1
+                    ? 'badge-danger'
+                    : transaction.tra_status === 2
+                    ? 'badge-warning'
+                    : 'badge-success'
+                "
+                >{{ transaction.tra_status_name }}
+              </span>
+            </td>
+          </tr>
+          <tr *ngIf="transactions?.length === 0">
+            <td colspan="10">Không có dữ liệu đơn hàng</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <ul class="pagination pagination-rounded justify-content-end my-3">
+      <ngb-pagination
+        (pageChange)="onPageChange($event)"
+        [pageSize]="pageSize"
+        [(page)]="page"
+        [collectionSize]="totalSize"
+      ></ngb-pagination>
+    </ul>
+  </div>
+</app-main-container>

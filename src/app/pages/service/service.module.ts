@@ -11,9 +11,6 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ServiceRoutingModule } from './service-routing.module';
 import { ListServiceComponent } from './list-service/list-service.component';
-import { ServiceModalComponent } from './list-service/component/service-modal/service-modal.component';
-import { ListServiceCategoryModalComponent } from './list-service/component/list-service-category-modal/list-service-category-modal.component';
-import { ServiceCategoryModalComponent } from './list-service/component/service-category-modal/service-category-modal.component';
 import { OrderServiceCalendarComponent } from './order-service-calendar/order-service-calendar.component';
 import { ReceiveWorkComponent } from './receive-work/receive-work.component';
 import { ListOrderServiceComponent } from './list-order-service/list-order-service.component';
@@ -22,13 +19,11 @@ import { OrderServiceDetailComponent } from './list-order-service/component/orde
 import { ListOrderServiceDetailComponent } from './list-order-service-detail/list-order-service-detail.component';
 import { CustomerModule } from '../customer/customer.module';
 import { ExecutorModalComponent } from './list-order-service-detail/component/executor-modal/executor-modal.component';
+import { ListServiceDetailComponent } from './list-service-detail/list-service-detail.component';
 
 @NgModule({
   declarations: [
     ListServiceComponent,
-    ServiceModalComponent,
-    ListServiceCategoryModalComponent,
-    ServiceCategoryModalComponent,
     OrderServiceCalendarComponent,
     ReceiveWorkComponent,
     ListOrderServiceComponent,
@@ -36,6 +31,7 @@ import { ExecutorModalComponent } from './list-order-service-detail/component/ex
     OrderServiceDetailComponent,
     ListOrderServiceDetailComponent,
     ExecutorModalComponent,
+    ListServiceDetailComponent,
   ],
   imports: [
     CommonModule,
@@ -53,11 +49,6 @@ import { ExecutorModalComponent } from './list-order-service-detail/component/ex
     NgSelectModule,
     CustomerModule,
   ],
-  entryComponents: [
-    ServiceModalComponent,
-    ListServiceCategoryModalComponent,
-    ServiceCategoryModalComponent,
-    ExecutorModalComponent,
-  ],
+  entryComponents: [ExecutorModalComponent],
 })
 export class ServiceModule {}

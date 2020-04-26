@@ -1,34 +1,35 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ServiceModalComponent } from './component/service-modal/service-modal.component';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ServiceService } from '../../../core/services/api/service.service';
 import Swal from 'sweetalert2';
 import { isNullOrUndefined } from 'util';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-service',
   templateUrl: './list-service.component.html',
-  styleUrls: ['./list-service.component.scss']
+  styleUrls: ['./list-service.component.scss'],
 })
-export class ListServiceComponent implements OnInit {
+export class ListServiceComponent implements OnInit, OnDestroy {
   private destroyed$ = new Subject();
 
-  submitted: boolean;
-
   textSearch = '';
-  page = 0;
+  page = 1;
   pageSize = 10;
   totalSize = 0;
 
   selectedService = null;
   services: any[];
 
-  constructor(private modalService: NgbModal, private serviceService: ServiceService) {}
+  constructor(private serviceService: ServiceService, private router: Router) {}
   ngOnInit() {
     this._fetchData();
+  }
+
+  ngOnDestroy() {
+    this.destroyed$.next();
+    this.destroyed$.complete();
   }
 
   onClickService(service: any) {
@@ -43,24 +44,8 @@ export class ListServiceComponent implements OnInit {
     }
   }
 
-  openServiceModal(service?: any) {
-    const modalRef = this.modalService.open(ServiceModalComponent, {
-      centered: true,
-      size: 'lg'
-    });
-    if (service) {
-      modalRef.componentInstance.service = service;
-    }
-    modalRef.componentInstance.passEvent.subscribe(res => {
-      if (res.event) {
-        if (service) {
-          this._updateService(res.form);
-        } else {
-          this._createService(res.form);
-        }
-      }
-      modalRef.close();
-    });
+  onRouteDetail(service?: any) {
+    this.router.navigate(['/service/list-service-detail', service ? service.se_id : '']);
   }
 
   openConfirmModal(service?: any) {
@@ -71,8 +56,8 @@ export class ListServiceComponent implements OnInit {
       confirmButtonText: 'Xóa',
       cancelButtonText: 'Hủy',
       confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33'
-    }).then(result => {
+      cancelButtonColor: '#d33',
+    }).then((result) => {
       if (result.value) {
         this._removeService(service);
       }
@@ -111,10 +96,10 @@ export class ListServiceComponent implements OnInit {
 
   private _fetchData(selected?: any) {
     const service$ = this.serviceService
-      .loadServices({
+      .searchService({
         pageNumber: this.page - 1,
         pageSize: this.pageSize,
-        search_name: this.textSearch
+        search_name: this.textSearch,
       })
       .pipe(takeUntil(this.destroyed$));
     service$.subscribe((res: any) => {
@@ -123,7 +108,7 @@ export class ListServiceComponent implements OnInit {
         this.services = res.Data.Results;
 
         if (selected) {
-          this.selectedService = this.services.find(item => item.se_id === selected.se_id);
+          this.selectedService = this.services.find((item) => item.se_id === selected.se_id);
         } else {
           this.selectedService = this.services[0];
         }
@@ -131,46 +116,10 @@ export class ListServiceComponent implements OnInit {
     });
   }
 
-  private _createService(data: any) {
-    const createTransacstion$ = this.serviceService
-      .createService(data)
-      .pipe(takeUntil(this.destroyed$));
-    createTransacstion$.subscribe(
-      (res: any) => {
-        if (res && res.Code === 200) {
-          this._notify(true, res.Message);
-          this._fetchData();
-          this.modalService.dismissAll();
-        } else this._notify(false, res.Message);
-      },
-      e => {
-        this._notify(false, e.Message);
-      }
-    );
-  }
-
-  private _updateService(updated: any) {
-    const updateService$ = this.serviceService
-      .updateService(updated)
-      .pipe(takeUntil(this.destroyed$));
-    updateService$.subscribe(
-      (res: any) => {
-        if (res && res.Code === 200) {
-          this._notify(true, res.Message);
-          this._fetchData(this.selectedService);
-          this.modalService.dismissAll();
-        } else this._notify(false, res.Message);
-      },
-      e => {
-        this._notify(false, e.Message);
-      }
-    );
-  }
-
   private _removeService(service: any) {
     const removeService$ = this.serviceService
       .removeService({
-        serviceId: service.se_id
+        serviceId: service.se_id,
       })
       .pipe(takeUntil(this.destroyed$));
     removeService$.subscribe(
@@ -178,10 +127,9 @@ export class ListServiceComponent implements OnInit {
         if (res && res.Code === 200) {
           this._notify(true, res.Message);
           this._fetchData();
-          this.modalService.dismissAll();
         } else this._notify(false, res.Message);
       },
-      e => {
+      (e) => {
         this._notify(false, e.Message);
       }
     );
@@ -194,7 +142,7 @@ export class ListServiceComponent implements OnInit {
       type: isSuccess ? 'success' : 'error',
       title: message,
       showConfirmButton: false,
-      timer: 2000
+      timer: 2000,
     });
   }
 }

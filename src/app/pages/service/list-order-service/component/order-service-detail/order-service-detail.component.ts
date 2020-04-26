@@ -447,7 +447,7 @@ export class OrderServiceDetailComponent implements OnInit {
     });
 
     const service$ = this.serviceService
-      .loadServices(this.filterService)
+      .searchService(this.filterService)
       .pipe(takeUntil(this.destroyed$));
     service$.subscribe((res: any) => {
       this.services = res.Data.Results;

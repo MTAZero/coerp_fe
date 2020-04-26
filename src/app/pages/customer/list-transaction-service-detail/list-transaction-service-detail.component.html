@@ -1,0 +1,233 @@
+<app-main-container [hasBottom]="false">
+  <div top class="card-body pb-2" style="height: 100%;">
+    <div class="main">
+      <div [formGroup]="form">
+        <div class="row mt-2" *ngIf="!isView">
+          <div class="col-lg-6">
+            <form class="form-inline">
+              <div class="form-group">
+                <select
+                  class="custom-select"
+                  name="searchCustomer"
+                  [(ngModel)]="searchCustomer"
+                  (change)="changeDatalistCustomer($event)"
+                >
+                  <option value="">Chọn khách hàng</option>
+                  <option *ngFor="let customer of customers" [value]="customer.cu_id">{{
+                    customer.cu_fullname
+                  }}</option>
+                </select>
+              </div>
+            </form>
+          </div>
+          <!-- end col-->
+        </div>
+        <div class="table-responsive border mb-2 mt-2">
+          <table class="table table-centered table-hover mb-0">
+            <thead>
+              <tr>
+                <th>MKH</th>
+                <th>Hình ảnh</th>
+                <th>Khách hàng</th>
+                <th>SĐT</th>
+                <th>Email</th>
+                <th>Địa chỉ</th>
+                <th>Ngày tạo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  {{ selectedCustomer?.cu_code }}
+                </td>
+                <td>
+                  <img
+                    *ngIf="selectedCustomer"
+                    [src]="'http://27.72.147.222:1230' + selectedCustomer?.cu_thumbnail"
+                    onerror="this.src='/assets/images/users/user-1.jpg';"
+                    alt="user-image"
+                    class="rounded-circle avatar-sm"
+                  />
+                </td>
+                <td>
+                  {{ selectedCustomer?.cu_fullname }}
+                </td>
+                <td>
+                  {{ selectedCustomer?.cu_mobile }}
+                </td>
+                <td>
+                  {{ selectedCustomer?.cu_email }}
+                </td>
+                <td>
+                  {{ selectedCustomer?.cu_address }}
+                </td>
+                <td>
+                  {{ selectedCustomer?.cu_create_date | date: 'dd/MM/yyyy' }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h5>Lịch sử sử dụng dịch vụ</h5>
+        <div class="table-responsive border mb-2 mt-2">
+          <table class="table table-centered table-hover mb-0">
+            <thead>
+              <tr>
+                <th>STT</th>
+                <th>Mã dịch vụ</th>
+                <th>Tên dịch vụ</th>
+                <th>Loại dịch vụ</th>
+                <th>Giá</th>
+                <th>Giảm giá (%)</th>
+                <th>Ngày sử dụng</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="let service of selectedCustomer?.list_customer_order_service; let i = index"
+              >
+                <td>{{ i + 1 }}</td>
+                <td>
+                  {{ service.se_code }}
+                </td>
+                <td>
+                  {{ service.se_name }}
+                </td>
+                <td>
+                  {{ service.se_type_name }}
+                </td>
+                <td>{{ service.se_price }}</td>
+                <td>{{ service.se_saleoff }}</td>
+                <td>{{ service.cuo_date | date: 'dd/MM/yyyy' }}</td>
+              </tr>
+              <tr
+                *ngIf="
+                  !selectedCustomer?.list_order_product ||
+                  selectedCustomer?.list_order_product.length === 0
+                "
+              >
+                <td colspan="7">
+                  Không có dữ liệu lịch sử sử dụng dịch vụ
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Tiêu đề</label>
+              <input
+                [readonly]="isView"
+                class="form-control"
+                formControlName="tra_title"
+                placeholder="Nhập tiêu đề"
+              />
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>Loại giao dịch</label>
+              <select class="custom-select" formControlName="tra_type">
+                <option [disabled]="isView" *ngFor="let type of types" [value]="type.id">{{
+                  type.name
+                }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>Mức độ ưu tiên</label>
+              <select class="custom-select" formControlName="tra_priority">
+                <option
+                  [disabled]="isView"
+                  *ngFor="let priority of priorities"
+                  [value]="priority.id"
+                >
+                  {{ priority.name }}</option
+                >
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Nội dung</label>
+              <textarea
+                rows="3"
+                [readonly]="isView"
+                class="form-control"
+                formControlName="tra_content"
+                placeholder="Nhập nội dung"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Đánh giá</label>
+              <select class="custom-select" formControlName="tra_rate">
+                <option [disabled]="isView" *ngFor="let rate of rates" [value]="rate.id">{{
+                  rate.name
+                }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>Người giao việc</label>
+              <input [readonly]="true" class="form-control" [value]="currentStaff" />
+            </div>
+          </div>
+          <div class="col-md-3 d-flex align-items-start">
+            <div class="form-group">
+              <label>Người phụ trách</label>
+              <input
+                [readonly]="true"
+                class="form-control"
+                [value]="selectedCustomer?.cu_curator_name"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Kết quả</label>
+              <input
+                [readonly]="isView"
+                class="form-control"
+                formControlName="tra_result"
+                placeholder="Nhập kết quả"
+              />
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>Trạng thái</label>
+              <select class="custom-select" formControlName="tra_status">
+                <option [disabled]="isView" *ngFor="let status of statuses" [value]="status.id">{{
+                  status.name
+                }}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row justify-content-end mr-2">
+        <div class="text-sm-right">
+          <button
+            class="btn btn-success mb-2 mr-1 button-link"
+            [disabled]="!form.dirty"
+            (click)="onSubmit()"
+          >
+            Lưu lại
+          </button>
+          <a class="btn btn-danger mb-2 mr-1 button-link" (click)="onChangeToMain()">Quay lại </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-main-container>

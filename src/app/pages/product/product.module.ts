@@ -7,7 +7,7 @@ import { UIModule } from '../../shared/ui/ui.module';
 import {
   NgbModalModule,
   NgbPaginationModule,
-  NgbProgressbarModule
+  NgbProgressbarModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
@@ -23,6 +23,9 @@ import { PurchaseHistoryTabComponent } from './list-product/component/purchase-h
 import { ListOrderComponent } from './list-order/list-order.component';
 import { OrderModalComponent } from './list-order/component/order-modal/order-modal.component';
 import { ProductStatisticComponent } from './product-statistic/product-statistic.component';
+import { ListProductDetailComponent } from './list-product-detail/list-product-detail.component';
+import { ListOrderDetailComponent } from './list-order-detail/list-order-detail.component';
+import { CustomerModule } from '../customer/customer.module';
 
 @NgModule({
   declarations: [
@@ -36,7 +39,9 @@ import { ProductStatisticComponent } from './product-statistic/product-statistic
     PurchaseHistoryTabComponent,
     ListOrderComponent,
     OrderModalComponent,
-    ProductStatisticComponent
+    ProductStatisticComponent,
+    ListProductDetailComponent,
+    ListOrderDetailComponent,
   ],
   imports: [
     CommonModule,
@@ -51,7 +56,8 @@ import { ProductStatisticComponent } from './product-statistic/product-statistic
     Ng2SearchPipeModule,
     NgbProgressbarModule,
     ResizableModule,
-    NgSelectModule
+    NgSelectModule,
+    CustomerModule,
   ],
   entryComponents: [
     ProductModalComponent,
@@ -59,7 +65,7 @@ import { ProductStatisticComponent } from './product-statistic/product-statistic
     UnitModalComponent,
     ListProductTypeModalComponent,
     ProductTypeModalComponent,
-    OrderModalComponent
-  ]
+    OrderModalComponent,
+  ],
 })
 export class ProductModule {}

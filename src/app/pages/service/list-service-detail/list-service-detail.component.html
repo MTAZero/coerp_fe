@@ -1,0 +1,112 @@
+<app-main-container [hasBottom]="false">
+  <div top class="card-body pb-2" style="height: 100%;">
+    <div class="main">
+      <div [formGroup]="form">
+        <div class="form-row">
+          <div class="form-group row mb-3">
+            <label class="col-4 col-form-label">Kiểu dịch vụ <span>(*)</span></label>
+            <div class="col-6">
+              <select
+                class="custom-select"
+                formControlName="se_type"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid': submitted && form.controls.se_type.errors
+                }"
+              >
+                <option *ngFor="let type of types" [value]="type.id">{{ type.name }}</option>
+              </select>
+              <div *ngIf="submitted && form.controls.se_type.errors" class="invalid-feedback">
+                <span *ngIf="form.controls.se_type.errors.required">Trường bắt buộc</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row mb-3">
+            <label class="col-4 col-form-label">Tên dịch vụ <span>(*)</span></label>
+            <div class="col-6">
+              <input
+                class="form-control"
+                formControlName="se_name"
+                [ngClass]="{
+                  'is-invalid': submitted && form.controls.se_name.errors
+                }"
+              />
+              <div *ngIf="submitted && form.controls.se_name.errors" class="invalid-feedback">
+                <span *ngIf="form.controls.se_name.errors.required">Trường bắt buộc</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group row mb-3">
+            <label class="col-4 col-form-label">Danh mục <span>(*)</span></label>
+            <div class="col-6">
+              <select
+                class="custom-select"
+                formControlName="service_category_id"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid': submitted && form.controls.service_category_id.errors
+                }"
+              >
+                <option *ngFor="let category of categories" [value]="category.id">{{
+                  category.name
+                }}</option>
+              </select>
+              <div
+                *ngIf="submitted && form.controls.service_category_id.errors"
+                class="invalid-feedback"
+              >
+                <span *ngIf="form.controls.service_category_id.errors.required"
+                  >Trường bắt buộc</span
+                >
+              </div>
+            </div>
+          </div>
+          <div class="form-group row mb-3">
+            <label class="col-4 col-form-label">Giá <span>(*)</span></label>
+            <div class="col-6">
+              <input
+                class="form-control"
+                type="number"
+                formControlName="se_price"
+                [ngClass]="{
+                  'is-invalid': submitted && form.controls.se_price.errors
+                }"
+              />
+              <div *ngIf="submitted && form.controls.se_price.errors" class="invalid-feedback">
+                <span *ngIf="form.controls.se_price.errors.required">Trường bắt buộc</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group row mb-3">
+            <label class="col-4 col-form-label">Giảm giá (%)</label>
+            <div class="col-6">
+              <input class="form-control" type="number" formControlName="se_saleoff" />
+            </div>
+          </div>
+          <div class="form-group row mb-3">
+            <label class="col-4 col-form-label">Mô tả</label>
+            <div class="col-6">
+              <input class="form-control" formControlName="se_description" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row justify-content-end mr-2">
+        <div class="text-sm-right">
+          <button
+            class="btn btn-success mb-2 mr-1 button-link"
+            [disabled]="!form.dirty"
+            (click)="onSubmit()"
+          >
+            Lưu lại
+          </button>
+          <a class="btn btn-danger mb-2 mr-1 button-link" (click)="onChangeToMain()">Quay lại </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-main-container>

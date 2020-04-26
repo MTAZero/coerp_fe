@@ -5,6 +5,7 @@ import { mapToHttpParamsQuery, mapToFormData } from '../../helpers/helpers';
 const router = {
   load_all: '/api/customer-groups/all',
   load: `/api/customer-groups/search`,
+  info: '/api/customer-groups/info',
   create: '/api/customer-group/create',
   update: `/api/customer-group/update`,
   delete: `/api/customer-group/delete`,
@@ -17,6 +18,11 @@ export class CustomerGroupService {
 
   loadAllCustomerGroup() {
     return this.httpClient.get(router.load_all);
+  }
+
+  loadCustomerGroupInfo(filter?: { cg_id: any }) {
+    const params = mapToHttpParamsQuery(filter);
+    return this.httpClient.get(router.info, params);
   }
 
   loadCustomerGroup(filter?: { pageNumber: any; pageSize: any; cg_id: any; name: any }) {

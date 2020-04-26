@@ -1,9 +1,9 @@
 <app-main-container [hasBottom]="false">
   <div top class="card-body" style="height: 100%;">
     <div class="row mb-1">
-      <div class="col-xl-6">
-        <form class="form-inline row">
-          <div class="form-group">
+      <div class="col-sm-6">
+        <form class="form-inline">
+          <div class="form-group ml-1">
             <input
               class="form-control"
               name="textSearch"
@@ -14,30 +14,28 @@
           </div>
         </form>
       </div>
-      <div class="col-xl-6">
+      <div class="col-sm-6">
         <div class="text-sm-right">
           <button type="button" class="btn btn-info mr-1">
-            <span class="mdi mdi-cloud-upload"></span>
             Nhập
           </button>
           <button type="button" class="btn btn-info mr-1">
-            <span class="mdi mdi-cloud-download"></span>
             Xuất
           </button>
-          <a class="btn btn-success mr-1 button-link" (click)="openServiceModal()"
-            ><i class="mdi mdi-plus-circle mr-1"></i> Thêm mới</a
-          >
+          <a class="btn btn-success mr-1 button-link" (click)="onRouteDetail()"> Thêm mới</a>
           <a
             class="btn btn-primary mr-1 button-link"
             [ngClass]="selectedService ? '' : 'disabled'"
-            (click)="openServiceModal(selectedService)"
-            ><i class="mdi mdi-square-edit-outline mr-1"></i> Cập nhật</a
+            (click)="onRouteDetail(selectedService)"
+          >
+            Xem & Sửa</a
           >
           <a
             class="btn btn-danger mr-1 button-link"
             [ngClass]="selectedService ? '' : 'disabled'"
             (click)="openConfirmModal(selectedService)"
-            ><i class="mdi mdi-delete mr-1"></i> Xóa</a
+          >
+            Xóa</a
           >
         </div>
       </div>
@@ -47,23 +45,25 @@
       <table class="table table-centered table-hover mb-0">
         <thead>
           <tr>
-            <th>MDV</th>
+            <th>STT</th>
+            <th>Mã dịch vụ</th>
             <th>Tên dịch vụ</th>
             <th>Kiểu dịch vụ</th>
-            <th>Mô tả</th>
             <th>Giá dịch vụ</th>
             <th>Giảm giá (%)</th>
             <th>Danh mục dịch vụ</th>
+            <th>Mô tả</th>
           </tr>
         </thead>
         <tbody>
           <tr
-            *ngFor="let service of services"
+            *ngFor="let service of services; let i = index"
             (click)="onClickService(service)"
             [ngClass]="{
               'is-selected': service.se_id === selectedService?.se_id
             }"
           >
+            <td>{{ i + 1 }}</td>
             <td>
               {{ service.se_code }}
             </td>
@@ -88,9 +88,7 @@
             <td>
               {{ service.se_type_name }}
             </td>
-            <td>
-              {{ service.se_description }}
-            </td>
+
             <td>
               {{ service.se_price }}
             </td>
@@ -98,9 +96,12 @@
             <td>
               {{ service.service_category_name }}
             </td>
+            <td>
+              {{ service.se_description }}
+            </td>
           </tr>
           <tr *ngIf="services?.length === 0">
-            <td colspan="6">Không có dữ liệu dịch vụ</td>
+            <td colspan="8">Không có dữ liệu dịch vụ</td>
           </tr>
         </tbody>
       </table>

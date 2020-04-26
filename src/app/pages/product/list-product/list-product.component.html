@@ -1,9 +1,9 @@
 <app-main-container>
   <div top class="card-body" style="height: 100%;">
-    <div class="row mb-1">
-      <div class="col-sm-6">
+    <div class="row">
+      <div class="col-xl-6 mb-1">
         <form class="form-inline">
-          <div class="form-group mr-1">
+          <div class="form-group mr-1 ml-1">
             <input
               class="form-control"
               name="textSearch"
@@ -57,30 +57,28 @@
           </div>
         </form>
       </div>
-      <div class="col-sm-6">
+      <div class="col-xl-6">
         <div class="text-sm-right">
           <button type="button" class="btn btn-info mr-1">
-            <span class="mdi mdi-cloud-upload"></span>
             Nhập
           </button>
           <button type="button" class="btn btn-info mr-1" (click)="exportProduct()">
-            <span class="mdi mdi-cloud-download"></span>
             Xuất
           </button>
-          <a class="btn btn-success mr-1 button-link" (click)="openProductModal()"
-            ><i class="mdi mdi-plus-circle mr-1"></i> Thêm mới</a
-          >
+          <a class="btn btn-success mr-1 button-link" (click)="onRouteDetail()"> Thêm mới</a>
           <a
             class="btn btn-primary mr-1 button-link"
             [ngClass]="selectedProduct ? '' : 'disabled'"
-            (click)="openProductModal(selectedProduct)"
-            ><i class="mdi mdi-square-edit-outline mr-1"></i> Cập nhật</a
+            (click)="onRouteDetail(selectedProduct)"
+          >
+            Xem & Sửa</a
           >
           <a
             class="btn btn-danger mr-1 button-link"
             [ngClass]="selectedProduct ? '' : 'disabled'"
             (click)="openConfirmModal(selectedProduct)"
-            ><i class="mdi mdi-delete mr-1"></i> Xóa</a
+          >
+            Xóa</a
           >
         </div>
       </div>
@@ -90,7 +88,8 @@
       <table class="table table-centered table-hover mb-0">
         <thead>
           <tr>
-            <th>MSP</th>
+            <th>STT</th>
+            <th>Mã sản phẩm</th>
             <th>Tên sản phẩm</th>
             <th>Số lượng</th>
             <th>Giá nhập</th>
@@ -100,18 +99,19 @@
             <th>Nhà cung cấp</th>
             <th>Thuế</th>
             <th>Ngày hết hạn</th>
-            <th>Cân nặng</th>
+            <th>Khối lượng</th>
             <th>Ngày tạo</th>
           </tr>
         </thead>
         <tbody>
           <tr
-            *ngFor="let product of products"
+            *ngFor="let product of products; let i = index"
             (click)="onClickProduct(product)"
             [ngClass]="{
               'is-selected': product.pu_id === selectedProduct?.pu_id
             }"
           >
+            <td>{{ i + 1 }}</td>
             <td>
               {{ product.pu_code }}
             </td>
@@ -165,7 +165,7 @@
             </td>
           </tr>
           <tr *ngIf="products?.length === 0">
-            <td colspan="12">Không có dữ liệu sản phẩm</td>
+            <td colspan="13">Không có dữ liệu sản phẩm</td>
           </tr>
         </tbody>
       </table>

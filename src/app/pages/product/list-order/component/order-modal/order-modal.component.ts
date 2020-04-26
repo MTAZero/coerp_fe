@@ -219,7 +219,7 @@ export class OrderModalComponent implements OnInit {
     });
 
     const product$ = this.productService
-      .loadProduct(this.filterProduct)
+      .searchProduct(this.filterProduct)
       .pipe(takeUntil(this.destroyed$));
     product$.subscribe((res: any) => {
       this.products = res.Data.Results;
@@ -489,7 +489,7 @@ export class OrderModalComponent implements OnInit {
 
   private _fetchProduct(pu_id: any) {
     const product$ = this.productService
-      .loadProductById({ pu_id })
+      .loadProductInfo({ pu_id })
       .pipe(takeUntil(this.destroyed$));
 
     product$.subscribe((res: any) => {

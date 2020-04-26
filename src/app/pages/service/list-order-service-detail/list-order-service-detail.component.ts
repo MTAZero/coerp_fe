@@ -53,12 +53,12 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
   listExecutor = [];
   cuo_discount = null;
   cuo_color_show = null;
+  cuo_address = null;
 
   days: any[];
   summary = '';
   timePeriod: any;
   selectedCustomer: any;
-  selectedAddress = null;
   searchCustomer = '';
   searchService: any;
 
@@ -150,9 +150,11 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (this.formCustomer.invalid || this.formRepeat.invalid || !this._checkValidExecutor()) return;
+    if (this.cuo_address === null) return this._notify(false, 'Chưa chọn địa chỉ nhận hàng');
 
     const customerData = this.formCustomer.value;
     customerData.cu_birthday = this._convertNgbDateToDate(customerData.cu_birthday);
+    customerData.cu_email = customerData.cu_email.trim();
 
     const repeatData = this.formRepeat.value;
     repeatData.st_start_date = this._convertNgbDateToDate(repeatData.st_start_date);
@@ -174,6 +176,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
       list_service: this.listService,
       list_executor: this.listExecutor,
       cuo_infor_time: this.summary,
+      cuo_address: this.cuo_address,
     };
     console.log(data);
     if (this.cuo_id)
@@ -214,7 +217,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
       sha_detail_now: null,
     };
     this.searchCustomer = '';
-    this.selectedAddress = null;
+    this.cuo_address = null;
     this._patchCustomer();
   }
 
@@ -275,13 +278,25 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
 
   //#region List Address
   onClickAddress(address: any) {
-    this.selectedAddress =
+    if (
+      (address.sha_detail ? address.sha_detail + ', ' : '') +
+        address.sha_ward +
+        ', ' +
+        address.sha_district +
+        ', ' +
+        address.sha_province ===
+      this.cuo_address
+    )
+      return;
+
+    this.cuo_address =
       (address.sha_detail ? `${address.sha_detail}, ` : '') +
       address.sha_ward +
       ', ' +
       address.sha_district +
       ', ' +
       address.sha_province;
+    this.isChange = true;
   }
 
   openAddressModal(address?: any) {
@@ -333,8 +348,9 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
 
   //#region List Service
   changeDatalistService(e: any) {
-    this.searchService = { se_name: 'Chọn dịch vụ', se_id: '' };
+    this.searchService = { se_id: '', se_name: 'Chọn dịch vụ' };
     if (e.se_id !== '') {
+      this.services = this.services.filter((item) => item.se_id !== e.se_id);
       this.listService.push(e);
       this.isChange = true;
     }
@@ -352,6 +368,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
     }).then((result) => {
       if (result.value) {
         this.listService = this.listService.filter((item) => item.se_id !== service.se_id);
+        this.services = this.services.concat(service);
         this.isChange = true;
       }
     });
@@ -453,7 +470,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  onClickExecutor(exe?: any) {
+  onUpdateExe(exe?: any) {
     const modalRef = this.modalService.open(ExecutorModalComponent, {
       centered: true,
     });
@@ -470,6 +487,20 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
       }
       modalRef.close();
     });
+  }
+
+  onDuplicateExe(exe?: any) {
+    this.listExecutor.push({
+      work_time: exe.work_time,
+      start_time: exe.start_time,
+      end_time: exe.end_time,
+      exe_flag_overtime: exe.exe_flag_overtime,
+      exe_time_overtime: exe.exe_time_overtime,
+      exe_status: exe.exe_status,
+      exe_evaluate: exe.exe_evaluate,
+      exe_note: exe.exe_note,
+    });
+    this.isChange = true;
   }
 
   private _checkValidExecutor() {
@@ -544,7 +575,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
       cu_type: [1, [Validators.required]],
       cu_birthday: [this._convertDateToNgbDate(new Date(1995, 0, 1)), null],
       customer_group_id: ['', [Validators.required]],
-      cu_email: ['', [Validators.email]],
+      cu_email: ['', null],
       cu_flag_order: [1, [Validators.required]],
       cu_flag_used: [1, [Validators.required]],
       cu_status: [1, [Validators.required]],
@@ -599,7 +630,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
     });
 
     const service$ = this.serviceService
-      .loadServices(this.filterService)
+      .searchService(this.filterService)
       .pipe(takeUntil(this.destroyed$));
     service$.subscribe((res: any) => {
       this.services = res.Data.Results;
@@ -675,6 +706,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
     this.listExecutor = orderService.list_executor;
     this.cuo_discount = orderService.cuo_discount;
     this.cuo_color_show = orderService.cuo_color_show;
+    this.cuo_address = orderService.cuo_address;
   }
 
   private _loadProvince() {

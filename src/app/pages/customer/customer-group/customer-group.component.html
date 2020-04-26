@@ -19,11 +19,8 @@
             </div>
             <div class="col-lg-4">
               <div class="text-lg-right mt-3 mt-lg-0">
-                <a
-                  href="javascript: void(0);"
-                  class="btn btn-danger"
-                  (click)="openCustomerGroupModal()"
-                  ><i class="mdi mdi-plus-circle mr-1"></i> Thêm mới</a
+                <a href="javascript: void(0);" class="btn btn-danger" (click)="onRouteDetail()">
+                  Thêm mới</a
                 >
               </div>
             </div>
@@ -63,11 +60,7 @@
           </div>
           <div class="col-sm-2">
             <div class="text-sm-right">
-              <a
-                href="javascript:void(0);"
-                class="action-icon"
-                (click)="openCustomerGroupModal(group)"
-              >
+              <a href="javascript:void(0);" class="action-icon" (click)="onRouteDetail(group)">
                 <i class="mdi mdi-square-edit-outline"></i
               ></a>
               <a href="javascript:void(0);" class="action-icon" (click)="openConfirmModal(group)">

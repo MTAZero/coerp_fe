@@ -1,0 +1,325 @@
+<app-main-container [hasBottom]="false">
+  <div top class="card-body pb-2" style="height: 100%;">
+    <div class="product-detail">
+      <div class="menu">
+        <div
+          class="item"
+          *ngFor="let item of menu; let i = index"
+          [ngClass]="{
+            'is-selected': i === selectedMenuItem
+          }"
+          (click)="onClickMenuItem(i)"
+        >
+          {{ item }}
+        </div>
+      </div>
+      <div class="main">
+        <div class="content mb-2" id="content">
+          <div id="0" class="row title-section">
+            <h5>{{ menu[0] }}</h5>
+            <i
+              [ngClass]="listView[0] ? 'fe-edit ml-2' : 'fe-save ml-2'"
+              (click)="switchViewType(0)"
+            ></i>
+          </div>
+          <div [formGroup]="formProduct">
+            <div class="form-row">
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Tên sản phẩm <span>(*)</span></label>
+                <div class="col-6">
+                  <input
+                    class="form-control"
+                    [readonly]="listView[0]"
+                    formControlName="pu_name"
+                    [ngClass]="{
+                      'is-invalid':
+                        submitted &&
+                        (formProduct.controls.pu_name.errors || errorField === 'pu_name')
+                    }"
+                  />
+                  <div
+                    *ngIf="
+                      submitted && (formProduct.controls.pu_name.errors || errorField === 'pu_name')
+                    "
+                    class="invalid-feedback"
+                  >
+                    <span>Trường bắt buộc</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Đơn vị <span>(*)</span></label>
+                <div class="col-6">
+                  <select
+                    class="custom-select"
+                    formControlName="pu_unit"
+                    [ngClass]="{
+                      'is-invalid': submitted && formProduct.controls.pu_unit.errors
+                    }"
+                  >
+                    <option [disabled]="listView[0]" *ngFor="let unit of units" [value]="unit.id">{{
+                      unit.name
+                    }}</option>
+                  </select>
+                  <div
+                    *ngIf="submitted && formProduct.controls.pu_unit.errors"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="formProduct.controls.pu_unit.errors.required"
+                      >Trường bắt buộc</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Số lượng <span>(*)</span></label>
+                <div class="col-6">
+                  <input
+                    class="form-control"
+                    [readonly]="listView[0]"
+                    type="number"
+                    formControlName="pu_quantity"
+                    [ngClass]="{
+                      'is-invalid': submitted && formProduct.controls.pu_quantity.errors
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted && formProduct.controls.pu_quantity.errors"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="formProduct.controls.pu_quantity.errors.required"
+                      >Trường bắt buộc</span
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Loại sản phẩm <span>(*)</span></label>
+                <div class="col-6">
+                  <select
+                    class="custom-select"
+                    formControlName="product_category_id"
+                    class="form-control"
+                    [ngClass]="{
+                      'is-invalid': submitted && formProduct.controls.product_category_id.errors
+                    }"
+                  >
+                    <option
+                      *ngFor="let category of categories"
+                      [disabled]="listView[0]"
+                      [value]="category.id"
+                      >{{ category.name }}</option
+                    >
+                  </select>
+                  <div
+                    *ngIf="submitted && formProduct.controls.product_category_id.errors"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="formProduct.controls.product_category_id.errors.required"
+                      >Trường bắt buộc</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Giá nhập <span>(*)</span></label>
+                <div class="col-6">
+                  <input
+                    [readonly]="listView[0]"
+                    type="number"
+                    class="form-control"
+                    formControlName="pu_buy_price"
+                    [ngClass]="{
+                      'is-invalid': submitted && formProduct.controls.pu_buy_price.errors
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted && formProduct.controls.pu_buy_price.errors"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="formProduct.controls.pu_buy_price.errors.required"
+                      >Trường bắt buộc</span
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Nhà cung cấp <span>(*)</span> </label>
+                <div class="col-6">
+                  <select
+                    class="custom-select"
+                    formControlName="provider_id"
+                    class="form-control"
+                    [ngClass]="{
+                      'is-invalid': submitted && formProduct.controls.provider_id.errors
+                    }"
+                  >
+                    <option
+                      *ngFor="let supplier of suppliers"
+                      [disabled]="listView[0]"
+                      [value]="supplier.id"
+                      >{{ supplier.name }}</option
+                    >
+                  </select>
+                  <div
+                    *ngIf="submitted && formProduct.controls.provider_id.errors"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="formProduct.controls.provider_id.errors.required"
+                      >Trường bắt buộc</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Giá bán <span>(*)</span></label>
+                <div class="col-6">
+                  <input
+                    [readonly]="listView[0]"
+                    type="number"
+                    class="form-control"
+                    formControlName="pu_sale_price"
+                    [ngClass]="{
+                      'is-invalid': submitted && formProduct.controls.pu_sale_price.errors
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted && formProduct.controls.pu_sale_price.errors"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="formProduct.controls.pu_sale_price.errors.required"
+                      >Trường bắt buộc</span
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Ngày hết hạn</label>
+                <div class="col-6">
+                  <div class="input-group clockpicker">
+                    <input
+                      ngbDatepicker
+                      class="form-control"
+                      readonly="true"
+                      placeholder="Chọn ngày"
+                      #date="ngbDatepicker"
+                      formControlName="pu_expired_date"
+                      [disabled]="listView[0]"
+                    />
+                    <div class="input-group-append" (click)="date.toggle()">
+                      <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Thuế <span>(*)</span></label>
+                <div class="col-6">
+                  <input
+                    [readonly]="listView[0]"
+                    type="number"
+                    class="form-control"
+                    formControlName="pu_tax"
+                    [ngClass]="{ 'is-invalid': submitted && formProduct.controls.pu_tax.errors }"
+                  />
+                  <div
+                    *ngIf="submitted && formProduct.controls.pu_tax.errors"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="formProduct.controls.pu_tax.errors.required">Trường bắt buộc</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Khối lượng </label>
+                <div class="col-6">
+                  <input
+                    [readonly]="listView[0]"
+                    type="number"
+                    class="form-control"
+                    formControlName="pu_weight"
+                    [ngClass]="{ 'is-invalid': submitted && formProduct.controls.pu_weight.errors }"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Khuyến mãi(%)</label>
+                <div class="col-6">
+                  <input
+                    [readonly]="listView[0]"
+                    type="number"
+                    class="form-control"
+                    formControlName="pu_saleoff"
+                  />
+                </div>
+              </div>
+              <div class="form-group row mb-3"></div>
+            </div>
+          </div>
+
+          <div id="1" class="row title-section">
+            <h5>{{ menu[1] }}</h5>
+            <i
+              [ngClass]="listView[1] ? 'fe-edit ml-2' : 'fe-save ml-2'"
+              (click)="switchViewType(1)"
+            ></i>
+          </div>
+          <div [formGroup]="formDes">
+            <div class="form-row">
+              <div class="form-group row mb-3" style="width: 100%;">
+                <label class="col-2 col-form-label">Mô tả ngắn</label>
+                <div class="col-10">
+                  <input
+                    [readonly]="listView[1]"
+                    class="form-control"
+                    formControlName="pu_short_description"
+                    [ngClass]="{
+                      'is-invalid': submitted && formProduct.controls.pu_short_description.errors
+                    }"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group row mb-3" style="width: 100%;">
+                <label class="col-2 col-form-label">Mô tả chi tiết</label>
+                <div class="col-10">
+                  <input
+                    [readonly]="listView[2]"
+                    class="form-control"
+                    formControlName="pu_description"
+                    [ngClass]="{
+                      'is-invalid': submitted && formProduct.controls.pu_description.errors
+                    }"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-end mr-2">
+          <div class="text-sm-right">
+            <button
+              class="btn btn-success mb-2 mr-1 button-link"
+              [disabled]="!formProduct.dirty && !formDes.dirty"
+              (click)="onSubmit()"
+            >
+              Lưu lại
+            </button>
+            <a class="btn btn-danger mb-2 mr-1 button-link" (click)="onChangeToMain()">Quay lại </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-main-container>

@@ -10,13 +10,14 @@ const router = {
   delete_order_service: '/api/customer_order_service/delete',
   gen_work_time: '/api/customer_order_service/gen_work_time',
   get_free_staff: '/api/customer_order_service/get_staffs_free',
+  info_service: '/api/service/get_by_id',
+  search_service: `/api/service/search`,
+  create_service: `/api/service/create`,
+  update_service: `/api/service/update`,
+  delete_service: `/api/service/delete`,
+  get_category: '/api/service/get_category',
+  get_type: '/api/service/get_type',
   //pending
-  get_all: `/api/service/get-search-infor`,
-  create: `/api/service/create`,
-  update: `/api/service/update`,
-  delete: `/api/service/delete`,
-  get_category: '/api/service-category/get-name',
-  get_type: '/api/service/get-type',
   get_calendar: '/api/customer-orders/service_by_date',
 };
 
@@ -24,24 +25,29 @@ const router = {
 export class ServiceService {
   constructor(private httpClient: ApiService) {}
 
-  loadServices(filter?: { pageSize: number; pageNumber: number; search_name: string }) {
+  loadServiceInfo(filter?: { se_id: any }) {
     const params = mapToHttpParamsQuery(filter);
-    return this.httpClient.get(router.get_all, params);
+    return this.httpClient.get(router.info_service, params);
+  }
+
+  searchService(filter?: { pageSize: number; pageNumber: number; search_name: string }) {
+    const params = mapToHttpParamsQuery(filter);
+    return this.httpClient.get(router.search_service, params);
   }
 
   createService(data: any) {
     const formData = mapToFormData(data);
-    return this.httpClient.post(router.create, formData);
+    return this.httpClient.post(router.create_service, formData);
   }
 
   updateService(data?: any) {
     const formData = mapToFormData(data);
-    return this.httpClient.putFormData(router.update, formData);
+    return this.httpClient.putFormData(router.update_service, formData);
   }
 
   removeService(filter?: { serviceId: number }) {
     const params = mapToHttpParamsQuery(filter);
-    return this.httpClient.delete(router.delete, params);
+    return this.httpClient.delete(router.delete_service, params);
   }
 
   getCategory() {
@@ -83,7 +89,7 @@ export class ServiceService {
 
   removeOrderService(filter?: { cuo_id: any }) {
     const params = mapToHttpParamsQuery(filter);
-    return this.httpClient.delete(router.delete, params);
+    return this.httpClient.delete(router.delete_order_service, params);
   }
 
   genWorkTime(filter?: { pageNumber: number; pageSize: number }, body?: any) {

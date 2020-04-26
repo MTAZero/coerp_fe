@@ -176,18 +176,10 @@
                     [readonly]="listView[0]"
                     formControlName="cu_email"
                     [ngClass]="{
-                      'is-invalid':
-                        submitted &&
-                        (formCustomer.controls.cu_email.errors || errorField === 'cu_email')
+                      'is-invalid': submitted && errorField === 'cu_email'
                     }"
                   />
-                  <div
-                    *ngIf="
-                      submitted &&
-                      (formCustomer.controls.cu_email.errors || errorField === 'cu_email')
-                    "
-                    class="invalid-feedback"
-                  >
+                  <div *ngIf="submitted && errorField === 'cu_email'" class="invalid-feedback">
                     <span>
                       Email sai định dạng
                     </span>
@@ -419,7 +411,7 @@
                           address.sha_district +
                           ', ' +
                           address.sha_province ===
-                        selectedAddress
+                        cuo_address
                       "
                     ></span>
                   </td>
@@ -499,7 +491,7 @@
                     {{ service.se_price }}
                   </td>
                   <td>
-                    {{ service.sale_off }}
+                    {{ service.se_saleoff }}
                   </td>
                   <td>{{ service.se_note }}</td>
                   <td>
@@ -735,10 +727,11 @@
                   <th>Đánh giá nhân sự</th>
                   <th>Tổng lương</th>
                   <th>Ghi chú</th>
+                  <th style="text-align: center;">Thao tác</th>
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let exe of listExecutor; let i = index" (click)="onClickExecutor(exe)">
+                <tr *ngFor="let exe of listExecutor; let i = index">
                   <td>
                     {{ i + 1 }}
                   </td>
@@ -772,9 +765,13 @@
                   <td>{{ exe.exe_evaluate }}</td>
                   <td></td>
                   <td>{{ exe.exe_note }}</td>
+                  <td style="text-align: center;">
+                    <i class="fe-edit" (click)="onUpdateExe(exe)"></i>
+                    <i class="fe-plus-circle ml-2" (click)="onDuplicateExe(exe)"></i>
+                  </td>
                 </tr>
                 <tr *ngIf="listExecutor.length === 0">
-                  <td colspan="11">Không có dữ liệu thời gian làm việc</td>
+                  <td colspan="12">Không có dữ liệu thời gian làm việc</td>
                 </tr>
               </tbody>
             </table>

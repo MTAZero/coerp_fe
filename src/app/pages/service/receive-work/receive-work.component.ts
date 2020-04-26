@@ -126,7 +126,7 @@ export class ReceiveWorkComponent implements OnInit {
 
   private _fetchData(selected?: any) {
     const transaction$ = this.transactionService
-      .loadTransaction({
+      .searchTransaction({
         pageNumber: this.page - 1,
         pageSize: this.pageSize,
         search_name: this.textSearch,
