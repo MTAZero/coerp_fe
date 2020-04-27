@@ -434,7 +434,7 @@
                   </td>
                 </tr>
                 <tr *ngIf="!listAddress || listAddress.length === 0">
-                  <td colspan="6">Không có dữ liệu địa chỉ nhân hàng</td>
+                  <td colspan="6">Không có dữ liệu địa chỉ nhận hàng</td>
                 </tr>
               </tbody>
             </table>
@@ -516,6 +516,7 @@
                   class="form-control"
                   [readonly]="listView[2]"
                   [(ngModel)]="cuo_discount"
+                  (change)="isChange = true"
                 />
               </div>
             </div>
@@ -539,14 +540,14 @@
                   #from="ngbDatepicker"
                   formControlName="st_start_date"
                   [maxDate]="formRepeat.value.st_end_date"
-                  [disabled]="isView"
+                  [disabled]="listView[3]"
                 />
                 <div class="input-group-append" (click)="from.toggle()">
                   <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
                 </div>
               </div>
               <select class="custom-select mr-1" formControlName="st_start_time">
-                <option *ngFor="let time of timePeriod" [disabled]="isView" [value]="time">{{
+                <option *ngFor="let time of timePeriod" [disabled]="listView[3]" [value]="time">{{
                   time
                 }}</option>
               </select>
@@ -560,20 +561,20 @@
                   #to="ngbDatepicker"
                   formControlName="st_end_date"
                   [minDate]="formRepeat.value.st_start_date"
-                  [disabled]="isView"
+                  [disabled]="listView[3]"
                 />
                 <div class="input-group-append" (click)="to.toggle()">
                   <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
                 </div>
               </div>
               <select class="custom-select mr-1" formControlName="st_end_time">
-                <option *ngFor="let time of timePeriod" [disabled]="isView" [value]="time">{{
+                <option *ngFor="let time of timePeriod" [disabled]="listView[3]" [value]="time">{{
                   time
                 }}</option>
               </select>
               <select class="custom-select mr-1" formControlName="st_repeat">
-                <option [disabled]="isView" [ngValue]="1">Lặp</option>
-                <option [disabled]="isView" [ngValue]="0">Không Lặp</option>
+                <option [disabled]="listView[3]" [ngValue]="1">Lặp</option>
+                <option [disabled]="listView[3]" [ngValue]="0">Không Lặp</option>
               </select>
             </div>
             <div *ngIf="formRepeat.value.st_repeat === 1" class="repeat-setting">
@@ -589,7 +590,7 @@
                     #from="ngbDatepicker"
                     formControlName="st_custom_start"
                     [maxDate]="formRepeat.value.st_custom_end"
-                    [disabled]="isView"
+                    [disabled]="listView[3]"
                   />
                   <div class="input-group-append" (click)="from.toggle()">
                     <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
@@ -604,9 +605,9 @@
                   formControlName="st_repeat_type"
                   (change)="onChangeRepeatType($event)"
                 >
-                  <option [disabled]="isView" [ngValue]="1">Ngày</option>
-                  <option [disabled]="isView" [ngValue]="2">Tuần</option>
-                  <option [disabled]="isView" [ngValue]="3">Tháng</option>
+                  <option [disabled]="listView[3]" [ngValue]="1">Ngày</option>
+                  <option [disabled]="listView[3]" [ngValue]="2">Tuần</option>
+                  <option [disabled]="listView[3]" [ngValue]="3">Tháng</option>
                 </select>
               </div>
               <div *ngIf="formRepeat.value.st_repeat_type === 2">
@@ -630,7 +631,7 @@
                     [value]="1"
                     formControlName="st_on_day_flag"
                     class="custom-control-input"
-                    [readonly]="isView"
+                    [readonly]="listView[3]"
                   />
                   <label class="custom-control-label" for="customRadio1"
                     >Vào ngày
@@ -648,7 +649,7 @@
                     [value]="0"
                     formControlName="st_on_day_flag"
                     class="custom-control-input"
-                    [readonly]="isView"
+                    [readonly]="listView[3]"
                   />
                   <label class="custom-control-label" for="customRadio2"
                     >Vào
@@ -691,7 +692,7 @@
                     #to="ngbDatepicker"
                     formControlName="st_custom_end"
                     [minDate]="formRepeat.value.st_custom_start"
-                    [disabled]="isView"
+                    [disabled]="listView[3]"
                   />
                   <div class="input-group-append" (click)="to.toggle()">
                     <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
@@ -768,6 +769,11 @@
                   <td style="text-align: center;">
                     <i class="fe-edit" (click)="onUpdateExe(exe)"></i>
                     <i class="fe-plus-circle ml-2" (click)="onDuplicateExe(exe)"></i>
+                    <i
+                      *ngIf="!isNumber(exe.exe_id)"
+                      class="fe-trash-2 ml-2"
+                      (click)="onRemoveExe(exe)"
+                    ></i>
                   </td>
                 </tr>
                 <tr *ngIf="listExecutor.length === 0">

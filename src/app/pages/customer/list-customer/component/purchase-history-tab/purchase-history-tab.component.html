@@ -43,27 +43,27 @@
           <th>Tên sản phẩm</th>
           <th>Số lượng</th>
           <th>Đơn giá</th>
-          <th>Chiết khấu</th>
+          <th>Chiết khấu (%)</th>
           <th>Ghi chú</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let product of selectedOrder?.list_product">
+        <tr *ngFor="let product of selectedOrder?.list_product_history">
           <td>
-            {{ product.op_id }}
+            {{ product.pu_code }}
           </td>
           <td>
             {{ product.pu_name }}
           </td>
           <td>
-            {{ product.op_quantity }}
+            {{ product.pu_quantity }}
           </td>
           <td>
-            {{ product.pu_unit | currency: 'VND' }}
+            {{ product.pu_sale_price | currency: 'VND' }}
           </td>
-          <td>{{ product.op_discount }}%</td>
+          <td></td>
           <td>
-            {{ product.op_note }}
+            {{ product.pu_description }}
           </td>
         </tr>
       </tbody>

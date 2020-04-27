@@ -45,8 +45,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
   tempTraining = 0;
   tempAddress = 0;
   tempWorkTime = 0;
-
-  isView = true;
+  isChange = false;
 
   formContractType: FormGroup;
   formProfile: FormGroup;
@@ -146,7 +145,8 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
       (this.formProfile.value.sta_working_status === '2' &&
         this.formProfile.value.sta_end_work_date === null) ||
       (this.formProfile.value.sta_working_status === '2' &&
-        !this.formProfile.value.sta_reason_to_end_work)
+        (!this.formProfile.value.sta_reason_to_end_work ||
+          this.formProfile.value.sta_reason_to_end_work.trim() === ''))
     )
       return;
 
@@ -371,12 +371,14 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
             if (item.tn_id !== res.data.tn_id) return item;
             return res.data;
           });
+          this.isChange = true;
         } else {
           this.listNewTraining.push({
             ...res.data,
             tn_id: `temp_${this.tempTraining}`,
           });
           this.tempTraining++;
+          this.isChange = true;
         }
       }
       modalRef.close();
@@ -395,6 +397,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
     }).then((result) => {
       if (result.value) {
         this.listNewTraining = this.listNewTraining.filter((item) => item.tn_id !== training.tn_id);
+        this.isChange = true;
       }
     });
   }
@@ -416,12 +419,14 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
             if (item.unl_id !== res.form.unl_id) return item;
             return res.form;
           });
+          this.isChange = true;
         } else {
           this.listAddress.push({
             ...res.form,
             unl_id: `temp_${this.tempAddress}`,
           });
           this.tempAddress++;
+          this.isChange = true;
         }
       }
       modalRef.close();
@@ -440,6 +445,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
     }).then((result) => {
       if (result.value) {
         this.listAddress = this.listAddress.filter((item) => item.unl_id !== address.unl_id);
+        this.isChange = true;
       }
     });
   }
@@ -540,7 +546,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
       sta_start_work_date: this._convertDateToNgbDate(staff.sta_start_work_date),
       sta_birthday: this._convertDateToNgbDate(staff.sta_birthday),
       sta_salary: staff.sta_salary,
-      sta_working_status: staff.sta_working_status,
+      sta_working_status: staff.sta_working_status.toString(),
       sta_tax_code: staff.sta_tax_code,
       sta_end_work_date: this._convertDateToNgbDate(staff.sta_end_work_date),
       sta_reason_to_end_work: staff.sta_reason_to_end_work,

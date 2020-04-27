@@ -3,7 +3,6 @@ import { StatisticService } from '../../core/services/api/statistic.service';
 import { Widget, ChartType } from './dashboard2.model';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-
 import { widget, basicColumChart, customerPieChart, ratePieChart, orderData } from './data';
 
 @Component({
@@ -113,7 +112,7 @@ export class DashboardComponent implements OnInit {
         this.customerPieChart.series = [];
         this.customerPieChart.labels = [];
         res.Data.map((item) => {
-          this.customerPieChart.series.push(item.total_revenue);
+          this.customerPieChart.series.push(item.total_revenue ? item.total_revenue : 0);
           this.customerPieChart.labels.push(item.cg_name);
         });
       }

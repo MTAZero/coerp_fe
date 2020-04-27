@@ -501,14 +501,16 @@
                       'is-invalid':
                         submitted &&
                         formProfile.value.sta_working_status === '2' &&
-                        !formProfile.value.sta_reason_to_end_work
+                        (!formProfile.value.sta_reason_to_end_work ||
+                          formProfile.value.sta_reason_to_end_work.trim() === '')
                     }"
                   />
                   <div
                     *ngIf="
                       submitted &&
                       formProfile.value.sta_working_status === '2' &&
-                      !formProfile.value.sta_reason_to_end_work
+                      (!formProfile.value.sta_reason_to_end_work ||
+                        formProfile.value.sta_reason_to_end_work.trim() === '')
                     "
                     class="invalid-feedback"
                   >
@@ -1008,7 +1010,21 @@
         </div>
         <div class="row justify-content-end mr-2">
           <div class="text-sm-right">
-            <a class="btn btn-success mb-2 mr-1 button-link" (click)="onSubmit()">Lưu lại</a>
+            <button
+              class="btn btn-success mb-2 mr-1 button-link"
+              [disabled]="
+                !formContractType.dirty &&
+                !formProfile.dirty &&
+                !formContact.dirty &&
+                !formIdentityCard.dirty &&
+                !formPermanentAddress.dirty &&
+                !formNowAddress.dirty &&
+                !isChange
+              "
+              (click)="onSubmit()"
+            >
+              Lưu lại
+            </button>
             <a class="btn btn-danger mb-2 mr-1 button-link" (click)="onChangeToMain()">
               Quay lại
             </a>

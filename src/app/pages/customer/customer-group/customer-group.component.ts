@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { simplePieChart } from './data';
 import { ChartType } from './opportunities.model';
-import { CustomerGroupModalComponent } from './component/customer-group-modal/customer-group-modal.component';
+import { ChartComponent } from 'ng-apexcharts';
 import { ListCustomerModalComponent } from './component/list-customer-modal/list-customer-modal.component';
 import { CustomerGroupService } from '../../../core/services/api/customer-group.service';
 import { Subject } from 'rxjs';
@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./customer-group.component.scss'],
 })
 export class CustomerGroupComponent implements OnInit, OnDestroy {
+  @ViewChild('chart', { static: false }) chart: ChartComponent;
   private destroyed$ = new Subject();
 
   submitted: boolean;
@@ -37,6 +38,7 @@ export class CustomerGroupComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this._fetchData();
+    this._fetchChart();
   }
 
   ngOnDestroy() {
@@ -57,7 +59,7 @@ export class CustomerGroupComponent implements OnInit, OnDestroy {
     if (customerGroup) {
       modalRef.componentInstance.customerGroup = customerGroup;
     }
-    modalRef.componentInstance.passEvent.subscribe((res) => {
+    modalRef.componentInstance.passEvent.subscribe(() => {
       modalRef.close();
     });
   }
@@ -83,8 +85,6 @@ export class CustomerGroupComponent implements OnInit, OnDestroy {
   }
 
   private _fetchData() {
-    this.simplePieChart = simplePieChart;
-
     const customerGroup$ = this.customerGroupService
       .loadCustomerGroup({
         pageNumber: this.page,
@@ -99,18 +99,20 @@ export class CustomerGroupComponent implements OnInit, OnDestroy {
         this.groups = res.Data.Results;
       }
     });
+  }
+
+  private _fetchChart() {
+    this.simplePieChart = simplePieChart;
 
     const chart$ = this.customerGroupService.loadChart().pipe(takeUntil(this.destroyed$));
     chart$.subscribe((res: any) => {
       if (res && res.Data) {
-        let series = [];
-        let labels = [];
+        this.simplePieChart.series = [];
+        this.simplePieChart.labels = [];
         res.Data.map((e: any) => {
-          series.push(e.number);
-          labels.push(e.cg_name);
+          this.simplePieChart.series.push(e.number);
+          this.simplePieChart.labels.push(e.cg_name);
         });
-        this.simplePieChart.series = series;
-        this.simplePieChart.labels = labels;
       }
     });
   }
@@ -124,6 +126,7 @@ export class CustomerGroupComponent implements OnInit, OnDestroy {
         if (res && res.Code === 200) {
           this._notify(true, res.Message);
           this._fetchData();
+          this._fetchChart();
           this.modalService.dismissAll();
         } else {
           this._notify(false, res.Message);

@@ -2,7 +2,7 @@
   <div top class="card-body pb-2" style="height: 100%;">
     <div class="main">
       <div [formGroup]="form">
-        <div class="row mt-2" *ngIf="!isView">
+        <div class="row mt-2">
           <div class="col-lg-6">
             <form class="form-inline">
               <div class="form-group">
@@ -102,8 +102,8 @@
               </tr>
               <tr
                 *ngIf="
-                  !selectedCustomer?.list_order_product ||
-                  selectedCustomer?.list_order_product.length === 0
+                  !selectedCustomer?.list_customer_order_service ||
+                  selectedCustomer?.list_customer_order_service.length === 0
                 "
               >
                 <td colspan="7">
@@ -116,63 +116,107 @@
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label>Tiêu đề</label>
+              <label>Tiêu đề <span>(*)</span></label>
               <input
-                [readonly]="isView"
                 class="form-control"
                 formControlName="tra_title"
                 placeholder="Nhập tiêu đề"
+                [ngClass]="{
+                  'is-invalid': submitted && form.controls.tra_title.errors
+                }"
               />
+              <div
+                *ngIf="submitted && submitted && form.controls.tra_title.errors"
+                class="invalid-feedback"
+              >
+                <span>Trường bắt buộc</span>
+              </div>
             </div>
           </div>
           <div class="col-md-3">
             <div class="form-group">
-              <label>Loại giao dịch</label>
-              <select class="custom-select" formControlName="tra_type">
-                <option [disabled]="isView" *ngFor="let type of types" [value]="type.id">{{
-                  type.name
-                }}</option>
+              <label>Loại giao dịch <span>(*)</span></label>
+              <select
+                class="custom-select"
+                formControlName="tra_type"
+                [ngClass]="{
+                  'is-invalid': submitted && form.controls.tra_type.errors
+                }"
+              >
+                <option *ngFor="let type of types" [value]="type.id">{{ type.name }}</option>
               </select>
+              <div
+                *ngIf="submitted && submitted && form.controls.tra_type.errors"
+                class="invalid-feedback"
+              >
+                <span>Trường bắt buộc</span>
+              </div>
             </div>
           </div>
           <div class="col-md-3">
             <div class="form-group">
-              <label>Mức độ ưu tiên</label>
-              <select class="custom-select" formControlName="tra_priority">
-                <option
-                  [disabled]="isView"
-                  *ngFor="let priority of priorities"
-                  [value]="priority.id"
-                >
+              <label>Mức độ ưu tiên <span>(*)</span></label>
+              <select
+                class="custom-select"
+                formControlName="tra_priority"
+                [ngClass]="{
+                  'is-invalid': submitted && form.controls.tra_priority.errors
+                }"
+              >
+                <option *ngFor="let priority of priorities" [value]="priority.id">
                   {{ priority.name }}</option
                 >
               </select>
+              <div
+                *ngIf="submitted && submitted && form.controls.tra_priority.errors"
+                class="invalid-feedback"
+              >
+                <span>Trường bắt buộc</span>
+              </div>
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col-md-12">
             <div class="form-group">
-              <label>Nội dung</label>
+              <label>Nội dung <span>(*)</span></label>
               <textarea
                 rows="3"
-                [readonly]="isView"
                 class="form-control"
                 formControlName="tra_content"
                 placeholder="Nhập nội dung"
+                [ngClass]="{
+                  'is-invalid': submitted && form.controls.tra_content.errors
+                }"
               ></textarea>
+              <div
+                *ngIf="submitted && submitted && form.controls.tra_content.errors"
+                class="invalid-feedback"
+              >
+                <span>Trường bắt buộc</span>
+              </div>
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label>Đánh giá</label>
-              <select class="custom-select" formControlName="tra_rate">
-                <option [disabled]="isView" *ngFor="let rate of rates" [value]="rate.id">{{
-                  rate.name
-                }}</option>
+              <label>Đánh giá <span>(*)</span></label>
+              <select
+                class="custom-select"
+                formControlName="tra_rate"
+                [ngClass]="{
+                  'is-invalid': submitted && form.controls.tra_rate.errors
+                }"
+              >
+                <option *ngFor="let rate of rates" [value]="rate.id">{{ rate.name }}</option>
               </select>
+              <div
+                *ngIf="submitted && submitted && form.controls.tra_rate.errors"
+                class="invalid-feedback"
+              >
+                <span>Trường bắt buộc</span>
+              </div>
             </div>
           </div>
           <div class="col-md-3">
@@ -195,23 +239,43 @@
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label>Kết quả</label>
+              <label>Kết quả <span>(*)</span></label>
               <input
-                [readonly]="isView"
                 class="form-control"
                 formControlName="tra_result"
                 placeholder="Nhập kết quả"
+                [ngClass]="{
+                  'is-invalid': submitted && form.controls.tra_result.errors
+                }"
               />
+              <div
+                *ngIf="submitted && submitted && form.controls.tra_result.errors"
+                class="invalid-feedback"
+              >
+                <span>Trường bắt buộc</span>
+              </div>
             </div>
           </div>
           <div class="col-md-3">
             <div class="form-group">
-              <label>Trạng thái</label>
-              <select class="custom-select" formControlName="tra_status">
-                <option [disabled]="isView" *ngFor="let status of statuses" [value]="status.id">{{
+              <label>Trạng thái <span>(*)</span></label>
+              <select
+                class="custom-select"
+                formControlName="tra_status"
+                [ngClass]="{
+                  'is-invalid': submitted && form.controls.tra_status.errors
+                }"
+              >
+                <option *ngFor="let status of statuses" [value]="status.id">{{
                   status.name
                 }}</option>
               </select>
+              <div
+                *ngIf="submitted && submitted && form.controls.tra_status.errors"
+                class="invalid-feedback"
+              >
+                <span>Trường bắt buộc</span>
+              </div>
             </div>
           </div>
         </div>

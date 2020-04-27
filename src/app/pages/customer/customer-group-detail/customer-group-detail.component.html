@@ -10,10 +10,14 @@
                 class="form-control"
                 formControlName="cg_name"
                 [ngClass]="{
-                  'is-invalid': submitted && form.controls.cg_name.errors
+                  'is-invalid':
+                    submitted && (form.controls.cg_name.errors || errorField === 'cg_name')
                 }"
               />
-              <div *ngIf="submitted && form.controls.cg_name.errors" class="invalid-feedback">
+              <div
+                *ngIf="submitted && (form.controls.cg_name.errors || errorField === 'cg_name')"
+                class="invalid-feedback"
+              >
                 <span *ngIf="form.controls.cg_name.errors.required">Trường bắt buộc</span>
               </div>
             </div>

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TransactionService } from '../../../core/services/api/transaction.service';
 import { CustomerService } from '../../../core/services/api/customer.service';
 import { Subject } from 'rxjs';
@@ -87,7 +87,17 @@ export class ListTransactionServiceDetailComponent implements OnInit, OnDestroy 
 
   onSubmit() {
     this.submitted = true;
+    if (this.form.invalid) return;
     if (this.selectedCustomer === null) return this._notify(false, 'Chưa chọn khách hàng chăm sóc');
+    if (this.form.value.tra_title.trim() === '') {
+      return this.form.controls['tra_title'].setErrors({ required: true });
+    }
+    if (this.form.value.tra_content.trim() === '') {
+      return this.form.controls['tra_content'].setErrors({ required: true });
+    }
+    if (this.form.value.tra_result.trim() === '') {
+      return this.form.controls['tra_result'].setErrors({ required: true });
+    }
 
     let data = {
       customer: this.selectedCustomer,
@@ -113,13 +123,13 @@ export class ListTransactionServiceDetailComponent implements OnInit, OnDestroy 
   //#region  Private
   private initializeForm() {
     this.form = this.formBuilder.group({
-      tra_title: ['', null],
-      tra_type: ['', null],
-      tra_priority: ['', null],
-      tra_content: ['', null],
-      tra_rate: ['', null],
-      tra_result: ['', null],
-      tra_status: ['', null],
+      tra_title: ['', [Validators.required]],
+      tra_type: ['', [Validators.required]],
+      tra_priority: ['', [Validators.required]],
+      tra_content: ['', [Validators.required]],
+      tra_rate: ['', [Validators.required]],
+      tra_result: ['', [Validators.required]],
+      tra_status: ['', [Validators.required]],
     });
   }
 
@@ -135,7 +145,7 @@ export class ListTransactionServiceDetailComponent implements OnInit, OnDestroy 
   }
 
   private _patchTransaction(data: any) {
-    this.searchCustomer = data.customer.cu_id;
+    this.searchCustomer = data.customer ? data.customer.cu_id : '';
     this.selectedCustomer = data.customer;
 
     this.form.patchValue({

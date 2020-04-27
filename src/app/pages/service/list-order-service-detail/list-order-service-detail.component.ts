@@ -44,6 +44,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
 
   tempMobile = 0;
   tempAddress = 0;
+  tempExecutor = 0;
 
   formCustomer: FormGroup;
   formRepeat: FormGroup;
@@ -149,8 +150,19 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    this.submitted = true;
     if (this.formCustomer.invalid || this.formRepeat.invalid || !this._checkValidExecutor()) return;
-    if (this.cuo_address === null) return this._notify(false, 'Chưa chọn địa chỉ nhận hàng');
+    if (this.formCustomer.value.cu_fullname.trim() === '') {
+      return this.formCustomer.controls['cu_fullname'].setErrors({ required: true });
+    }
+    if (this.formCustomer.value.sha_detail_now.trim() === '') {
+      return this.formCustomer.controls['sha_detail_now'].setErrors({ required: true });
+    }
+    if (this.cuo_address === null || this.listAddress.length === 0)
+      return this._notify(false, 'Chưa chọn địa chỉ nhận hàng');
+    if (this.listMobile.length === 0) return this._notify(false, 'Chưa chọn số điện thoại');
+    if (this.listService.length === 0) return this._notify(false, 'Chưa chọn dịch vụ');
+    if (this.listExecutor.length === 0) return this._notify(false, 'Chưa chọn ngày làm việc');
 
     const customerData = this.formCustomer.value;
     customerData.cu_birthday = this._convertNgbDateToDate(customerData.cu_birthday);
@@ -378,8 +390,6 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
   //#region Repeat
 
   onClickWeekDay(day: any) {
-    //if (this.isView) return;
-
     if (day === 'T2')
       this.formRepeat.patchValue({
         st_mon_flag: this.formRepeat.value.st_mon_flag === 1 ? 0 : 1,
@@ -460,8 +470,10 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
       if (res && res.Data) {
         this.listExecutor = res.Data.Results;
         this.listExecutor = this.listExecutor.map((item) => {
+          this.tempExecutor++;
           return {
             ...item,
+            exe_id: `temp_${this.tempExecutor}`,
             start_time: item.start_time.substr(0, 5),
             end_time: item.end_time.substr(0, 5),
           };
@@ -491,6 +503,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
 
   onDuplicateExe(exe?: any) {
     this.listExecutor.push({
+      exe_id: `temp_${this.tempExecutor}`,
       work_time: exe.work_time,
       start_time: exe.start_time,
       end_time: exe.end_time,
@@ -500,6 +513,12 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
       exe_evaluate: exe.exe_evaluate,
       exe_note: exe.exe_note,
     });
+    this.tempExecutor++;
+    this.isChange = true;
+  }
+
+  onRemoveExe(exe?: any) {
+    this.listExecutor = this.listExecutor.filter((item) => item.exe_id !== exe.exe_id);
     this.isChange = true;
   }
 
@@ -870,6 +889,10 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
       showConfirmButton: false,
       timer: 2000,
     });
+  }
+
+  isNumber(val): boolean {
+    return typeof val === 'number';
   }
   //#endregion
 }

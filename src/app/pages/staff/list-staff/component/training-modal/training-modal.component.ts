@@ -29,9 +29,10 @@ export class TrainingModalComponent implements OnInit {
   onClickSubmit() {
     this.submitted = true;
     if (this.form.value.tn_name.trim() === '')
-      return this._notify(false, 'Tên khóa học không được để trống');
+      return this.form.controls['tn_name'].setErrors({ required: true });
+
     if (this.form.value.tn_content.trim() === '')
-      return this._notify(false, 'Nội dung khóa học không được để trống');
+      return this.form.controls['tn_content'].setErrors({ required: true });
 
     if (this.form.valid) {
       const data = this.form.value;
