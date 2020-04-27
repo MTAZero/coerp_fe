@@ -491,7 +491,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
     modalRef.componentInstance.passEvent.subscribe((res) => {
       if (res.event) {
         this.listExecutor = this.listExecutor.map((item) => {
-          if (item.work_time.substr(0, 10) !== res.data.work_time) return item;
+          if (item.exe_id !== res.data.exe_id) return item;
           return res.data;
         });
         this.isChange = true;
@@ -721,10 +721,19 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
     this.listMobile = orderService.customer.list_customer_phone;
     this.listAddress = orderService.customer.list_ship_address;
     this.listService = orderService.list_service;
-    this.listExecutor = orderService.list_executor;
+
     this.cuo_discount = orderService.cuo_discount;
     this.cuo_color_show = orderService.cuo_color_show;
     this.cuo_address = orderService.cuo_address;
+
+    this.listExecutor = orderService.list_executor;
+    this.listExecutor = this.listExecutor.map((item) => {
+      return {
+        ...item,
+        start_time: item.start_time.substr(0, 5),
+        end_time: item.end_time.substr(0, 5),
+      };
+    });
   }
 
   private _loadProvince() {

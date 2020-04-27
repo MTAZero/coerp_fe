@@ -25,10 +25,6 @@ export class ExecutorModalComponent implements OnInit {
 
   ngOnInit() {
     if (this.exe) {
-      this.staffs.push({
-        id: this.exe.staff_id,
-        name: this.exe.staff_name,
-      });
       this.patchData(this.exe);
       this._loadStaff();
     }
@@ -76,6 +72,7 @@ export class ExecutorModalComponent implements OnInit {
 
   private initializeForm() {
     this.form = this.formBuilder.group({
+      exe_id: ['', null],
       staff_id: ['', [Validators.required]],
       work_time: ['', [Validators.required]],
       start_time: ['', [Validators.required]],
@@ -91,6 +88,7 @@ export class ExecutorModalComponent implements OnInit {
 
   private patchData(exe: any) {
     this.form.patchValue({
+      exe_id: exe.exe_id,
       staff_id: exe.staff_id,
       work_time: exe.work_time.substr(0, 10),
       start_time: exe.start_time,
@@ -117,11 +115,11 @@ export class ExecutorModalComponent implements OnInit {
     staff$.subscribe((res: any) => {
       if (res && res.Data) {
         this.staffs = res.Data;
-        if (this.exe.staff_id && this.exe.staff_name)
-          this.staffs.push({
-            id: this.exe.staff_id,
-            name: this.exe.staff_name,
-          });
+        // if (this.exe.staff_id && this.exe.staff_name)
+        //   this.staffs.push({
+        //     id: this.exe.staff_id,
+        //     name: this.exe.staff_name,
+        //   });
       }
     });
   }

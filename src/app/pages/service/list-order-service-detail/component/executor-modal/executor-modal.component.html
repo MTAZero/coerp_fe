@@ -96,7 +96,7 @@
     </div>
   </div>
   <div class="text-right mt-3">
-    <button class="btn btn-success ml-1" (click)="onClickSubmit()">
+    <button class="btn btn-success ml-1" (click)="onClickSubmit()" [disabled]="!form.dirty">
       Lưu
     </button>
     <button class="btn btn-danger ml-1" (click)="onClickCancel()">
