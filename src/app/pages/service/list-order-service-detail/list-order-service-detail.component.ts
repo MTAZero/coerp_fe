@@ -388,7 +388,6 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
   //#endregion
 
   //#region Repeat
-
   onClickWeekDay(day: any) {
     if (day === 'T2')
       this.formRepeat.patchValue({

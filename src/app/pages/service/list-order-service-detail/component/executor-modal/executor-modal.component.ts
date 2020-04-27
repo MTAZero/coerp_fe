@@ -17,7 +17,7 @@ export class ExecutorModalComponent implements OnInit {
   form: FormGroup;
   submitted = false;
 
-  staffs: any;
+  staffs = [];
 
   constructor(public formBuilder: FormBuilder, private serviceService: ServiceService) {
     this.initializeForm();
@@ -25,6 +25,10 @@ export class ExecutorModalComponent implements OnInit {
 
   ngOnInit() {
     if (this.exe) {
+      this.staffs.push({
+        id: this.exe.staff_id,
+        name: this.exe.staff_name,
+      });
       this.patchData(this.exe);
       this._loadStaff();
     }
@@ -101,6 +105,7 @@ export class ExecutorModalComponent implements OnInit {
   }
 
   private _loadStaff() {
+    console.log(this.exe);
     const body = {
       work_time: this.exe.work_time,
       start_time: this.exe.start_time + ':00',
@@ -112,6 +117,11 @@ export class ExecutorModalComponent implements OnInit {
     staff$.subscribe((res: any) => {
       if (res && res.Data) {
         this.staffs = res.Data;
+        if (this.exe.staff_id && this.exe.staff_name)
+          this.staffs.push({
+            id: this.exe.staff_id,
+            name: this.exe.staff_name,
+          });
       }
     });
   }
