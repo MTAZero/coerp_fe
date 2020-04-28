@@ -486,7 +486,20 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
       centered: true,
     });
 
+    let listSameDay = [];
+    this.listExecutor.forEach((item) => {
+      console.log(item.exe_id, exe.exe_id, item.exe_id === exe.exe_id);
+      if (
+        item.work_time.substr(0, 10) === exe.work_time.substr(0, 10) &&
+        item.start_time === exe.start_time &&
+        item.end_time === exe.end_time &&
+        item.exe_id !== exe.exe_id
+      )
+        listSameDay.push(item);
+    });
+
     modalRef.componentInstance.exe = exe;
+    modalRef.componentInstance.listSameDay = listSameDay;
 
     modalRef.componentInstance.passEvent.subscribe((res) => {
       if (res.event) {

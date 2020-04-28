@@ -1,10 +1,9 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { NgbDate, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { AddressService } from '../../../core/services/api/address.service';
 import { ProductService } from '../../../core/services/api/product.service';
 import Swal from 'sweetalert2';
 import * as moment from 'moment';
@@ -93,12 +92,9 @@ export class ListProductDetailComponent implements OnInit, OnDestroy {
   onSubmit() {
     this.submitted = true;
     if (this.formProduct.invalid || this.formDes.invalid) return;
-    // if (this.formProfile.value.cu_fullname.trim() === '') return (this.errorField = 'cu_fullname');
-    // if (
-    //   this.formAddress.value.sha_detail_now &&
-    //   this.formAddress.value.sha_detail_now.trim() === ''
-    // )
-    //   return (this.errorField = 'sha_detail_now');
+    if (this.formProduct.value.pu_name.trim() === '') {
+      return this.formProduct.controls['pu_name'].setErrors({ required: true });
+    }
 
     const productForm = this.formProduct.value;
     productForm.pu_expired_date = this._convertNgbDateToDate(productForm.pu_expired_date);

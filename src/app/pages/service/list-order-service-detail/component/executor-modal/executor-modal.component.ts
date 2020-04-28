@@ -13,6 +13,7 @@ import { ServiceService } from '../../../../../core/services/api/service.service
 export class ExecutorModalComponent implements OnInit {
   private destroyed$ = new Subject();
   @Input() exe: any;
+  @Input() listSameDay: any;
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
   form: FormGroup;
   submitted = false;
@@ -28,6 +29,10 @@ export class ExecutorModalComponent implements OnInit {
       this.patchData(this.exe);
       this._loadStaff();
     }
+
+    if (this.listSameDay) {
+      console.log(this.listSameDay);
+    }
   }
 
   onChangeStaff(event: any) {
@@ -42,6 +47,7 @@ export class ExecutorModalComponent implements OnInit {
 
     if (this.form.valid) {
       const data = this.form.value;
+      data.exe_status = parseInt(data.exe_status);
       this.passEvent.emit({ event: true, data });
     }
   }
@@ -115,11 +121,17 @@ export class ExecutorModalComponent implements OnInit {
     staff$.subscribe((res: any) => {
       if (res && res.Data) {
         this.staffs = res.Data;
+
         // if (this.exe.staff_id && this.exe.staff_name)
         //   this.staffs.push({
-        //     id: this.exe.staff_id,
+        //     id: parseInt(this.exe.staff_id),
         //     name: this.exe.staff_name,
         //   });
+
+        // this.listSameDay.forEach((item) => {
+        //   console.log(this.staffs, item.staff_id);
+        //   this.staffs = this.staffs.filter((staff) => staff.id !== parseInt(item.staff_id));
+        // });
       }
     });
   }

@@ -109,10 +109,6 @@ export class ListOrderDetailComponent implements OnInit, OnDestroy {
     this.destroyed$.complete();
   }
 
-  ngAfterViewInit() {
-    //this.formRepeat.valueChanges.subscribe((data) => this._updateSummary(data));
-  }
-
   onClickMenuItem(index: any) {
     this.selectedMenuItem = index;
     const el = document.getElementById(index);
@@ -148,6 +144,8 @@ export class ListOrderDetailComponent implements OnInit, OnDestroy {
     this.submitted = true;
     if (this.formCustomer.invalid || this.formOrder.invalid) return;
     if (this.cuo_address === null) return this._notify(false, 'Chưa chọn địa chỉ nhận hàng');
+    if (!this.listMobile || this.listMobile.length === 0)
+      return this._notify(false, 'Chưa chọn số điện thoại');
     if (!this.listProduct || this.listProduct.length === 0)
       return this._notify(false, 'Chưa chọn sản phẩm cho đơn hàng');
 

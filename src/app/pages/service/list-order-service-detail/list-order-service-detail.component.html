@@ -708,7 +708,10 @@
           </div>
           <div class="row justify-content-between align-items-center">
             <h6>Ngày làm việc</h6>
-            <a class="btn btn-success btn-xs mr-2 button-link" (click)="onGenerateWorkTime()"
+            <a
+              class="btn btn-success btn-xs mr-2 button-link"
+              *ngIf="!listView[3]"
+              (click)="onGenerateWorkTime()"
               >Sinh ngày làm việc</a
             >
           </div>
@@ -767,7 +770,7 @@
                   <td></td>
                   <td>{{ exe.exe_note }}</td>
                   <td style="text-align: center;">
-                    <i class="fe-edit" (click)="onUpdateExe(exe)"></i>
+                    <i class="fe-edit" *ngIf="exe.exe_status === 2" (click)="onUpdateExe(exe)"></i>
                     <i class="fe-plus-circle ml-2" (click)="onDuplicateExe(exe)"></i>
                     <i
                       *ngIf="!isNumber(exe.exe_id)"
