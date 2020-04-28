@@ -770,7 +770,7 @@
                   <td></td>
                   <td>{{ exe.exe_note }}</td>
                   <td style="text-align: center;">
-                    <i class="fe-edit" *ngIf="exe.exe_status === 2" (click)="onUpdateExe(exe)"></i>
+                    <i class="fe-edit" *ngIf="exe.exe_status !== 1" (click)="onUpdateExe(exe)"></i>
                     <i class="fe-plus-circle ml-2" (click)="onDuplicateExe(exe)"></i>
                     <i
                       *ngIf="!isNumber(exe.exe_id)"
