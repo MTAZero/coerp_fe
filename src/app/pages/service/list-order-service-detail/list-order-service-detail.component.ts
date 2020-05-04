@@ -453,6 +453,14 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
     });
   }
 
+  onChangeStartDate(event) {
+    this.formRepeat.patchValue({
+      st_custom_start: event,
+      st_custom_end: event,
+      st_end_date: event,
+    });
+  }
+
   onGenerateWorkTime() {
     let repeatData = this.formRepeat.value;
     repeatData.st_start_date = this._convertNgbDateToDate(repeatData.st_start_date);
@@ -500,6 +508,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
 
     modalRef.componentInstance.exe = exe;
     modalRef.componentInstance.listSameDay = listSameDay;
+    modalRef.componentInstance.customerOrderId = this.cuo_id ? this.cuo_id : null;
 
     modalRef.componentInstance.passEvent.subscribe((res) => {
       if (res.event) {
@@ -521,9 +530,9 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
       end_time: exe.end_time,
       exe_flag_overtime: exe.exe_flag_overtime,
       exe_time_overtime: exe.exe_time_overtime,
-      exe_status: exe.exe_status,
-      exe_evaluate: exe.exe_evaluate,
-      exe_note: exe.exe_note,
+      exe_status: 2,
+      exe_evaluate: 0,
+      exe_note: '',
     });
     this.tempExecutor++;
     this.isChange = true;
@@ -571,7 +580,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
     var dayWeek = ` vào${st_mon_flag ? ' Thứ Hai' : ''}${st_tue_flag ? ' Thứ Ba' : ''}${
       st_wed_flag ? ' Thứ Tư' : ''
     }${st_thu_flag ? ' Thứ Năm' : ''}${st_fri_flag ? ' Thứ Sáu' : ''}${
-      st_sat_flag ? ' Thứ Bày' : ''
+      st_sat_flag ? ' Thứ Bảy' : ''
     }${st_sun_flag ? ' Chủ Nhật' : ''}`;
 
     if (st_repeat_type !== 2) dayWeek = '';
@@ -584,7 +593,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
       dayMonth += `${st_mon_flag ? ' Thứ Hai' : ''}${st_tue_flag ? ' Thứ Ba' : ''}${
         st_wed_flag ? ' Thứ Tư' : ''
       }${st_thu_flag ? ' Thứ Năm' : ''}${st_fri_flag ? ' Thứ Sáu' : ''}${
-        st_sat_flag ? ' Thứ Bày' : ''
+        st_sat_flag ? ' Thứ Bảy' : ''
       }${st_sun_flag ? ' Chủ Nhật' : ''} ${st_on_the === 1 ? 'đầu tiên' : ''}${
         st_on_the === 2 ? 'thứ hai' : ''
       }${st_on_the === 3 ? 'thứ ba' : ''}${st_on_the === 4 ? 'thứ tư' : ''}${

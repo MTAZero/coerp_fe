@@ -14,6 +14,7 @@ export class ExecutorModalComponent implements OnInit {
   private destroyed$ = new Subject();
   @Input() exe: any;
   @Input() listSameDay: any;
+  @Input() customerOrderId: any;
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
   form: FormGroup;
   submitted = false;
@@ -109,11 +110,16 @@ export class ExecutorModalComponent implements OnInit {
   }
 
   private _loadStaff() {
-    console.log(this.exe);
+    let list_staff_id = [];
+    this.listSameDay.forEach((item) => {
+      if (item.staff_id) list_staff_id.push(item.staff_id);
+    });
     const body = {
       work_time: this.exe.work_time,
       start_time: this.exe.start_time + ':00',
       end_time: this.exe.end_time + ':00',
+      list_staff_id,
+      customer_order_id: this.customerOrderId ? parseInt(this.customerOrderId) : null,
     };
     const staff$ = this.serviceService
       .getFreeStaff({ fullName: '' }, body)
@@ -122,16 +128,11 @@ export class ExecutorModalComponent implements OnInit {
       if (res && res.Data) {
         this.staffs = res.Data;
 
-        // if (this.exe.staff_id && this.exe.staff_name)
-        //   this.staffs.push({
-        //     id: parseInt(this.exe.staff_id),
-        //     name: this.exe.staff_name,
-        //   });
-
-        // this.listSameDay.forEach((item) => {
-        //   console.log(this.staffs, item.staff_id);
-        //   this.staffs = this.staffs.filter((staff) => staff.id !== parseInt(item.staff_id));
-        // });
+        if (this.exe.staff_id && this.exe.staff_name)
+          this.staffs.push({
+            id: parseInt(this.exe.staff_id),
+            name: this.exe.staff_name,
+          });
       }
     });
   }

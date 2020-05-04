@@ -12,7 +12,8 @@ export function fmt<TObject>(text: string, myHash: TObject) {
 
 export function isEmpty(args: any): boolean {
   return (
-    args === null || args === undefined || args === '' || args.length === 0
+    args === undefined
+    //args === null || args === undefined || args === '' || args.length === 0
   );
 }
 
@@ -73,7 +74,7 @@ export function booleanToString(value: boolean) {
 }
 
 export function deepCopyObject(source, target) {
-  Object.keys(source).forEach(property => {
+  Object.keys(source).forEach((property) => {
     target[property] = source[property];
   });
 }
@@ -88,7 +89,7 @@ export function SearchTree<T>(
   if (elements === undefined) {
     return [];
   }
-  result = elements.filter(item => item[prod] === matchingTitle);
+  result = elements.filter((item) => item[prod] === matchingTitle);
   if (result.length === 1) {
     return result;
   }
@@ -101,15 +102,11 @@ export function filterBy<T>(data: T[], prop: string, reversed?: boolean) {
   return data.sort(
     (a, b) =>
       // tslint:disable-next-line: triple-equals
-      (a[prop] == b[prop] ? 0 : a[prop] < b[prop] ? -1 : 1) *
-      (reversed ? -1 : 1)
+      (a[prop] == b[prop] ? 0 : a[prop] < b[prop] ? -1 : 1) * (reversed ? -1 : 1)
   );
 }
 
-export function compareTwoFormControl(
-  controlName: string,
-  matchingControlName: string
-) {
+export function compareTwoFormControl(controlName: string, matchingControlName: string) {
   return (formGroup: FormGroup) => {
     const control = formGroup.controls[controlName];
     const matchingControl = formGroup.controls[matchingControlName];

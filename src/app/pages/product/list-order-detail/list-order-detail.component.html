@@ -484,12 +484,13 @@
                   <td>
                     <input
                       class="form-control"
-                      [readonly]="isView"
+                      [readonly]="listView[2]"
                       style="max-width: 100px;"
                       type="number"
+                      [min]="1"
                       [max]="product.max_quantity"
                       [value]="product.op_quantity"
-                      (change)="onChangeQuantity($event, product)"
+                      (change)="onChangeQuantity($event, i)"
                     />
                   </td>
                   <td>
@@ -498,12 +499,12 @@
                   <td>
                     <input
                       class="form-control"
-                      [readonly]="isView"
+                      [readonly]="listView[2]"
                       style="max-width: 100px;"
                       type="number"
                       [max]="100"
                       [value]="product.op_discount"
-                      (change)="onChangeDiscount($event, product)"
+                      (change)="onChangeDiscount($event, i)"
                     />
                   </td>
                   <td>{{ product.op_total_value }}</td>

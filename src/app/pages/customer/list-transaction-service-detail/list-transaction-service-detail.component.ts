@@ -18,6 +18,7 @@ export class ListTransactionServiceDetailComponent implements OnInit, OnDestroy 
   private destroyed$ = new Subject();
   submitted = false;
   errorField = null;
+  isView = true;
 
   types: any;
   priorities: any;
@@ -52,6 +53,7 @@ export class ListTransactionServiceDetailComponent implements OnInit, OnDestroy 
 
   ngOnInit() {
     this.tra_id = this.route.snapshot.paramMap.get('tra_id');
+    if (this.tra_id === '') this.isView = false;
 
     this.initializeForm();
     this._fetchFilter();

@@ -539,6 +539,7 @@
                   placeholder="Chọn ngày"
                   #from="ngbDatepicker"
                   formControlName="st_start_date"
+                  (ngModelChange)="onChangeStartDate($event)"
                   [maxDate]="formRepeat.value.st_end_date"
                   [disabled]="listView[3]"
                 />

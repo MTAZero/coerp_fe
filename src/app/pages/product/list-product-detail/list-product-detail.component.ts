@@ -22,6 +22,7 @@ export class ListProductDetailComponent implements OnInit, OnDestroy {
   selectedMenuItem = 0;
   submitted = false;
   errorField = null;
+  isChange = false;
 
   categories: any;
   units: any;
@@ -63,6 +64,13 @@ export class ListProductDetailComponent implements OnInit, OnDestroy {
     const el = document.getElementById(index);
     const content = document.getElementById('content');
     content.scroll({ top: el.offsetTop - 50, behavior: 'smooth' });
+  }
+
+  onClearDate() {
+    this.formProduct.patchValue({
+      pu_expired_date: null,
+    });
+    this.isChange = true;
   }
 
   switchViewType(index: number) {

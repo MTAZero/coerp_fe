@@ -373,9 +373,7 @@ export class ListOrderDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  onChangeQuantity(event, product) {
-    const puIndex = this.listProduct.findIndex((item) => item.op_id === product.op_id);
-
+  onChangeQuantity(event, puIndex) {
     this.listProduct[puIndex] = {
       ...this.listProduct[puIndex],
       op_quantity: event.target.value,
@@ -388,9 +386,7 @@ export class ListOrderDetailComponent implements OnInit, OnDestroy {
     this.sumListProduct();
   }
 
-  onChangeDiscount(event, product) {
-    const puIndex = this.listProduct.findIndex((item) => item.op_id === product.op_id);
-
+  onChangeDiscount(event, puIndex) {
     this.listProduct[puIndex] = {
       ...this.listProduct[puIndex],
       op_discount: event.target.value,
@@ -403,31 +399,22 @@ export class ListOrderDetailComponent implements OnInit, OnDestroy {
     this.sumListProduct();
   }
 
-  // private _fetchProduct(pu_id: any) {
-  //   const product$ = this.productService
-  //     .loadProductInfo({ pu_id })
-  //     .pipe(takeUntil(this.destroyed$));
-
-  //   product$.subscribe((res: any) => {
-  //     const product = res.Data.Results[0];
-  //     this.listProduct.push({
-  //       op_id: this.listProduct.length + 2,
-  //       op_quantity: 1,
-  //       pu_sale_price: product.pu_sale_price,
-  //       product_id: product.pu_id,
-  //       op_discount: 0,
-  //       pu_name: product.pu_name,
-  //       max_quantity: product.pu_quantity,
-  //       op_total_value: product.pu_sale_price,
-  //     });
-  //     this.searchProduct = '';
-  //     this.sumListProduct();
-  //   });
-  // }
+  private normalizeListProduct() {
+    if (
+      !this.listProduct ||
+      this.listProduct.length === 0 ||
+      !this.products ||
+      this.products.length === 0
+    )
+      return;
+    this.listProduct.forEach((existed) => {
+      this.products = this.products.filter((item) => item.pu_id !== existed.pu_id);
+    });
+  }
 
   private sumListProduct() {
     this.orderTotal = 0;
-    this.listProduct.map((item) => {
+    this.listProduct.forEach((item) => {
       this.orderTotal += item.op_total_value;
     });
     this.orderTotal =
@@ -488,6 +475,7 @@ export class ListOrderDetailComponent implements OnInit, OnDestroy {
       this.products = res.Data.Results;
       this.products.push({ pu_name: 'Chọn sản phẩm', pu_id: '' });
       this.products = this.products.reverse();
+      this.normalizeListProduct();
     });
   }
 
@@ -523,7 +511,6 @@ export class ListOrderDetailComponent implements OnInit, OnDestroy {
       cuo_discount: order.cuo_discount,
       cuo_ship_tax: order.cuo_ship_tax,
     });
-    this.sumListProduct();
 
     this._loadProvince();
 
@@ -539,6 +526,9 @@ export class ListOrderDetailComponent implements OnInit, OnDestroy {
         op_total_value: (item.op_quantity * item.pu_sale_price * (100 - item.op_discount)) / 100,
       };
     });
+
+    this.sumListProduct();
+    this.normalizeListProduct();
   }
 
   private _loadProvince() {

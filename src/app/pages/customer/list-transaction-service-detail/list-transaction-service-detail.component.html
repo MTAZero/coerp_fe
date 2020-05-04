@@ -18,6 +18,11 @@
                   }}</option>
                 </select>
               </div>
+              <i
+                *ngIf="form.value.tra_status !== 3"
+                [ngClass]="isView ? 'fe-edit ml-2' : 'fe-save ml-2'"
+                (click)="isView = !isView"
+              ></i>
             </form>
           </div>
           <!-- end col-->
@@ -121,6 +126,7 @@
                 class="form-control"
                 formControlName="tra_title"
                 placeholder="Nhập tiêu đề"
+                [readonly]="isView"
                 [ngClass]="{
                   'is-invalid': submitted && form.controls.tra_title.errors
                 }"
@@ -143,7 +149,9 @@
                   'is-invalid': submitted && form.controls.tra_type.errors
                 }"
               >
-                <option *ngFor="let type of types" [value]="type.id">{{ type.name }}</option>
+                <option *ngFor="let type of types" [disabled]="isView" [value]="type.id">{{
+                  type.name
+                }}</option>
               </select>
               <div
                 *ngIf="submitted && submitted && form.controls.tra_type.errors"
@@ -163,7 +171,11 @@
                   'is-invalid': submitted && form.controls.tra_priority.errors
                 }"
               >
-                <option *ngFor="let priority of priorities" [value]="priority.id">
+                <option
+                  *ngFor="let priority of priorities"
+                  [disabled]="isView"
+                  [value]="priority.id"
+                >
                   {{ priority.name }}</option
                 >
               </select>
@@ -184,6 +196,7 @@
                 rows="3"
                 class="form-control"
                 formControlName="tra_content"
+                [readonly]="isView"
                 placeholder="Nhập nội dung"
                 [ngClass]="{
                   'is-invalid': submitted && form.controls.tra_content.errors
@@ -209,7 +222,9 @@
                   'is-invalid': submitted && form.controls.tra_rate.errors
                 }"
               >
-                <option *ngFor="let rate of rates" [value]="rate.id">{{ rate.name }}</option>
+                <option *ngFor="let rate of rates" [disabled]="isView" [value]="rate.id">{{
+                  rate.name
+                }}</option>
               </select>
               <div
                 *ngIf="submitted && submitted && form.controls.tra_rate.errors"
@@ -244,6 +259,7 @@
                 class="form-control"
                 formControlName="tra_result"
                 placeholder="Nhập kết quả"
+                [readonly]="isView"
                 [ngClass]="{
                   'is-invalid': submitted && form.controls.tra_result.errors
                 }"
@@ -266,7 +282,7 @@
                   'is-invalid': submitted && form.controls.tra_status.errors
                 }"
               >
-                <option *ngFor="let status of statuses" [value]="status.id">{{
+                <option *ngFor="let status of statuses" [disabled]="isView" [value]="status.id">{{
                   status.name
                 }}</option>
               </select>

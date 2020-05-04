@@ -199,7 +199,7 @@
                   </div>
                 </div>
               </div>
-              <div class="form-group row mb-3">
+              <div class="form-group row mb-3 align-items-baseline">
                 <label class="col-4 col-form-label">Ngày hết hạn</label>
                 <div class="col-6">
                   <div class="input-group clockpicker">
@@ -217,6 +217,7 @@
                     </div>
                   </div>
                 </div>
+                <i class="fe-delete" *ngIf="!listView[0]" (click)="onClearDate()"></i>
               </div>
             </div>
             <div class="form-row">
@@ -305,7 +306,7 @@
           <div class="text-sm-right">
             <button
               class="btn btn-success mb-2 mr-1 button-link"
-              [disabled]="!formProduct.dirty && !formDes.dirty"
+              [disabled]="!formProduct.dirty && !formDes.dirty && !isChange"
               (click)="onSubmit()"
             >
               Lưu lại
