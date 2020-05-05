@@ -500,8 +500,8 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
       if (
         item.work_time.substr(0, 10) === exe.work_time.substr(0, 10) &&
         item.start_time === exe.start_time &&
-        item.end_time === exe.end_time &&
-        item.exe_id !== exe.exe_id
+        item.end_time === exe.end_time
+        //item.exe_id !== exe.exe_id
       )
         listSameDay.push(item);
     });
@@ -522,8 +522,8 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  onDuplicateExe(exe?: any) {
-    this.listExecutor.push({
+  onDuplicateExe(exe?: any, index?: number) {
+    const newItem = {
       exe_id: `temp_${this.tempExecutor}`,
       work_time: exe.work_time,
       start_time: exe.start_time,
@@ -531,9 +531,10 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
       exe_flag_overtime: exe.exe_flag_overtime,
       exe_time_overtime: exe.exe_time_overtime,
       exe_status: 2,
-      exe_evaluate: 0,
+      exe_evaluate: '',
       exe_note: '',
-    });
+    };
+    this.listExecutor.splice(index + 1, 0, newItem);
     this.tempExecutor++;
     this.isChange = true;
   }

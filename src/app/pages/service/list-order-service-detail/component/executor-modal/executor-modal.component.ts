@@ -112,7 +112,7 @@ export class ExecutorModalComponent implements OnInit {
   private _loadStaff() {
     let list_staff_id = [];
     this.listSameDay.forEach((item) => {
-      if (item.staff_id) list_staff_id.push(item.staff_id);
+      if (item.staff_id) list_staff_id.push(parseInt(item.staff_id));
     });
     const body = {
       work_time: this.exe.work_time,
