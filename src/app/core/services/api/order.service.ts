@@ -11,7 +11,9 @@ const router = {
   payment_method: `/api/customer-orders/get-all-payment`,
   order_status: '/api/customer-orders/status',
   update_status: '/api/customer-orders/update-status',
-  export: '/api/customer-order/export'
+  export_product: '/api/customer-order/export',
+  import_product: '/api/customer_order_product/import',
+  export_template_product: '/api/customer_order_product/export_template',
 };
 
 @Injectable()
@@ -30,7 +32,7 @@ export class OrderService {
     return this.httpClient.get(router.get_all_page, params);
   }
 
-  exportOrder(filter?: {
+  exportOrderProduct(filter?: {
     pageNumber: any;
     pageSize: any;
     payment_type_id: any;
@@ -39,7 +41,17 @@ export class OrderService {
     end_date: any;
   }) {
     const params = mapToHttpParamsQuery(filter);
-    return this.httpClient.get(router.export, params);
+    return this.httpClient.get(router.export_product, params);
+  }
+
+  importOrderProduct(file: any) {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    return this.httpClient.postFormData(router.import_product, formData);
+  }
+
+  exportTemplateProduct() {
+    return this.httpClient.get(router.export_template_product);
   }
 
   createOrder(data: any) {

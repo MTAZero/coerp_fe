@@ -13,6 +13,8 @@ const router = {
   unit: `/api/products/unit`,
   update_image: '/api/products/update_image',
   export: '/api/product/export',
+  import: '/api/product/import',
+  export_template: '/api/product/export_template',
 };
 
 @Injectable()
@@ -41,6 +43,10 @@ export class ProductService {
   }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.export, params);
+  }
+
+  exportTemplate() {
+    return this.httpClient.get(router.export_template);
   }
 
   loadProductInfo(filter?: { pu_id: any }) {
@@ -80,5 +86,11 @@ export class ProductService {
     formData.append('file', file, file.name);
     formData.append('pu_id', pu_id);
     return this.httpClient.putFormData(router.update_image, formData);
+  }
+
+  importProduct(file: any) {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    return this.httpClient.postFormData(router.import, formData);
   }
 }

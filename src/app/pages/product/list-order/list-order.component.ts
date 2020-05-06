@@ -102,9 +102,27 @@ export class ListOrderComponent implements OnInit, OnDestroy {
     );
   }
 
-  exportOrder() {
+  setFile(event) {
+    let files = event.srcElement.files;
+    if (!files) {
+      return;
+    }
+
+    const import$ = this.orderService.importOrderProduct(files[0]).pipe(takeUntil(this.destroyed$));
+    import$.subscribe(
+      (res: any) => {
+        if (res && res.Code == 200) {
+          this._notify(true, res.Message);
+          this._fetchData();
+        } else this._notify(false, res.Message);
+      },
+      (e) => this._notify(false, e.Message)
+    );
+  }
+
+  exportOrderProduct() {
     const export$ = this.orderService
-      .exportOrder({
+      .exportOrderProduct({
         pageNumber: this.page - 1,
         pageSize: this.pageSize,
         payment_type_id: this.paymentMethodSearch,
@@ -113,6 +131,16 @@ export class ListOrderComponent implements OnInit, OnDestroy {
         end_date: this._convertNgbDateToDate(this.toDate),
       })
       .pipe(takeUntil(this.destroyed$));
+    export$.subscribe((res: any) => {
+      if (res && res.Data) {
+        const link = 'http://27.72.147.222:1230/' + res.Data;
+        window.open(link);
+      }
+    });
+  }
+
+  exportTemplate() {
+    const export$ = this.orderService.exportTemplateProduct().pipe(takeUntil(this.destroyed$));
     export$.subscribe((res: any) => {
       if (res && res.Data) {
         const link = 'http://27.72.147.222:1230/' + res.Data;

@@ -17,6 +17,9 @@ const router = {
   delete_service: `/api/service/delete`,
   get_category: '/api/service/get_category',
   get_type: '/api/service/get_type',
+  export_service: '/api/customer_order_service/export',
+  import_service: '/api/customer_order_service/import',
+  export_template_service: '/api/customer_order_service/export_template',
   //pending
   get_calendar: '/api/customer-orders/service_by_date',
 };
@@ -100,5 +103,26 @@ export class ServiceService {
   getFreeStaff(filter?: { fullName: string }, body?: any) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.post(router.get_free_staff, body, params);
+  }
+
+  exportOrderService(filter?: {
+    pageNumber: any;
+    pageSize: any;
+    search_name: any;
+    start_date: any;
+    end_date: any;
+  }) {
+    const params = mapToHttpParamsQuery(filter);
+    return this.httpClient.get(router.export_service, params);
+  }
+
+  importOrderService(file: any) {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    return this.httpClient.postFormData(router.import_service, formData);
+  }
+
+  exportTemplateService() {
+    return this.httpClient.get(router.export_template_service);
   }
 }

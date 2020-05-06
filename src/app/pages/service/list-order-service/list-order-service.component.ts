@@ -103,6 +103,54 @@ export class ListOrderServiceComponent implements OnInit, OnDestroy {
     this._fetchData(this.selectedOrderService);
   }
 
+  setFile(event) {
+    let files = event.srcElement.files;
+    if (!files) {
+      return;
+    }
+
+    const import$ = this.serviceService
+      .importOrderService(files[0])
+      .pipe(takeUntil(this.destroyed$));
+    import$.subscribe(
+      (res: any) => {
+        if (res && res.Code == 200) {
+          this._notify(true, res.Message);
+          this._fetchData();
+        } else this._notify(false, res.Message);
+      },
+      (e) => this._notify(false, e.Message)
+    );
+  }
+
+  exportOrderService() {
+    const export$ = this.serviceService
+      .exportOrderService({
+        pageNumber: this.page - 1,
+        pageSize: this.pageSize,
+        search_name: this.textSearch,
+        start_date: this._convertNgbDateToDate(this.fromDate),
+        end_date: this._convertNgbDateToDate(this.toDate),
+      })
+      .pipe(takeUntil(this.destroyed$));
+    export$.subscribe((res: any) => {
+      if (res && res.Data) {
+        const link = 'http://27.72.147.222:1230/' + res.Data;
+        window.open(link);
+      }
+    });
+  }
+
+  exportTemplate() {
+    const export$ = this.serviceService.exportTemplateService().pipe(takeUntil(this.destroyed$));
+    export$.subscribe((res: any) => {
+      if (res && res.Data) {
+        const link = 'http://27.72.147.222:1230/' + res.Data;
+        window.open(link);
+      }
+    });
+  }
+
   private _fetchData(selected?: any) {
     const orderService$ = this.serviceService
       .searchOrderService({
