@@ -19,8 +19,9 @@
             (change)="onChangeFilter()"
           >
             <option value="">Loại khách hàng</option>
-            <option [value]="2">Khách lẻ</option>
-            <option [value]="1">Khách sỉ</option>
+            <option [value]="1">Herbalife</option>
+            <option [value]="2">Nhân sâm</option>
+            <option [value]="3">Nhung hươu</option>
           </select>
           <select
             class="custom-select mr-1"
@@ -163,7 +164,13 @@
             </td>
             <td>
               <span
-                [ngClass]="customer.cu_type === 1 ? 'badge badge-danger' : 'badge badge-success'"
+                [ngClass]="
+                  customer.cu_type === 1
+                    ? 'badge badge-danger'
+                    : customer.cu_type === 2
+                    ? 'badge badge-warning'
+                    : 'badge badge-success'
+                "
               >
                 {{ customer.cu_type_name }}
               </span>

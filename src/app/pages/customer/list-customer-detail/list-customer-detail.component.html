@@ -87,8 +87,9 @@
                       'is-invalid': submitted && formProfile.controls.cu_type.errors
                     }"
                   >
-                    <option [value]="2" [disabled]="listView[0]">Khách lẻ</option>
-                    <option [value]="1" [disabled]="listView[0]">Khách sỉ</option>
+                    <option [value]="1" [disabled]="listView[0]">Herbalife</option>
+                    <option [value]="2" [disabled]="listView[0]">Nhân sâm</option>
+                    <option [value]="3" [disabled]="listView[0]">Nhung hươu</option>
                   </select>
                   <div
                     *ngIf="submitted && formProfile.controls.cu_type.errors"
