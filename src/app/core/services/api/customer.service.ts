@@ -10,6 +10,7 @@ const router = {
   update: '/api/customer/update',
   delete: '/api/customer/delete',
   export: '/api/customer/export',
+  export_template: '/api/customer/export_template',
   source: '/api/source/getall',
   group: `/api/customer_group/getall`,
   // pending
@@ -56,6 +57,10 @@ export class CustomerService {
   }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.export, params);
+  }
+
+  exportTemplate() {
+    return this.httpClient.get(router.export_template);
   }
 
   createCustomer(data: any) {

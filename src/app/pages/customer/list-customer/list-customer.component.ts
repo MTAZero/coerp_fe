@@ -158,6 +158,16 @@ export class ListCustomerComponent implements OnInit, OnDestroy {
     });
   }
 
+  exportTemplate() {
+    const export$ = this.customerService.exportTemplate().pipe(takeUntil(this.destroyed$));
+    export$.subscribe((res: any) => {
+      if (res && res.Data) {
+        const link = 'http://27.72.147.222:1230/' + res.Data;
+        window.open(link);
+      }
+    });
+  }
+
   private _fetchData(selected?: any) {
     const customer$ = this.customerService
       .searchCustomer({
