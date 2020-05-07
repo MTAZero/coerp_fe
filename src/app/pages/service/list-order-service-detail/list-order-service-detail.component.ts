@@ -174,7 +174,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
     repeatData.st_custom_start = this._convertNgbDateToDate(repeatData.st_custom_start);
     repeatData.st_custom_end = this._convertNgbDateToDate(repeatData.st_custom_end);
     repeatData.st_on_day_flag = repeatData.st_on_day_flag ? 1 : 0;
-    repeatData.st_on_the_flag = repeatData.st_on_day_flag ? 1 : 0;
+    repeatData.st_on_the_flag = repeatData.st_on_day_flag ? 0 : 1;
 
     const data = {
       cuo_color_show: this.cuo_color_show,
@@ -468,7 +468,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
     repeatData.st_custom_start = this._convertNgbDateToDate(repeatData.st_custom_start);
     repeatData.st_custom_end = this._convertNgbDateToDate(repeatData.st_custom_end);
     repeatData.st_on_day_flag = repeatData.st_on_day_flag ? 1 : 0;
-    repeatData.st_on_the_flag = repeatData.st_on_day_flag ? 1 : 0;
+    repeatData.st_on_the_flag = repeatData.st_on_day_flag ? 0 : 1;
 
     const genTime$ = this.serviceService
       .genWorkTime({ pageNumber: 0, pageSize: 1000 }, repeatData)
