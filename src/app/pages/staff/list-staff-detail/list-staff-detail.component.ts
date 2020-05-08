@@ -218,6 +218,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
   }
 
   onClickPlus(index: number) {
+    this.isChange = true;
     this.listWorkTime[index].push({
       sw_id: `sw_${this.tempWorkTime}`,
       sw_time_start: '08:30',
@@ -227,10 +228,12 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
   }
 
   onClickMinus(index: number, timeIndex: number) {
+    this.isChange = true;
     this.listWorkTime[index].splice(timeIndex, 1);
   }
 
   onChangeStart(index, timeIndex, event) {
+    this.isChange = true;
     this.listWorkTime[index][timeIndex] = {
       ...this.listWorkTime[index][timeIndex],
       sw_time_start: event.target.value,
@@ -238,6 +241,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
   }
 
   onChangeEnd(index, timeIndex, event) {
+    this.isChange = true;
     this.listWorkTime[index][timeIndex] = {
       ...this.listWorkTime[index][timeIndex],
       sw_time_end: event.target.value,
@@ -245,6 +249,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
   }
 
   onCheckDay(index: any) {
+    this.isChange = true;
     if (this.listWorkTime[index].length !== 0) this.listWorkTime[index] = [];
     else {
       this.listWorkTime[index].push({
