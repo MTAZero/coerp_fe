@@ -369,6 +369,7 @@ export class ListOrderDetailComponent implements OnInit, OnDestroy {
         this.listProduct = this.listProduct.filter((item) => item.pu_id !== product.pu_id);
         this.products = this.products.concat(product);
         this.isChange = true;
+        this.sumListProduct();
       }
     });
   }
@@ -383,6 +384,7 @@ export class ListOrderDetailComponent implements OnInit, OnDestroy {
           (100 - this.listProduct[puIndex].op_discount)) /
         100,
     };
+    this.isChange = true;
     this.sumListProduct();
   }
 
@@ -396,6 +398,7 @@ export class ListOrderDetailComponent implements OnInit, OnDestroy {
           (100 - event.target.value)) /
         100,
     };
+    this.isChange = true;
     this.sumListProduct();
   }
 
