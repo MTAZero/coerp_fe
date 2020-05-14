@@ -1,0 +1,165 @@
+<app-main-container [hasBottom]="false">
+  <div top class="card-body pb-2" style="height: 100%;">
+    <div class="package-detail">
+      <div class="menu">
+        <div
+          class="item"
+          *ngFor="let item of menu; let i = index"
+          [ngClass]="{
+            'is-selected': i === selectedMenuItem
+          }"
+          (click)="onClickMenuItem(i)"
+        >
+          {{ item }}
+        </div>
+      </div>
+      <div class="main">
+        <div class="content mb-2" id="content">
+          <div id="0" class="row title-section">
+            <h5>{{ menu[0] }}</h5>
+            <i
+              [ngClass]="listView[0] ? 'fe-edit ml-2' : 'fe-save ml-2'"
+              (click)="switchViewType(0)"
+            ></i>
+          </div>
+          <div [formGroup]="formPackage">
+            <div class="form-row">
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Tên gói <span>(*)</span></label>
+                <div class="col-6">
+                  <input
+                    class="form-control"
+                    [readonly]="listView[0]"
+                    formControlName="pac_name"
+                    [ngClass]="{
+                      'is-invalid':
+                        submitted &&
+                        (formPackage.controls.pac_name.errors || errorField === 'pac_name')
+                    }"
+                  />
+                  <div
+                    *ngIf="
+                      submitted &&
+                      (formPackage.controls.pac_name.errors || errorField === 'pac_name')
+                    "
+                    class="invalid-feedback"
+                  >
+                    <span>Trường bắt buộc</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Ảnh</label>
+                <div class="col-6">
+                  <span
+                    ><img
+                      class="rounded-circle avatar-sm"
+                      [src]="'http://27.72.147.222:1230' + formPackage.value.pac_icon"
+                      onerror="this.src='/assets/images/users/user-1.jpg';"
+                      alt="Avatar"
+                  /></span>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Trạng thái <span>(*)</span></label>
+                <div class="col-6">
+                  <select
+                    class="custom-select"
+                    formControlName="pac_status"
+                    [ngClass]="{
+                      'is-invalid': submitted && formPackage.controls.pac_status.errors
+                    }"
+                  >
+                    <option [disabled]="listView[0]" [value]="1">Kích hoạt</option>
+                    <option [disabled]="listView[0]" [value]="2">Khóa</option>
+                  </select>
+                  <div
+                    *ngIf="submitted && submitted && formPackage.controls.pac_status.errors"
+                    class="invalid-feedback"
+                  >
+                    <span>Trường bắt buộc</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Giá <span>(*)</span></label>
+                <div class="col-6">
+                  <input
+                    class="form-control"
+                    type="number"
+                    [readonly]="listView[0]"
+                    formControlName="pac_price"
+                    [ngClass]="{
+                      'is-invalid': submitted && formPackage.controls.pac_price.errors
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted && formPackage.controls.pac_price.errors"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="formPackage.controls.pac_price.errors.required"
+                      >Trường bắt buộc</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="1" class="row title-section">
+            <h5>{{ menu[1] }}</h5>
+            <a class="btn btn-primary btn-xs ml-2 button-link" (click)="openFunctionModal()"
+              >Thêm mới</a
+            >
+          </div>
+          <div class="table-responsive border mb-2">
+            <table class="table table-centered table-hover mb-0">
+              <thead>
+                <tr>
+                  <th>STT</th>
+                  <th>Mã chức năng</th>
+                  <th>Tên chức năng</th>
+                  <th>Thao tác</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let function of listFunction; let i = index">
+                  <td>
+                    {{ i + 1 }}
+                  </td>
+                  <td>{{ function.fun_code }}</td>
+                  <td>{{ function.fun_name }}</td>
+                  <td>
+                    <a class="action-icon table-button-link" (click)="openFunctionModal(function)">
+                      <i class="mdi mdi-square-edit-outline"></i
+                    ></a>
+                    <a class="action-icon table-button-link" (click)="onRemoveFunction(function)">
+                      <i class="mdi mdi-delete"></i
+                    ></a>
+                  </td>
+                </tr>
+                <tr *ngIf="!listFunction || listFunction.length === 0">
+                  <td colspan="4">Không có dữ liệu chức năng</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="row justify-content-end mr-2">
+          <div class="text-sm-right">
+            <button
+              class="btn btn-success mb-2 mr-1 button-link"
+              [disabled]="!formPackage.dirty && !isChange"
+              (click)="onSubmit()"
+            >
+              Lưu lại
+            </button>
+            <a class="btn btn-danger mb-2 mr-1 button-link" (click)="onChangeToMain()">Quay lại </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-main-container>

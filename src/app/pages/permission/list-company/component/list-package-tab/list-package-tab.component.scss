@@ -1,0 +1,20 @@
+:host {
+  .table-responsive {
+    overflow: auto;
+    max-height: calc(100% - 85px);
+  }
+
+  .table {
+    border-spacing: 0;
+    border-collapse: separate;
+
+    thead {
+      th {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        background-color: white;
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+<div class="table-responsive">
+  <table class="table table-centered table-hover mb-0">
+    <thead>
+      <tr>
+        <th>STT</th>
+        <th>Tên gói</th>
+        <th>Chức năng</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pk of listPackage; let i = index">
+        <td>
+          {{ i + 1 }}
+        </td>
+        <td>
+          {{ pk.pac_name }}
+        </td>
+        <td>
+          {{ pk.fun_name }}
+        </td>
+      </tr>
+      <tr *ngIf="!listPackage || listPackage?.length === 0">
+        <td colspan="3">Không có dữ liệu gói dịch vụ</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

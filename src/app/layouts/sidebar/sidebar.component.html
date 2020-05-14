@@ -178,6 +178,25 @@
           </li>
         </ul>
       </li>
+
+      <li *ngIf="isAdmin">
+        <a
+          href="javascript: void(0);"
+          aria-expanded="false"
+          [ngClass]="hasArrow ? 'has-arrow' : ''"
+        >
+          <i class="fas fa-fingerprint"></i>
+          <span> Phân quyền </span>
+        </a>
+        <ul class="nav-second-level">
+          <li>
+            <a routerLink="/permission/list-company">Công ty</a>
+          </li>
+          <li>
+            <a routerLink="/permission/list-package">Gói sản phẩm</a>
+          </li>
+        </ul>
+      </li>
     </ul>
   </div>
   <!-- End Sidebar -->

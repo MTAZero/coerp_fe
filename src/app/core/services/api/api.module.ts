@@ -13,6 +13,7 @@ import { StatisticService } from './statistic.service';
 import { CustomerGroupService } from './customer-group.service';
 import { AuthService } from './auth.service';
 import { ProfileService } from './profile.service';
+import { PermissionService } from './permission.service';
 
 const providers = [
   ApiService,
@@ -28,6 +29,7 @@ const providers = [
   CustomerGroupService,
   AuthService,
   ProfileService,
+  PermissionService,
 ];
 
 @NgModule({

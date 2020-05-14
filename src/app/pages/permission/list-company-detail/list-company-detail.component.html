@@ -1,0 +1,313 @@
+<app-main-container [hasBottom]="false">
+  <div top class="card-body pb-2" style="height: 100%;">
+    <div class="company-detail">
+      <div class="menu">
+        <div
+          class="item"
+          *ngFor="let item of menu; let i = index"
+          [ngClass]="{
+            'is-selected': i === selectedMenuItem
+          }"
+          (click)="onClickMenuItem(i)"
+        >
+          {{ item }}
+        </div>
+      </div>
+      <div class="main">
+        <div class="content mb-2" id="content">
+          <div id="0" class="row title-section">
+            <h5>{{ menu[0] }}</h5>
+            <i
+              [ngClass]="listView[0] ? 'fe-edit ml-2' : 'fe-save ml-2'"
+              (click)="switchViewType(0)"
+            ></i>
+          </div>
+          <div [formGroup]="formCompany">
+            <div class="form-row">
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Tên công ty <span>(*)</span></label>
+                <div class="col-6">
+                  <input
+                    class="form-control"
+                    [readonly]="listView[0]"
+                    formControlName="co_name"
+                    [ngClass]="{
+                      'is-invalid':
+                        submitted &&
+                        (formCompany.controls.co_name.errors || errorField === 'co_name')
+                    }"
+                  />
+                  <div
+                    *ngIf="
+                      submitted && (formCompany.controls.co_name.errors || errorField === 'co_name')
+                    "
+                    class="invalid-feedback"
+                  >
+                    <span>Trường bắt buộc</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Logo</label>
+                <div class="col-6">
+                  <span
+                    ><img
+                      class="rounded-circle avatar-sm"
+                      [src]="'http://27.72.147.222:1230' + formCompany.value.co_logo"
+                      onerror="this.src='/assets/images/users/user-1.jpg';"
+                      alt="Avatar"
+                  /></span>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Tầm nhìn <span>(*)</span></label>
+                <div class="col-6">
+                  <input
+                    class="form-control"
+                    [readonly]="listView[0]"
+                    formControlName="co_vision"
+                    [ngClass]="{
+                      'is-invalid': submitted && formCompany.controls.co_vision.errors
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted && formCompany.controls.co_vision.errors"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="formCompany.controls.co_vision.errors.required"
+                      >Trường bắt buộc</span
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Địa chỉ <span>(*)</span></label>
+                <div class="col-6">
+                  <input
+                    class="form-control"
+                    [readonly]="listView[0]"
+                    formControlName="co_address"
+                    [ngClass]="{
+                      'is-invalid': submitted && formCompany.controls.co_address.errors
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted && formCompany.controls.co_address.errors"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="formCompany.controls.co_address.errors.required"
+                      >Trường bắt buộc</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Nhiệm vụ <span>(*)</span></label>
+                <div class="col-6">
+                  <input
+                    class="form-control"
+                    [readonly]="listView[0]"
+                    formControlName="co_mission"
+                    [ngClass]="{
+                      'is-invalid': submitted && formCompany.controls.co_mission.errors
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted && formCompany.controls.co_mission.errors"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="formCompany.controls.co_mission.errors.required"
+                      >Trường bắt buộc</span
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Mục tiêu <span>(*)</span> </label>
+                <div class="col-6">
+                  <input
+                    class="form-control"
+                    [readonly]="listView[0]"
+                    formControlName="co_target"
+                    [ngClass]="{
+                      'is-invalid': submitted && formCompany.controls.co_target.errors
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted && formCompany.controls.co_target.errors"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="formCompany.controls.co_target.errors.required"
+                      >Trường bắt buộc</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Nhiệm vụ <span>(*)</span></label>
+                <div class="col-6">
+                  <input
+                    class="form-control"
+                    [readonly]="listView[0]"
+                    formControlName="co_mission"
+                    [ngClass]="{
+                      'is-invalid': submitted && formCompany.controls.co_mission.errors
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted && formCompany.controls.co_mission.errors"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="formCompany.controls.co_mission.errors.required"
+                      >Trường bắt buộc</span
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Mục tiêu <span>(*)</span> </label>
+                <div class="col-6">
+                  <input
+                    class="form-control"
+                    [readonly]="listView[0]"
+                    formControlName="co_target"
+                    [ngClass]="{
+                      'is-invalid': submitted && formCompany.controls.co_target.errors
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted && formCompany.controls.co_target.errors"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="formCompany.controls.co_target.errors.required"
+                      >Trường bắt buộc</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Doanh thu</label>
+                <div class="col-6">
+                  <input
+                    class="form-control"
+                    [readonly]="listView[0]"
+                    type="number"
+                    formControlName="co_revenue"
+                  />
+                </div>
+              </div>
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Nhân viên <span>(*)</span> </label>
+                <div class="col-6">
+                  <input
+                    class="form-control"
+                    [readonly]="listView[0]"
+                    formControlName="sta_name"
+                    [ngClass]="{
+                      'is-invalid': submitted && formCompany.controls.sta_name.errors
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted && formCompany.controls.sta_name.errors"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="formCompany.controls.sta_name.errors.required"
+                      >Trường bắt buộc</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Thời lượng <span>(*)</span></label>
+                <div class="col-6">
+                  <input
+                    class="form-control"
+                    [readonly]="listView[0]"
+                    type="number"
+                    formControlName="co_duration"
+                    [ngClass]="{
+                      'is-invalid': submitted && formCompany.controls.co_duration.errors
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted && formCompany.controls.co_duration.errors"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="formCompany.controls.co_duration.errors.required"
+                      >Trường bắt buộc</span
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Gía thuê <span>(*)</span> </label>
+                <div class="col-6">
+                  <input
+                    class="form-control"
+                    [readonly]="listView[0]"
+                    type="number"
+                    formControlName="co_price"
+                    [ngClass]="{
+                      'is-invalid': submitted && formCompany.controls.co_price.errors
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted && formCompany.controls.co_price.errors"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="formCompany.controls.co_price.errors.required"
+                      >Trường bắt buộc</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group row mb-3" style="width: 100%;">
+                <label class="col-2 col-form-label">Mô tả</label>
+                <div class="col-10">
+                  <input
+                    [readonly]="listView[0]"
+                    class="form-control"
+                    formControlName="co_description"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="1" class="row title-section">
+            <h5>{{ menu[1] }}</h5>
+            <i
+              [ngClass]="listView[1] ? 'fe-edit ml-2' : 'fe-save ml-2'"
+              (click)="switchViewType(1)"
+            ></i>
+          </div>
+          <div></div>
+        </div>
+        <div class="row justify-content-end mr-2">
+          <div class="text-sm-right">
+            <button
+              class="btn btn-success mb-2 mr-1 button-link"
+              [disabled]="!formCompany.dirty && !isChange"
+              (click)="onSubmit()"
+            >
+              Lưu lại
+            </button>
+            <a class="btn btn-danger mb-2 mr-1 button-link" (click)="onChangeToMain()">Quay lại </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-main-container>
