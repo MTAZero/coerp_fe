@@ -150,50 +150,6 @@
             </div>
             <div class="form-row">
               <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Nhiệm vụ <span>(*)</span></label>
-                <div class="col-6">
-                  <input
-                    class="form-control"
-                    [readonly]="listView[0]"
-                    formControlName="co_mission"
-                    [ngClass]="{
-                      'is-invalid': submitted && formCompany.controls.co_mission.errors
-                    }"
-                  />
-                  <div
-                    *ngIf="submitted && formCompany.controls.co_mission.errors"
-                    class="invalid-feedback"
-                  >
-                    <span *ngIf="formCompany.controls.co_mission.errors.required"
-                      >Trường bắt buộc</span
-                    >
-                  </div>
-                </div>
-              </div>
-              <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Mục tiêu <span>(*)</span> </label>
-                <div class="col-6">
-                  <input
-                    class="form-control"
-                    [readonly]="listView[0]"
-                    formControlName="co_target"
-                    [ngClass]="{
-                      'is-invalid': submitted && formCompany.controls.co_target.errors
-                    }"
-                  />
-                  <div
-                    *ngIf="submitted && formCompany.controls.co_target.errors"
-                    class="invalid-feedback"
-                  >
-                    <span *ngIf="formCompany.controls.co_target.errors.required"
-                      >Trường bắt buộc</span
-                    >
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Doanh thu</label>
                 <div class="col-6">
                   <input
@@ -293,7 +249,34 @@
               (click)="switchViewType(1)"
             ></i>
           </div>
-          <div></div>
+          <div class="package-container">
+            <div *ngFor="let pk of listPackage" class="package">
+              <div class="package-title">
+                <span
+                  ><img
+                    class="rounded-circle avatar-sm mr-2"
+                    [src]="'http://27.72.147.222:1230' + pk.pk_icon"
+                    onerror="this.src='/assets/images/users/user-1.jpg';"
+                    alt="Avatar"
+                /></span>
+                {{ pk.pac_name }}
+                <div class="checkbox checkbox-success ml-3">
+                  <input [id]="pk.pac_code" type="checkbox" />
+                  <label [for]="pk.pac_code"> </label>
+                </div>
+              </div>
+              <div class="ml-5">
+                <div *ngFor="let func of pk?.list_function">
+                  <div class="checkbox checkbox-success mb-2">
+                    <input [id]="func.fun_id" type="checkbox" />
+                    <label [for]="func.fun_id">
+                      {{ func.fun_name }}
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="row justify-content-end mr-2">
           <div class="text-sm-right">

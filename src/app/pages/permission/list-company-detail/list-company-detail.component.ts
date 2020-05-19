@@ -22,6 +22,7 @@ export class ListCompanyDetailComponent implements OnInit, OnDestroy {
   isChange = false;
 
   listView = [true, true];
+  listPackage: any;
 
   formCompany: FormGroup;
   listPackageFunction = [];
@@ -40,6 +41,7 @@ export class ListCompanyDetailComponent implements OnInit, OnDestroy {
     this.menu = menu;
 
     this._initializeForm();
+    this._fetchPackage();
 
     if (this.co_id) {
       this._fetchCompany(this.co_id);
@@ -126,6 +128,15 @@ export class ListCompanyDetailComponent implements OnInit, OnDestroy {
     info$.subscribe((res: any) => {
       if (res && res.Data) {
         this._patchCompany(res.Data);
+      }
+    });
+  }
+
+  private _fetchPackage() {
+    const pk$ = this.permissionService.loadAllPackage().pipe(takeUntil(this.destroyed$));
+    pk$.subscribe((res: any) => {
+      if (res && res.Data) {
+        this.listPackage = res.Data;
       }
     });
   }
