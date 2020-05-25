@@ -23,6 +23,14 @@ import { IdentityCardTabComponent } from './list-staff/component/identity-card-t
 import { TrainingModalComponent } from './list-staff/component/training-modal/training-modal.component';
 import { ListStaffDetailComponent } from './list-staff-detail/list-staff-detail.component';
 import { ListTrainingModalComponent } from './list-staff-detail/component/list-training-modal/list-training-modal.component';
+import { BankTabComponent } from './list-staff/component/bank-tab/bank-tab.component';
+import { BankModalComponent } from './list-staff/component/bank-modal/bank-modal.component';
+import { RelativeTabComponent } from './list-staff/component/relative-tab/relative-tab.component';
+import { RelativeModalComponent } from './list-staff/component/relative-modal/relative-modal.component';
+import { BonusModalComponent } from './list-staff/component/bonus-modal/bonus-modal.component';
+import { BonusTabComponent } from './list-staff/component/bonus-tab/bonus-tab.component';
+import { AttachmentModalComponent } from './list-staff/component/attachment-modal/attachment-modal.component';
+import { AttachmentTabComponent } from './list-staff/component/attachment-tab/attachment-tab.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +46,14 @@ import { ListTrainingModalComponent } from './list-staff-detail/component/list-t
     TrainingModalComponent,
     ListStaffDetailComponent,
     ListTrainingModalComponent,
+    BankTabComponent,
+    BankModalComponent,
+    RelativeTabComponent,
+    RelativeModalComponent,
+    BonusModalComponent,
+    BonusTabComponent,
+    AttachmentModalComponent,
+    AttachmentTabComponent,
   ],
   imports: [
     CommonModule,
@@ -53,6 +69,14 @@ import { ListTrainingModalComponent } from './list-staff-detail/component/list-t
     NgApexchartsModule,
     NgSelectModule,
   ],
-  entryComponents: [AddressModalComponent, TrainingModalComponent, ListTrainingModalComponent],
+  entryComponents: [
+    AddressModalComponent,
+    TrainingModalComponent,
+    ListTrainingModalComponent,
+    BankModalComponent,
+    RelativeModalComponent,
+    BonusModalComponent,
+    AttachmentModalComponent,
+  ],
 })
 export class StaffModule {}

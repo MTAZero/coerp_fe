@@ -104,6 +104,7 @@
         <thead>
           <tr>
             <th>STT</th>
+            <th>Mã nhân viên</th>
             <th>Họ và tên</th>
             <th>Tài khoản</th>
             <th>Giới tính</th>
@@ -127,6 +128,9 @@
           >
             <td>
               {{ i + 1 }}
+            </td>
+            <td>
+              {{ staff.sta_id }}
             </td>
             <td>
               <span
@@ -190,7 +194,7 @@
             </td>
           </tr>
           <tr *ngIf="staffs?.length === 0">
-            <td colspan="6">Không có dữ liệu nhân viên</td>
+            <td colspan="13">Không có dữ liệu nhân viên</td>
           </tr>
         </tbody>
       </table>
@@ -252,6 +256,42 @@
             [identity_card_date_end]="selectedStaff?.sta_identity_card_date_end"
             [identity_card_location]="selectedStaff?.sta_identity_card_location"
           ></app-identity-card-tab>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab title="6. Thông tin tài khoản ngân hàng">
+        <ng-template ngbTabContent>
+          <app-bank-tab
+            [listBank]="selectedStaff?.list_bank"
+            [staffId]="selectedStaff?.sta_id"
+            (formSubmit)="onChangeBank($event)"
+          ></app-bank-tab>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab title="7. Thông tin gia đình">
+        <ng-template ngbTabContent>
+          <app-relative-tab
+            [listRelative]="selectedStaff?.list_relatives"
+            [staffId]="selectedStaff?.sta_id"
+            (formSubmit)="onChangeRelative($event)"
+          ></app-relative-tab>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab title="8. Khen thưởng/Kỉ luật">
+        <ng-template ngbTabContent>
+          <app-bonus-tab
+            [listBonus]="selectedStaff?.list_bonus"
+            [staffId]="selectedStaff?.sta_id"
+            (formSubmit)="onChangeBonus($event)"
+          ></app-bonus-tab>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab title="9. File đính kèm">
+        <ng-template ngbTabContent>
+          <app-attachment-tab
+            [listAttachment]="selectedStaff?.list_attachments"
+            [staffId]="selectedStaff?.sta_id"
+            (formSubmit)="onChangeTraining($event)"
+          ></app-attachment-tab>
         </ng-template>
       </ngb-tab>
     </ngb-tabset>
