@@ -1,0 +1,71 @@
+<div class="row justify-content-end">
+  <a
+    class="btn btn-success mb-1 mr-1 button-link"
+    [ngClass]="staffId ? '' : 'disabled'"
+    (click)="openBankModal()"
+  >
+    Thêm mới</a
+  >
+  <a
+    class="btn btn-primary mb-1 mr-1 button-link"
+    [ngClass]="selectedBank ? '' : 'disabled'"
+    (click)="openBankModal(selectedBank)"
+    >Cập nhật</a
+  >
+  <a
+    class="btn btn-danger mb-1 button-link"
+    [ngClass]="selectedBank ? '' : 'disabled'"
+    (click)="openConfirmModal(selectedBank)"
+  >
+    Xóa</a
+  >
+</div>
+<div class="table-responsive">
+  <table class="table table-centered table-hover mb-0">
+    <thead>
+      <tr>
+        <th>STT</th>
+        <th>Loại ngân hàng</th>
+        <th>Tên ngân hàng</th>
+        <th>Chi nhánh</th>
+        <th>Số tài khoản</th>
+        <th>Tên chủ tài khoản</th>
+        <th>Ghi chú</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let bank of listBank; let i = index"
+        (click)="onClickBank(bank)"
+        [ngClass]="{
+          'is-selected': bank.stb_id === selectedBank?.stb_id
+        }"
+      >
+        <td>
+          {{ i + 1 }}
+        </td>
+        <td>
+          {{ bank.bank_category_name }}
+        </td>
+        <td>
+          {{ bank.bank_name }}
+        </td>
+        <td>
+          {{ bank.bank_branch_name }}
+        </td>
+        <td>
+          {{ bank.stb_account }}
+        </td>
+        <td>
+          {{ bank.stb_fullname }}
+        </td>
+        <td>
+          {{ bank.stb_note }}
+        </td>
+      </tr>
+      <tr *ngIf="!listBank || listBank.length === 0">
+        <td colspan="7">Không có dữ liệu tài khoản ngân hàng</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

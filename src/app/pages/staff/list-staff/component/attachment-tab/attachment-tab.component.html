@@ -1,0 +1,63 @@
+<div class="row justify-content-end">
+  <a
+    class="btn btn-success mb-1 mr-1 button-link"
+    [ngClass]="staffId ? '' : 'disabled'"
+    (click)="openAttachmentModal()"
+  >
+    Thêm mới</a
+  >
+  <a
+    class="btn btn-primary mb-1 mr-1 button-link"
+    [ngClass]="selectedAttachment ? '' : 'disabled'"
+    (click)="openAttachmentModal(selectedAttachment)"
+    >Cập nhật</a
+  >
+  <a
+    class="btn btn-danger mb-1 button-link"
+    [ngClass]="selectedAttachment ? '' : 'disabled'"
+    (click)="openConfirmModal(selectedAttachment)"
+  >
+    Xóa</a
+  >
+</div>
+<div class="table-responsive">
+  <table class="table table-centered table-hover mb-0">
+    <thead>
+      <tr>
+        <th>STT</th>
+        <th>Tên file</th>
+        <th>File</th>
+        <th>Mô tả</th>
+        <th>Ghi chú</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let attachment of listAttachment; let i = index"
+        (click)="onClickAttachment(attachment)"
+        [ngClass]="{
+          'is-selected': attachment.ast_id === selectedAttachment?.ast_id
+        }"
+      >
+        <td>
+          {{ i + 1 }}
+        </td>
+        <td>
+          {{ attachment.ast_filename }}
+        </td>
+        <td>
+          <a (click)="onClickLink(attachment)">Link</a>
+        </td>
+        <td>
+          {{ attachment.ast_description }}
+        </td>
+        <td>
+          {{ attachment.ast_note }}
+        </td>
+      </tr>
+      <tr *ngIf="!listAttachment || listAttachment.length === 0">
+        <td colspan="5">Không có dữ liệu file đính kèm</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

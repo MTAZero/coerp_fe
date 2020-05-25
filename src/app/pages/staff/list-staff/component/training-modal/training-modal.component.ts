@@ -137,15 +137,4 @@ export class TrainingModalComponent implements OnInit {
     const newDate = new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
     return moment(newDate).format();
   }
-
-  private _notify(isSuccess: boolean, message: string) {
-    return Swal.fire({
-      toast: true,
-      position: 'top-end',
-      type: isSuccess ? 'success' : 'error',
-      title: message,
-      showConfirmButton: false,
-      timer: 2000,
-    });
-  }
 }

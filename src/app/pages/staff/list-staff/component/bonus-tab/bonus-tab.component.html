@@ -1,0 +1,75 @@
+<div class="row justify-content-end">
+  <a
+    class="btn btn-success mb-1 mr-1 button-link"
+    [ngClass]="staffId ? '' : 'disabled'"
+    (click)="openBonusModal()"
+  >
+    Thêm mới</a
+  >
+  <a
+    class="btn btn-primary mb-1 mr-1 button-link"
+    [ngClass]="selectedBonus ? '' : 'disabled'"
+    (click)="openBonusModal(selectedBonus)"
+    >Cập nhật</a
+  >
+  <a
+    class="btn btn-danger mb-1 button-link"
+    [ngClass]="selectedBonus ? '' : 'disabled'"
+    (click)="openConfirmModal(selectedBonus)"
+  >
+    Xóa</a
+  >
+</div>
+<div class="table-responsive">
+  <table class="table table-centered table-hover mb-0">
+    <thead>
+      <tr>
+        <th>STT</th>
+        <th>Tiêu đề</th>
+        <th>Nội dung</th>
+        <th>Kiểu</th>
+        <th>Mức</th>
+        <th>Thời gian</th>
+        <th>Lý do</th>
+        <th>Ghi chú</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let bonus of listBonus; let i = index"
+        (click)="onClickBonus(bonus)"
+        [ngClass]="{
+          'is-selected': bonus.bos_id === selectedBonus?.bos_id
+        }"
+      >
+        <td>
+          {{ i + 1 }}
+        </td>
+        <td>
+          {{ bonus.bos_title }}
+        </td>
+        <td>
+          {{ bonus.bos_content }}
+        </td>
+        <td>
+          {{ bonus.bos_type_name }}
+        </td>
+        <td>
+          {{ bonus.bos_value }}
+        </td>
+        <td>
+          {{ bonus.bos_time | date: 'dd/MM/yyyy' }}
+        </td>
+        <td>
+          {{ bonus.bos_reason }}
+        </td>
+        <td>
+          {{ bonus.bos_note }}
+        </td>
+      </tr>
+      <tr *ngIf="!listBonus || listBonus.length === 0">
+        <td colspan="8">Không có dữ liệu khen thưởng/kỉ luật</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

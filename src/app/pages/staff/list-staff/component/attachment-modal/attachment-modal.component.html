@@ -1,0 +1,49 @@
+<div class="modal-header bg-dark">
+  <h4 class="modal-title text-white">{{ attachment ? 'Sửa' : 'Thêm' }} file đính kèm</h4>
+  <button class="close text-white" aria-label="Close" (click)="onClickCancel()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body p-3" [formGroup]="form">
+  <div class="form-group row mb-3">
+    <label class="col-4 col-form-label">Tên file <span>(*)</span></label>
+    <div class="col-8">
+      <input
+        class="form-control"
+        formControlName="ast_filename"
+        [ngClass]="{
+          'is-invalid': submitted && form.controls.ast_filename.errors
+        }"
+      />
+      <div *ngIf="submitted && form.controls.ast_filename.errors" class="invalid-feedback">
+        <span *ngIf="form.controls.ast_filename.errors.required">Trường bắt buộc</span>
+      </div>
+    </div>
+  </div>
+  <div class="form-group row mb-3">
+    <label class="col-4 col-form-label">Mô tả</label>
+    <div class="col-8">
+      <input class="form-control" formControlName="ast_description" />
+    </div>
+  </div>
+  <div class="form-group row mb-3">
+    <label class="col-4 col-form-label">File <span>(*)</span></label>
+    <div class="col-8">
+      <input type="file" />
+    </div>
+  </div>
+  <div class="form-group row mb-3">
+    <label class="col-4 col-form-label">Ghi chú</label>
+    <div class="col-8">
+      <input class="form-control" formControlName="ast_note" />
+    </div>
+  </div>
+  <div class="text-right mt-3">
+    <button class="btn btn-success ml-1" (click)="onClickSubmit()">
+      Lưu
+    </button>
+    <button class="btn btn-danger ml-1" (click)="onClickCancel()">
+      Hủy
+    </button>
+  </div>
+</div>

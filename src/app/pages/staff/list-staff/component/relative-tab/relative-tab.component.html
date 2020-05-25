@@ -1,0 +1,63 @@
+<div class="row justify-content-end">
+  <a
+    class="btn btn-success mb-1 mr-1 button-link"
+    [ngClass]="staffId ? '' : 'disabled'"
+    (click)="openRelativeModal()"
+  >
+    Thêm mới</a
+  >
+  <a
+    class="btn btn-primary mb-1 mr-1 button-link"
+    [ngClass]="selectedRelative ? '' : 'disabled'"
+    (click)="openRelativeModal(selectedRelative)"
+    >Cập nhật</a
+  >
+  <a
+    class="btn btn-danger mb-1 button-link"
+    [ngClass]="selectedRelative ? '' : 'disabled'"
+    (click)="openConfirmModal(selectedRelative)"
+  >
+    Xóa</a
+  >
+</div>
+<div class="table-responsive">
+  <table class="table table-centered table-hover mb-0">
+    <thead>
+      <tr>
+        <th>STT</th>
+        <th>Họ tên</th>
+        <th>Quan hệ</th>
+        <th>Số điện thoại</th>
+        <th>Địa chỉ</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let relative of listRelative; let i = index"
+        (click)="onClickRelative(relative)"
+        [ngClass]="{
+          'is-selected': relative.rels_id === selectedRelative?.rels_id
+        }"
+      >
+        <td>
+          {{ i + 1 }}
+        </td>
+        <td>
+          {{ relative.rels_fullname }}
+        </td>
+        <td>
+          {{ relative.rels_relatives }}
+        </td>
+        <td>
+          {{ relative.rels_phone }}
+        </td>
+        <td>
+          {{ relative.rels_address }}
+        </td>
+      </tr>
+      <tr *ngIf="!listRelative || listRelative.length === 0">
+        <td colspan="5">Không có dữ liệu gia đình</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

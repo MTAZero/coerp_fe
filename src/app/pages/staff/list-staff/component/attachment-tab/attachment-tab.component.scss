@@ -1,0 +1,27 @@
+:host {
+  a {
+    &.diabled {
+      cursor: default;
+      pointer-events: none;
+    }
+  }
+
+  .row {
+    margin-right: 0;
+  }
+
+  .table-responsive {
+    overflow: auto;
+    max-height: calc(100% - 85px);
+  }
+
+  .table {
+    tr {
+      cursor: pointer;
+
+      &.is-selected {
+        background-color: lightgray;
+      }
+    }
+  }
+}
