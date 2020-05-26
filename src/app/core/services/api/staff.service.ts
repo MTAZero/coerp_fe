@@ -15,6 +15,10 @@ const router = {
   position: '/api/position/getall',
   department: '/api/department/getall',
   search_training: '/api/training/search',
+  upload_attachment: '/api/attachment/update_file',
+  load_bank_category: '/api/bank_category/getall',
+  load_bank: '/api/bank/getall',
+  load_bank_branch: '/api/bank_branch/getall',
   // pending
   get: '/api/staffs/all',
   create_location: `/api/undertakenLocations/create`,
@@ -97,6 +101,27 @@ export class StaffService {
   searchTraining(filter?: { pageNumber: number; pageSize: number; search_name: string }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.search_training, params);
+  }
+
+  uploadAttachment(file: any) {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    return this.httpClient.putFormData(router.upload_attachment, formData);
+  }
+
+  loadBankCategory(filter?: { name: string }) {
+    const params = mapToHttpParamsQuery(filter);
+    return this.httpClient.get(router.load_bank_category, params);
+  }
+
+  loadBank(filter?: { bank_category_id: any; name: string }) {
+    const params = mapToHttpParamsQuery(filter);
+    return this.httpClient.get(router.load_bank, params);
+  }
+
+  loadBankBranch(filter?: { bank_id: any; name: string }) {
+    const params = mapToHttpParamsQuery(filter);
+    return this.httpClient.get(router.load_bank_branch, params);
   }
   //=============================pending============================================
   loadAllStaff() {

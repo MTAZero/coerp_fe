@@ -14,7 +14,11 @@
         [ngClass]="{
           'is-invalid': submitted && form.controls.bank_category_id.errors
         }"
+        (change)="onChangeCategory($event)"
       >
+        <option *ngFor="let category of categories" [value]="category.id">{{
+          category.name
+        }}</option>
       </select>
       <div *ngIf="submitted && form.controls.bank_category_id.errors" class="invalid-feedback">
         <span *ngIf="form.controls.bank_category_id.errors.required">Trường bắt buộc</span>
@@ -30,7 +34,9 @@
         [ngClass]="{
           'is-invalid': submitted && form.controls.bank_id.errors
         }"
+        (change)="onChangeBank($event)"
       >
+        <option *ngFor="let bank of banks" [value]="bank.id">{{ bank.name }}</option>
       </select>
       <div *ngIf="submitted && form.controls.bank_id.errors" class="invalid-feedback">
         <span *ngIf="form.controls.bank_id.errors.required">Trường bắt buộc</span>
@@ -47,6 +53,7 @@
           'is-invalid': submitted && form.controls.bank_branch_id.errors
         }"
       >
+        <option *ngFor="let branch of branchs" [value]="branch.id">{{ branch.name }}</option>
       </select>
       <div *ngIf="submitted && form.controls.bank_branch_id.errors" class="invalid-feedback">
         <span *ngIf="form.controls.bank_branch_id.errors.required">Trường bắt buộc</span>

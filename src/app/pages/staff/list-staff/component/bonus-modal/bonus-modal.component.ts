@@ -78,7 +78,7 @@ export class BonusModalComponent implements OnInit {
       bos_note: ['', null],
       bos_type: [1, [Validators.required]],
       bos_value: ['', [Validators.required]],
-      bos_time: [null, [Validators.required]],
+      bos_time: [this._convertDateToNgbDate(new Date()), [Validators.required]],
       bos_reason: ['', [Validators.required]],
     });
   }

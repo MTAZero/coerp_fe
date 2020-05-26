@@ -7,6 +7,10 @@ import { takeUntil } from 'rxjs/operators';
 import { ListTrainingModalComponent } from '../list-staff-detail/component/list-training-modal/list-training-modal.component';
 import { TrainingModalComponent } from '../list-staff/component/training-modal/training-modal.component';
 import { AddressModalComponent } from '../list-staff/component/address-modal/address-modal.component';
+import { RelativeModalComponent } from '../list-staff/component/relative-modal/relative-modal.component';
+import { AttachmentModalComponent } from '../list-staff/component/attachment-modal/attachment-modal.component';
+import { BankModalComponent } from '../list-staff/component/bank-modal/bank-modal.component';
+import { BonusModalComponent } from '../list-staff/component/bonus-modal/bonus-modal.component';
 import { AddressService } from '../../../core/services/api/address.service';
 import { StaffService } from '../../../core/services/api/staff.service';
 import Swal from 'sweetalert2';
@@ -33,7 +37,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
   positions: any;
   departments: any;
 
-  listView = [true, true, true, true, true, true, true, true];
+  listView = [true, true, true, true, true, true, true, true, true, true, true, true];
 
   provincePermanent: any;
   districtPermanent: any;
@@ -45,6 +49,10 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
   tempTraining = 0;
   tempAddress = 0;
   tempWorkTime = 0;
+  tempRelative = 0;
+  tempAttachment = 0;
+  tempBank = 0;
+  tempBonus = 0;
   isChange = false;
 
   formContractType: FormGroup;
@@ -55,6 +63,10 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
   formNowAddress: FormGroup;
   listTraining = [];
   listAddress = [];
+  listRelative = [];
+  listAttachment = [];
+  listBank = [];
+  listBonus = [];
   listNewTraining = [];
   listWorkTime = [[], [], [], [], [], [], []];
 
@@ -69,7 +81,21 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.sta_id = this.route.snapshot.paramMap.get('sta_id');
-    if (this.sta_id === '') this.listView = [false, false, false, false, false, false];
+    if (this.sta_id === '')
+      this.listView = [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+      ];
 
     this.timePeriod = timePeriod;
     this.menu = menu;
@@ -177,6 +203,10 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
       ...this.formNowAddress.value,
       list_training: this.listTraining.concat(this.listNewTraining),
       list_undertaken_location: this.listAddress,
+      list_bank: this.listBank,
+      list_relatives: this.listRelative,
+      list_bonus: this.listBonus,
+      list_attachments: this.listAttachment,
       list_staff_work_time,
     };
     console.log(data);
@@ -456,6 +486,200 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
   }
   //#endregion
 
+  //#region List Relative
+  openRelativeModal(relative?: any) {
+    const modalRef = this.modalService.open(RelativeModalComponent, {
+      centered: true,
+    });
+    modalRef.componentInstance.listRelative = this.listRelative;
+    if (relative) {
+      modalRef.componentInstance.relative = relative;
+    }
+    modalRef.componentInstance.passEvent.subscribe((res) => {
+      if (res.event) {
+        if (relative) {
+          this.listRelative = this.listRelative.map((item) => {
+            if (item.rels_id !== res.data.rels_id) return item;
+            return res.data;
+          });
+          this.isChange = true;
+        } else {
+          this.listRelative.push({
+            ...res.data,
+            rels_id: `temp_${this.tempRelative}`,
+          });
+          this.tempRelative++;
+          this.isChange = true;
+        }
+      }
+      modalRef.close();
+    });
+  }
+
+  onRemoveRelative(relative: any) {
+    Swal.fire({
+      title: 'Chắc chắn muốn xóa quan hệ gia đình đang chọn?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Xóa',
+      cancelButtonText: 'Hủy',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+    }).then((result) => {
+      if (result.value) {
+        this.listRelative = this.listRelative.filter((item) => item.rels_id !== relative.rels_id);
+        this.isChange = true;
+      }
+    });
+  }
+  //#endregion
+
+  //#region List Attachment
+  openAttachmentModal(attachment?: any) {
+    const modalRef = this.modalService.open(AttachmentModalComponent, {
+      centered: true,
+    });
+    modalRef.componentInstance.listAttachment = this.listAttachment;
+    if (attachment) {
+      modalRef.componentInstance.attachment = attachment;
+    }
+    modalRef.componentInstance.passEvent.subscribe((res) => {
+      if (res.event) {
+        if (attachment) {
+          this.listAttachment = this.listAttachment.map((item) => {
+            if (item.ast_id !== res.data.ast_id) return item;
+            return res.data;
+          });
+          this.isChange = true;
+        } else {
+          this.listAttachment.push({
+            ...res.data,
+            ast_id: `temp_${this.tempAttachment}`,
+          });
+          this.tempAttachment++;
+          this.isChange = true;
+        }
+      }
+      modalRef.close();
+    });
+  }
+
+  onRemoveAttachment(attachment: any) {
+    Swal.fire({
+      title: 'Chắc chắn muốn xóa file đính kèm đang chọn?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Xóa',
+      cancelButtonText: 'Hủy',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+    }).then((result) => {
+      if (result.value) {
+        this.listAttachment = this.listAttachment.filter(
+          (item) => item.ast_id !== attachment.ast_id
+        );
+        this.isChange = true;
+      }
+    });
+  }
+  //#endregion
+
+  //#region List Bank
+  openBankModal(bank?: any) {
+    const modalRef = this.modalService.open(BankModalComponent, {
+      centered: true,
+    });
+    modalRef.componentInstance.listBank = this.listBank;
+    if (bank) {
+      modalRef.componentInstance.bank = bank;
+    }
+    modalRef.componentInstance.passEvent.subscribe((res) => {
+      if (res.event) {
+        if (bank) {
+          this.listBank = this.listBank.map((item) => {
+            if (item.stb_id !== res.data.stb_id) return item;
+            return res.data;
+          });
+          this.isChange = true;
+        } else {
+          this.listBank.push({
+            ...res.data,
+            stb_id: `temp_${this.tempBank}`,
+          });
+          this.tempBank++;
+          this.isChange = true;
+        }
+      }
+      modalRef.close();
+    });
+  }
+
+  onRemoveBank(bank: any) {
+    Swal.fire({
+      title: 'Chắc chắn muốn xóa tài khoản ngân hàng đang chọn?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Xóa',
+      cancelButtonText: 'Hủy',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+    }).then((result) => {
+      if (result.value) {
+        this.listBank = this.listBank.filter((item) => item.stb_id !== bank.stb_id);
+        this.isChange = true;
+      }
+    });
+  }
+  //#endregion
+
+  //#region List Bonus
+  openBonusModal(bonus?: any) {
+    const modalRef = this.modalService.open(BonusModalComponent, {
+      centered: true,
+    });
+    modalRef.componentInstance.listBonus = this.listBonus;
+    if (bonus) {
+      modalRef.componentInstance.bonus = bonus;
+    }
+    modalRef.componentInstance.passEvent.subscribe((res) => {
+      if (res.event) {
+        if (bonus) {
+          this.listBonus = this.listBonus.map((item) => {
+            if (item.bos_id !== res.data.bos_id) return item;
+            return res.data;
+          });
+          this.isChange = true;
+        } else {
+          this.listBonus.push({
+            ...res.data,
+            bos_id: `temp_${this.tempBonus}`,
+          });
+          this.tempBonus++;
+          this.isChange = true;
+        }
+      }
+      modalRef.close();
+    });
+  }
+
+  onRemoveBonus(bonus: any) {
+    Swal.fire({
+      title: 'Chắc chắn muốn xóa khen thưởng/kỉ luật đang chọn?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Xóa',
+      cancelButtonText: 'Hủy',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+    }).then((result) => {
+      if (result.value) {
+        this.listBonus = this.listBonus.filter((item) => item.bos_id !== bonus.bos_id);
+        this.isChange = true;
+      }
+    });
+  }
+  //#endregion
+
   //#region Private
   private _initializeForm() {
     this.formContractType = this.formBuilder.group({
@@ -479,6 +703,8 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
       sta_end_work_date: [null, null],
       sta_reason_to_end_work: [null, null],
       sta_note: ['', null],
+      sta_social_insurance: ['', null],
+      sta_health_card: ['', null],
     });
 
     this.formContact = this.formBuilder.group({
@@ -556,6 +782,8 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
       sta_end_work_date: this._convertDateToNgbDate(staff.sta_end_work_date),
       sta_reason_to_end_work: staff.sta_reason_to_end_work,
       sta_note: staff.sta_note,
+      sta_health_card: staff.sta_health_card,
+      sta_social_insurance: staff.sta_social_insurance,
     });
 
     this.formContact.patchValue({
@@ -589,6 +817,10 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
 
     this.listTraining = staff.list_training;
     this.listAddress = staff.list_undertaken_location;
+    this.listRelative = staff.list_relatives;
+    this.listBank = staff.list_bank;
+    this.listBonus = staff.list_bonus;
+    this.listAttachment = staff.list_attachments;
     this.transformWorkTime(staff.list_staff_work_time);
   }
 

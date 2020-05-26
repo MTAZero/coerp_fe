@@ -509,6 +509,28 @@
             </div>
             <div class="form-row">
               <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Bảo hiểm y tế</label>
+                <div class="col-6">
+                  <input
+                    class="form-control"
+                    [readonly]="listView[1]"
+                    formControlName="sta_social_insurance"
+                  />
+                </div>
+              </div>
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Bảo hiểm xã hội</label>
+                <div class="col-6">
+                  <input
+                    class="form-control"
+                    [readonly]="listView[1]"
+                    formControlName="sta_health_card"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Mã số thuế</label>
                 <div class="col-6">
                   <input
@@ -1003,6 +1025,208 @@
                 </tr>
                 <tr *ngIf="!listAddress || listAddress.length === 0">
                   <td colspan="6">Không có dữ liệu địa chỉ phụ trách</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div id="8" class="row title-section">
+            <h5>{{ menu[8] }}</h5>
+            <a class="btn btn-primary btn-xs ml-2 button-link" (click)="openRelativeModal()"
+              >Thêm mới</a
+            >
+          </div>
+          <div class="table-responsive border mb-2">
+            <table class="table table-centered table-hover mb-0">
+              <thead>
+                <tr>
+                  <th>STT</th>
+                  <th>Họ tên</th>
+                  <th>Quan hệ</th>
+                  <th>Số điện thoại</th>
+                  <th>Địa chỉ</th>
+                  <th>Thao tác</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let relative of listRelative; let i = index">
+                  <td>
+                    {{ i + 1 }}
+                  </td>
+                  <td>
+                    {{ relative.rels_fullname }}
+                  </td>
+                  <td>{{ relative.rels_relatives }}</td>
+                  <td>
+                    {{ relative.rels_phone }}
+                  </td>
+                  <td>{{ relative.rels_address }}</td>
+                  <td>
+                    <a class="action-icon table-button-link" (click)="openRelativeModal(relative)">
+                      <i class="mdi mdi-square-edit-outline"></i
+                    ></a>
+                    <a class="action-icon table-button-link" (click)="onRemoveRelative(relative)">
+                      <i class="mdi mdi-delete"></i
+                    ></a>
+                  </td>
+                </tr>
+                <tr *ngIf="!listRelative || listRelative.length === 0">
+                  <td colspan="6">Không có dữ liệu quan hệ gia đình</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div id="9" class="row title-section">
+            <h5>{{ menu[9] }}</h5>
+            <a class="btn btn-primary btn-xs ml-2 button-link" (click)="openAttachmentModal()"
+              >Thêm mới</a
+            >
+          </div>
+          <div class="table-responsive border mb-2">
+            <table class="table table-centered table-hover mb-0">
+              <thead>
+                <tr>
+                  <th>STT</th>
+                  <th>Tên file</th>
+                  <th>File</th>
+                  <th>Mô tả</th>
+                  <th>Ghi chú</th>
+                  <th>Thao tác</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let attachment of listAttachment; let i = index">
+                  <td>
+                    {{ i + 1 }}
+                  </td>
+                  <td>
+                    {{ attachment.ast_filename }}
+                  </td>
+                  <td>{{ attachment.ast_link }}</td>
+                  <td>
+                    {{ attachment.ast_description }}
+                  </td>
+                  <td>{{ attachment.ast_note }}</td>
+                  <td>
+                    <a
+                      class="action-icon table-button-link"
+                      (click)="openAttachmentModal(attachment)"
+                    >
+                      <i class="mdi mdi-square-edit-outline"></i
+                    ></a>
+                    <a
+                      class="action-icon table-button-link"
+                      (click)="onRemoveAttachment(attachment)"
+                    >
+                      <i class="mdi mdi-delete"></i
+                    ></a>
+                  </td>
+                </tr>
+                <tr *ngIf="!listAttachment || listAttachment.length === 0">
+                  <td colspan="6">Không có dữ liệu file đính kèm</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div id="10" class="row title-section">
+            <h5>{{ menu[10] }}</h5>
+            <a class="btn btn-primary btn-xs ml-2 button-link" (click)="openBankModal()"
+              >Thêm mới</a
+            >
+          </div>
+          <div class="table-responsive border mb-2">
+            <table class="table table-centered table-hover mb-0">
+              <thead>
+                <tr>
+                  <th>STT</th>
+                  <th>Loại ngân hàng</th>
+                  <th>Tên ngân hàng</th>
+                  <th>Chi nhánh</th>
+                  <th>Số tài khoản</th>
+                  <th>Tên chủ tài khoản</th>
+                  <th>Ghi chú</th>
+                  <th>Thao tác</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let bank of listBank; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>
+                    {{ bank.bank_category_name }}
+                  </td>
+                  <td>{{ bank.bank_name }}</td>
+                  <td>
+                    {{ bank.bank_branch_name }}
+                  </td>
+                  <td>{{ bank.stb_account }}</td>
+                  <td>{{ bank.stb_fullname }}</td>
+                  <td>{{ bank.stb_note }}</td>
+                  <td>
+                    <a class="action-icon table-button-link" (click)="openBankModal(bank)">
+                      <i class="mdi mdi-square-edit-outline"></i
+                    ></a>
+                    <a class="action-icon table-button-link" (click)="onRemoveBank(bank)">
+                      <i class="mdi mdi-delete"></i
+                    ></a>
+                  </td>
+                </tr>
+                <tr *ngIf="!listBank || listBank.length === 0">
+                  <td colspan="8">Không có dữ liệu tài khoản ngân hàng</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div id="11" class="row title-section">
+            <h5>{{ menu[11] }}</h5>
+            <a class="btn btn-primary btn-xs ml-2 button-link" (click)="openBonusModal()"
+              >Thêm mới</a
+            >
+          </div>
+          <div class="table-responsive border mb-2">
+            <table class="table table-centered table-hover mb-0">
+              <thead>
+                <tr>
+                  <th>STT</th>
+                  <th>Tiêu đề</th>
+                  <th>Nội dung</th>
+                  <th>Kiểu</th>
+                  <th>Mức</th>
+                  <th>Thời gian</th>
+                  <th>Lý do</th>
+                  <th>Ghi chú</th>
+                  <th>Thao tác</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let bonus of listBonus; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>
+                    {{ bonus.bos_title }}
+                  </td>
+                  <td>{{ bonus.bos_content }}</td>
+                  <td>
+                    {{ bonus.bos_type === 1 ? 'Khen thưởng' : 'Kỉ luật' }}
+                  </td>
+                  <td>
+                    {{ bonus.bos_value }}
+                  </td>
+                  <td>{{ bonus.bos_time | date: 'dd/MM/yyyy' }}</td>
+                  <td>{{ bonus.bos_reason }}</td>
+                  <td>{{ bonus.bos_note }}</td>
+                  <td>
+                    <a class="action-icon table-button-link" (click)="openBonusModal(bonus)">
+                      <i class="mdi mdi-square-edit-outline"></i
+                    ></a>
+                    <a class="action-icon table-button-link" (click)="onRemoveBonus(bonus)">
+                      <i class="mdi mdi-delete"></i
+                    ></a>
+                  </td>
+                </tr>
+                <tr *ngIf="!listBonus || listBonus.length === 0">
+                  <td colspan="9">Không có dữ liệu khen thưởng/kỉ luật</td>
                 </tr>
               </tbody>
             </table>

@@ -1,6 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { StaffService } from '../../../../../core/services/api/staff.service';
 
 @Component({
   selector: 'app-bank-modal',
@@ -8,13 +11,19 @@ import Swal from 'sweetalert2';
   styleUrls: ['./bank-modal.component.scss'],
 })
 export class BankModalComponent implements OnInit {
+  private destroyed$ = new Subject();
   @Input() bank: any;
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
   form: FormGroup;
   submitted = false;
 
-  constructor(public formBuilder: FormBuilder) {
+  categories: any;
+  banks: any;
+  branchs: any;
+
+  constructor(public formBuilder: FormBuilder, private staffService: StaffService) {
     this.initializeForm();
+    this._loadCategory();
   }
 
   ngOnInit() {
@@ -25,8 +34,8 @@ export class BankModalComponent implements OnInit {
 
   onClickSubmit() {
     this.submitted = true;
-    if (this.form.value.bank_name.trim() === '')
-      return this.form.controls['bank_name'].setErrors({ required: true });
+    if (this.form.value.stb_fullname.trim() === '')
+      return this.form.controls['stb_fullname'].setErrors({ required: true });
 
     if (this.form.value.stb_account.trim() === '')
       return this.form.controls['stb_account'].setErrors({ required: true });
@@ -57,6 +66,16 @@ export class BankModalComponent implements OnInit {
     }
   }
 
+  onChangeCategory(e) {
+    const bankId = e.target.value;
+    this._loadBank(bankId);
+  }
+
+  onChangeBank(e) {
+    const branchId = e.target.value;
+    this._loadBranch(branchId);
+  }
+
   get formUI() {
     return this.form.controls;
   }
@@ -70,6 +89,9 @@ export class BankModalComponent implements OnInit {
       stb_account: ['', [Validators.required]],
       stb_fullname: ['', [Validators.required]],
       stb_note: ['', null],
+      bank_category_name: ['', null],
+      bank_name: ['', null],
+      bank_branch_name: ['', null],
     });
   }
 
@@ -82,6 +104,67 @@ export class BankModalComponent implements OnInit {
       stb_account: bank.stb_account,
       stb_fullname: bank.stb_fullname,
       stb_note: bank.stb_note,
+      bank_category_name: bank.bank_category_name,
+      bank_name: bank.bank_name,
+      bank_branch_name: bank.bank_branch_name,
+    });
+  }
+
+  private _loadCategory() {
+    const category$ = this.staffService
+      .loadBankCategory({ name: '' })
+      .pipe(takeUntil(this.destroyed$));
+    category$.subscribe((res: any) => {
+      if (res && res.Data) {
+        this.categories = res.Data;
+
+        if (this.bank) {
+          this._loadBank(this.bank.bank_category_id, true);
+        } else {
+          this.form.patchValue({
+            bank_category_id: res.Data[0].id,
+            bank_category_name: res.Data[0].name,
+          });
+          this._loadBank(res.Data[0].id);
+        }
+      }
+    });
+  }
+
+  private _loadBank(categoryId: any, isFirst = false) {
+    const bank$ = this.staffService
+      .loadBank({ bank_category_id: categoryId, name: '' })
+      .pipe(takeUntil(this.destroyed$));
+    bank$.subscribe((res: any) => {
+      if (res && res.Data) {
+        this.banks = res.Data;
+
+        if (this.bank && isFirst) {
+          this._loadBranch(this.bank.bank_id, true);
+        } else {
+          this.form.patchValue({ bank_id: res.Data[0].id, bank_name: res.Data[0].name });
+          this._loadBranch(res.Data[0].id);
+        }
+      }
+    });
+  }
+
+  private _loadBranch(bankId: any, isFirst = false) {
+    const branch$ = this.staffService
+      .loadBankBranch({ bank_id: bankId, name: '' })
+      .pipe(takeUntil(this.destroyed$));
+    branch$.subscribe((res: any) => {
+      if (res && res.Data) {
+        this.branchs = res.Data;
+
+        if (this.bank && isFirst) {
+        } else {
+          this.form.patchValue({
+            bank_branch_id: res.Data[0].id,
+            bank_branch_name: res.Data[0].name,
+          });
+        }
+      }
     });
   }
 }

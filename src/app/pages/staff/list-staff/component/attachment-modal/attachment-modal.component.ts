@@ -1,6 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { StaffService } from '../../../../../core/services/api/staff.service';
 
 @Component({
   selector: 'app-attachment-modal',
@@ -8,12 +11,15 @@ import Swal from 'sweetalert2';
   styleUrls: ['./attachment-modal.component.scss'],
 })
 export class AttachmentModalComponent implements OnInit {
+  private destroyed$ = new Subject();
   @Input() attachment: any;
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
   form: FormGroup;
   submitted = false;
+  files = null;
+  file_link = '';
 
-  constructor(public formBuilder: FormBuilder) {
+  constructor(public formBuilder: FormBuilder, private staffService: StaffService) {
     this.initializeForm();
   }
 
@@ -28,9 +34,22 @@ export class AttachmentModalComponent implements OnInit {
     if (this.form.value.ast_filename.trim() === '')
       return this.form.controls['ast_filename'].setErrors({ required: true });
 
+    if (this.files === null) return this._notify(false, 'Chưa chọn file đính kèm');
+
     if (this.form.valid) {
-      const data = this.form.value;
-      this.passEvent.emit({ event: true, data });
+      const upload$ = this.staffService
+        .uploadAttachment(this.files[0])
+        .pipe(takeUntil(this.destroyed$));
+      upload$.subscribe(
+        (res: any) => {
+          if (res && res.Code == 200) {
+            const data = this.form.value;
+            data.ast_link = res.Data;
+            this.passEvent.emit({ event: true, data });
+          } else this._notify(false, res.Message);
+        },
+        (e) => this._notify(false, e.Message)
+      );
     }
   }
 
@@ -54,6 +73,14 @@ export class AttachmentModalComponent implements OnInit {
     }
   }
 
+  setFile(event) {
+    let files = event.srcElement.files;
+    if (!files) {
+      return;
+    }
+    this.files = files;
+  }
+
   get formUI() {
     return this.form.controls;
   }
@@ -73,6 +100,19 @@ export class AttachmentModalComponent implements OnInit {
       ast_filename: attachment.ast_filename,
       ast_description: attachment.ast_description,
       ast_note: attachment.ast_note,
+    });
+    console.log(attachment.ast_link);
+    this.file_link = attachment.ast_link;
+  }
+
+  private _notify(isSuccess: boolean, message: string) {
+    return Swal.fire({
+      toast: true,
+      position: 'top-end',
+      type: isSuccess ? 'success' : 'error',
+      title: message,
+      showConfirmButton: false,
+      timer: 2000,
     });
   }
 }
