@@ -261,14 +261,26 @@
                 /></span>
                 {{ pk.pac_name }}
                 <div class="checkbox checkbox-success ml-3">
-                  <input [id]="pk.pac_code" type="checkbox" />
-                  <label [for]="pk.pac_code"> </label>
+                  <input
+                    [disabled]="listView[1]"
+                    [id]="'package' + pk.pac_id"
+                    type="checkbox"
+                    [checked]="checkPackage(pk)"
+                    (change)="onChangePackage($event, pk)"
+                  />
+                  <label [for]="'package' + pk.pac_id"> </label>
                 </div>
               </div>
-              <div class="ml-5">
+              <div class="ml-4 list-item">
                 <div *ngFor="let func of pk?.list_function">
-                  <div class="checkbox checkbox-success mb-2">
-                    <input [id]="func.fun_id" type="checkbox" />
+                  <div class="checkbox checkbox-success mb-2 ml-2">
+                    <input
+                      [disabled]="listView[1]"
+                      [id]="func.fun_id"
+                      type="checkbox"
+                      [checked]="checkFunction(func.fun_id)"
+                      (change)="onChangeFunc($event, func)"
+                    />
                     <label [for]="func.fun_id">
                       {{ func.fun_name }}
                     </label>

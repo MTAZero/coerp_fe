@@ -25,7 +25,7 @@ export class ListCompanyDetailComponent implements OnInit, OnDestroy {
   listPackage: any;
 
   formCompany: FormGroup;
-  listPackageFunction = [];
+  listFunction = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -93,7 +93,7 @@ export class ListCompanyDetailComponent implements OnInit, OnDestroy {
 
     const data = {
       ...this.formCompany.value,
-      list_package_function: this.listPackageFunction,
+      list_function: this.listFunction,
     };
     console.log(data);
     if (this.co_id)
@@ -102,6 +102,50 @@ export class ListCompanyDetailComponent implements OnInit, OnDestroy {
         co_id: this.co_id,
       });
     else this._createCompany(data);
+  }
+
+  checkFunction(fun_id: any) {
+    let flag = false;
+    this.listFunction.forEach((item) => {
+      if (item.fun_id === fun_id) flag = true;
+    });
+    return flag;
+  }
+
+  checkPackage(pac: any) {
+    let cnt = 0;
+    this.listFunction.forEach((item) => {
+      if (item.pac_id === pac.pac_id || item.package_id === pac.pac_id) cnt++;
+    });
+    if (pac.list_function.length !== 0 && pac.list_function.length === cnt) return true;
+    return false;
+  }
+
+  onChangeFunc(event: any, func: any) {
+    if (event.target.checked) {
+      this.listFunction.push(func);
+    } else {
+      this.listFunction = this.listFunction.filter((item) => item.fun_id !== func.fun_id);
+    }
+  }
+
+  onChangePackage(event: any, pk: any) {
+    if (event.target.checked) {
+      this.listFunction = this.listFunction.filter(
+        (item) =>
+          (item.pac_id !== pk.pac_id && item.pac_id) ||
+          (item.package_id && item.package_id !== pk.pac_id)
+      );
+      pk.list_function.forEach((item) => {
+        this.listFunction.push(item);
+      });
+    } else {
+      this.listFunction = this.listFunction.filter(
+        (item) =>
+          (item.pac_id !== pk.pac_id && item.pac_id) ||
+          (item.package_id && item.package_id !== pk.pac_id)
+      );
+    }
   }
 
   //#region Private
@@ -156,7 +200,7 @@ export class ListCompanyDetailComponent implements OnInit, OnDestroy {
       co_description: company.co_description,
     });
 
-    this.listPackageFunction = company.list_package_function;
+    this.listFunction = company.list_function;
   }
 
   private _createCompany(data: any) {

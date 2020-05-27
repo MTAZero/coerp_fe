@@ -77,7 +77,7 @@
           border: 1px solid lightgray;
           background-color: lightgray;
           margin: 10px;
-          height: fit-content;
+          //height: fit-content;
 
           .package-title {
             display: flex;
@@ -97,6 +97,11 @@
             label::before {
               position: relative;
             }
+          }
+
+          .list-item {
+            height: 80px;
+            overflow: auto;
           }
         }
       }
