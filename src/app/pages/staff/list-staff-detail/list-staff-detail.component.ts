@@ -61,6 +61,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
   formIdentityCard: FormGroup;
   formPermanentAddress: FormGroup;
   formNowAddress: FormGroup;
+  formAchieve: FormGroup;
   listTraining = [];
   listAddress = [];
   listRelative = [];
@@ -201,6 +202,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
       ...identityForm,
       ...this.formPermanentAddress.value,
       ...this.formNowAddress.value,
+      ...this.formAchieve.value,
       list_training: this.listTraining.concat(this.listNewTraining),
       list_undertaken_location: this.listAddress,
       list_bank: this.listBank,
@@ -376,12 +378,13 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
   onUpdateListTraining() {
     const modalRef = this.modalService.open(ListTrainingModalComponent, {
       centered: true,
-      size: 'lg',
+      size: 'xl',
     });
     modalRef.componentInstance.listTraining = this.listTraining;
     modalRef.componentInstance.passEvent.subscribe((res) => {
       if (res.event) {
         this.listTraining = res.data;
+        this.isChange = true;
       }
       modalRef.close();
     });
@@ -687,6 +690,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
     });
 
     this.formProfile = this.formBuilder.group({
+      sta_code: ['', [Validators.required]],
       sta_fullname: ['', [Validators.required]],
       sta_username: ['', [Validators.required]],
       group_role_id: ['', [Validators.required]],
@@ -732,6 +736,11 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
       unl_province_now: [null, [Validators.required]],
       unl_detail_now: [null, [Validators.required]],
     });
+
+    this.formAchieve = this.formBuilder.group({
+      achieved: ['', null],
+      comment: ['', null],
+    });
   }
 
   private _fetchFilter() {
@@ -766,6 +775,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
     });
 
     this.formProfile.patchValue({
+      sta_code: staff.sta_code,
       sta_fullname: staff.sta_fullname,
       sta_username: staff.sta_username,
       group_role_id: staff.group_role_id,
@@ -810,6 +820,11 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
       unl_district_now: staff.unl_district_now,
       unl_province_now: staff.unl_province_now,
       unl_detail_now: staff.unl_detail_now,
+    });
+
+    this.formAchieve.patchValue({
+      achieved: staff.achieved,
+      comment: staff.comment,
     });
 
     this._loadProvincePermanent();

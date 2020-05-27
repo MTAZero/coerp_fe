@@ -111,9 +111,7 @@ export class BankModalComponent implements OnInit {
   }
 
   private _loadCategory() {
-    const category$ = this.staffService
-      .loadBankCategory({ name: '' })
-      .pipe(takeUntil(this.destroyed$));
+    const category$ = this.staffService.loadBankCategory().pipe(takeUntil(this.destroyed$));
     category$.subscribe((res: any) => {
       if (res && res.Data) {
         this.categories = res.Data;
@@ -133,7 +131,7 @@ export class BankModalComponent implements OnInit {
 
   private _loadBank(categoryId: any, isFirst = false) {
     const bank$ = this.staffService
-      .loadBank({ bank_category_id: categoryId, name: '' })
+      .loadBank({ bank_category_id: categoryId })
       .pipe(takeUntil(this.destroyed$));
     bank$.subscribe((res: any) => {
       if (res && res.Data) {
@@ -151,7 +149,7 @@ export class BankModalComponent implements OnInit {
 
   private _loadBranch(bankId: any, isFirst = false) {
     const branch$ = this.staffService
-      .loadBankBranch({ bank_id: bankId, name: '' })
+      .loadBankBranch({ bank_id: bankId })
       .pipe(takeUntil(this.destroyed$));
     branch$.subscribe((res: any) => {
       if (res && res.Data) {

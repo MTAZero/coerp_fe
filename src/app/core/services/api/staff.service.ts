@@ -15,6 +15,8 @@ const router = {
   position: '/api/position/getall',
   department: '/api/department/getall',
   search_training: '/api/training/search',
+  update_training: '/api/training/update',
+  remove_training: '/api/training/delete',
   upload_attachment: '/api/attachment/update_file',
   load_bank_category: '/api/bank_category/getall',
   load_bank: '/api/bank/getall',
@@ -103,23 +105,32 @@ export class StaffService {
     return this.httpClient.get(router.search_training, params);
   }
 
+  updateTraining(data?: any) {
+    const form = mapToFormData(data);
+    return this.httpClient.putFormData(router.update_training, form);
+  }
+
+  removeTraining(filter?: { tn_id: number }) {
+    const params = mapToHttpParamsQuery(filter);
+    return this.httpClient.delete(router.remove_training, params);
+  }
+
   uploadAttachment(file: any) {
     const formData = new FormData();
     formData.append('file', file, file.name);
     return this.httpClient.putFormData(router.upload_attachment, formData);
   }
 
-  loadBankCategory(filter?: { name: string }) {
-    const params = mapToHttpParamsQuery(filter);
-    return this.httpClient.get(router.load_bank_category, params);
+  loadBankCategory() {
+    return this.httpClient.get(router.load_bank_category);
   }
 
-  loadBank(filter?: { bank_category_id: any; name: string }) {
+  loadBank(filter?: { bank_category_id: any }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.load_bank, params);
   }
 
-  loadBankBranch(filter?: { bank_id: any; name: string }) {
+  loadBankBranch(filter?: { bank_id: any }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.load_bank_branch, params);
   }

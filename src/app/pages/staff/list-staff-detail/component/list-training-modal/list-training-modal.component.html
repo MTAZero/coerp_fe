@@ -25,6 +25,7 @@
           <th>Thời gian bắt đầu</th>
           <th>Thời gian kết thúc</th>
           <th>Mục tiêu đào tạo</th>
+          <th>Thao tác</th>
         </tr>
       </thead>
       <tbody>
@@ -50,6 +51,18 @@
           </td>
           <td>
             {{ training.tn_purpose }}
+          </td>
+          <td>
+            <a href="javascript:void(0);" class="action-icon" (click)="openTrainingModal(training)">
+              <i class="mdi mdi-square-edit-outline"></i
+            ></a>
+            <a
+              href="javascript:void(0);"
+              class="action-icon"
+              (click)="openRemoveTraining(training)"
+            >
+              <i class="mdi mdi-delete"></i
+            ></a>
           </td>
         </tr>
         <tr *ngIf="!trainings || trainings.length === 0">

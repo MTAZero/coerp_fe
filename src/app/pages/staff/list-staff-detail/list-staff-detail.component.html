@@ -547,6 +547,30 @@
                 </div>
               </div>
             </div>
+            <div class="form-row">
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Mã nhân viên <span>(*)</span></label>
+                <div class="col-6">
+                  <input
+                    class="form-control"
+                    [readonly]="listView[1]"
+                    formControlName="sta_code"
+                    [ngClass]="{
+                      'is-invalid': submitted && formProfile.controls.sta_code.errors
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted && formProfile.controls.sta_code.errors"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="formProfile.controls.sta_code.errors.required"
+                      >Trường bắt buộc</span
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row mb-3"></div>
+            </div>
           </div>
 
           <div id="2" class="row title-section">
@@ -906,6 +930,10 @@
             <a class="btn btn-success btn-xs ml-2 button-link" (click)="openTrainingModal()"
               >Thêm mới</a
             >
+            <i
+              [ngClass]="listView[6] ? 'fe-edit ml-2' : 'fe-save ml-2'"
+              (click)="switchViewType(6)"
+            ></i>
           </div>
           <div class="table-responsive border mb-2">
             <table class="table table-centered table-hover mb-0">
@@ -983,6 +1011,27 @@
                 </tr>
               </tbody>
             </table>
+          </div>
+          <div class="form-row" [formGroup]="formAchieve">
+            <div class="form-group row mb-3">
+              <label class="col-4 col-form-label">Nhận xét</label>
+              <div class="col-6">
+                <textarea
+                  class="form-control"
+                  [readonly]="listView[6]"
+                  formControlName="comment"
+                ></textarea>
+              </div>
+            </div>
+            <div class="form-group row mb-3">
+              <label class="col-4 col-form-label">Trạng thái</label>
+              <div class="col-6">
+                <select class="custom-select" formControlName="achieved" class="form-control">
+                  <option [disabled]="listView[6]" [value]="1">Đạt</option>
+                  <option [disabled]="listView[6]" [value]="2">Không Đạt</option>
+                </select>
+              </div>
+            </div>
           </div>
 
           <div id="7" class="row title-section">
@@ -1243,6 +1292,7 @@
                 !formIdentityCard.dirty &&
                 !formPermanentAddress.dirty &&
                 !formNowAddress.dirty &&
+                !formAchieve.dirty &&
                 !isChange
               "
               (click)="onSubmit()"
