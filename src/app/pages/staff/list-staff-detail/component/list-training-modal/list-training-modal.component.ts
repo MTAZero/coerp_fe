@@ -63,6 +63,7 @@ export class ListTrainingModalComponent implements OnInit {
     });
     if (training) {
       modalRef.componentInstance.training = training;
+      modalRef.componentInstance.fromList = true;
     }
     modalRef.componentInstance.passEvent.subscribe((res) => {
       if (res.event) {

@@ -72,7 +72,7 @@ export class RelativeModalComponent implements OnInit {
       rels_id: ['temp_0', null],
       rels_fullname: ['', [Validators.required]],
       rels_relatives: ['', [Validators.required]],
-      rels_phone: ['', [Validators.required]],
+      rels_phone: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
       rels_address: ['', [Validators.required]],
     });
   }

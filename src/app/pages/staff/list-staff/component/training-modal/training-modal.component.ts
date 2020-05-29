@@ -12,6 +12,7 @@ import { isUndefined } from 'util';
 })
 export class TrainingModalComponent implements OnInit {
   @Input() training: any;
+  @Input() fromList: any;
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
   form: FormGroup;
   submitted = false;
@@ -36,6 +37,7 @@ export class TrainingModalComponent implements OnInit {
 
     if (this.form.valid) {
       const data = this.form.value;
+      console.log(data);
       data.tn_start_date = this._convertNgbDateToDate(data.tn_start_date);
       data.tn_end_date = this._convertNgbDateToDate(data.tn_end_date);
       this.passEvent.emit({ event: true, data });
@@ -46,22 +48,22 @@ export class TrainingModalComponent implements OnInit {
     console.log(event.target.value);
     const evaluate = event.target.value;
 
-    if (evaluate === 1)
+    if (evaluate === 1 || evaluate === '1')
       this.form.patchValue({
         ts_evaluate_name: 'Tốt',
       });
 
-    if (evaluate === 2)
+    if (evaluate === 2 || evaluate === '2')
       this.form.patchValue({
         ts_evaluate_name: 'Khá',
       });
 
-    if (evaluate === 3)
+    if (evaluate === 3 || evaluate === '3')
       this.form.patchValue({
         ts_evaluate_name: 'Trung bình',
       });
 
-    if (evaluate === 4)
+    if (evaluate === 4 || evaluate === '4')
       this.form.patchValue({
         ts_evaluate_name: 'Yếu',
       });

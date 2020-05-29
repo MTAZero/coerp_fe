@@ -401,10 +401,6 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
     modalRef.componentInstance.passEvent.subscribe((res) => {
       if (res.event) {
         if (training) {
-          this.listNewTraining = this.listNewTraining.map((item) => {
-            if (item.tn_id !== res.data.tn_id) return item;
-            return res.data;
-          });
           this.listTraining = this.listTraining.map((item) => {
             if (item.tn_id !== res.data.tn_id) return item;
             return res.data;
@@ -435,6 +431,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
     }).then((result) => {
       if (result.value) {
         this.listNewTraining = this.listNewTraining.filter((item) => item.tn_id !== training.tn_id);
+        this.listTraining = this.listTraining.filter((item) => item.tn_id !== training.tn_id);
         this.isChange = true;
       }
     });

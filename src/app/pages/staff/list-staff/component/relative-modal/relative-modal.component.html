@@ -47,6 +47,7 @@
       />
       <div *ngIf="submitted && form.controls.rels_phone.errors" class="invalid-feedback">
         <span *ngIf="form.controls.rels_phone.errors.required">Trường bắt buộc</span>
+        <span *ngIf="form.controls.rels_phone.errors.pattern">Số điện thoại chỉ chứa số</span>
       </div>
     </div>
   </div>
