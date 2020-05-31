@@ -44,6 +44,7 @@ export class RelativeTabComponent implements OnInit {
       centered: true,
     });
     modalRef.componentInstance.staffId = this.staffId;
+    modalRef.componentInstance.listRelative = this.listRelative;
     if (relative) {
       modalRef.componentInstance.relative = relative;
     }

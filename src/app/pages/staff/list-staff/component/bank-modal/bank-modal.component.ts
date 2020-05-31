@@ -13,6 +13,7 @@ import { StaffService } from '../../../../../core/services/api/staff.service';
 export class BankModalComponent implements OnInit {
   private destroyed$ = new Subject();
   @Input() bank: any;
+  @Input() listBank: any;
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
   form: FormGroup;
   submitted = false;
@@ -40,7 +41,13 @@ export class BankModalComponent implements OnInit {
     if (this.form.value.stb_account.trim() === '')
       return this.form.controls['stb_account'].setErrors({ required: true });
 
-    if (this.form.valid) {
+    let isConflict = false;
+    this.listBank.forEach((item) => {
+      if (item.stb_account.trim() === this.form.value.stb_account.trim()) isConflict = true;
+    });
+    if (isConflict) this._notify(false, 'Số tài khoản đã có trong hệ thống');
+
+    if (this.form.valid && !isConflict) {
       const data = this.form.value;
       this.passEvent.emit({ event: true, data });
     }
@@ -163,6 +170,17 @@ export class BankModalComponent implements OnInit {
           });
         }
       }
+    });
+  }
+
+  private _notify(isSuccess: boolean, message: string) {
+    return Swal.fire({
+      toast: true,
+      position: 'top-end',
+      type: isSuccess ? 'success' : 'error',
+      title: message,
+      showConfirmButton: false,
+      timer: 2000,
     });
   }
 }

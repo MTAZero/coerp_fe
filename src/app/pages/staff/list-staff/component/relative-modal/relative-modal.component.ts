@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 })
 export class RelativeModalComponent implements OnInit {
   @Input() relative: any;
+  @Input() listRelative: any;
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
   form: FormGroup;
   submitted = false;
@@ -37,7 +38,13 @@ export class RelativeModalComponent implements OnInit {
     if (this.form.value.rels_address.trim() === '')
       return this.form.controls['rels_address'].setErrors({ required: true });
 
-    if (this.form.valid) {
+    let isConflict = false;
+    this.listRelative.forEach((item) => {
+      if (item.rels_phone.trim() === this.form.value.rels_phone.trim()) isConflict = true;
+    });
+    if (isConflict) this._notify(false, 'Số điện thoại đã tồn tại');
+
+    if (this.form.valid && !isConflict) {
       const data = this.form.value;
       this.passEvent.emit({ event: true, data });
     }
@@ -84,6 +91,17 @@ export class RelativeModalComponent implements OnInit {
       rels_relatives: relative.rels_relatives,
       rels_phone: relative.rels_phone,
       rels_address: relative.rels_address,
+    });
+  }
+
+  private _notify(isSuccess: boolean, message: string) {
+    return Swal.fire({
+      toast: true,
+      position: 'top-end',
+      type: isSuccess ? 'success' : 'error',
+      title: message,
+      showConfirmButton: false,
+      timer: 2000,
     });
   }
 }

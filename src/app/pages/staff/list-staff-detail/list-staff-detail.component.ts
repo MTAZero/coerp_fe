@@ -181,7 +181,11 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
     if (this.formContractType.value.sta_type_contact === 1 && list_staff_work_time.length === 0)
       return this._notify(false, 'Chưa chọn ngày làm việc');
 
+    if (!/^\d+$/.test(this.formIdentityCard.value.sta_identity_card.trim()))
+      return this._notify(false, 'Số CMND/Thẻ căn cước chỉ chứa chữ số');
+
     const identityForm = this.formIdentityCard.value;
+    identityForm.sta_identity_card = identityForm.sta_identity_card.trim();
     identityForm.sta_identity_card_date = this._convertNgbDateToDate(
       identityForm.sta_identity_card_date
     );
@@ -190,6 +194,8 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
     );
 
     const profileForm = this.formProfile.value;
+    profileForm.sta_health_card = profileForm.sta_health_card.trim();
+    profileForm.sta_social_insurance = profileForm.sta_social_insurance.trim();
     profileForm.sta_birthday = this._convertNgbDateToDate(profileForm.sta_birthday);
     profileForm.sta_start_work_date = this._convertNgbDateToDate(profileForm.sta_start_work_date);
     profileForm.sta_end_work_date = this._convertNgbDateToDate(profileForm.sta_end_work_date);
@@ -714,7 +720,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
     });
 
     this.formIdentityCard = this.formBuilder.group({
-      sta_identity_card: ['', [Validators.pattern(/^\d+$/)]],
+      sta_identity_card: ['', null], ///^\d+$/
       sta_identity_card_date: [null, null],
       sta_identity_card_date_end: [null, null],
       sta_identity_card_location: ['', null],

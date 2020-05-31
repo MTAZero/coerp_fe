@@ -44,6 +44,7 @@ export class BankTabComponent implements OnInit {
       centered: true,
     });
     modalRef.componentInstance.staffId = this.staffId;
+    modalRef.componentInstance.listBank = this.listBank;
     if (bank) {
       modalRef.componentInstance.bank = bank;
     }
