@@ -1,4 +1,4 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["default~customer-customer-module~dashboard-dashboard-module~support-support-module~vendor-vendor-mod~449f3bff"],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["default~customer-customer-module~dashboard-dashboard-module~product-product-module~service-service-m~a3926cec"],{
 
 /***/ "./node_modules/apexcharts/dist/apexcharts.esm.js":
 /*!********************************************************!*\
@@ -28,10 +28,10 @@ function(){function t(t){t.remember("_draggable",this),this.el=t}t.prototype.ini
 
 /***/ }),
 
-/***/ "./node_modules/ng-apexcharts/fesm2015/ng-apexcharts.js":
-/*!**************************************************************!*\
-  !*** ./node_modules/ng-apexcharts/fesm2015/ng-apexcharts.js ***!
-  \**************************************************************/
+/***/ "./node_modules/ng-apexcharts/fesm5/ng-apexcharts.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/ng-apexcharts/fesm5/ng-apexcharts.js ***!
+  \***********************************************************/
 /*! exports provided: ChartComponent, NgApexchartsModule */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -39,9 +39,11 @@ function(){function t(t){t.remember("_draggable",this),this.el=t}t.prototype.ini
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ChartComponent", function() { return ChartComponent; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NgApexchartsModule", function() { return NgApexchartsModule; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm2015/index.js");
-/* harmony import */ var apexcharts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! apexcharts */ "./node_modules/apexcharts/dist/apexcharts.esm.js");
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+/* harmony import */ var apexcharts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! apexcharts */ "./node_modules/apexcharts/dist/apexcharts.esm.js");
+
 
 
 
@@ -51,57 +53,73 @@ __webpack_require__.r(__webpack_exports__);
  * Generated from: lib/chart/chart.component.ts
  * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-class ChartComponent {
-    constructor() {
+var ChartComponent = /** @class */ (function () {
+    function ChartComponent() {
         this.autoUpdateSeries = true;
     }
     /**
      * @return {?}
      */
-    ngOnInit() {
-        rxjs__WEBPACK_IMPORTED_MODULE_1__["asapScheduler"].schedule((/**
+    ChartComponent.prototype.ngOnInit = /**
+     * @return {?}
+     */
+    function () {
+        var _this = this;
+        rxjs__WEBPACK_IMPORTED_MODULE_2__["asapScheduler"].schedule((/**
          * @return {?}
          */
-        () => {
-            this.createElement();
+        function () {
+            _this.createElement();
         }));
-    }
+    };
     /**
      * @param {?} changes
      * @return {?}
      */
-    ngOnChanges(changes) {
-        rxjs__WEBPACK_IMPORTED_MODULE_1__["asapScheduler"].schedule((/**
+    ChartComponent.prototype.ngOnChanges = /**
+     * @param {?} changes
+     * @return {?}
+     */
+    function (changes) {
+        var _this = this;
+        rxjs__WEBPACK_IMPORTED_MODULE_2__["asapScheduler"].schedule((/**
          * @return {?}
          */
-        () => {
-            if (this.autoUpdateSeries &&
+        function () {
+            if (_this.autoUpdateSeries &&
                 Object.keys(changes).filter((/**
                  * @param {?} c
                  * @return {?}
                  */
-                c => c !== "series")).length === 0) {
-                this.updateSeries(this.series, true);
+                function (c) { return c !== "series"; })).length === 0) {
+                _this.updateSeries(_this.series, true);
                 return;
             }
-            this.createElement();
+            _this.createElement();
         }));
-    }
+    };
     /**
      * @return {?}
      */
-    ngOnDestroy() {
+    ChartComponent.prototype.ngOnDestroy = /**
+     * @return {?}
+     */
+    function () {
         if (this.chartObj) {
             this.chartObj.destroy();
         }
-    }
+    };
     /**
      * @private
      * @return {?}
      */
-    createElement() {
+    ChartComponent.prototype.createElement = /**
+     * @private
+     * @return {?}
+     */
+    function () {
         /** @type {?} */
-        const options = {};
+        var options = {};
         if (this.annotations) {
             options.annotations = this.annotations;
         }
@@ -168,15 +186,18 @@ class ChartComponent {
         if (this.chartObj) {
             this.chartObj.destroy();
         }
-        this.chartObj = new apexcharts__WEBPACK_IMPORTED_MODULE_2__["default"](this.chartElement.nativeElement, options);
+        this.chartObj = new apexcharts__WEBPACK_IMPORTED_MODULE_3__["default"](this.chartElement.nativeElement, options);
         this.render();
-    }
+    };
     /**
      * @return {?}
      */
-    render() {
+    ChartComponent.prototype.render = /**
+     * @return {?}
+     */
+    function () {
         return this.chartObj.render();
-    }
+    };
     /**
      * @param {?} options
      * @param {?=} redrawPaths
@@ -184,169 +205,253 @@ class ChartComponent {
      * @param {?=} updateSyncedCharts
      * @return {?}
      */
-    updateOptions(options, redrawPaths, animate, updateSyncedCharts) {
+    ChartComponent.prototype.updateOptions = /**
+     * @param {?} options
+     * @param {?=} redrawPaths
+     * @param {?=} animate
+     * @param {?=} updateSyncedCharts
+     * @return {?}
+     */
+    function (options, redrawPaths, animate, updateSyncedCharts) {
         return this.chartObj.updateOptions(options, redrawPaths, animate, updateSyncedCharts);
-    }
+    };
     /**
      * @param {?} newSeries
      * @param {?=} animate
      * @return {?}
      */
-    updateSeries(newSeries, animate) {
+    ChartComponent.prototype.updateSeries = /**
+     * @param {?} newSeries
+     * @param {?=} animate
+     * @return {?}
+     */
+    function (newSeries, animate) {
         this.chartObj.updateSeries(newSeries, animate);
-    }
+    };
     /**
      * @param {?} newSeries
      * @param {?=} animate
      * @return {?}
      */
-    appendSeries(newSeries, animate) {
+    ChartComponent.prototype.appendSeries = /**
+     * @param {?} newSeries
+     * @param {?=} animate
+     * @return {?}
+     */
+    function (newSeries, animate) {
         this.chartObj.appendSeries(newSeries, animate);
-    }
+    };
     /**
      * @param {?} seriesName
      * @return {?}
      */
-    toggleSeries(seriesName) {
+    ChartComponent.prototype.toggleSeries = /**
+     * @param {?} seriesName
+     * @return {?}
+     */
+    function (seriesName) {
         return this.chartObj.toggleSeries(seriesName);
-    }
+    };
     /**
      * @param {?} seriesName
      * @return {?}
      */
-    showSeries(seriesName) {
+    ChartComponent.prototype.showSeries = /**
+     * @param {?} seriesName
+     * @return {?}
+     */
+    function (seriesName) {
         this.chartObj.showSeries(seriesName);
-    }
+    };
     /**
      * @param {?} seriesName
      * @return {?}
      */
-    hideSeries(seriesName) {
+    ChartComponent.prototype.hideSeries = /**
+     * @param {?} seriesName
+     * @return {?}
+     */
+    function (seriesName) {
         this.chartObj.hideSeries(seriesName);
-    }
+    };
     /**
      * @return {?}
      */
-    resetSeries() {
+    ChartComponent.prototype.resetSeries = /**
+     * @return {?}
+     */
+    function () {
         this.chartObj.resetSeries();
-    }
+    };
     /**
      * @param {?} seriesIndex
      * @param {?=} dataPointIndex
      * @return {?}
      */
-    toggleDataPointSelection(seriesIndex, dataPointIndex) {
+    ChartComponent.prototype.toggleDataPointSelection = /**
+     * @param {?} seriesIndex
+     * @param {?=} dataPointIndex
+     * @return {?}
+     */
+    function (seriesIndex, dataPointIndex) {
         this.chartObj.toggleDataPointSelection(seriesIndex, dataPointIndex);
-    }
+    };
     /**
      * @param {?} options
      * @param {?=} pushToMemory
      * @param {?=} context
      * @return {?}
      */
-    addXaxisAnnotation(options, pushToMemory, context) {
+    ChartComponent.prototype.addXaxisAnnotation = /**
+     * @param {?} options
+     * @param {?=} pushToMemory
+     * @param {?=} context
+     * @return {?}
+     */
+    function (options, pushToMemory, context) {
         this.chartObj.addXaxisAnnotation(options, pushToMemory, context);
-    }
+    };
     /**
      * @param {?} options
      * @param {?=} pushToMemory
      * @param {?=} context
      * @return {?}
      */
-    addYaxisAnnotation(options, pushToMemory, context) {
+    ChartComponent.prototype.addYaxisAnnotation = /**
+     * @param {?} options
+     * @param {?=} pushToMemory
+     * @param {?=} context
+     * @return {?}
+     */
+    function (options, pushToMemory, context) {
         this.chartObj.addYaxisAnnotation(options, pushToMemory, context);
-    }
+    };
     /**
      * @param {?} options
      * @param {?=} pushToMemory
      * @param {?=} context
      * @return {?}
      */
-    addPointAnnotation(options, pushToMemory, context) {
+    ChartComponent.prototype.addPointAnnotation = /**
+     * @param {?} options
+     * @param {?=} pushToMemory
+     * @param {?=} context
+     * @return {?}
+     */
+    function (options, pushToMemory, context) {
         this.chartObj.addPointAnnotation(options, pushToMemory, context);
-    }
+    };
     /**
      * @param {?} id
      * @param {?=} options
      * @return {?}
      */
-    removeAnnotation(id, options) {
+    ChartComponent.prototype.removeAnnotation = /**
+     * @param {?} id
+     * @param {?=} options
+     * @return {?}
+     */
+    function (id, options) {
         this.chartObj.removeAnnotation(id, options);
-    }
+    };
     /**
      * @param {?=} options
      * @return {?}
      */
-    clearAnnotations(options) {
+    ChartComponent.prototype.clearAnnotations = /**
+     * @param {?=} options
+     * @return {?}
+     */
+    function (options) {
         this.chartObj.clearAnnotations(options);
-    }
+    };
     /**
      * @param {?} options
      * @param {?=} pushToMemory
      * @param {?=} context
      * @return {?}
      */
-    addText(options, pushToMemory, context) {
+    ChartComponent.prototype.addText = /**
+     * @param {?} options
+     * @param {?=} pushToMemory
+     * @param {?=} context
+     * @return {?}
+     */
+    function (options, pushToMemory, context) {
         this.chartObj.addText(options, pushToMemory, context);
-    }
+    };
     /**
      * @param {?=} localeName
      * @return {?}
      */
-    setLocale(localeName) {
+    ChartComponent.prototype.setLocale = /**
+     * @param {?=} localeName
+     * @return {?}
+     */
+    function (localeName) {
         this.chartObj.setLocale(localeName);
-    }
+    };
     /**
      * @return {?}
      */
-    dataURI() {
+    ChartComponent.prototype.dataURI = /**
+     * @return {?}
+     */
+    function () {
         return this.chartObj.dataURI();
-    }
+    };
     /**
      * @return {?}
      */
-    paper() {
+    ChartComponent.prototype.paper = /**
+     * @return {?}
+     */
+    function () {
         this.chartObj.paper();
-    }
+    };
     /**
      * @return {?}
      */
-    destroy() {
+    ChartComponent.prototype.destroy = /**
+     * @return {?}
+     */
+    function () {
         this.chartObj.destroy();
-    }
-}
-ChartComponent.decorators = [
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"], args: [{
-                selector: "apx-chart",
-                template: "<div #chart></div>\n",
-                styles: [""]
-            }] }
-];
-ChartComponent.propDecorators = {
-    chart: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
-    annotations: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
-    colors: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
-    dataLabels: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
-    series: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
-    stroke: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
-    labels: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
-    legend: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
-    markers: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
-    noData: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
-    fill: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
-    tooltip: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
-    plotOptions: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
-    responsive: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
-    xaxis: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
-    yaxis: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
-    grid: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
-    states: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
-    title: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
-    subtitle: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
-    theme: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
-    autoUpdateSeries: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"] }],
-    chartElement: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"], args: ["chart", { static: true },] }]
-};
+    };
+    ChartComponent.decorators = [
+        { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"], args: [{
+                    selector: "apx-chart",
+                    template: "<div #chart></div>\n",
+                    styles: [""]
+                }] }
+    ];
+    ChartComponent.propDecorators = {
+        chart: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+        annotations: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+        colors: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+        dataLabels: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+        series: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+        stroke: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+        labels: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+        legend: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+        markers: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+        noData: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+        fill: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+        tooltip: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+        plotOptions: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+        responsive: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+        xaxis: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+        yaxis: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+        grid: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+        states: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+        title: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+        subtitle: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+        theme: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+        autoUpdateSeries: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"] }],
+        chartElement: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"], args: ["chart", { static: true },] }]
+    };
+    return ChartComponent;
+}());
 if (false) {}
 
 /**
@@ -354,18 +459,21 @@ if (false) {}
  * Generated from: lib/ng-apexcharts.module.ts
  * @suppress {checkTypes,constantProperty,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-window.ApexCharts = apexcharts__WEBPACK_IMPORTED_MODULE_2__["default"];
+window.ApexCharts = apexcharts__WEBPACK_IMPORTED_MODULE_3__["default"];
 /** @type {?} */
-const declerations = [ChartComponent];
-class NgApexchartsModule {
-}
-NgApexchartsModule.decorators = [
-    { type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"], args: [{
-                declarations: [...declerations],
-                imports: [],
-                exports: [...declerations]
-            },] }
-];
+var declerations = [ChartComponent];
+var NgApexchartsModule = /** @class */ (function () {
+    function NgApexchartsModule() {
+    }
+    NgApexchartsModule.decorators = [
+        { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"], args: [{
+                    declarations: Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"])(declerations),
+                    imports: [],
+                    exports: Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__spread"])(declerations)
+                },] }
+    ];
+    return NgApexchartsModule;
+}());
 
 /**
  * @fileoverview added by tsickle
@@ -608,4 +716,4 @@ module.exports = function(originalModule) {
 /***/ })
 
 }]);
-//# sourceMappingURL=default~customer-customer-module~dashboard-dashboard-module~support-support-module~vendor-vendor-mod~449f3bff-es2015.js.map
+//# sourceMappingURL=default~customer-customer-module~dashboard-dashboard-module~product-product-module~service-service-m~a3926cec-es5.js.map

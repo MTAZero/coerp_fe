@@ -11,6 +11,17 @@ module.exports = "<div class=\"account-pages mt-5 mb-5\">\n  <div class=\"contai
 
 /***/ }),
 
+/***/ "./node_modules/raw-loader/index.js!./src/app/account/auth/first-login/first-login.component.html":
+/*!***********************************************************************************************!*\
+  !*** ./node_modules/raw-loader!./src/app/account/auth/first-login/first-login.component.html ***!
+  \***********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"account-pages mt-5 mb-5\">\n  <div class=\"container\">\n    <div class=\"row justify-content-center\">\n      <div class=\"col-md-8 col-lg-6 col-xl-5\">\n        <div class=\"card bg-pattern\">\n          <div class=\"card-body p-4\">\n            <div class=\"text-center w-75 m-auto\">\n              <a routerLink=\"/account/login\">\n                <img src=\"assets/images/1.JPG\" alt=\"\" height=\"22\" />\n              </a>\n              <p class=\"text-muted mb-4 mt-3\">\n                Thay đổi mật khẩu mặc định cho lần đăng nhập đầu tiên\n              </p>\n            </div>\n            <form\n              class=\"needs-validation\"\n              name=\"resetForm\"\n              [formGroup]=\"form\"\n              (ngSubmit)=\"onSubmit()\"\n              novalidate\n            >\n              <div class=\"form-group mb-3\">\n                <label>Mật khẩu cũ</label>\n                <input\n                  type=\"password\"\n                  formControlName=\"OldPassword\"\n                  class=\"form-control\"\n                  [ngClass]=\"{\n                    'is-invalid': submitted && f.OldPassword.errors\n                  }\"\n                  placeholder=\"Nhập mật khẩu cũ\"\n                />\n                <div *ngIf=\"submitted && f.OldPassword.errors\" class=\"invalid-feedback\">\n                  <div *ngIf=\"f.OldPassword.errors.required\">\n                    Trường mật khẩu cũ không được để trống\n                  </div>\n                </div>\n              </div>\n\n              <div class=\"form-group mb-3\">\n                <label>Mật khẩu mới</label>\n                <input\n                  type=\"password\"\n                  formControlName=\"NewPassword\"\n                  class=\"form-control\"\n                  [ngClass]=\"{\n                    'is-invalid': submitted && f.NewPassword.errors\n                  }\"\n                  placeholder=\"Nhập mật khẩu mới\"\n                />\n                <div *ngIf=\"submitted && f.NewPassword.errors\" class=\"invalid-feedback\">\n                  <div *ngIf=\"f.NewPassword.errors.required\">\n                    Trường mật khẩu mới không được để trống\n                  </div>\n                </div>\n              </div>\n\n              <div class=\"form-group mb-3\">\n                <label>Xác nhận mật khẩu mới</label>\n                <input\n                  type=\"password\"\n                  formControlName=\"ConfirmPassword\"\n                  class=\"form-control\"\n                  [ngClass]=\"{\n                    'is-invalid': submitted && f.ConfirmPassword.errors\n                  }\"\n                  placeholder=\"Nhập xác nhận mật khẩu\"\n                />\n                <div *ngIf=\"submitted && f.ConfirmPassword.errors\" class=\"invalid-feedback\">\n                  <div *ngIf=\"f.ConfirmPassword.errors.required\">\n                    Trường mật khẩu cũ không được để trống\n                  </div>\n                </div>\n              </div>\n\n              <div class=\"form-group mb-0 text-center\">\n                <button class=\"btn btn-primary btn-block\" type=\"submit\">\n                  Gửi\n                </button>\n              </div>\n            </form>\n          </div>\n        </div>\n\n        <div class=\"row mt-3\">\n          <div class=\"col-12 text-center\">\n            <p class=\"text-white-50\">\n              Quay lại\n              <a routerLink=\"/account/login\" class=\"text-white ml-1\"><b>Đăng nhập</b></a>\n            </p>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n\n<footer class=\"footer footer-alt\">\n  2019-2020 Bản quyền thuộc\n  <a href=\"\" class=\"text-white-50\">CoERP</a>\n</footer>\n"
+
+/***/ }),
+
 /***/ "./node_modules/raw-loader/index.js!./src/app/account/auth/login/login.component.html":
 /*!***********************************************************************************!*\
   !*** ./node_modules/raw-loader!./src/app/account/auth/login/login.component.html ***!
@@ -18,7 +29,7 @@ module.exports = "<div class=\"account-pages mt-5 mb-5\">\n  <div class=\"contai
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"account-pages mt-5 mb-5\">\n  <div class=\"container\">\n    <div class=\"row justify-content-center\">\n      <div class=\"col-md-8 col-lg-6 col-xl-5\">\n        <div class=\"card bg-pattern\">\n          <div class=\"card-body p-4\">\n            <!-- Logo -->\n            <div class=\"text-center w-75 m-auto\">\n              <a routerLink=\"/\">\n                <img src=\"assets/images/1.JPG\" alt=\"\" height=\"22\" />\n              </a>\n              <p class=\"text-muted mb-4 mt-3\">\n                Nhập tên đăng nhập và mật khẩu để truy cập trang quản trị\n              </p>\n            </div>\n\n            <form\n              class=\"needs-validation\"\n              name=\"loginForm\"\n              [formGroup]=\"loginForm\"\n              (ngSubmit)=\"onSubmit()\"\n              novalidate\n            >\n              <ngb-alert type=\"danger\" *ngIf=\"error\" [dismissible]=\"false\">{{\n                error\n              }}</ngb-alert>\n\n              <div class=\"form-group mb-3\">\n                <label for=\"username\">Tên đăng nhập</label>\n\n                <input\n                  formControlName=\"username\"\n                  class=\"form-control\"\n                  [ngClass]=\"{ 'is-invalid': submitted && f.username.errors }\"\n                  id=\"username\"\n                  placeholder=\"Tên đăng nhập\"\n                />\n\n                <div\n                  *ngIf=\"submitted && f.username.errors\"\n                  class=\"invalid-feedback\"\n                >\n                  <div *ngIf=\"f.username.errors.required\">\n                    Trường tên đăng nhập không được để trống\n                  </div>\n                </div>\n              </div>\n\n              <div class=\"form-group mb-3\">\n                <label for=\"password\">Mật khẩu</label>\n\n                <input\n                  type=\"password\"\n                  formControlName=\"password\"\n                  class=\"form-control\"\n                  [ngClass]=\"{ 'is-invalid': submitted && f.password.errors }\"\n                  id=\"password\"\n                  placeholder=\"Mật khẩu\"\n                />\n\n                <div\n                  *ngIf=\"submitted && f.password.errors\"\n                  class=\"invalid-feedback\"\n                >\n                  <div *ngIf=\"f.password.errors.required\">\n                    Trường mật khẩu không được để trống\n                  </div>\n                </div>\n              </div>\n\n              <div class=\"form-group mb-0 text-center\">\n                <button class=\"btn btn-primary btn-block\" type=\"submit\">\n                  Đăng nhập\n                </button>\n              </div>\n            </form>\n          </div>\n          <!-- end card-body -->\n        </div>\n        <!-- end card -->\n\n        <div class=\"row mt-3\">\n          <div class=\"col-12 text-center\">\n            <p>\n              <a routerLink=\"/account/reset-password\" class=\"text-white-50 ml-1\"\n                >Quên mật khẩu?</a\n              >\n            </p>\n          </div>\n          <!-- end col -->\n        </div>\n        <!-- end row -->\n      </div>\n      <!-- end col -->\n    </div>\n    <!-- end row -->\n  </div>\n  <!-- end container -->\n</div>\n<!-- end page -->\n\n<footer class=\"footer footer-alt\">\n  2019-2020 Bản quyền thuộc\n  <a href=\"\" class=\"text-white-50\">CoERP</a>\n</footer>\n"
+module.exports = "<div class=\"account-pages mt-5 mb-5\">\n  <div class=\"container\">\n    <div class=\"row justify-content-center\">\n      <div class=\"col-md-8 col-lg-6 col-xl-5\">\n        <div class=\"card bg-pattern\">\n          <div class=\"card-body p-4\">\n            <!-- Logo -->\n            <div class=\"text-center w-75 m-auto\">\n              <a routerLink=\"/\">\n                <img src=\"assets/images/1.JPG\" alt=\"\" height=\"22\" />\n              </a>\n              <p class=\"text-muted mb-4 mt-3\">\n                Nhập tên đăng nhập và mật khẩu để truy cập trang quản trị\n              </p>\n            </div>\n\n            <form\n              class=\"needs-validation\"\n              name=\"loginForm\"\n              [formGroup]=\"loginForm\"\n              (ngSubmit)=\"onSubmit()\"\n              novalidate\n            >\n              <div class=\"form-group mb-3\">\n                <label for=\"username\">Tên đăng nhập</label>\n\n                <input\n                  formControlName=\"username\"\n                  class=\"form-control\"\n                  [ngClass]=\"{ 'is-invalid': submitted && f.username.errors }\"\n                  id=\"username\"\n                  placeholder=\"Tên đăng nhập\"\n                />\n\n                <div *ngIf=\"submitted && f.username.errors\" class=\"invalid-feedback\">\n                  <div *ngIf=\"f.username.errors.required\">\n                    Trường tên đăng nhập không được để trống\n                  </div>\n                </div>\n              </div>\n\n              <div class=\"form-group mb-3\">\n                <label for=\"password\">Mật khẩu</label>\n\n                <input\n                  type=\"password\"\n                  formControlName=\"password\"\n                  class=\"form-control\"\n                  [ngClass]=\"{ 'is-invalid': submitted && f.password.errors }\"\n                  id=\"password\"\n                  placeholder=\"Mật khẩu\"\n                />\n\n                <div *ngIf=\"submitted && f.password.errors\" class=\"invalid-feedback\">\n                  <div *ngIf=\"f.password.errors.required\">\n                    Trường mật khẩu không được để trống\n                  </div>\n                </div>\n              </div>\n\n              <div class=\"form-group mb-0 text-center\">\n                <button class=\"btn btn-primary btn-block\" type=\"submit\">\n                  Đăng nhập\n                </button>\n              </div>\n            </form>\n          </div>\n        </div>\n\n        <div class=\"row mt-3\">\n          <div class=\"col-12 text-center\">\n            <p>\n              <a routerLink=\"/account/reset-password\" class=\"text-white-50 ml-1\">Quên mật khẩu?</a>\n            </p>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n\n<footer class=\"footer footer-alt\">\n  2019-2020 Bản quyền thuộc\n  <a href=\"\" class=\"text-white-50\">CoERP</a>\n</footer>\n"
 
 /***/ }),
 
@@ -29,7 +40,7 @@ module.exports = "<div class=\"account-pages mt-5 mb-5\">\n  <div class=\"contai
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"account-pages mt-5 mb-5\">\n  <div class=\"container\">\n    <div class=\"row justify-content-center\">\n      <div class=\"col-md-8 col-lg-6 col-xl-5\">\n        <div class=\"card bg-pattern\">\n          <div class=\"card-body p-4\">\n            <!-- Logo -->\n            <div class=\"text-center w-75 m-auto\">\n              <a routerLink=\"/account/login\">\n                <img src=\"assets/images/1.JPG\" alt=\"\" height=\"22\" />\n              </a>\n              <p class=\"text-muted mb-4 mt-3\">\n                Nhập địa chỉ email để nhận được hướng dẫn đặt lại mật khẩu mới\n              </p>\n            </div>\n\n            <form\n              class=\"needs-validation\"\n              name=\"resetForm\"\n              [formGroup]=\"resetForm\"\n              (ngSubmit)=\"onSubmit()\"\n              novalidate\n            >\n              <app-ui-preloader [display]=\"loading\"></app-ui-preloader>\n\n              <ngb-alert type=\"danger\" *ngIf=\"error\" [dismissible]=\"false\">{{\n                error\n              }}</ngb-alert>\n              <ngb-alert type=\"success\" *ngIf=\"success\" [dismissible]=\"false\">{{\n                success\n              }}</ngb-alert>\n\n              <div class=\"form-group mb-3\" *ngIf=\"!success\">\n                <label for=\"email\">Email</label>\n\n                <input\n                  type=\"email\"\n                  formControlName=\"email\"\n                  class=\"form-control\"\n                  [ngClass]=\"{ 'is-invalid': submitted && f.email.errors }\"\n                  id=\"email\"\n                  placeholder=\"Email\"\n                />\n\n                <div\n                  *ngIf=\"submitted && f.email.errors\"\n                  class=\"invalid-feedback\"\n                >\n                  <div *ngIf=\"f.email.errors.required\">\n                    Trường email không được để trống\n                  </div>\n                  <div *ngIf=\"f.email.errors.email\">\n                    Email sai định dạng\n                  </div>\n                </div>\n              </div>\n\n              <div class=\"form-group mb-0 text-center\" *ngIf=\"!success\">\n                <button class=\"btn btn-primary btn-block\" type=\"submit\">\n                  Gửi\n                </button>\n              </div>\n            </form>\n          </div>\n          <!-- end card-body-->\n        </div>\n        <!-- end card -->\n\n        <div class=\"row mt-3\">\n          <div class=\"col-12 text-center\">\n            <p class=\"text-white-50\">\n              Quay lại\n              <a routerLink=\"/account/login\" class=\"text-white ml-1\"\n                ><b>Đăng nhập</b></a\n              >\n            </p>\n          </div>\n          <!-- end col -->\n        </div>\n        <!-- end row -->\n      </div>\n      <!-- end col -->\n    </div>\n    <!-- end row -->\n  </div>\n  <!-- end container -->\n</div>\n<!-- end page -->\n\n<footer class=\"footer footer-alt\">\n  2019-2020 Bản quyền thuộc\n  <a href=\"\" class=\"text-white-50\">CoERP</a>\n</footer>\n"
+module.exports = "<div class=\"account-pages mt-5 mb-5\">\n  <div class=\"container\">\n    <div class=\"row justify-content-center\">\n      <div class=\"col-md-8 col-lg-6 col-xl-5\">\n        <div class=\"card bg-pattern\">\n          <div class=\"card-body p-4\">\n            <!-- Logo -->\n            <div class=\"text-center w-75 m-auto\">\n              <a routerLink=\"/account/login\">\n                <img src=\"assets/images/1.JPG\" alt=\"\" height=\"22\" />\n              </a>\n              <p class=\"text-muted mb-4 mt-3\">\n                Nhập địa chỉ email để nhận được hướng dẫn đặt lại mật khẩu mới\n              </p>\n            </div>\n\n            <form\n              class=\"needs-validation\"\n              name=\"resetForm\"\n              [formGroup]=\"resetForm\"\n              (ngSubmit)=\"onSubmit()\"\n              novalidate\n            >\n              <div class=\"form-group mb-3\" *ngIf=\"!success\">\n                <label for=\"email\">Email</label>\n\n                <input\n                  type=\"email\"\n                  formControlName=\"email\"\n                  class=\"form-control\"\n                  [ngClass]=\"{ 'is-invalid': submitted && f.email.errors }\"\n                  id=\"email\"\n                  placeholder=\"Email\"\n                />\n\n                <div *ngIf=\"submitted && f.email.errors\" class=\"invalid-feedback\">\n                  <div *ngIf=\"f.email.errors.required\">\n                    Trường email không được để trống\n                  </div>\n                  <div *ngIf=\"f.email.errors.email\">\n                    Email sai định dạng\n                  </div>\n                </div>\n              </div>\n\n              <div class=\"form-group mb-0 text-center\" *ngIf=\"!success\">\n                <button class=\"btn btn-primary btn-block\" type=\"submit\">\n                  Gửi\n                </button>\n              </div>\n            </form>\n          </div>\n          <!-- end card-body-->\n        </div>\n        <!-- end card -->\n\n        <div class=\"row mt-3\">\n          <div class=\"col-12 text-center\">\n            <p class=\"text-white-50\">\n              Quay lại\n              <a routerLink=\"/account/login\" class=\"text-white ml-1\"><b>Đăng nhập</b></a>\n            </p>\n          </div>\n          <!-- end col -->\n        </div>\n        <!-- end row -->\n      </div>\n      <!-- end col -->\n    </div>\n    <!-- end row -->\n  </div>\n  <!-- end container -->\n</div>\n<!-- end page -->\n\n<footer class=\"footer footer-alt\">\n  2019-2020 Bản quyền thuộc\n  <a href=\"\" class=\"text-white-50\">CoERP</a>\n</footer>\n"
 
 /***/ }),
 
@@ -130,6 +141,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _signup_signup_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./signup/signup.component */ "./src/app/account/auth/signup/signup.component.ts");
 /* harmony import */ var _confirm_confirm_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./confirm/confirm.component */ "./src/app/account/auth/confirm/confirm.component.ts");
 /* harmony import */ var _passwordreset_passwordreset_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./passwordreset/passwordreset.component */ "./src/app/account/auth/passwordreset/passwordreset.component.ts");
+/* harmony import */ var _first_login_first_login_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./first-login/first-login.component */ "./src/app/account/auth/first-login/first-login.component.ts");
+
 
 
 
@@ -154,6 +167,10 @@ const routes = [
         path: 'reset-password',
         component: _passwordreset_passwordreset_component__WEBPACK_IMPORTED_MODULE_6__["PasswordresetComponent"]
     },
+    {
+        path: 'first-login',
+        component: _first_login_first_login_component__WEBPACK_IMPORTED_MODULE_7__["FirstLoginComponent"]
+    }
 ];
 let AuthRoutingModule = class AuthRoutingModule {
 };
@@ -189,6 +206,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _auth_routing__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./auth-routing */ "./src/app/account/auth/auth-routing.ts");
 /* harmony import */ var _confirm_confirm_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./confirm/confirm.component */ "./src/app/account/auth/confirm/confirm.component.ts");
 /* harmony import */ var _passwordreset_passwordreset_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./passwordreset/passwordreset.component */ "./src/app/account/auth/passwordreset/passwordreset.component.ts");
+/* harmony import */ var _first_login_first_login_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./first-login/first-login.component */ "./src/app/account/auth/first-login/first-login.component.ts");
+
 
 
 
@@ -204,7 +223,7 @@ let AuthModule = class AuthModule {
 };
 AuthModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
-        declarations: [_login_login_component__WEBPACK_IMPORTED_MODULE_6__["LoginComponent"], _signup_signup_component__WEBPACK_IMPORTED_MODULE_7__["SignupComponent"], _confirm_confirm_component__WEBPACK_IMPORTED_MODULE_9__["ConfirmComponent"], _passwordreset_passwordreset_component__WEBPACK_IMPORTED_MODULE_10__["PasswordresetComponent"]],
+        declarations: [_login_login_component__WEBPACK_IMPORTED_MODULE_6__["LoginComponent"], _signup_signup_component__WEBPACK_IMPORTED_MODULE_7__["SignupComponent"], _confirm_confirm_component__WEBPACK_IMPORTED_MODULE_9__["ConfirmComponent"], _passwordreset_passwordreset_component__WEBPACK_IMPORTED_MODULE_10__["PasswordresetComponent"], _first_login_first_login_component__WEBPACK_IMPORTED_MODULE_11__["FirstLoginComponent"]],
         imports: [
             _angular_common__WEBPACK_IMPORTED_MODULE_2__["CommonModule"],
             _angular_forms__WEBPACK_IMPORTED_MODULE_3__["ReactiveFormsModule"],
@@ -266,6 +285,110 @@ ConfirmComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 
 /***/ }),
 
+/***/ "./src/app/account/auth/first-login/first-login.component.scss":
+/*!*********************************************************************!*\
+  !*** ./src/app/account/auth/first-login/first-login.component.scss ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2FjY291bnQvYXV0aC9maXJzdC1sb2dpbi9maXJzdC1sb2dpbi5jb21wb25lbnQuc2NzcyJ9 */"
+
+/***/ }),
+
+/***/ "./src/app/account/auth/first-login/first-login.component.ts":
+/*!*******************************************************************!*\
+  !*** ./src/app/account/auth/first-login/first-login.component.ts ***!
+  \*******************************************************************/
+/*! exports provided: FirstLoginComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FirstLoginComponent", function() { return FirstLoginComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm2015/forms.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+/* harmony import */ var _core_services_api_auth_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../core/services/api/auth.service */ "./src/app/core/services/api/auth.service.ts");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_5__);
+
+
+
+
+
+
+let FirstLoginComponent = class FirstLoginComponent {
+    constructor(formBuilder, router, authService) {
+        this.formBuilder = formBuilder;
+        this.router = router;
+        this.authService = authService;
+        this.submitted = false;
+    }
+    ngOnInit() {
+        this.form = this.formBuilder.group({
+            OldPassword: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required]],
+            NewPassword: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required]],
+            ConfirmPassword: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required]]
+        });
+    }
+    ngAfterViewInit() {
+        document.body.classList.add('authentication-bg');
+        document.body.classList.add('authentication-bg-pattern');
+    }
+    get f() {
+        return this.form.controls;
+    }
+    onSubmit() {
+        this.submitted = true;
+        const id = localStorage.getItem('sta_id');
+        if (this.form.invalid) {
+            return;
+        }
+        this.authService.changePassword({ id }, this.form.value).subscribe((res) => {
+            if (res && res.Code === 200) {
+                this._notify(true, res.Message);
+                this.router.navigate(['/account/login']);
+            }
+            else {
+                this._notify(false, res.Message);
+            }
+        }, e => {
+            this._notify(false, e.Message);
+        });
+    }
+    _notify(isSuccess, message) {
+        return sweetalert2__WEBPACK_IMPORTED_MODULE_5___default.a.fire({
+            toast: true,
+            position: 'top-end',
+            type: isSuccess ? 'success' : 'error',
+            title: message,
+            showConfirmButton: false,
+            timer: 2000
+        });
+    }
+};
+FirstLoginComponent.ctorParameters = () => [
+    { type: _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"] },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"] },
+    { type: _core_services_api_auth_service__WEBPACK_IMPORTED_MODULE_4__["AuthService"] }
+];
+FirstLoginComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+        selector: 'app-first-login',
+        template: __webpack_require__(/*! raw-loader!./first-login.component.html */ "./node_modules/raw-loader/index.js!./src/app/account/auth/first-login/first-login.component.html"),
+        styles: [__webpack_require__(/*! ./first-login.component.scss */ "./src/app/account/auth/first-login/first-login.component.scss")]
+    }),
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"],
+        _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"],
+        _core_services_api_auth_service__WEBPACK_IMPORTED_MODULE_4__["AuthService"]])
+], FirstLoginComponent);
+
+
+
+/***/ }),
+
 /***/ "./src/app/account/auth/login/login.component.scss":
 /*!*********************************************************!*\
   !*** ./src/app/account/auth/login/login.component.scss ***!
@@ -295,6 +418,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm2015/index.js");
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_8__);
+
 
 
 
@@ -312,13 +438,11 @@ let LoginComponent = class LoginComponent {
         this.authenticationService = authenticationService;
         this.destroyed$ = new rxjs__WEBPACK_IMPORTED_MODULE_6__["Subject"]();
         this.submitted = false;
-        this.error = '';
-        this.loading = false;
     }
     ngOnInit() {
         this.loginForm = this.formBuilder.group({
             username: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required]],
-            password: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required]
+            password: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
         });
         // reset login status
         this.authenticationService.logout();
@@ -348,15 +472,36 @@ let LoginComponent = class LoginComponent {
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_7__["takeUntil"])(this.destroyed$), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_7__["catchError"])(this.catchError));
         login$.subscribe((res) => {
             if (res) {
-                if (res && res.access_token && res.userName) {
+                if (res && res.access_token && res.staff_Name) {
                     this.storageService.setItem('access_token', res.access_token);
-                    this.storageService.setItem('userName', res.userName);
+                    this.storageService.setItem('userName', res.staff_Name);
                     this.storageService.setItem('thumbnail', res.url_thumbnai);
-                    this.router.navigate([this.returnUrl]);
+                    this.storageService.setItem('sta_id', res.sta_id);
+                    this.storageService.setItem('role', res.Role);
+                    if (res.sta_login === 'True') {
+                        this.returnUrl = '/account/first-login';
+                        this.router.navigate([this.returnUrl]);
+                    }
+                    else {
+                        sweetalert2__WEBPACK_IMPORTED_MODULE_8___default.a.fire({
+                            position: 'top-end',
+                            type: 'success',
+                            title: 'Đăng nhập thành công',
+                            showConfirmButton: false,
+                            timer: 2000,
+                        });
+                        this.router.navigate([this.returnUrl]);
+                    }
                 }
             }
             if (typeof res !== 'object') {
-                this.error = res;
+                sweetalert2__WEBPACK_IMPORTED_MODULE_8___default.a.fire({
+                    position: 'top-end',
+                    type: 'error',
+                    title: 'Đăng nhập thất bại',
+                    showConfirmButton: false,
+                    timer: 2000,
+                });
             }
         });
     }
@@ -413,53 +558,68 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm2015/forms.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+/* harmony import */ var _core_services_api_auth_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../core/services/api/auth.service */ "./src/app/core/services/api/auth.service.ts");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_5__);
+
+
 
 
 
 
 let PasswordresetComponent = class PasswordresetComponent {
-    constructor(formBuilder, route, router) {
+    constructor(formBuilder, router, authService) {
         this.formBuilder = formBuilder;
-        this.route = route;
         this.router = router;
+        this.authService = authService;
         this.submitted = false;
-        this.error = '';
-        this.success = '';
-        this.loading = false;
     }
     ngOnInit() {
         this.resetForm = this.formBuilder.group({
-            email: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].email]],
+            email: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].email]]
         });
     }
     ngAfterViewInit() {
         document.body.classList.add('authentication-bg');
         document.body.classList.add('authentication-bg-pattern');
     }
-    // convenience getter for easy access to form fields
-    get f() { return this.resetForm.controls; }
-    /**
-     * On submit form
-     */
+    get f() {
+        return this.resetForm.controls;
+    }
     onSubmit() {
-        this.success = '';
         this.submitted = true;
-        // stop here if form is invalid
         if (this.resetForm.invalid) {
             return;
         }
-        this.loading = true;
-        console.log(this.resetForm.value);
-        setTimeout(() => {
-            this.loading = false;
-            this.success = 'We have sent you an email containing a link to reset your password';
-        }, 1000);
+        this.authService.forgotPassword(this.resetForm.value.email).subscribe((res) => {
+            if (res && res.Code === 200) {
+                this._notify(true, res.Message);
+                this.router.navigate(['/account/login']);
+                this.authService.sendMailForgot(this.resetForm.value.email).subscribe(res => {
+                    console.log(res);
+                });
+            }
+            else
+                this._notify(false, res.Message);
+        }, e => {
+            this._notify(false, e.Message);
+        });
+    }
+    _notify(isSuccess, message) {
+        return sweetalert2__WEBPACK_IMPORTED_MODULE_5___default.a.fire({
+            toast: true,
+            position: 'top-end',
+            type: isSuccess ? 'success' : 'error',
+            title: message,
+            showConfirmButton: false,
+            timer: 2000
+        });
     }
 };
 PasswordresetComponent.ctorParameters = () => [
     { type: _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"] },
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"] },
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"] }
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"] },
+    { type: _core_services_api_auth_service__WEBPACK_IMPORTED_MODULE_4__["AuthService"] }
 ];
 PasswordresetComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -467,7 +627,9 @@ PasswordresetComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         template: __webpack_require__(/*! raw-loader!./passwordreset.component.html */ "./node_modules/raw-loader/index.js!./src/app/account/auth/passwordreset/passwordreset.component.html"),
         styles: [__webpack_require__(/*! ./passwordreset.component.scss */ "./src/app/account/auth/passwordreset/passwordreset.component.scss")]
     }),
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]])
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"],
+        _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"],
+        _core_services_api_auth_service__WEBPACK_IMPORTED_MODULE_4__["AuthService"]])
 ], PasswordresetComponent);
 
 

@@ -1,4 +1,4 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["default~customer-customer-module~marketing-marketing-module~product-product-module~staff-staff-modul~1eb06ba2"],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["default~account-account-module~customer-customer-module~marketing-marketing-module~permission-permis~22a204e2"],{
 
 /***/ "./node_modules/sweetalert2/dist/sweetalert2.all.js":
 /*!**********************************************************!*\
@@ -2926,4 +2926,4 @@ if (typeof this !== 'undefined' && this.Sweetalert2){  this.swal = this.sweetAle
 /***/ })
 
 }]);
-//# sourceMappingURL=default~customer-customer-module~marketing-marketing-module~product-product-module~staff-staff-modul~1eb06ba2-es2015.js.map
+//# sourceMappingURL=default~account-account-module~customer-customer-module~marketing-marketing-module~permission-permis~22a204e2-es2015.js.map

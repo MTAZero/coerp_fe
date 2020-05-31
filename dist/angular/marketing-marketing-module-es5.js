@@ -33,17 +33,6 @@ module.exports = "<div class=\"container-fluid\">\n  <app-page-title\n    title=
 
 /***/ }),
 
-/***/ "./node_modules/raw-loader/index.js!./src/app/pages/marketing/email-template/component/confirm-modal/confirm-modal.component.html":
-/*!*******************************************************************************************************************************!*\
-  !*** ./node_modules/raw-loader!./src/app/pages/marketing/email-template/component/confirm-modal/confirm-modal.component.html ***!
-  \*******************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "<div class=\"modal-header bg-dark\">\n  <h4 class=\"modal-title text-white\">{{ title }}</h4>\n  <button\n    type=\"button\"\n    class=\"close text-white\"\n    aria-label=\"Close\"\n    (click)=\"onClickButton(false)\"\n  >\n    <span aria-hidden=\"true\">&times;</span>\n  </button>\n</div>\n<div class=\"modal-body p-3\">\n  <div class=\"text-center\">\n    <div class=\"mb-3\">\n      {{ message }}\n    </div>\n    <div class=\"text-right\">\n      <button (click)=\"onClickButton(true)\" class=\"btn btn-success\">Có</button>\n      <button\n        type=\"button\"\n        class=\"btn btn-danger ml-1\"\n        (click)=\"onClickButton(false)\"\n      >\n        Không\n      </button>\n    </div>\n  </div>\n</div>\n"
-
-/***/ }),
-
 /***/ "./node_modules/raw-loader/index.js!./src/app/pages/marketing/email-template/component/email-template-modal/email-template-modal.component.html":
 /*!*********************************************************************************************************************************************!*\
   !*** ./node_modules/raw-loader!./src/app/pages/marketing/email-template/component/email-template-modal/email-template-modal.component.html ***!
@@ -66,17 +55,6 @@ module.exports = "<div class=\"container-fluid\">\n  <app-page-title\n    title=
 
 /***/ }),
 
-/***/ "./node_modules/raw-loader/index.js!./src/app/pages/marketing/sms-campaign/component/confirm-modal/confirm-modal.component.html":
-/*!*****************************************************************************************************************************!*\
-  !*** ./node_modules/raw-loader!./src/app/pages/marketing/sms-campaign/component/confirm-modal/confirm-modal.component.html ***!
-  \*****************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "<div class=\"modal-header bg-dark\">\n  <h4 class=\"modal-title text-white\">{{ title }}</h4>\n  <button\n    type=\"button\"\n    class=\"close text-white\"\n    aria-label=\"Close\"\n    (click)=\"onClickButton(false)\"\n  >\n    <span aria-hidden=\"true\">&times;</span>\n  </button>\n</div>\n<div class=\"modal-body p-3\">\n  <div class=\"text-center\">\n    <div class=\"mb-3\">\n      {{ message }}\n    </div>\n    <div class=\"text-right\">\n      <button (click)=\"onClickButton(true)\" class=\"btn btn-success\">Có</button>\n      <button\n        type=\"button\"\n        class=\"btn btn-danger ml-1\"\n        (click)=\"onClickButton(false)\"\n      >\n        Không\n      </button>\n    </div>\n  </div>\n</div>\n"
-
-/***/ }),
-
 /***/ "./node_modules/raw-loader/index.js!./src/app/pages/marketing/sms-campaign/component/list-customer-modal/list-customer-modal.component.html":
 /*!*****************************************************************************************************************************************!*\
   !*** ./node_modules/raw-loader!./src/app/pages/marketing/sms-campaign/component/list-customer-modal/list-customer-modal.component.html ***!
@@ -95,7 +73,7 @@ module.exports = "<div class=\"modal-header bg-dark\">\n  <h4 class=\"modal-titl
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal-header bg-dark\">\n  <h4 class=\"modal-title text-white\">Danh sách mẫu Sms</h4>\n  <button\n    type=\"button\"\n    class=\"close text-white\"\n    aria-label=\"Close\"\n    (click)=\"onClickCancel()\"\n  >\n    <span aria-hidden=\"true\">&times;</span>\n  </button>\n</div>\n<div class=\"modal-body p-3\">\n  <div class=\"table-responsive\">\n    <table class=\"table table-centered table-hover mb-0\">\n      <thead>\n        <tr>\n          <th>Tên mẫu</th>\n          <th>Người tạo</th>\n          <th>Ngày tạo</th>\n          <th>Người sửa</th>\n          <th>Ngày sửa</th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr\n          *ngFor=\"let customer of customerData; let i = index\"\n          (click)=\"onClickEmail()\"\n        >\n          <td>\n            {{ customer.name }}\n          </td>\n          <td>\n            {{ customer.create_by }}\n          </td>\n          <td>\n            {{ customer.create_date }}\n          </td>\n          <td>\n            {{ customer.update_by }}\n          </td>\n          <td>\n            {{ customer.update_date }}\n          </td>\n        </tr>\n      </tbody>\n    </table>\n  </div>\n</div>\n"
+module.exports = "<div class=\"modal-header bg-dark\">\n  <h4 class=\"modal-title text-white\">Danh sách mẫu Sms</h4>\n  <button type=\"button\" class=\"close text-white\" aria-label=\"Close\" (click)=\"onClickCancel()\">\n    <span aria-hidden=\"true\">&times;</span>\n  </button>\n</div>\n<div class=\"modal-body p-3\">\n  <div class=\"table-responsive\">\n    <table class=\"table table-centered table-hover mb-0\">\n      <thead>\n        <tr>\n          <th></th>\n          <th>Mã</th>\n          <th>Tên mẫu</th>\n          <th>Người tạo</th>\n          <th>Ngày tạo</th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr *ngFor=\"let template of templates; let i = index\" (click)=\"onClickEmail(template)\">\n          <td>\n            <input\n              type=\"radio\"\n              name=\"radiogroup\"\n              [checked]=\"selectedTemplate?.smt_id === template.smt_id\"\n            />\n          </td>\n          <td>{{ template.smt_code }}</td>\n          <td>\n            {{ template.smt_title }}\n          </td>\n          <td>\n            {{ template.staff_fullname }}\n          </td>\n          <td>\n            {{ template.smt_created_date | date: 'dd/MM/yyyy' }}\n          </td>\n        </tr>\n      </tbody>\n    </table>\n  </div>\n  <div class=\"text-right mt-3\">\n    <button class=\"btn btn-danger ml-1\" (click)=\"onClickCancel()\">\n      Hủy\n    </button>\n    <button class=\"btn btn-success ml-1\" (click)=\"onClickSubmit()\">\n      Lưu\n    </button>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -106,7 +84,7 @@ module.exports = "<div class=\"modal-header bg-dark\">\n  <h4 class=\"modal-titl
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal-header bg-dark\">\n  <h4 class=\"modal-title text-white\">Thêm mới chiến dịch SMS</h4>\n  <button\n    type=\"button\"\n    class=\"close text-white\"\n    aria-label=\"Close\"\n    (click)=\"onClickCancel()\"\n  >\n    <span aria-hidden=\"true\">&times;</span>\n  </button>\n</div>\n<div class=\"modal-body p-3\">\n  <div class=\"text-left\">\n    <form>\n      <div class=\"form-row\">\n        <div class=\"form-group row mb-3\" style=\"width: 100%\">\n          <label class=\"col-2 col-form-label\">Đến</label>\n          <div class=\"col-10\">\n            <div class=\"input-group\" style=\"margin-bottom: 1rem;\">\n              <input type=\"text\" class=\"form-control\" placeholder=\"Đến\" />\n              <div class=\"input-group-append\">\n                <button\n                  class=\"btn btn-primary\"\n                  type=\"button\"\n                  (click)=\"openCustomerModal()\"\n                >\n                  Danh sách khách hàng\n                </button>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"form-row\">\n        <div class=\"form-group row mb-3\" style=\"width: 100%\">\n          <label class=\"col-2 col-form-label\">Chọn</label>\n          <div class=\"col-10\">\n            <button\n              type=\"button\"\n              class=\"btn btn-xs btn-primary mr-1\"\n              (click)=\"openSmsModal()\"\n            >\n              Mẫu SMS\n            </button>\n          </div>\n        </div>\n      </div>\n      <div class=\"form-row\">\n        <div class=\"form-group row mb-3\" style=\"width: 100%\">\n          <label class=\"col-2 col-form-label\">Nội dung <span>(*)</span></label>\n          <div class=\"col-10\">\n            <textarea rows=\"10\" style=\"width: 100%;\"></textarea>\n          </div>\n        </div>\n      </div>\n      <div class=\"form-row\">\n        <div class=\"form-group row mb-3\" style=\"width: 100%\">\n          <label class=\"col-2 col-form-label\"></label>\n          <div class=\"col-10\">\n            (Nội dung ghi bằng tiếng Việt không dấu)\n          </div>\n        </div>\n      </div>\n\n      <div class=\"text-right\">\n        <button type=\"button\" class=\"btn btn-danger\" (click)=\"onClickCancel()\">\n          Hủy\n        </button>\n        <button\n          type=\"button\"\n          class=\"btn btn-success ml-1\"\n          (click)=\"onClickCancel()\"\n        >\n          Gửi SMS\n        </button>\n      </div>\n    </form>\n  </div>\n</div>\n"
+module.exports = "<div class=\"modal-header bg-dark\">\n  <h4 class=\"modal-title text-white\">Thêm mới chiến dịch SMS</h4>\n  <button type=\"button\" class=\"close text-white\" aria-label=\"Close\" (click)=\"onClickCancel()\">\n    <span aria-hidden=\"true\">&times;</span>\n  </button>\n</div>\n<div class=\"modal-body p-3\">\n  <div class=\"text-left\">\n    <form>\n      <div class=\"form-row\">\n        <div class=\"form-group row mb-3\" style=\"width: 100%\">\n          <label class=\"col-2 col-form-label\">Tiêu đề <span>(*)</span></label>\n          <div class=\"col-10\">\n            <div class=\"input-group\" style=\"margin-bottom: 1rem;\">\n              <input class=\"form-control\" name=\"textSearch\" [(ngModel)]=\"strategyTitle\" />\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"form-row\">\n        <div class=\"form-group row mb-3\" style=\"width: 100%\">\n          <label class=\"col-2 col-form-label\">Đến <span>(*)</span></label>\n          <div class=\"col-10\">\n            <div class=\"input-group\" style=\"margin-bottom: 1rem;\">\n              <ng-select\n                style=\"width: 100%;\"\n                name=\"customerGroups\"\n                [items]=\"customerGroups\"\n                [multiple]=\"true\"\n                bindLabel=\"cg_name\"\n                [closeOnSelect]=\"false\"\n                bindValue=\"cg_id\"\n                [(ngModel)]=\"selectedCustomerGroups\"\n              >\n              </ng-select>\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"form-row\">\n        <div class=\"form-group row mb-3\" style=\"width: 100%\">\n          <label class=\"col-2 col-form-label\">Chọn</label>\n          <div class=\"col-10\">\n            <button type=\"button\" class=\"btn btn-xs btn-primary mr-1\" (click)=\"openSmsModal()\">\n              Mẫu SMS\n            </button>\n          </div>\n        </div>\n      </div>\n      <div class=\"form-row\">\n        <div class=\"form-group row mb-3\" style=\"width: 100%\">\n          <label class=\"col-2 col-form-label\">Nội dung <span>(*)</span></label>\n          <div class=\"col-10\">\n            <textarea\n              rows=\"10\"\n              style=\"width: 100%;\"\n              readonly\n              [value]=\"selectedSms?.smt_content\"\n            ></textarea>\n          </div>\n        </div>\n      </div>\n      <div class=\"form-row\">\n        <div class=\"form-group row mb-3\" style=\"width: 100%\">\n          <label class=\"col-2 col-form-label\"></label>\n          <div class=\"col-10\">\n            (Nội dung ghi bằng tiếng Việt không dấu)\n          </div>\n        </div>\n      </div>\n\n      <div class=\"text-right\">\n        <button type=\"button\" class=\"btn btn-danger\" (click)=\"onClickCancel()\">\n          Hủy\n        </button>\n        <button type=\"button\" class=\"btn btn-success ml-1\" (click)=\"onClickSubmit()\">\n          Gửi SMS\n        </button>\n      </div>\n    </form>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -117,18 +95,7 @@ module.exports = "<div class=\"modal-header bg-dark\">\n  <h4 class=\"modal-titl
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid\">\n  <app-page-title title=\"Chiến dịch SMS\" [breadcrumbItems]=\"breadCrumbItems\"></app-page-title>\n\n  <div class=\"row\">\n    <div class=\"col-xl\">\n      <div class=\"card\">\n        <div class=\"card-body\">\n          <div class=\"row mb-2\">\n            <div class=\"col-sm-4\">\n              <form class=\"form-inline\">\n                <div class=\"form-group mb-2\">\n                  <input\n                    class=\"form-control\"\n                    name=\"textSearch\"\n                    placeholder=\"Tìm kiếm...\"\n                    [(ngModel)]=\"textSearch\"\n                    (input)=\"onChangeFilter()\"\n                  />\n                </div>\n              </form>\n            </div>\n            <div class=\"col-sm-8\">\n              <div class=\"text-sm-right\">\n                <a class=\"btn btn-success mb-2 button-link\" (click)=\"openSmsCampaignModal()\"\n                  ><i class=\"mdi mdi-plus-circle mr-1\"></i> Thêm mới</a\n                >\n              </div>\n            </div>\n            <!-- end col-->\n          </div>\n\n          <div class=\"table-responsive\">\n            <table class=\"table table-centered table-hover mb-0\">\n              <thead>\n                <tr>\n                  <th>Nội dung</th>\n                  <th>Thành công</th>\n                  <th>Chi phí</th>\n                  <th>Thời gian gửi</th>\n                  <th>Trạng thái</th>\n                  <th>Đối tượng</th>\n                  <th>Người gửi</th>\n                  <th style=\"width: 85px;\">Thao tác</th>\n                </tr>\n              </thead>\n              <tbody>\n                <tr *ngFor=\"let strategy of strategies\">\n                  <td>\n                    {{ strategy.smss_title }}\n                  </td>\n                  <td>\n                    {{ strategy.smss_send_count }}\n                  </td>\n                  <td>\n                    {{ strategy.smss_cost }}\n                  </td>\n                  <td>\n                    {{ strategy.smss_send_date | date: 'dd/MM/yyyy' }}\n                  </td>\n                  <td>\n                    {{ strategy.smss_status_name }}\n                  </td>\n                  <td>\n                    {{ strategy.customer_group_name }}\n                  </td>\n                  <td>\n                    {{ strategy.staff_name }}\n                  </td>\n                  <td>\n                    <a\n                      class=\"action-icon table-button-link\"\n                      (click)=\"openSmsCampaignModal(strategy)\"\n                    >\n                      <i class=\"mdi mdi-square-edit-outline\"></i\n                    ></a>\n                    <a class=\"action-icon table-button-link\" (click)=\"openConfirmModal(strategy)\">\n                      <i class=\"mdi mdi-delete\"></i\n                    ></a>\n                  </td>\n                </tr>\n              </tbody>\n            </table>\n          </div>\n          <ul class=\"pagination pagination-rounded justify-content-end my-2\">\n            <ngb-pagination\n              (pageChange)=\"onPageChange($event)\"\n              [pageSize]=\"pageSize\"\n              [(page)]=\"page\"\n              [collectionSize]=\"totalSize\"\n            ></ngb-pagination>\n          </ul>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
-
-/***/ }),
-
-/***/ "./node_modules/raw-loader/index.js!./src/app/pages/marketing/sms-template/component/confirm-modal/confirm-modal.component.html":
-/*!*****************************************************************************************************************************!*\
-  !*** ./node_modules/raw-loader!./src/app/pages/marketing/sms-template/component/confirm-modal/confirm-modal.component.html ***!
-  \*****************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "<div class=\"modal-header bg-dark\">\n  <h4 class=\"modal-title text-white\">{{ title }}</h4>\n  <button\n    type=\"button\"\n    class=\"close text-white\"\n    aria-label=\"Close\"\n    (click)=\"onClickButton(false)\"\n  >\n    <span aria-hidden=\"true\">&times;</span>\n  </button>\n</div>\n<div class=\"modal-body p-3\">\n  <div class=\"text-center\">\n    <div class=\"mb-3\">\n      {{ message }}\n    </div>\n    <div class=\"text-right\">\n      <button (click)=\"onClickButton(true)\" class=\"btn btn-success\">Có</button>\n      <button\n        type=\"button\"\n        class=\"btn btn-danger ml-1\"\n        (click)=\"onClickButton(false)\"\n      >\n        Không\n      </button>\n    </div>\n  </div>\n</div>\n"
+module.exports = "<app-main-container [hasBottom]=\"false\">\n  <div top class=\"card-body\" style=\"height: 100%;\">\n    <div class=\"row mb-1\">\n      <div class=\"col-xl-6\">\n        <form class=\"form-inline row\">\n          <div class=\"form-group\">\n            <input\n              class=\"form-control\"\n              name=\"textSearch\"\n              placeholder=\"Tìm kiếm...\"\n              [(ngModel)]=\"textSearch\"\n              (input)=\"onChangeFilter()\"\n            />\n          </div>\n        </form>\n      </div>\n      <div class=\"col-xl-6\">\n        <div class=\"text-sm-right\">\n          <button type=\"button\" class=\"btn btn-info mr-1\">\n            <span class=\"mdi mdi-cloud-upload\"></span>\n            Nhập\n          </button>\n          <button type=\"button\" class=\"btn btn-info mr-1\">\n            <span class=\"mdi mdi-cloud-download\"></span>\n            Xuất\n          </button>\n          <a class=\"btn btn-success mr-1 button-link\" (click)=\"openSmsCampaignModal()\"\n            ><i class=\"mdi mdi-plus-circle mr-1\"></i> Thêm mới</a\n          >\n          <a\n            class=\"btn btn-primary mr-1 button-link\"\n            [ngClass]=\"selectedStrategy ? '' : 'disabled'\"\n            (click)=\"openSmsCampaignModal(selectedStrategy)\"\n            ><i class=\"mdi mdi-square-edit-outline mr-1\"></i> Cập nhật</a\n          >\n          <a\n            class=\"btn btn-danger mr-1 button-link\"\n            [ngClass]=\"selectedStrategy ? '' : 'disabled'\"\n            (click)=\"openConfirmModal(selectedStrategy)\"\n            ><i class=\"mdi mdi-delete mr-1\"></i> Xóa</a\n          >\n        </div>\n      </div>\n    </div>\n\n    <div class=\"table-responsive\">\n      <table class=\"table table-centered table-hover mb-0\">\n        <thead>\n          <tr>\n            <th>Nội dung</th>\n            <th>Thành công</th>\n            <th>Chi phí</th>\n            <th>Thời gian gửi</th>\n            <th>Trạng thái</th>\n            <th>Đối tượng</th>\n            <th>Người gửi</th>\n          </tr>\n        </thead>\n        <tbody>\n          <tr\n            *ngFor=\"let strategy of strategies\"\n            (click)=\"onClickStrategy(strategy)\"\n            [ngClass]=\"{\n              'is-selected': strategy.smss_id === selectedStrategy?.smss_id\n            }\"\n          >\n            <td>\n              {{ strategy.smss_title }}\n            </td>\n            <td>\n              {{ strategy.smss_send_count }}\n            </td>\n            <td>\n              {{ strategy.smss_cost }}\n            </td>\n            <td>\n              {{ strategy.smss_send_date | date: 'dd/MM/yyyy' }}\n            </td>\n            <td>\n              {{ strategy.smss_status_name }}\n            </td>\n            <td>\n              {{ strategy.customer_group_name }}\n            </td>\n            <td>\n              {{ strategy.staff_name }}\n            </td>\n          </tr>\n          <tr *ngIf=\"strategies?.length === 0\">\n            <td colspan=\"7\">Không có dữ liệu mẫu SMS</td>\n          </tr>\n        </tbody>\n      </table>\n    </div>\n    <ul class=\"pagination pagination-rounded justify-content-end my-3\">\n      <ngb-pagination\n        (pageChange)=\"onPageChange($event)\"\n        [pageSize]=\"pageSize\"\n        [(page)]=\"page\"\n        [collectionSize]=\"totalSize\"\n      ></ngb-pagination>\n    </ul>\n  </div>\n</app-main-container>\n"
 
 /***/ }),
 
@@ -161,7 +128,7 @@ module.exports = "<div class=\"modal-header bg-dark\">\n  <h4 class=\"modal-titl
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid\">\n  <app-page-title title=\"Mẫu SMS\" [breadcrumbItems]=\"breadCrumbItems\"></app-page-title>\n\n  <div class=\"row\">\n    <div class=\"col-xl\">\n      <div class=\"card\">\n        <div class=\"card-body\">\n          <div class=\"row mb-2\">\n            <div class=\"col-sm-4\">\n              <form class=\"form-inline\">\n                <div class=\"form-group mb-2\">\n                  <input\n                    class=\"form-control\"\n                    name=\"textSearch\"\n                    placeholder=\"Tìm kiếm...\"\n                    [(ngModel)]=\"textSearch\"\n                    (input)=\"onChangeFilter()\"\n                  />\n                </div>\n              </form>\n            </div>\n            <div class=\"col-sm-8\">\n              <div class=\"text-sm-right\">\n                <a class=\"btn btn-success mb-2 button-link\" (click)=\"openTemplateModal()\"\n                  ><i class=\"mdi mdi-plus-circle mr-1\"></i> Thêm mới</a\n                >\n              </div>\n            </div>\n            <!-- end col-->\n          </div>\n\n          <div class=\"table-responsive\">\n            <table class=\"table table-centered table-hover mb-0\">\n              <thead>\n                <tr>\n                  <th>Tên mẫu</th>\n                  <th>Ngày tạo</th>\n                  <th>Người tạo</th>\n                  <th style=\"width: 105px;\">Thao tác</th>\n                </tr>\n              </thead>\n              <tbody>\n                <tr *ngFor=\"let template of templates\">\n                  <td>\n                    {{ template.smt_title }}\n                  </td>\n                  <td>\n                    {{ template.smt_created_date | date: 'dd/MM/yyyy' }}\n                  </td>\n                  <td>\n                    {{ template.staff_fullname }}\n                  </td>\n                  <td>\n                    <a\n                      class=\"action-icon table-button-link\"\n                      (click)=\"openViewTemplateModal(template)\"\n                    >\n                      <i class=\"mdi mdi-eye\"></i\n                    ></a>\n                    <a class=\"action-icon table-button-link\" (click)=\"openTemplateModal(template)\">\n                      <i class=\"mdi mdi-square-edit-outline\"></i\n                    ></a>\n                    <a class=\"action-icon table-button-link\" (click)=\"openConfirmModal(template)\">\n                      <i class=\"mdi mdi-delete\"></i\n                    ></a>\n                  </td>\n                </tr>\n              </tbody>\n            </table>\n          </div>\n          <ul class=\"pagination pagination-rounded justify-content-end my-2\">\n            <ngb-pagination\n              (pageChange)=\"onPageChange($event)\"\n              [pageSize]=\"pageSize\"\n              [(page)]=\"page\"\n              [collectionSize]=\"totalSize\"\n            ></ngb-pagination>\n          </ul>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+module.exports = "<app-main-container [hasBottom]=\"false\">\n  <div top class=\"card-body\" style=\"height: 100%;\">\n    <div class=\"row mb-1\">\n      <div class=\"col-xl-6\">\n        <form class=\"form-inline row\">\n          <div class=\"form-group\">\n            <input\n              class=\"form-control\"\n              name=\"textSearch\"\n              placeholder=\"Tìm kiếm...\"\n              [(ngModel)]=\"textSearch\"\n              (input)=\"onChangeFilter()\"\n            />\n          </div>\n        </form>\n      </div>\n      <div class=\"col-xl-6\">\n        <div class=\"text-sm-right\">\n          <button type=\"button\" class=\"btn btn-info mr-1\">\n            <span class=\"mdi mdi-cloud-upload\"></span>\n            Nhập\n          </button>\n          <button type=\"button\" class=\"btn btn-info mr-1\">\n            <span class=\"mdi mdi-cloud-download\"></span>\n            Xuất\n          </button>\n          <a\n            [ngClass]=\"selectedTemplate ? '' : 'disabled'\"\n            class=\"btn btn-secondary mr-1 button-link\"\n            (click)=\"openViewTemplateModal(selectedTemplate)\"\n            ><i class=\"mdi mdi-eye mr-1\"></i> Chi tiết</a\n          >\n          <a class=\"btn btn-success mr-1 button-link\" (click)=\"openTemplateModal()\"\n            ><i class=\"mdi mdi-plus-circle mr-1\"></i> Thêm mới</a\n          >\n          <a\n            class=\"btn btn-primary mr-1 button-link\"\n            [ngClass]=\"selectedTemplate ? '' : 'disabled'\"\n            (click)=\"openTemplateModal(selectedTemplate)\"\n            ><i class=\"mdi mdi-square-edit-outline mr-1\"></i> Cập nhật</a\n          >\n          <a\n            class=\"btn btn-danger mr-1 button-link\"\n            [ngClass]=\"selectedTemplate ? '' : 'disabled'\"\n            (click)=\"openConfirmModal(selectedTemplate)\"\n            ><i class=\"mdi mdi-delete mr-1\"></i> Xóa</a\n          >\n        </div>\n      </div>\n    </div>\n\n    <div class=\"table-responsive\">\n      <table class=\"table table-centered table-hover mb-0\">\n        <thead>\n          <tr>\n            <th>Tên mẫu</th>\n            <th>Ngày tạo</th>\n            <th>Người tạo</th>\n            <th>Ngày sửa</th>\n            <th>Người sửa</th>\n          </tr>\n        </thead>\n        <tbody>\n          <tr\n            *ngFor=\"let template of templates\"\n            (click)=\"onClickTemplate(template)\"\n            [ngClass]=\"{\n              'is-selected': template.smt_id === selectedTemplate?.smt_id\n            }\"\n          >\n            <td>\n              {{ template.smt_title }}\n            </td>\n            <td>\n              {{ template.smt_created_date | date: 'dd/MM/yyyy' }}\n            </td>\n            <td>\n              {{ template.staff_fullname }}\n            </td>\n\n            <td>\n              {{ template.smt_modify_time | date: 'dd/MM/yyyy' }}\n            </td>\n            <td>\n              {{ template.smt_modify_name }}\n            </td>\n          </tr>\n          <tr *ngIf=\"templates?.length === 0\">\n            <td colspan=\"3\">Không có dữ liệu mẫu SMS</td>\n          </tr>\n        </tbody>\n      </table>\n    </div>\n    <ul class=\"pagination pagination-rounded justify-content-end my-3\">\n      <ngb-pagination\n        (pageChange)=\"onPageChange($event)\"\n        [pageSize]=\"pageSize\"\n        [(page)]=\"page\"\n        [collectionSize]=\"totalSize\"\n      ></ngb-pagination>\n    </ul>\n  </div>\n</app-main-container>\n"
 
 /***/ }),
 
@@ -806,66 +773,6 @@ var EmailCampaignComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/pages/marketing/email-template/component/confirm-modal/confirm-modal.component.scss":
-/*!*****************************************************************************************************!*\
-  !*** ./src/app/pages/marketing/email-template/component/confirm-modal/confirm-modal.component.scss ***!
-  \*****************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3BhZ2VzL21hcmtldGluZy9lbWFpbC10ZW1wbGF0ZS9jb21wb25lbnQvY29uZmlybS1tb2RhbC9jb25maXJtLW1vZGFsLmNvbXBvbmVudC5zY3NzIn0= */"
-
-/***/ }),
-
-/***/ "./src/app/pages/marketing/email-template/component/confirm-modal/confirm-modal.component.ts":
-/*!***************************************************************************************************!*\
-  !*** ./src/app/pages/marketing/email-template/component/confirm-modal/confirm-modal.component.ts ***!
-  \***************************************************************************************************/
-/*! exports provided: ConfirmModalComponent */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConfirmModalComponent", function() { return ConfirmModalComponent; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-
-
-var ConfirmModalComponent = /** @class */ (function () {
-    function ConfirmModalComponent() {
-        this.passEvent = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
-    }
-    ConfirmModalComponent.prototype.ngOnInit = function () { };
-    ConfirmModalComponent.prototype.onClickButton = function (status) {
-        this.passEvent.emit(status);
-    };
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", String)
-    ], ConfirmModalComponent.prototype, "title", void 0);
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", String)
-    ], ConfirmModalComponent.prototype, "message", void 0);
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"])(),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"])
-    ], ConfirmModalComponent.prototype, "passEvent", void 0);
-    ConfirmModalComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
-            selector: 'app-confirm-modal',
-            template: __webpack_require__(/*! raw-loader!./confirm-modal.component.html */ "./node_modules/raw-loader/index.js!./src/app/pages/marketing/email-template/component/confirm-modal/confirm-modal.component.html"),
-            styles: [__webpack_require__(/*! ./confirm-modal.component.scss */ "./src/app/pages/marketing/email-template/component/confirm-modal/confirm-modal.component.scss")]
-        }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
-    ], ConfirmModalComponent);
-    return ConfirmModalComponent;
-}());
-
-
-
-/***/ }),
-
 /***/ "./src/app/pages/marketing/email-template/component/email-template-modal/email-template-modal.component.scss":
 /*!*******************************************************************************************************************!*\
   !*** ./src/app/pages/marketing/email-template/component/email-template-modal/email-template-modal.component.scss ***!
@@ -1002,13 +909,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EmailTemplateComponent", function() { return EmailTemplateComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
-/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/fesm5/ng-bootstrap.js");
-/* harmony import */ var _data__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./data */ "./src/app/pages/marketing/email-template/data.ts");
-/* harmony import */ var _component_email_template_modal_email_template_modal_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./component/email-template-modal/email-template-modal.component */ "./src/app/pages/marketing/email-template/component/email-template-modal/email-template-modal.component.ts");
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_6__);
-
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/fesm5/ng-bootstrap.js");
+/* harmony import */ var _data__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./data */ "./src/app/pages/marketing/email-template/data.ts");
+/* harmony import */ var _component_email_template_modal_email_template_modal_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./component/email-template-modal/email-template-modal.component */ "./src/app/pages/marketing/email-template/component/email-template-modal/email-template-modal.component.ts");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_5__);
 
 
 
@@ -1016,9 +921,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var EmailTemplateComponent = /** @class */ (function () {
-    function EmailTemplateComponent(modalService, formBuilder) {
+    function EmailTemplateComponent(modalService) {
         this.modalService = modalService;
-        this.formBuilder = formBuilder;
         this.page = 1;
         this.pageSize = 10;
         this.editorValue = '';
@@ -1037,7 +941,7 @@ var EmailTemplateComponent = /** @class */ (function () {
         this._fetchData();
     };
     EmailTemplateComponent.prototype.openTemplateModal = function (template) {
-        var modalRef = this.modalService.open(_component_email_template_modal_email_template_modal_component__WEBPACK_IMPORTED_MODULE_5__["EmailTemplateModalComponent"], {
+        var modalRef = this.modalService.open(_component_email_template_modal_email_template_modal_component__WEBPACK_IMPORTED_MODULE_4__["EmailTemplateModalComponent"], {
             centered: true,
             size: 'xl'
         });
@@ -1050,7 +954,7 @@ var EmailTemplateComponent = /** @class */ (function () {
     };
     EmailTemplateComponent.prototype.openConfirmModal = function () {
         var _this = this;
-        sweetalert2__WEBPACK_IMPORTED_MODULE_6___default.a.fire({
+        sweetalert2__WEBPACK_IMPORTED_MODULE_5___default.a.fire({
             title: 'Chắc chắn muốn xóa mẫu Email đang chọn?',
             type: 'warning',
             showCancelButton: true,
@@ -1084,7 +988,7 @@ var EmailTemplateComponent = /** @class */ (function () {
         this.editorValue += "{{" + value + "}}";
     };
     EmailTemplateComponent.prototype._fetchData = function () {
-        this.templates = _data__WEBPACK_IMPORTED_MODULE_4__["templateData"];
+        this.templates = _data__WEBPACK_IMPORTED_MODULE_3__["templateData"];
         // apply pagination
         this.startIndex = 0;
         this.endIndex = this.pageSize;
@@ -1093,8 +997,7 @@ var EmailTemplateComponent = /** @class */ (function () {
     };
     EmailTemplateComponent.prototype.removeTemplate = function () { };
     EmailTemplateComponent.ctorParameters = function () { return [
-        { type: _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_3__["NgbModal"] },
-        { type: _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"] }
+        { type: _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_2__["NgbModal"] }
     ]; };
     EmailTemplateComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -1102,7 +1005,7 @@ var EmailTemplateComponent = /** @class */ (function () {
             template: __webpack_require__(/*! raw-loader!./email-template.component.html */ "./node_modules/raw-loader/index.js!./src/app/pages/marketing/email-template/email-template.component.html"),
             styles: [__webpack_require__(/*! ./email-template.component.scss */ "./src/app/pages/marketing/email-template/email-template.component.scss")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_3__["NgbModal"], _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_2__["NgbModal"]])
     ], EmailTemplateComponent);
     return EmailTemplateComponent;
 }());
@@ -1186,24 +1089,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _shared_ui_ui_module__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../shared/ui/ui.module */ "./src/app/shared/ui/ui.module.ts");
 /* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/fesm5/ng-bootstrap.js");
 /* harmony import */ var ngx_editor__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ngx-editor */ "./node_modules/ngx-editor/fesm5/ngx-editor.js");
-/* harmony import */ var _marketing_routing_module__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./marketing-routing.module */ "./src/app/pages/marketing/marketing-routing.module.ts");
-/* harmony import */ var _email_template_email_template_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./email-template/email-template.component */ "./src/app/pages/marketing/email-template/email-template.component.ts");
-/* harmony import */ var _email_template_component_confirm_modal_confirm_modal_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./email-template/component/confirm-modal/confirm-modal.component */ "./src/app/pages/marketing/email-template/component/confirm-modal/confirm-modal.component.ts");
+/* harmony import */ var _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @ng-select/ng-select */ "./node_modules/@ng-select/ng-select/fesm5/ng-select-ng-select.js");
+/* harmony import */ var _marketing_routing_module__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./marketing-routing.module */ "./src/app/pages/marketing/marketing-routing.module.ts");
+/* harmony import */ var _email_template_email_template_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./email-template/email-template.component */ "./src/app/pages/marketing/email-template/email-template.component.ts");
 /* harmony import */ var _email_template_component_email_template_modal_email_template_modal_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./email-template/component/email-template-modal/email-template-modal.component */ "./src/app/pages/marketing/email-template/component/email-template-modal/email-template-modal.component.ts");
 /* harmony import */ var _sms_template_sms_template_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./sms-template/sms-template.component */ "./src/app/pages/marketing/sms-template/sms-template.component.ts");
 /* harmony import */ var _sms_template_component_sms_template_modal_sms_template_modal_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./sms-template/component/sms-template-modal/sms-template-modal.component */ "./src/app/pages/marketing/sms-template/component/sms-template-modal/sms-template-modal.component.ts");
-/* harmony import */ var _sms_template_component_confirm_modal_confirm_modal_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./sms-template/component/confirm-modal/confirm-modal.component */ "./src/app/pages/marketing/sms-template/component/confirm-modal/confirm-modal.component.ts");
-/* harmony import */ var _sms_template_component_view_sms_template_modal_view_sms_template_modal_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./sms-template/component/view-sms-template-modal/view-sms-template-modal.component */ "./src/app/pages/marketing/sms-template/component/view-sms-template-modal/view-sms-template-modal.component.ts");
-/* harmony import */ var _email_campaign_email_campaign_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./email-campaign/email-campaign.component */ "./src/app/pages/marketing/email-campaign/email-campaign.component.ts");
-/* harmony import */ var _email_campaign_component_list_customer_modal_list_customer_modal_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./email-campaign/component/list-customer-modal/list-customer-modal.component */ "./src/app/pages/marketing/email-campaign/component/list-customer-modal/list-customer-modal.component.ts");
-/* harmony import */ var _email_campaign_component_list_email_modal_list_email_modal_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./email-campaign/component/list-email-modal/list-email-modal.component */ "./src/app/pages/marketing/email-campaign/component/list-email-modal/list-email-modal.component.ts");
-/* harmony import */ var _sms_campaign_sms_campaign_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./sms-campaign/sms-campaign.component */ "./src/app/pages/marketing/sms-campaign/sms-campaign.component.ts");
-/* harmony import */ var _sms_campaign_component_list_sms_modal_list_sms_modal_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./sms-campaign/component/list-sms-modal/list-sms-modal.component */ "./src/app/pages/marketing/sms-campaign/component/list-sms-modal/list-sms-modal.component.ts");
-/* harmony import */ var _sms_campaign_component_list_customer_modal_list_customer_modal_component__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./sms-campaign/component/list-customer-modal/list-customer-modal.component */ "./src/app/pages/marketing/sms-campaign/component/list-customer-modal/list-customer-modal.component.ts");
-/* harmony import */ var _sms_campaign_component_confirm_modal_confirm_modal_component__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./sms-campaign/component/confirm-modal/confirm-modal.component */ "./src/app/pages/marketing/sms-campaign/component/confirm-modal/confirm-modal.component.ts");
-/* harmony import */ var _sms_campaign_component_sms_campaign_modal_sms_campaign_modal_component__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./sms-campaign/component/sms-campaign-modal/sms-campaign-modal.component */ "./src/app/pages/marketing/sms-campaign/component/sms-campaign-modal/sms-campaign-modal.component.ts");
-
-
+/* harmony import */ var _sms_template_component_view_sms_template_modal_view_sms_template_modal_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./sms-template/component/view-sms-template-modal/view-sms-template-modal.component */ "./src/app/pages/marketing/sms-template/component/view-sms-template-modal/view-sms-template-modal.component.ts");
+/* harmony import */ var _email_campaign_email_campaign_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./email-campaign/email-campaign.component */ "./src/app/pages/marketing/email-campaign/email-campaign.component.ts");
+/* harmony import */ var _email_campaign_component_list_customer_modal_list_customer_modal_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./email-campaign/component/list-customer-modal/list-customer-modal.component */ "./src/app/pages/marketing/email-campaign/component/list-customer-modal/list-customer-modal.component.ts");
+/* harmony import */ var _email_campaign_component_list_email_modal_list_email_modal_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./email-campaign/component/list-email-modal/list-email-modal.component */ "./src/app/pages/marketing/email-campaign/component/list-email-modal/list-email-modal.component.ts");
+/* harmony import */ var _sms_campaign_sms_campaign_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./sms-campaign/sms-campaign.component */ "./src/app/pages/marketing/sms-campaign/sms-campaign.component.ts");
+/* harmony import */ var _sms_campaign_component_list_sms_modal_list_sms_modal_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./sms-campaign/component/list-sms-modal/list-sms-modal.component */ "./src/app/pages/marketing/sms-campaign/component/list-sms-modal/list-sms-modal.component.ts");
+/* harmony import */ var _sms_campaign_component_list_customer_modal_list_customer_modal_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./sms-campaign/component/list-customer-modal/list-customer-modal.component */ "./src/app/pages/marketing/sms-campaign/component/list-customer-modal/list-customer-modal.component.ts");
+/* harmony import */ var _sms_campaign_component_sms_campaign_modal_sms_campaign_modal_component__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./sms-campaign/component/sms-campaign-modal/sms-campaign-modal.component */ "./src/app/pages/marketing/sms-campaign/component/sms-campaign-modal/sms-campaign-modal.component.ts");
 
 
 
@@ -1231,25 +1130,22 @@ var MarketingModule = /** @class */ (function () {
     MarketingModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
             declarations: [
-                _email_template_email_template_component__WEBPACK_IMPORTED_MODULE_8__["EmailTemplateComponent"],
-                _email_template_component_confirm_modal_confirm_modal_component__WEBPACK_IMPORTED_MODULE_9__["ConfirmModalComponent"],
+                _email_template_email_template_component__WEBPACK_IMPORTED_MODULE_9__["EmailTemplateComponent"],
                 _email_template_component_email_template_modal_email_template_modal_component__WEBPACK_IMPORTED_MODULE_10__["EmailTemplateModalComponent"],
                 _sms_template_sms_template_component__WEBPACK_IMPORTED_MODULE_11__["SmsTemplateComponent"],
                 _sms_template_component_sms_template_modal_sms_template_modal_component__WEBPACK_IMPORTED_MODULE_12__["SmsTemplateModalComponent"],
-                _sms_template_component_confirm_modal_confirm_modal_component__WEBPACK_IMPORTED_MODULE_13__["ConfirmModalComponent"],
-                _sms_template_component_view_sms_template_modal_view_sms_template_modal_component__WEBPACK_IMPORTED_MODULE_14__["ViewSmsTemplateModalComponent"],
-                _email_campaign_email_campaign_component__WEBPACK_IMPORTED_MODULE_15__["EmailCampaignComponent"],
-                _email_campaign_component_list_customer_modal_list_customer_modal_component__WEBPACK_IMPORTED_MODULE_16__["ListCustomerModalComponent"],
-                _email_campaign_component_list_email_modal_list_email_modal_component__WEBPACK_IMPORTED_MODULE_17__["ListEmailModalComponent"],
-                _sms_campaign_sms_campaign_component__WEBPACK_IMPORTED_MODULE_18__["SmsCampaignComponent"],
-                _sms_campaign_component_list_sms_modal_list_sms_modal_component__WEBPACK_IMPORTED_MODULE_19__["ListSmsModalComponent"],
-                _sms_campaign_component_list_customer_modal_list_customer_modal_component__WEBPACK_IMPORTED_MODULE_20__["ListCustomerModalComponent"],
-                _sms_campaign_component_confirm_modal_confirm_modal_component__WEBPACK_IMPORTED_MODULE_21__["ConfirmModalComponent"],
-                _sms_campaign_component_sms_campaign_modal_sms_campaign_modal_component__WEBPACK_IMPORTED_MODULE_22__["SmsCampaignModalComponent"]
+                _sms_template_component_view_sms_template_modal_view_sms_template_modal_component__WEBPACK_IMPORTED_MODULE_13__["ViewSmsTemplateModalComponent"],
+                _email_campaign_email_campaign_component__WEBPACK_IMPORTED_MODULE_14__["EmailCampaignComponent"],
+                _email_campaign_component_list_customer_modal_list_customer_modal_component__WEBPACK_IMPORTED_MODULE_15__["ListCustomerModalComponent"],
+                _email_campaign_component_list_email_modal_list_email_modal_component__WEBPACK_IMPORTED_MODULE_16__["ListEmailModalComponent"],
+                _sms_campaign_sms_campaign_component__WEBPACK_IMPORTED_MODULE_17__["SmsCampaignComponent"],
+                _sms_campaign_component_list_sms_modal_list_sms_modal_component__WEBPACK_IMPORTED_MODULE_18__["ListSmsModalComponent"],
+                _sms_campaign_component_list_customer_modal_list_customer_modal_component__WEBPACK_IMPORTED_MODULE_19__["ListCustomerModalComponent"],
+                _sms_campaign_component_sms_campaign_modal_sms_campaign_modal_component__WEBPACK_IMPORTED_MODULE_20__["SmsCampaignModalComponent"]
             ],
             imports: [
                 _angular_common__WEBPACK_IMPORTED_MODULE_2__["CommonModule"],
-                _marketing_routing_module__WEBPACK_IMPORTED_MODULE_7__["MarketingRoutingModule"],
+                _marketing_routing_module__WEBPACK_IMPORTED_MODULE_8__["MarketingRoutingModule"],
                 _angular_common__WEBPACK_IMPORTED_MODULE_2__["CommonModule"],
                 _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormsModule"],
                 _angular_forms__WEBPACK_IMPORTED_MODULE_3__["ReactiveFormsModule"],
@@ -1257,84 +1153,22 @@ var MarketingModule = /** @class */ (function () {
                 _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_5__["NgbModalModule"],
                 _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_5__["NgbPaginationModule"],
                 ngx_editor__WEBPACK_IMPORTED_MODULE_6__["NgxEditorModule"],
-                _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_5__["NgbDropdownModule"]
+                _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_5__["NgbDropdownModule"],
+                _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_7__["NgSelectModule"]
             ],
             entryComponents: [
-                _email_template_component_confirm_modal_confirm_modal_component__WEBPACK_IMPORTED_MODULE_9__["ConfirmModalComponent"],
                 _email_template_component_email_template_modal_email_template_modal_component__WEBPACK_IMPORTED_MODULE_10__["EmailTemplateModalComponent"],
                 _sms_template_component_sms_template_modal_sms_template_modal_component__WEBPACK_IMPORTED_MODULE_12__["SmsTemplateModalComponent"],
-                _sms_template_component_confirm_modal_confirm_modal_component__WEBPACK_IMPORTED_MODULE_13__["ConfirmModalComponent"],
-                _sms_template_component_view_sms_template_modal_view_sms_template_modal_component__WEBPACK_IMPORTED_MODULE_14__["ViewSmsTemplateModalComponent"],
-                _email_campaign_component_list_customer_modal_list_customer_modal_component__WEBPACK_IMPORTED_MODULE_16__["ListCustomerModalComponent"],
-                _email_campaign_component_list_email_modal_list_email_modal_component__WEBPACK_IMPORTED_MODULE_17__["ListEmailModalComponent"],
-                _sms_campaign_component_list_customer_modal_list_customer_modal_component__WEBPACK_IMPORTED_MODULE_20__["ListCustomerModalComponent"],
-                _sms_campaign_component_confirm_modal_confirm_modal_component__WEBPACK_IMPORTED_MODULE_21__["ConfirmModalComponent"],
-                _sms_campaign_component_sms_campaign_modal_sms_campaign_modal_component__WEBPACK_IMPORTED_MODULE_22__["SmsCampaignModalComponent"],
-                _sms_campaign_component_list_sms_modal_list_sms_modal_component__WEBPACK_IMPORTED_MODULE_19__["ListSmsModalComponent"]
+                _sms_template_component_view_sms_template_modal_view_sms_template_modal_component__WEBPACK_IMPORTED_MODULE_13__["ViewSmsTemplateModalComponent"],
+                _email_campaign_component_list_customer_modal_list_customer_modal_component__WEBPACK_IMPORTED_MODULE_15__["ListCustomerModalComponent"],
+                _email_campaign_component_list_email_modal_list_email_modal_component__WEBPACK_IMPORTED_MODULE_16__["ListEmailModalComponent"],
+                _sms_campaign_component_list_customer_modal_list_customer_modal_component__WEBPACK_IMPORTED_MODULE_19__["ListCustomerModalComponent"],
+                _sms_campaign_component_sms_campaign_modal_sms_campaign_modal_component__WEBPACK_IMPORTED_MODULE_20__["SmsCampaignModalComponent"],
+                _sms_campaign_component_list_sms_modal_list_sms_modal_component__WEBPACK_IMPORTED_MODULE_18__["ListSmsModalComponent"]
             ]
         })
     ], MarketingModule);
     return MarketingModule;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/pages/marketing/sms-campaign/component/confirm-modal/confirm-modal.component.scss":
-/*!***************************************************************************************************!*\
-  !*** ./src/app/pages/marketing/sms-campaign/component/confirm-modal/confirm-modal.component.scss ***!
-  \***************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3BhZ2VzL21hcmtldGluZy9zbXMtY2FtcGFpZ24vY29tcG9uZW50L2NvbmZpcm0tbW9kYWwvY29uZmlybS1tb2RhbC5jb21wb25lbnQuc2NzcyJ9 */"
-
-/***/ }),
-
-/***/ "./src/app/pages/marketing/sms-campaign/component/confirm-modal/confirm-modal.component.ts":
-/*!*************************************************************************************************!*\
-  !*** ./src/app/pages/marketing/sms-campaign/component/confirm-modal/confirm-modal.component.ts ***!
-  \*************************************************************************************************/
-/*! exports provided: ConfirmModalComponent */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConfirmModalComponent", function() { return ConfirmModalComponent; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-
-
-var ConfirmModalComponent = /** @class */ (function () {
-    function ConfirmModalComponent() {
-        this.passEvent = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
-    }
-    ConfirmModalComponent.prototype.ngOnInit = function () { };
-    ConfirmModalComponent.prototype.onClickButton = function (status) {
-        this.passEvent.emit(status);
-    };
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", String)
-    ], ConfirmModalComponent.prototype, "title", void 0);
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", String)
-    ], ConfirmModalComponent.prototype, "message", void 0);
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"])(),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"])
-    ], ConfirmModalComponent.prototype, "passEvent", void 0);
-    ConfirmModalComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
-            selector: 'app-confirm-modal',
-            template: __webpack_require__(/*! raw-loader!./confirm-modal.component.html */ "./node_modules/raw-loader/index.js!./src/app/pages/marketing/sms-campaign/component/confirm-modal/confirm-modal.component.html"),
-            styles: [__webpack_require__(/*! ./confirm-modal.component.scss */ "./src/app/pages/marketing/sms-campaign/component/confirm-modal/confirm-modal.component.scss")]
-        }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
-    ], ConfirmModalComponent);
-    return ConfirmModalComponent;
 }());
 
 
@@ -1446,46 +1280,57 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ListSmsModalComponent", function() { return ListSmsModalComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _core_services_api_sms_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../core/services/api/sms.service */ "./src/app/core/services/api/sms.service.ts");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+
+
+
 
 
 var ListSmsModalComponent = /** @class */ (function () {
-    function ListSmsModalComponent() {
+    function ListSmsModalComponent(smsService) {
+        this.smsService = smsService;
+        this.destroyed$ = new rxjs__WEBPACK_IMPORTED_MODULE_4__["Subject"]();
         this.passEvent = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
-        this.customerData = [
-            {
-                name: 'Test',
-                create_by: 'demo',
-                create_date: '31/01/2020',
-                update_by: '',
-                update_date: ''
-            },
-            {
-                name: 'Test',
-                create_by: 'demo',
-                create_date: '31/01/2020',
-                update_by: '',
-                update_date: ''
-            },
-            {
-                name: '[NHẬN NGAY ĐỒNG HỒ ĐEO TAY PHIÊN BẢN GIỚI HẠN CỦA MC WATCH]',
-                create_by: 'demo',
-                create_date: '31/01/2020',
-                update_by: '',
-                update_date: ''
-            },
-            {
-                name: 'Test',
-                create_by: 'demo',
-                create_date: '31/01/2020',
-                update_by: 'admin',
-                update_date: '01/02/2020'
-            }
-        ];
+        this.selectedTemplate = null;
     }
-    ListSmsModalComponent.prototype.ngOnInit = function () { };
-    ListSmsModalComponent.prototype.onClickEmail = function () {
+    ListSmsModalComponent.prototype.ngOnInit = function () {
+        this._fetchData();
+        if (this.selected)
+            this.selectedTemplate = this.selected;
+    };
+    ListSmsModalComponent.prototype.onClickEmail = function (template) {
+        this.selectedTemplate = template;
+    };
+    ListSmsModalComponent.prototype.onClickSubmit = function () {
+        this.passEvent.emit({ event: true, data: this.selectedTemplate });
+    };
+    ListSmsModalComponent.prototype.onClickCancel = function () {
         this.passEvent.emit({ event: false });
     };
+    ListSmsModalComponent.prototype._fetchData = function () {
+        var _this = this;
+        var template$ = this.smsService
+            .loadSmsTemplate({
+            pageNumber: 0,
+            pageSize: 100,
+            search_name: ''
+        })
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["takeUntil"])(this.destroyed$));
+        template$.subscribe(function (res) {
+            if (res && res.Data) {
+                _this.templates = res.Data.Results;
+            }
+        });
+    };
+    ListSmsModalComponent.ctorParameters = function () { return [
+        { type: _core_services_api_sms_service__WEBPACK_IMPORTED_MODULE_2__["SmsService"] }
+    ]; };
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", Object)
+    ], ListSmsModalComponent.prototype, "selected", void 0);
     tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"])(),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"])
@@ -1496,7 +1341,7 @@ var ListSmsModalComponent = /** @class */ (function () {
             template: __webpack_require__(/*! raw-loader!./list-sms-modal.component.html */ "./node_modules/raw-loader/index.js!./src/app/pages/marketing/sms-campaign/component/list-sms-modal/list-sms-modal.component.html"),
             styles: [__webpack_require__(/*! ./list-sms-modal.component.scss */ "./src/app/pages/marketing/sms-campaign/component/list-sms-modal/list-sms-modal.component.scss")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_core_services_api_sms_service__WEBPACK_IMPORTED_MODULE_2__["SmsService"]])
     ], ListSmsModalComponent);
     return ListSmsModalComponent;
 }());
@@ -1528,11 +1373,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SmsCampaignModalComponent", function() { return SmsCampaignModalComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
-/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/fesm5/ng-bootstrap.js");
-/* harmony import */ var _confirm_modal_confirm_modal_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../confirm-modal/confirm-modal.component */ "./src/app/pages/marketing/sms-campaign/component/confirm-modal/confirm-modal.component.ts");
-/* harmony import */ var _list_customer_modal_list_customer_modal_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../list-customer-modal/list-customer-modal.component */ "./src/app/pages/marketing/sms-campaign/component/list-customer-modal/list-customer-modal.component.ts");
-/* harmony import */ var _list_sms_modal_list_sms_modal_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../list-sms-modal/list-sms-modal.component */ "./src/app/pages/marketing/sms-campaign/component/list-sms-modal/list-sms-modal.component.ts");
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/fesm5/ng-bootstrap.js");
+/* harmony import */ var _list_customer_modal_list_customer_modal_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../list-customer-modal/list-customer-modal.component */ "./src/app/pages/marketing/sms-campaign/component/list-customer-modal/list-customer-modal.component.ts");
+/* harmony import */ var _list_sms_modal_list_sms_modal_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../list-sms-modal/list-sms-modal.component */ "./src/app/pages/marketing/sms-campaign/component/list-sms-modal/list-sms-modal.component.ts");
+/* harmony import */ var _core_services_api_customer_group_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../../../core/services/api/customer-group.service */ "./src/app/core/services/api/customer-group.service.ts");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_8__);
+
+
 
 
 
@@ -1541,56 +1391,92 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var SmsCampaignModalComponent = /** @class */ (function () {
-    function SmsCampaignModalComponent(formBuilder, modalService) {
-        this.formBuilder = formBuilder;
+    function SmsCampaignModalComponent(modalService, customerGroupService) {
         this.modalService = modalService;
+        this.customerGroupService = customerGroupService;
+        this.destroyed$ = new rxjs__WEBPACK_IMPORTED_MODULE_7__["Subject"]();
         this.passEvent = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
+        this.customerGroups = [];
+        this.selectedCustomerGroups = [];
+        this.selectedSms = null;
+        this.strategyTitle = '';
     }
-    SmsCampaignModalComponent.prototype.ngOnInit = function () { };
+    SmsCampaignModalComponent.prototype.ngOnInit = function () {
+        this._fetchData();
+    };
     SmsCampaignModalComponent.prototype.onClickSubmit = function () {
-        this.passEvent.emit({ event: true, form: null });
+        if (!this.selectedSms || this.selectedCustomerGroups.length === 0 || this.strategyTitle === '')
+            return;
+        var data = {
+            customer_group_id: this.selectedCustomerGroups,
+            smss_title: this.strategyTitle,
+            sms_template_id: this.selectedSms.smt_id
+        };
+        this.passEvent.emit({ event: true, form: data });
     };
     SmsCampaignModalComponent.prototype.openCustomerModal = function () {
-        var modalRef = this.modalService.open(_list_customer_modal_list_customer_modal_component__WEBPACK_IMPORTED_MODULE_5__["ListCustomerModalComponent"], {
+        var modalRef = this.modalService.open(_list_customer_modal_list_customer_modal_component__WEBPACK_IMPORTED_MODULE_3__["ListCustomerModalComponent"], {
             centered: true,
             size: 'xl'
         });
-        modalRef.componentInstance.passEvent.subscribe(function (res) {
+        modalRef.componentInstance.passEvent.subscribe(function () {
             modalRef.close();
         });
     };
     SmsCampaignModalComponent.prototype.openSmsModal = function () {
-        var modalRef = this.modalService.open(_list_sms_modal_list_sms_modal_component__WEBPACK_IMPORTED_MODULE_6__["ListSmsModalComponent"], {
+        var _this = this;
+        var modalRef = this.modalService.open(_list_sms_modal_list_sms_modal_component__WEBPACK_IMPORTED_MODULE_4__["ListSmsModalComponent"], {
             centered: true,
             size: 'xl'
         });
+        modalRef.componentInstance.selected = this.selectedSms;
         modalRef.componentInstance.passEvent.subscribe(function (res) {
+            if (res.event) {
+                _this.selectedSms = res.data;
+            }
             modalRef.close();
         });
     };
     SmsCampaignModalComponent.prototype.onClickCancel = function () {
         var _this = this;
-        var modalRef = this.modalService.open(_confirm_modal_confirm_modal_component__WEBPACK_IMPORTED_MODULE_4__["ConfirmModalComponent"], {
-            centered: true
-        });
-        modalRef.componentInstance.title = 'Thông báo';
-        modalRef.componentInstance.message =
-            'Dữ liệu đã bị thay đổi, bạn có chắc chắn muốn hủy thao tác không?';
-        modalRef.componentInstance.passEvent.subscribe(function (res) {
-            if (res) {
+        sweetalert2__WEBPACK_IMPORTED_MODULE_8___default.a.fire({
+            title: 'Dữ liệu đã bị thay đổi, bạn có chắc chắn muốn hủy thao tác không?',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Có',
+            cancelButtonText: 'Không',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33'
+        }).then(function (result) {
+            if (result.value) {
                 _this.passEvent.emit({ event: false });
             }
-            modalRef.close();
+        });
+    };
+    SmsCampaignModalComponent.prototype._fetchData = function () {
+        var _this = this;
+        var template$ = this.customerGroupService
+            .loadCustomerGroup({
+            pageNumber: 0,
+            pageSize: 100,
+            cg_id: '',
+            name: ''
+        })
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["takeUntil"])(this.destroyed$));
+        template$.subscribe(function (res) {
+            if (res && res.Data) {
+                _this.customerGroups = res.Data.Results;
+            }
         });
     };
     SmsCampaignModalComponent.ctorParameters = function () { return [
-        { type: _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"] },
-        { type: _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_3__["NgbModal"] }
+        { type: _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_2__["NgbModal"] },
+        { type: _core_services_api_customer_group_service__WEBPACK_IMPORTED_MODULE_5__["CustomerGroupService"] }
     ]; };
     tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", Object)
-    ], SmsCampaignModalComponent.prototype, "sms", void 0);
+    ], SmsCampaignModalComponent.prototype, "strategy", void 0);
     tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"])(),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"])
@@ -1601,8 +1487,7 @@ var SmsCampaignModalComponent = /** @class */ (function () {
             template: __webpack_require__(/*! raw-loader!./sms-campaign-modal.component.html */ "./node_modules/raw-loader/index.js!./src/app/pages/marketing/sms-campaign/component/sms-campaign-modal/sms-campaign-modal.component.html"),
             styles: [__webpack_require__(/*! ./sms-campaign-modal.component.scss */ "./src/app/pages/marketing/sms-campaign/component/sms-campaign-modal/sms-campaign-modal.component.scss")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"],
-            _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_3__["NgbModal"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_2__["NgbModal"], _core_services_api_customer_group_service__WEBPACK_IMPORTED_MODULE_5__["CustomerGroupService"]])
     ], SmsCampaignModalComponent);
     return SmsCampaignModalComponent;
 }());
@@ -1618,7 +1503,7 @@ var SmsCampaignModalComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ":host .form-inline {\n  align-items: baseline;\n  flex-flow: row;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL3dpbmQvUHJvamVjdC9Db0VSUC9mZS1jb2VycC9zcmMvYXBwL3BhZ2VzL21hcmtldGluZy9zbXMtY2FtcGFpZ24vc21zLWNhbXBhaWduLmNvbXBvbmVudC5zY3NzIiwic3JjL2FwcC9wYWdlcy9tYXJrZXRpbmcvc21zLWNhbXBhaWduL3Ntcy1jYW1wYWlnbi5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFDSTtFQUNJLHFCQUFBO0VBQ0EsY0FBQTtBQ0FSIiwiZmlsZSI6InNyYy9hcHAvcGFnZXMvbWFya2V0aW5nL3Ntcy1jYW1wYWlnbi9zbXMtY2FtcGFpZ24uY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyI6aG9zdCB7XG4gICAgLmZvcm0taW5saW5lIHtcbiAgICAgICAgYWxpZ24taXRlbXM6IGJhc2VsaW5lO1xuICAgICAgICBmbGV4LWZsb3c6IHJvdztcbiAgICB9XG59IiwiOmhvc3QgLmZvcm0taW5saW5lIHtcbiAgYWxpZ24taXRlbXM6IGJhc2VsaW5lO1xuICBmbGV4LWZsb3c6IHJvdztcbn0iXX0= */"
+module.exports = ":host .form-inline {\n  align-items: baseline;\n  flex-flow: row;\n}\n:host a.diabled {\n  cursor: default;\n  pointer-events: none;\n}\n:host .table-responsive {\n  overflow: auto;\n  max-height: calc(100% - 150px);\n}\n:host .table-responsive table {\n  min-width: 1400px;\n  border-spacing: 0;\n  border-collapse: separate;\n}\n:host .table-responsive thead th {\n  position: -webkit-sticky;\n  position: sticky;\n  top: 0;\n  z-index: 2;\n  background-color: white;\n}\n:host .table-responsive tr {\n  cursor: pointer;\n}\n:host .table-responsive tr.is-selected {\n  background-color: lightgray;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL3dpbmQvUHJvamVjdC9Db0VSUC9mZS1jb2VycC9zcmMvYXBwL3BhZ2VzL21hcmtldGluZy9zbXMtY2FtcGFpZ24vc21zLWNhbXBhaWduLmNvbXBvbmVudC5zY3NzIiwic3JjL2FwcC9wYWdlcy9tYXJrZXRpbmcvc21zLWNhbXBhaWduL3Ntcy1jYW1wYWlnbi5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFDRTtFQUNFLHFCQUFBO0VBQ0EsY0FBQTtBQ0FKO0FESUk7RUFDRSxlQUFBO0VBQ0Esb0JBQUE7QUNGTjtBRE1FO0VBQ0UsY0FBQTtFQUNBLDhCQUFBO0FDSko7QURNSTtFQUNFLGlCQUFBO0VBQ0EsaUJBQUE7RUFDQSx5QkFBQTtBQ0pOO0FEUU07RUFDRSx3QkFBQTtFQUFBLGdCQUFBO0VBQ0EsTUFBQTtFQUNBLFVBQUE7RUFDQSx1QkFBQTtBQ05SO0FEVUk7RUFDRSxlQUFBO0FDUk47QURVTTtFQUNFLDJCQUFBO0FDUlIiLCJmaWxlIjoic3JjL2FwcC9wYWdlcy9tYXJrZXRpbmcvc21zLWNhbXBhaWduL3Ntcy1jYW1wYWlnbi5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIjpob3N0IHtcbiAgLmZvcm0taW5saW5lIHtcbiAgICBhbGlnbi1pdGVtczogYmFzZWxpbmU7XG4gICAgZmxleC1mbG93OiByb3c7XG4gIH1cblxuICBhIHtcbiAgICAmLmRpYWJsZWQge1xuICAgICAgY3Vyc29yOiBkZWZhdWx0O1xuICAgICAgcG9pbnRlci1ldmVudHM6IG5vbmU7XG4gICAgfVxuICB9XG5cbiAgLnRhYmxlLXJlc3BvbnNpdmUge1xuICAgIG92ZXJmbG93OiBhdXRvO1xuICAgIG1heC1oZWlnaHQ6IGNhbGMoMTAwJSAtIDE1MHB4KTtcblxuICAgIHRhYmxlIHtcbiAgICAgIG1pbi13aWR0aDogMTQwMHB4O1xuICAgICAgYm9yZGVyLXNwYWNpbmc6IDA7XG4gICAgICBib3JkZXItY29sbGFwc2U6IHNlcGFyYXRlO1xuICAgIH1cblxuICAgIHRoZWFkIHtcbiAgICAgIHRoIHtcbiAgICAgICAgcG9zaXRpb246IHN0aWNreTtcbiAgICAgICAgdG9wOiAwO1xuICAgICAgICB6LWluZGV4OiAyO1xuICAgICAgICBiYWNrZ3JvdW5kLWNvbG9yOiB3aGl0ZTtcbiAgICAgIH1cbiAgICB9XG5cbiAgICB0ciB7XG4gICAgICBjdXJzb3I6IHBvaW50ZXI7XG5cbiAgICAgICYuaXMtc2VsZWN0ZWQge1xuICAgICAgICBiYWNrZ3JvdW5kLWNvbG9yOiBsaWdodGdyYXk7XG4gICAgICB9XG4gICAgfVxuICB9XG59XG4iLCI6aG9zdCAuZm9ybS1pbmxpbmUge1xuICBhbGlnbi1pdGVtczogYmFzZWxpbmU7XG4gIGZsZXgtZmxvdzogcm93O1xufVxuOmhvc3QgYS5kaWFibGVkIHtcbiAgY3Vyc29yOiBkZWZhdWx0O1xuICBwb2ludGVyLWV2ZW50czogbm9uZTtcbn1cbjpob3N0IC50YWJsZS1yZXNwb25zaXZlIHtcbiAgb3ZlcmZsb3c6IGF1dG87XG4gIG1heC1oZWlnaHQ6IGNhbGMoMTAwJSAtIDE1MHB4KTtcbn1cbjpob3N0IC50YWJsZS1yZXNwb25zaXZlIHRhYmxlIHtcbiAgbWluLXdpZHRoOiAxNDAwcHg7XG4gIGJvcmRlci1zcGFjaW5nOiAwO1xuICBib3JkZXItY29sbGFwc2U6IHNlcGFyYXRlO1xufVxuOmhvc3QgLnRhYmxlLXJlc3BvbnNpdmUgdGhlYWQgdGgge1xuICBwb3NpdGlvbjogc3RpY2t5O1xuICB0b3A6IDA7XG4gIHotaW5kZXg6IDI7XG4gIGJhY2tncm91bmQtY29sb3I6IHdoaXRlO1xufVxuOmhvc3QgLnRhYmxlLXJlc3BvbnNpdmUgdHIge1xuICBjdXJzb3I6IHBvaW50ZXI7XG59XG46aG9zdCAudGFibGUtcmVzcG9uc2l2ZSB0ci5pcy1zZWxlY3RlZCB7XG4gIGJhY2tncm91bmQtY29sb3I6IGxpZ2h0Z3JheTtcbn0iXX0= */"
 
 /***/ }),
 
@@ -1635,11 +1520,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/fesm5/ng-bootstrap.js");
-/* harmony import */ var _component_confirm_modal_confirm_modal_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./component/confirm-modal/confirm-modal.component */ "./src/app/pages/marketing/sms-campaign/component/confirm-modal/confirm-modal.component.ts");
-/* harmony import */ var _component_sms_campaign_modal_sms_campaign_modal_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./component/sms-campaign-modal/sms-campaign-modal.component */ "./src/app/pages/marketing/sms-campaign/component/sms-campaign-modal/sms-campaign-modal.component.ts");
-/* harmony import */ var _core_services_api_sms_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../core/services/api/sms.service */ "./src/app/core/services/api/sms.service.ts");
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+/* harmony import */ var _component_sms_campaign_modal_sms_campaign_modal_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./component/sms-campaign-modal/sms-campaign-modal.component */ "./src/app/pages/marketing/sms-campaign/component/sms-campaign-modal/sms-campaign-modal.component.ts");
+/* harmony import */ var _core_services_api_sms_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../core/services/api/sms.service */ "./src/app/core/services/api/sms.service.ts");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! util */ "./node_modules/util/util.js");
+/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(util__WEBPACK_IMPORTED_MODULE_8__);
+
 
 
 
@@ -1652,22 +1541,32 @@ var SmsCampaignComponent = /** @class */ (function () {
     function SmsCampaignComponent(modalService, smsService) {
         this.modalService = modalService;
         this.smsService = smsService;
-        this.destroyed$ = new rxjs__WEBPACK_IMPORTED_MODULE_7__["Subject"]();
+        this.destroyed$ = new rxjs__WEBPACK_IMPORTED_MODULE_6__["Subject"]();
         this.textSearch = '';
         this.page = 0;
         this.pageSize = 10;
         this.totalSize = 0;
+        this.selectedStrategy = null;
     }
     SmsCampaignComponent.prototype.ngOnInit = function () {
-        this.breadCrumbItems = [
-            { label: 'ERP', path: '/' },
-            { label: 'Marketing', path: '/' },
-            { label: 'Chiến dịch SMS', path: '/', active: true }
-        ];
         this._fetchData();
     };
+    SmsCampaignComponent.prototype.onClickStrategy = function (strategy) {
+        if (Object(util__WEBPACK_IMPORTED_MODULE_8__["isNullOrUndefined"])(this.selectedStrategy)) {
+            this.selectedStrategy = strategy;
+        }
+        else {
+            if (this.selectedStrategy.smss_id !== strategy.smss_id) {
+                this.selectedStrategy = strategy;
+            }
+            else {
+                this.selectedStrategy = null;
+            }
+        }
+    };
     SmsCampaignComponent.prototype.openSmsCampaignModal = function (strategy) {
-        var modalRef = this.modalService.open(_component_sms_campaign_modal_sms_campaign_modal_component__WEBPACK_IMPORTED_MODULE_4__["SmsCampaignModalComponent"], {
+        var _this = this;
+        var modalRef = this.modalService.open(_component_sms_campaign_modal_sms_campaign_modal_component__WEBPACK_IMPORTED_MODULE_3__["SmsCampaignModalComponent"], {
             centered: true,
             size: 'lg'
         });
@@ -1675,45 +1574,61 @@ var SmsCampaignComponent = /** @class */ (function () {
             modalRef.componentInstance.strategy = strategy;
         }
         modalRef.componentInstance.passEvent.subscribe(function (res) {
-            modalRef.close();
+            if (res.event) {
+                if (strategy) {
+                    _this._updateStrategy(res.form);
+                }
+                else {
+                    _this._createStrategy(res.form);
+                }
+            }
+            else {
+                modalRef.close();
+            }
         });
     };
     SmsCampaignComponent.prototype.openConfirmModal = function (strategy) {
         var _this = this;
-        var modalRef = this.modalService.open(_component_confirm_modal_confirm_modal_component__WEBPACK_IMPORTED_MODULE_3__["ConfirmModalComponent"], {
-            centered: true
-        });
-        modalRef.componentInstance.title = 'Xác nhận xóa chiến dịch SMS';
-        modalRef.componentInstance.message =
-            'Bạn có chắc chắn muốn xóa chiến dịch SMS đang chọn không?';
-        modalRef.componentInstance.passEvent.subscribe(function (res) {
-            if (res) {
+        sweetalert2__WEBPACK_IMPORTED_MODULE_7___default.a.fire({
+            title: 'Chắc chắn muốn xóa chiến dịch SMS đang chọn?',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33'
+        }).then(function (result) {
+            if (result.value) {
                 _this._removeStrategy(strategy);
             }
-            modalRef.close();
         });
     };
     SmsCampaignComponent.prototype.onPageChange = function (page) {
-        this.page = page - 1;
+        this.page = page;
         this._fetchData();
     };
     SmsCampaignComponent.prototype.onChangeFilter = function () {
-        this.page--;
-        this._fetchData();
+        this._fetchData(this.selectedStrategy);
     };
-    SmsCampaignComponent.prototype._fetchData = function () {
+    SmsCampaignComponent.prototype._fetchData = function (selected) {
         var _this = this;
         var strategy$ = this.smsService
             .loadSmsStrategy({
-            pageNumber: this.page,
+            pageNumber: this.page - 1,
             pageSize: this.pageSize,
             search_name: this.textSearch
         })
-            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["takeUntil"])(this.destroyed$));
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["takeUntil"])(this.destroyed$));
         strategy$.subscribe(function (res) {
-            if (res) {
+            if (res && res.Data) {
                 _this.totalSize = res.Data.TotalNumberOfRecords;
                 _this.strategies = res.Data.Results;
+                if (selected) {
+                    _this.selectedStrategy = _this.strategies.find(function (item) { return item.smss_id === selected.smss_id; });
+                }
+                else {
+                    _this.selectedStrategy = _this.strategies[0];
+                }
             }
         });
     };
@@ -1721,31 +1636,60 @@ var SmsCampaignComponent = /** @class */ (function () {
         var _this = this;
         var createStrategy$ = this.smsService
             .createSmsStrategy(data)
-            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["takeUntil"])(this.destroyed$));
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["takeUntil"])(this.destroyed$));
         createStrategy$.subscribe(function (res) {
-            if (res.Code === 200) {
-                _this.page--;
+            if (res && res.Code == 200) {
+                _this._notify(true, res.Message);
                 _this._fetchData();
                 _this.modalService.dismissAll();
             }
-        });
+            else
+                _this._notify(false, res.Message);
+        }, function (e) { return _this._notify(false, e.Message); });
+    };
+    SmsCampaignComponent.prototype._updateStrategy = function (data) {
+        var _this = this;
+        var updateStrategy$ = this.smsService
+            .updateSmsStrategy(data)
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["takeUntil"])(this.destroyed$));
+        updateStrategy$.subscribe(function (res) {
+            if (res && res.Code == 200) {
+                _this._notify(true, res.Message);
+                _this._fetchData(_this.selectedStrategy);
+                _this.modalService.dismissAll();
+            }
+            else
+                _this._notify(false, res.Message);
+        }, function (e) { return _this._notify(false, e.Message); });
     };
     SmsCampaignComponent.prototype._removeStrategy = function (strategy) {
         var _this = this;
         var removeStrategy$ = this.smsService
             .removeSmsStrategy({ sms_strategyId: strategy.smss_id })
-            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["takeUntil"])(this.destroyed$));
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["takeUntil"])(this.destroyed$));
         removeStrategy$.subscribe(function (res) {
-            if (res.Code === 200) {
-                _this.page--;
+            if (res && res.Code == 200) {
+                _this._notify(true, res.Message);
                 _this._fetchData();
                 _this.modalService.dismissAll();
             }
+            else
+                _this._notify(false, res.Message);
+        }, function (e) { return _this._notify(false, e.Message); });
+    };
+    SmsCampaignComponent.prototype._notify = function (isSuccess, message) {
+        return sweetalert2__WEBPACK_IMPORTED_MODULE_7___default.a.fire({
+            toast: true,
+            position: 'top-end',
+            type: isSuccess ? 'success' : 'error',
+            title: message,
+            showConfirmButton: false,
+            timer: 2000
         });
     };
     SmsCampaignComponent.ctorParameters = function () { return [
         { type: _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_2__["NgbModal"] },
-        { type: _core_services_api_sms_service__WEBPACK_IMPORTED_MODULE_5__["SmsService"] }
+        { type: _core_services_api_sms_service__WEBPACK_IMPORTED_MODULE_4__["SmsService"] }
     ]; };
     SmsCampaignComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -1753,69 +1697,9 @@ var SmsCampaignComponent = /** @class */ (function () {
             template: __webpack_require__(/*! raw-loader!./sms-campaign.component.html */ "./node_modules/raw-loader/index.js!./src/app/pages/marketing/sms-campaign/sms-campaign.component.html"),
             styles: [__webpack_require__(/*! ./sms-campaign.component.scss */ "./src/app/pages/marketing/sms-campaign/sms-campaign.component.scss")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_2__["NgbModal"], _core_services_api_sms_service__WEBPACK_IMPORTED_MODULE_5__["SmsService"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_2__["NgbModal"], _core_services_api_sms_service__WEBPACK_IMPORTED_MODULE_4__["SmsService"]])
     ], SmsCampaignComponent);
     return SmsCampaignComponent;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/pages/marketing/sms-template/component/confirm-modal/confirm-modal.component.scss":
-/*!***************************************************************************************************!*\
-  !*** ./src/app/pages/marketing/sms-template/component/confirm-modal/confirm-modal.component.scss ***!
-  \***************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3BhZ2VzL21hcmtldGluZy9zbXMtdGVtcGxhdGUvY29tcG9uZW50L2NvbmZpcm0tbW9kYWwvY29uZmlybS1tb2RhbC5jb21wb25lbnQuc2NzcyJ9 */"
-
-/***/ }),
-
-/***/ "./src/app/pages/marketing/sms-template/component/confirm-modal/confirm-modal.component.ts":
-/*!*************************************************************************************************!*\
-  !*** ./src/app/pages/marketing/sms-template/component/confirm-modal/confirm-modal.component.ts ***!
-  \*************************************************************************************************/
-/*! exports provided: ConfirmModalComponent */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConfirmModalComponent", function() { return ConfirmModalComponent; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-
-
-var ConfirmModalComponent = /** @class */ (function () {
-    function ConfirmModalComponent() {
-        this.passEvent = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
-    }
-    ConfirmModalComponent.prototype.ngOnInit = function () { };
-    ConfirmModalComponent.prototype.onClickButton = function (status) {
-        this.passEvent.emit(status);
-    };
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", String)
-    ], ConfirmModalComponent.prototype, "title", void 0);
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", String)
-    ], ConfirmModalComponent.prototype, "message", void 0);
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"])(),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"])
-    ], ConfirmModalComponent.prototype, "passEvent", void 0);
-    ConfirmModalComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
-            selector: 'app-confirm-modal',
-            template: __webpack_require__(/*! raw-loader!./confirm-modal.component.html */ "./node_modules/raw-loader/index.js!./src/app/pages/marketing/sms-template/component/confirm-modal/confirm-modal.component.html"),
-            styles: [__webpack_require__(/*! ./confirm-modal.component.scss */ "./src/app/pages/marketing/sms-template/component/confirm-modal/confirm-modal.component.scss")]
-        }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
-    ], ConfirmModalComponent);
-    return ConfirmModalComponent;
 }());
 
 
@@ -1846,13 +1730,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
-/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/fesm5/ng-bootstrap.js");
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
-/* harmony import */ var _core_services_api_sms_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../../../core/services/api/sms.service */ "./src/app/core/services/api/sms.service.ts");
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_7__);
-
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+/* harmony import */ var _core_services_api_sms_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../../../core/services/api/sms.service */ "./src/app/core/services/api/sms.service.ts");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_6__);
 
 
 
@@ -1861,11 +1743,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var SmsTemplateModalComponent = /** @class */ (function () {
-    function SmsTemplateModalComponent(formBuilder, modalService, smsService) {
+    function SmsTemplateModalComponent(formBuilder, smsService) {
         this.formBuilder = formBuilder;
-        this.modalService = modalService;
         this.smsService = smsService;
-        this.destroyed$ = new rxjs__WEBPACK_IMPORTED_MODULE_5__["Subject"]();
+        this.destroyed$ = new rxjs__WEBPACK_IMPORTED_MODULE_4__["Subject"]();
         this.passEvent = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
         this.submitted = false;
         this.initializeForm();
@@ -1885,7 +1766,7 @@ var SmsTemplateModalComponent = /** @class */ (function () {
     SmsTemplateModalComponent.prototype.onClickCancel = function () {
         var _this = this;
         if (this.form.dirty) {
-            sweetalert2__WEBPACK_IMPORTED_MODULE_7___default.a.fire({
+            sweetalert2__WEBPACK_IMPORTED_MODULE_6___default.a.fire({
                 title: 'Dữ liệu đã bị thay đổi, bạn có chắc chắn muốn hủy thao tác không?',
                 type: 'warning',
                 showCancelButton: true,
@@ -1919,25 +1800,21 @@ var SmsTemplateModalComponent = /** @class */ (function () {
         this.form = this.formBuilder.group({
             smt_id: ['', null],
             smt_title: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required]],
-            smt_content: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required]],
-            staff_id: 1,
-            smt_created_date: new Date().toDateString()
+            smt_content: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required]]
         });
     };
     SmsTemplateModalComponent.prototype.patchData = function (template) {
         this.form.patchValue({
             smt_id: template.smt_id,
             smt_title: template.smt_title,
-            smt_content: template.smt_content,
-            staff_id: template.staff_id,
-            smt_created_date: template.smt_created_date
+            smt_content: template.smt_content
         });
     };
     SmsTemplateModalComponent.prototype._fetchData = function () {
         var _this = this;
         var field$ = this.smsService
             .loadField({ pageNumber: 0, pageSize: 100 })
-            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["takeUntil"])(this.destroyed$));
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["takeUntil"])(this.destroyed$));
         field$.subscribe(function (res) {
             if (res && res.Data) {
                 _this.fields = res.Data.Results;
@@ -1946,8 +1823,7 @@ var SmsTemplateModalComponent = /** @class */ (function () {
     };
     SmsTemplateModalComponent.ctorParameters = function () { return [
         { type: _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"] },
-        { type: _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_3__["NgbModal"] },
-        { type: _core_services_api_sms_service__WEBPACK_IMPORTED_MODULE_6__["SmsService"] }
+        { type: _core_services_api_sms_service__WEBPACK_IMPORTED_MODULE_5__["SmsService"] }
     ]; };
     tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
@@ -1963,9 +1839,7 @@ var SmsTemplateModalComponent = /** @class */ (function () {
             template: __webpack_require__(/*! raw-loader!./sms-template-modal.component.html */ "./node_modules/raw-loader/index.js!./src/app/pages/marketing/sms-template/component/sms-template-modal/sms-template-modal.component.html"),
             styles: [__webpack_require__(/*! ./sms-template-modal.component.scss */ "./src/app/pages/marketing/sms-template/component/sms-template-modal/sms-template-modal.component.scss")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"],
-            _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_3__["NgbModal"],
-            _core_services_api_sms_service__WEBPACK_IMPORTED_MODULE_6__["SmsService"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"], _core_services_api_sms_service__WEBPACK_IMPORTED_MODULE_5__["SmsService"]])
     ], SmsTemplateModalComponent);
     return SmsTemplateModalComponent;
 }());
@@ -2037,7 +1911,7 @@ var ViewSmsTemplateModalComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ":host .form-inline {\n  align-items: baseline;\n  flex-flow: row;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL3dpbmQvUHJvamVjdC9Db0VSUC9mZS1jb2VycC9zcmMvYXBwL3BhZ2VzL21hcmtldGluZy9zbXMtdGVtcGxhdGUvc21zLXRlbXBsYXRlLmNvbXBvbmVudC5zY3NzIiwic3JjL2FwcC9wYWdlcy9tYXJrZXRpbmcvc21zLXRlbXBsYXRlL3Ntcy10ZW1wbGF0ZS5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFDSTtFQUNJLHFCQUFBO0VBQ0EsY0FBQTtBQ0FSIiwiZmlsZSI6InNyYy9hcHAvcGFnZXMvbWFya2V0aW5nL3Ntcy10ZW1wbGF0ZS9zbXMtdGVtcGxhdGUuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyI6aG9zdCB7XG4gICAgLmZvcm0taW5saW5lIHtcbiAgICAgICAgYWxpZ24taXRlbXM6IGJhc2VsaW5lO1xuICAgICAgICBmbGV4LWZsb3c6IHJvdztcbiAgICB9XG59IiwiOmhvc3QgLmZvcm0taW5saW5lIHtcbiAgYWxpZ24taXRlbXM6IGJhc2VsaW5lO1xuICBmbGV4LWZsb3c6IHJvdztcbn0iXX0= */"
+module.exports = ":host .form-inline {\n  align-items: baseline;\n  flex-flow: row;\n}\n:host a.diabled {\n  cursor: default;\n  pointer-events: none;\n}\n:host .table-responsive {\n  overflow: auto;\n  max-height: calc(100% - 150px);\n}\n:host .table-responsive table {\n  min-width: 1400px;\n  border-spacing: 0;\n  border-collapse: separate;\n}\n:host .table-responsive thead th {\n  position: -webkit-sticky;\n  position: sticky;\n  top: 0;\n  z-index: 2;\n  background-color: white;\n}\n:host .table-responsive tr {\n  cursor: pointer;\n}\n:host .table-responsive tr.is-selected {\n  background-color: lightgray;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL3dpbmQvUHJvamVjdC9Db0VSUC9mZS1jb2VycC9zcmMvYXBwL3BhZ2VzL21hcmtldGluZy9zbXMtdGVtcGxhdGUvc21zLXRlbXBsYXRlLmNvbXBvbmVudC5zY3NzIiwic3JjL2FwcC9wYWdlcy9tYXJrZXRpbmcvc21zLXRlbXBsYXRlL3Ntcy10ZW1wbGF0ZS5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFDRTtFQUNFLHFCQUFBO0VBQ0EsY0FBQTtBQ0FKO0FESUk7RUFDRSxlQUFBO0VBQ0Esb0JBQUE7QUNGTjtBRE1FO0VBQ0UsY0FBQTtFQUNBLDhCQUFBO0FDSko7QURNSTtFQUNFLGlCQUFBO0VBQ0EsaUJBQUE7RUFDQSx5QkFBQTtBQ0pOO0FEUU07RUFDRSx3QkFBQTtFQUFBLGdCQUFBO0VBQ0EsTUFBQTtFQUNBLFVBQUE7RUFDQSx1QkFBQTtBQ05SO0FEVUk7RUFDRSxlQUFBO0FDUk47QURVTTtFQUNFLDJCQUFBO0FDUlIiLCJmaWxlIjoic3JjL2FwcC9wYWdlcy9tYXJrZXRpbmcvc21zLXRlbXBsYXRlL3Ntcy10ZW1wbGF0ZS5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIjpob3N0IHtcbiAgLmZvcm0taW5saW5lIHtcbiAgICBhbGlnbi1pdGVtczogYmFzZWxpbmU7XG4gICAgZmxleC1mbG93OiByb3c7XG4gIH1cblxuICBhIHtcbiAgICAmLmRpYWJsZWQge1xuICAgICAgY3Vyc29yOiBkZWZhdWx0O1xuICAgICAgcG9pbnRlci1ldmVudHM6IG5vbmU7XG4gICAgfVxuICB9XG5cbiAgLnRhYmxlLXJlc3BvbnNpdmUge1xuICAgIG92ZXJmbG93OiBhdXRvO1xuICAgIG1heC1oZWlnaHQ6IGNhbGMoMTAwJSAtIDE1MHB4KTtcblxuICAgIHRhYmxlIHtcbiAgICAgIG1pbi13aWR0aDogMTQwMHB4O1xuICAgICAgYm9yZGVyLXNwYWNpbmc6IDA7XG4gICAgICBib3JkZXItY29sbGFwc2U6IHNlcGFyYXRlO1xuICAgIH1cblxuICAgIHRoZWFkIHtcbiAgICAgIHRoIHtcbiAgICAgICAgcG9zaXRpb246IHN0aWNreTtcbiAgICAgICAgdG9wOiAwO1xuICAgICAgICB6LWluZGV4OiAyO1xuICAgICAgICBiYWNrZ3JvdW5kLWNvbG9yOiB3aGl0ZTtcbiAgICAgIH1cbiAgICB9XG5cbiAgICB0ciB7XG4gICAgICBjdXJzb3I6IHBvaW50ZXI7XG5cbiAgICAgICYuaXMtc2VsZWN0ZWQge1xuICAgICAgICBiYWNrZ3JvdW5kLWNvbG9yOiBsaWdodGdyYXk7XG4gICAgICB9XG4gICAgfVxuICB9XG59XG4iLCI6aG9zdCAuZm9ybS1pbmxpbmUge1xuICBhbGlnbi1pdGVtczogYmFzZWxpbmU7XG4gIGZsZXgtZmxvdzogcm93O1xufVxuOmhvc3QgYS5kaWFibGVkIHtcbiAgY3Vyc29yOiBkZWZhdWx0O1xuICBwb2ludGVyLWV2ZW50czogbm9uZTtcbn1cbjpob3N0IC50YWJsZS1yZXNwb25zaXZlIHtcbiAgb3ZlcmZsb3c6IGF1dG87XG4gIG1heC1oZWlnaHQ6IGNhbGMoMTAwJSAtIDE1MHB4KTtcbn1cbjpob3N0IC50YWJsZS1yZXNwb25zaXZlIHRhYmxlIHtcbiAgbWluLXdpZHRoOiAxNDAwcHg7XG4gIGJvcmRlci1zcGFjaW5nOiAwO1xuICBib3JkZXItY29sbGFwc2U6IHNlcGFyYXRlO1xufVxuOmhvc3QgLnRhYmxlLXJlc3BvbnNpdmUgdGhlYWQgdGgge1xuICBwb3NpdGlvbjogc3RpY2t5O1xuICB0b3A6IDA7XG4gIHotaW5kZXg6IDI7XG4gIGJhY2tncm91bmQtY29sb3I6IHdoaXRlO1xufVxuOmhvc3QgLnRhYmxlLXJlc3BvbnNpdmUgdHIge1xuICBjdXJzb3I6IHBvaW50ZXI7XG59XG46aG9zdCAudGFibGUtcmVzcG9uc2l2ZSB0ci5pcy1zZWxlY3RlZCB7XG4gIGJhY2tncm91bmQtY29sb3I6IGxpZ2h0Z3JheTtcbn0iXX0= */"
 
 /***/ }),
 
@@ -2061,6 +1935,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! util */ "./node_modules/util/util.js");
+/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(util__WEBPACK_IMPORTED_MODULE_9__);
+
 
 
 
@@ -2079,14 +1956,23 @@ var SmsTemplateComponent = /** @class */ (function () {
         this.page = 0;
         this.pageSize = 10;
         this.totalSize = 0;
+        this.selectedTemplate = null;
     }
     SmsTemplateComponent.prototype.ngOnInit = function () {
-        this.breadCrumbItems = [
-            { label: 'ERP', path: '/' },
-            { label: 'Marketing', path: '/' },
-            { label: 'Mẫu SMS', path: '/', active: true }
-        ];
         this._fetchData();
+    };
+    SmsTemplateComponent.prototype.onClickTemplate = function (template) {
+        if (Object(util__WEBPACK_IMPORTED_MODULE_9__["isNullOrUndefined"])(this.selectedTemplate)) {
+            this.selectedTemplate = template;
+        }
+        else {
+            if (this.selectedTemplate.smt_id !== template.smt_id) {
+                this.selectedTemplate = template;
+            }
+            else {
+                this.selectedTemplate = null;
+            }
+        }
     };
     SmsTemplateComponent.prototype.openViewTemplateModal = function (template) {
         var modalRef = this.modalService.open(_component_view_sms_template_modal_view_sms_template_modal_component__WEBPACK_IMPORTED_MODULE_4__["ViewSmsTemplateModalComponent"], {
@@ -2138,26 +2024,31 @@ var SmsTemplateComponent = /** @class */ (function () {
         });
     };
     SmsTemplateComponent.prototype.onPageChange = function (page) {
-        this.page = page - 1;
+        this.page = page;
         this._fetchData();
     };
     SmsTemplateComponent.prototype.onChangeFilter = function () {
-        this.page--;
-        this._fetchData();
+        this._fetchData(this.selectedTemplate);
     };
-    SmsTemplateComponent.prototype._fetchData = function () {
+    SmsTemplateComponent.prototype._fetchData = function (selected) {
         var _this = this;
         var template$ = this.smsService
             .loadSmsTemplate({
-            pageNumber: this.page,
+            pageNumber: this.page - 1,
             pageSize: this.pageSize,
             search_name: this.textSearch
         })
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["takeUntil"])(this.destroyed$));
         template$.subscribe(function (res) {
-            if (res) {
+            if (res && res.Data) {
                 _this.totalSize = res.Data.TotalNumberOfRecords;
                 _this.templates = res.Data.Results;
+                if (selected) {
+                    _this.selectedTemplate = _this.templates.find(function (item) { return item.smt_id === selected.smt_id; });
+                }
+                else {
+                    _this.selectedTemplate = _this.templates[0];
+                }
             }
         });
     };
@@ -2167,28 +2058,14 @@ var SmsTemplateComponent = /** @class */ (function () {
             .createSmsTemplate(data)
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["takeUntil"])(this.destroyed$));
         createTemplate$.subscribe(function (res) {
-            if (res.Code === 200) {
-                sweetalert2__WEBPACK_IMPORTED_MODULE_8___default.a.fire({
-                    position: 'top-end',
-                    type: 'success',
-                    title: 'Thêm mẫu SMS thành công',
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-                _this.page--;
+            if (res && res.Code == 200) {
+                _this._notify(true, res.Message);
                 _this._fetchData();
                 _this.modalService.dismissAll();
             }
-        }, function () {
-            sweetalert2__WEBPACK_IMPORTED_MODULE_8___default.a.fire({
-                position: 'top-end',
-                type: 'error',
-                title: 'Thêm SMS thất bại',
-                showConfirmButton: false,
-                timer: 2000
-            });
-            _this.modalService.dismissAll();
-        });
+            else
+                _this._notify(false, res.Message);
+        }, function (e) { return _this._notify(false, e.Message); });
     };
     SmsTemplateComponent.prototype._updateTemplate = function (updated) {
         var _this = this;
@@ -2196,28 +2073,14 @@ var SmsTemplateComponent = /** @class */ (function () {
             .updateSmsTemplate(updated)
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["takeUntil"])(this.destroyed$));
         updateTemplate$.subscribe(function (res) {
-            if (res.Code === 200) {
-                sweetalert2__WEBPACK_IMPORTED_MODULE_8___default.a.fire({
-                    position: 'top-end',
-                    type: 'success',
-                    title: 'Cập nhật mẫu SMS thành công',
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-                _this.page--;
-                _this._fetchData();
+            if (res && res.Code == 200) {
+                _this._notify(true, res.Message);
+                _this._fetchData(_this.selectedTemplate);
                 _this.modalService.dismissAll();
             }
-        }, function () {
-            sweetalert2__WEBPACK_IMPORTED_MODULE_8___default.a.fire({
-                position: 'top-end',
-                type: 'error',
-                title: 'Cập nhật mẫu SMS thất bại',
-                showConfirmButton: false,
-                timer: 2000
-            });
-            _this.modalService.dismissAll();
-        });
+            else
+                _this._notify(false, res.Message);
+        }, function (e) { return _this._notify(false, e.Message); });
     };
     SmsTemplateComponent.prototype._removeTemplate = function (template) {
         var _this = this;
@@ -2225,27 +2088,23 @@ var SmsTemplateComponent = /** @class */ (function () {
             .removeSmsTemplate({ sms_templateId: template.smt_id })
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["takeUntil"])(this.destroyed$));
         removeTemplate$.subscribe(function (res) {
-            if (res.Code == 200) {
-                sweetalert2__WEBPACK_IMPORTED_MODULE_8___default.a.fire({
-                    position: 'top-end',
-                    type: 'success',
-                    title: 'Xóa mẫu SMS thành công',
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-                _this.page--;
+            if (res && res.Code == 200) {
+                _this._notify(true, res.Message);
                 _this._fetchData();
                 _this.modalService.dismissAll();
             }
-        }, function () {
-            sweetalert2__WEBPACK_IMPORTED_MODULE_8___default.a.fire({
-                position: 'top-end',
-                type: 'error',
-                title: 'Xóa mẫu SMS thất bại',
-                showConfirmButton: false,
-                timer: 2000
-            });
-            _this.modalService.dismissAll();
+            else
+                _this._notify(false, res.Message);
+        }, function (e) { return _this._notify(false, e.Message); });
+    };
+    SmsTemplateComponent.prototype._notify = function (isSuccess, message) {
+        return sweetalert2__WEBPACK_IMPORTED_MODULE_8___default.a.fire({
+            toast: true,
+            position: 'top-end',
+            type: isSuccess ? 'success' : 'error',
+            title: message,
+            showConfirmButton: false,
+            timer: 2000
         });
     };
     SmsTemplateComponent.ctorParameters = function () { return [

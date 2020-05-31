@@ -1,5 +1,46 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([["pages-pages-module"],{
 
+/***/ "./src/app/core/guards/admin.guard.ts":
+/*!********************************************!*\
+  !*** ./src/app/core/guards/admin.guard.ts ***!
+  \********************************************/
+/*! exports provided: AdminGuard */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AdminGuard", function() { return AdminGuard; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+
+
+
+let AdminGuard = class AdminGuard {
+    constructor(router) {
+        this.router = router;
+    }
+    canActivate(route, state) {
+        const role = localStorage.getItem('role');
+        if (role === 'Admin') {
+            return true;
+        }
+        this.router.navigate(['/dashboard']);
+        return false;
+    }
+};
+AdminGuard.ctorParameters = () => [
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"] }
+];
+AdminGuard = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({ providedIn: 'root' }),
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"]])
+], AdminGuard);
+
+
+
+/***/ }),
+
 /***/ "./src/app/pages/pages-routing.module.ts":
 /*!***********************************************!*\
   !*** ./src/app/pages/pages-routing.module.ts ***!
@@ -13,58 +54,70 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+/* harmony import */ var _core_guards_admin_guard__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../core/guards/admin.guard */ "./src/app/core/guards/admin.guard.ts");
+
 
 
 
 const routes = [
     {
         path: 'dashboard',
-        loadChildren: () => Promise.all(/*! import() | dashboard-dashboard-module */[__webpack_require__.e("default~customer-customer-module~dashboard-dashboard-module~support-support-module~vendor-vendor-mod~449f3bff"), __webpack_require__.e("dashboard-dashboard-module")]).then(__webpack_require__.bind(null, /*! ./dashboard/dashboard.module */ "./src/app/pages/dashboard/dashboard.module.ts")).then(m => m.DashboardModule)
+        loadChildren: () => Promise.all(/*! import() | dashboard-dashboard-module */[__webpack_require__.e("default~customer-customer-module~dashboard-dashboard-module~product-product-module~service-service-m~a3926cec"), __webpack_require__.e("dashboard-dashboard-module")]).then(__webpack_require__.bind(null, /*! ./dashboard/dashboard.module */ "./src/app/pages/dashboard/dashboard.module.ts")).then((m) => m.DashboardModule),
     },
     {
         path: 'staff',
-        loadChildren: () => Promise.all(/*! import() | staff-staff-module */[__webpack_require__.e("default~customer-customer-module~marketing-marketing-module~product-product-module~staff-staff-modul~1eb06ba2"), __webpack_require__.e("default~customer-customer-module~product-product-module~staff-staff-module~support-support-module"), __webpack_require__.e("default~customer-customer-module~product-product-module~service-service-module~staff-staff-module"), __webpack_require__.e("staff-staff-module")]).then(__webpack_require__.bind(null, /*! ./staff/staff.module */ "./src/app/pages/staff/staff.module.ts")).then(m => m.StaffModule)
+        loadChildren: () => Promise.all(/*! import() | staff-staff-module */[__webpack_require__.e("default~account-account-module~customer-customer-module~marketing-marketing-module~permission-permis~22a204e2"), __webpack_require__.e("default~customer-customer-module~dashboard-dashboard-module~product-product-module~service-service-m~a3926cec"), __webpack_require__.e("default~customer-customer-module~marketing-marketing-module~permission-permission-module~product-pro~554b546b"), __webpack_require__.e("default~customer-customer-module~product-product-module~service-service-module~staff-staff-module~su~43f3fe11"), __webpack_require__.e("default~marketing-marketing-module~permission-permission-module~product-product-module~service-servi~ec394857"), __webpack_require__.e("staff-staff-module")]).then(__webpack_require__.bind(null, /*! ./staff/staff.module */ "./src/app/pages/staff/staff.module.ts")).then((m) => m.StaffModule),
+        canActivate: [_core_guards_admin_guard__WEBPACK_IMPORTED_MODULE_3__["AdminGuard"]],
     },
     {
         path: 'customer',
-        loadChildren: () => Promise.all(/*! import() | customer-customer-module */[__webpack_require__.e("default~customer-customer-module~marketing-marketing-module~product-product-module~staff-staff-modul~1eb06ba2"), __webpack_require__.e("default~customer-customer-module~product-product-module~staff-staff-module~support-support-module"), __webpack_require__.e("default~customer-customer-module~dashboard-dashboard-module~support-support-module~vendor-vendor-mod~449f3bff"), __webpack_require__.e("default~customer-customer-module~product-product-module~service-service-module~staff-staff-module"), __webpack_require__.e("common"), __webpack_require__.e("customer-customer-module")]).then(__webpack_require__.bind(null, /*! ./customer/customer.module */ "./src/app/pages/customer/customer.module.ts")).then(m => m.CustomerModule)
+        loadChildren: () => Promise.all(/*! import() | customer-customer-module */[__webpack_require__.e("default~account-account-module~customer-customer-module~marketing-marketing-module~permission-permis~22a204e2"), __webpack_require__.e("default~customer-customer-module~dashboard-dashboard-module~product-product-module~service-service-m~a3926cec"), __webpack_require__.e("default~customer-customer-module~marketing-marketing-module~permission-permission-module~product-pro~554b546b"), __webpack_require__.e("default~customer-customer-module~product-product-module~service-service-module~staff-staff-module~su~43f3fe11"), __webpack_require__.e("default~customer-customer-module~product-product-module~service-service-module")]).then(__webpack_require__.bind(null, /*! ./customer/customer.module */ "./src/app/pages/customer/customer.module.ts")).then((m) => m.CustomerModule),
     },
     {
         path: 'marketing',
-        loadChildren: () => Promise.all(/*! import() | marketing-marketing-module */[__webpack_require__.e("default~customer-customer-module~marketing-marketing-module~product-product-module~staff-staff-modul~1eb06ba2"), __webpack_require__.e("default~mail-mail-module~marketing-marketing-module"), __webpack_require__.e("marketing-marketing-module")]).then(__webpack_require__.bind(null, /*! ./marketing/marketing.module */ "./src/app/pages/marketing/marketing.module.ts")).then(m => m.MarketingModule)
+        loadChildren: () => Promise.all(/*! import() | marketing-marketing-module */[__webpack_require__.e("default~account-account-module~customer-customer-module~marketing-marketing-module~permission-permis~22a204e2"), __webpack_require__.e("default~customer-customer-module~marketing-marketing-module~permission-permission-module~product-pro~554b546b"), __webpack_require__.e("default~marketing-marketing-module~permission-permission-module~product-product-module~service-servi~ec394857"), __webpack_require__.e("default~mail-mail-module~marketing-marketing-module"), __webpack_require__.e("marketing-marketing-module")]).then(__webpack_require__.bind(null, /*! ./marketing/marketing.module */ "./src/app/pages/marketing/marketing.module.ts")).then((m) => m.MarketingModule),
     },
     {
         path: 'vendor',
-        loadChildren: () => Promise.all(/*! import() | vendor-vendor-module */[__webpack_require__.e("default~customer-customer-module~dashboard-dashboard-module~support-support-module~vendor-vendor-mod~449f3bff"), __webpack_require__.e("common"), __webpack_require__.e("vendor-vendor-module")]).then(__webpack_require__.bind(null, /*! ./vendor/vendor.module */ "./src/app/pages/vendor/vendor.module.ts")).then(m => m.VendorModule)
+        loadChildren: () => Promise.all(/*! import() | vendor-vendor-module */[__webpack_require__.e("default~customer-customer-module~dashboard-dashboard-module~product-product-module~service-service-m~a3926cec"), __webpack_require__.e("vendor-vendor-module")]).then(__webpack_require__.bind(null, /*! ./vendor/vendor.module */ "./src/app/pages/vendor/vendor.module.ts")).then((m) => m.VendorModule),
+        canActivate: [_core_guards_admin_guard__WEBPACK_IMPORTED_MODULE_3__["AdminGuard"]],
     },
     {
         path: 'service',
-        loadChildren: () => Promise.all(/*! import() | service-service-module */[__webpack_require__.e("default~customer-customer-module~product-product-module~service-service-module~staff-staff-module"), __webpack_require__.e("common"), __webpack_require__.e("service-service-module")]).then(__webpack_require__.bind(null, /*! ./service/service.module */ "./src/app/pages/service/service.module.ts")).then(m => m.ServiceModule)
+        loadChildren: () => Promise.all(/*! import() | service-service-module */[__webpack_require__.e("default~account-account-module~customer-customer-module~marketing-marketing-module~permission-permis~22a204e2"), __webpack_require__.e("default~customer-customer-module~dashboard-dashboard-module~product-product-module~service-service-m~a3926cec"), __webpack_require__.e("default~customer-customer-module~marketing-marketing-module~permission-permission-module~product-pro~554b546b"), __webpack_require__.e("default~customer-customer-module~product-product-module~service-service-module~staff-staff-module~su~43f3fe11"), __webpack_require__.e("default~marketing-marketing-module~permission-permission-module~product-product-module~service-servi~ec394857"), __webpack_require__.e("default~customer-customer-module~product-product-module~service-service-module"), __webpack_require__.e("service-service-module")]).then(__webpack_require__.bind(null, /*! ./service/service.module */ "./src/app/pages/service/service.module.ts")).then((m) => m.ServiceModule),
+        canActivate: [_core_guards_admin_guard__WEBPACK_IMPORTED_MODULE_3__["AdminGuard"]],
     },
     {
         path: 'mail',
-        loadChildren: () => Promise.all(/*! import() | mail-mail-module */[__webpack_require__.e("default~mail-mail-module~marketing-marketing-module"), __webpack_require__.e("mail-mail-module")]).then(__webpack_require__.bind(null, /*! ./mail/mail.module */ "./src/app/pages/mail/mail.module.ts")).then(m => m.MailModule)
+        loadChildren: () => Promise.all(/*! import() | mail-mail-module */[__webpack_require__.e("default~mail-mail-module~marketing-marketing-module"), __webpack_require__.e("mail-mail-module")]).then(__webpack_require__.bind(null, /*! ./mail/mail.module */ "./src/app/pages/mail/mail.module.ts")).then((m) => m.MailModule),
+        canActivate: [_core_guards_admin_guard__WEBPACK_IMPORTED_MODULE_3__["AdminGuard"]],
     },
     {
         path: 'product',
-        loadChildren: () => Promise.all(/*! import() | product-product-module */[__webpack_require__.e("default~customer-customer-module~marketing-marketing-module~product-product-module~staff-staff-modul~1eb06ba2"), __webpack_require__.e("default~customer-customer-module~product-product-module~staff-staff-module~support-support-module"), __webpack_require__.e("default~customer-customer-module~product-product-module~service-service-module~staff-staff-module"), __webpack_require__.e("common"), __webpack_require__.e("product-product-module")]).then(__webpack_require__.bind(null, /*! ./product/product.module */ "./src/app/pages/product/product.module.ts")).then(m => m.ProductModule)
+        loadChildren: () => Promise.all(/*! import() | product-product-module */[__webpack_require__.e("default~account-account-module~customer-customer-module~marketing-marketing-module~permission-permis~22a204e2"), __webpack_require__.e("default~customer-customer-module~dashboard-dashboard-module~product-product-module~service-service-m~a3926cec"), __webpack_require__.e("default~customer-customer-module~marketing-marketing-module~permission-permission-module~product-pro~554b546b"), __webpack_require__.e("default~customer-customer-module~product-product-module~service-service-module~staff-staff-module~su~43f3fe11"), __webpack_require__.e("default~marketing-marketing-module~permission-permission-module~product-product-module~service-servi~ec394857"), __webpack_require__.e("default~customer-customer-module~product-product-module~service-service-module"), __webpack_require__.e("product-product-module")]).then(__webpack_require__.bind(null, /*! ./product/product.module */ "./src/app/pages/product/product.module.ts")).then((m) => m.ProductModule),
     },
     {
         path: 'support',
-        loadChildren: () => Promise.all(/*! import() | support-support-module */[__webpack_require__.e("default~customer-customer-module~marketing-marketing-module~product-product-module~staff-staff-modul~1eb06ba2"), __webpack_require__.e("default~customer-customer-module~product-product-module~staff-staff-module~support-support-module"), __webpack_require__.e("default~customer-customer-module~dashboard-dashboard-module~support-support-module~vendor-vendor-mod~449f3bff"), __webpack_require__.e("support-support-module")]).then(__webpack_require__.bind(null, /*! ./support/support.module */ "./src/app/pages/support/support.module.ts")).then(m => m.SupportModule)
+        loadChildren: () => Promise.all(/*! import() | support-support-module */[__webpack_require__.e("default~account-account-module~customer-customer-module~marketing-marketing-module~permission-permis~22a204e2"), __webpack_require__.e("default~customer-customer-module~dashboard-dashboard-module~product-product-module~service-service-m~a3926cec"), __webpack_require__.e("default~customer-customer-module~product-product-module~service-service-module~staff-staff-module~su~43f3fe11"), __webpack_require__.e("support-support-module")]).then(__webpack_require__.bind(null, /*! ./support/support.module */ "./src/app/pages/support/support.module.ts")).then((m) => m.SupportModule),
     },
     {
         path: 'enterprise',
-        loadChildren: () => __webpack_require__.e(/*! import() | enterprise-enterprise-module */ "enterprise-enterprise-module").then(__webpack_require__.bind(null, /*! ./enterprise/enterprise.module */ "./src/app/pages/enterprise/enterprise.module.ts")).then(m => m.EnterpriseModule)
+        loadChildren: () => __webpack_require__.e(/*! import() | enterprise-enterprise-module */ "enterprise-enterprise-module").then(__webpack_require__.bind(null, /*! ./enterprise/enterprise.module */ "./src/app/pages/enterprise/enterprise.module.ts")).then((m) => m.EnterpriseModule),
+        canActivate: [_core_guards_admin_guard__WEBPACK_IMPORTED_MODULE_3__["AdminGuard"]],
     },
-    { path: '', redirectTo: '/dashboard', pathMatch: 'full' }
+    {
+        path: 'permission',
+        loadChildren: () => Promise.all(/*! import() | permission-permission-module */[__webpack_require__.e("default~account-account-module~customer-customer-module~marketing-marketing-module~permission-permis~22a204e2"), __webpack_require__.e("default~customer-customer-module~marketing-marketing-module~permission-permission-module~product-pro~554b546b"), __webpack_require__.e("default~marketing-marketing-module~permission-permission-module~product-product-module~service-servi~ec394857"), __webpack_require__.e("permission-permission-module")]).then(__webpack_require__.bind(null, /*! ./permission/permission.module */ "./src/app/pages/permission/permission.module.ts")).then((m) => m.PermissionModule),
+        canActivate: [_core_guards_admin_guard__WEBPACK_IMPORTED_MODULE_3__["AdminGuard"]],
+    },
+    { path: '', redirectTo: '/dashboard', pathMatch: 'prefix' },
 ];
 let PagesRoutingModule = class PagesRoutingModule {
 };
 PagesRoutingModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
         imports: [_angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"].forChild(routes)],
-        exports: [_angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"]]
+        exports: [_angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"]],
     })
 ], PagesRoutingModule);
 

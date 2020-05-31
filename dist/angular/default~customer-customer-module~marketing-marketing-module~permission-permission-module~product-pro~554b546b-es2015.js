@@ -1,4 +1,4 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["default~customer-customer-module~product-product-module~service-service-module~staff-staff-module"],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["default~customer-customer-module~marketing-marketing-module~permission-permission-module~product-pro~554b546b"],{
 
 /***/ "./node_modules/util/node_modules/inherits/inherits_browser.js":
 /*!*********************************************************************!*\
@@ -765,4 +765,4 @@ exports.callbackify = callbackify;
 /***/ })
 
 }]);
-//# sourceMappingURL=default~customer-customer-module~product-product-module~service-service-module~staff-staff-module-es5.js.map
+//# sourceMappingURL=default~customer-customer-module~marketing-marketing-module~permission-permission-module~product-pro~554b546b-es2015.js.map
