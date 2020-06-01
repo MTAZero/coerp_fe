@@ -16,7 +16,7 @@
         color="white"
         text="center"
         headerClass="title header-title border-0 my-1"
-        (onContentRefresh)="contentRefresh()"
+        (onContentRefresh)="contentRefresh('')"
       >
         <div class="card-body text-center pt-0">
           <apx-chart
@@ -92,7 +92,7 @@
         title="Phê duyệt"
         color="white"
         headerClass="title header-title border-0"
-        (onContentRefresh)="contentRefresh()"
+        (onContentRefresh)="contentRefresh('')"
       >
         <div class="card-body pt-0" style="height: 450px;">
           <div class="row mb-2">
@@ -162,7 +162,6 @@
           </div>
           <ul class="pagination pagination-rounded justify-content-end my-2">
             <ngb-pagination
-              (pageChange)="onPageChange($event)"
               [pageSize]="pageSize"
               [(page)]="page"
               [collectionSize]="totalSize"
@@ -177,7 +176,7 @@
         title="Đơn hàng"
         color="white"
         headerClass="title header-title border-0"
-        (onContentRefresh)="contentRefresh()"
+        (onContentRefresh)="contentRefresh('')"
       >
         <div class="card-body pt-0" style="height: 450px;">
           <div class="row mb-2">

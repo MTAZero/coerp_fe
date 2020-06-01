@@ -49,7 +49,7 @@ export class DashboardComponent implements OnInit {
 
   contentRefresh(type) {
     if (type === 'customer') this._fetchCustomer();
-    else this._fetchRate();
+    if (type === 'rate') this._fetchRate();
   }
 
   onPageOrderChange(page: number): void {

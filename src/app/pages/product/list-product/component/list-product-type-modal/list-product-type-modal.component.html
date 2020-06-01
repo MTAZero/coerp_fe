@@ -1,11 +1,6 @@
 <div class="modal-header bg-dark">
   <h4 class="modal-title text-white">Loại sản phẩm</h4>
-  <button
-    type="button"
-    class="close text-white"
-    aria-label="Close"
-    (click)="onClickCancel()"
-  >
+  <button type="button" class="close text-white" aria-label="Close" (click)="onClickCancel()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
@@ -26,9 +21,7 @@
           *ngFor="let productType of productTypes; let i = index"
           (click)="onClickProductType(productType)"
           [ngClass]="{
-            'is-selected':
-              productType.product_type_id ===
-              selectedProductType?.product_type_id
+            'is-selected': productType.product_type_id === selectedProductType?.product_type_id
           }"
         >
           <td>
@@ -51,11 +44,7 @@
     </table>
   </div>
   <div class="text-right mt-3">
-    <button
-      [disabled]="!selectedProductType"
-      class="btn btn-primary"
-      (click)="onClickChoose()"
-    >
+    <button [disabled]="!selectedProductType" class="btn btn-primary" (click)="onClickChoose()">
       Chọn
     </button>
     <button class="btn btn-success ml-1" (click)="openProductTypeModal()">
@@ -64,7 +53,7 @@
     <button
       [disabled]="!selectedProductType"
       class="btn btn-warning ml-1"
-      (click)="openProductTypeModal(productType)"
+      (click)="openProductTypeModal()"
     >
       Sửa
     </button>

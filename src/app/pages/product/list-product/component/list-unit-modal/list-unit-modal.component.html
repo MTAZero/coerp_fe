@@ -1,11 +1,6 @@
 <div class="modal-header bg-dark">
   <h4 class="modal-title text-white">Đơn vị</h4>
-  <button
-    type="button"
-    class="close text-white"
-    aria-label="Close"
-    (click)="onClickCancel()"
-  >
+  <button type="button" class="close text-white" aria-label="Close" (click)="onClickCancel()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
@@ -37,28 +32,16 @@
     </table>
   </div>
   <div class="text-right mt-3">
-    <button
-      [disabled]="!selectedUnit"
-      class="btn btn-primary"
-      (click)="onClickChoose()"
-    >
+    <button [disabled]="!selectedUnit" class="btn btn-primary" (click)="onClickChoose()">
       Chọn
     </button>
     <button class="btn btn-success ml-1" (click)="openUnitModal()">
       Thêm
     </button>
-    <button
-      [disabled]="!selectedUnit"
-      class="btn btn-warning ml-1"
-      (click)="openUnitModal(unit)"
-    >
+    <button [disabled]="!selectedUnit" class="btn btn-warning ml-1" (click)="openUnitModal()">
       Sửa
     </button>
-    <button
-      [disabled]="!selectedUnit"
-      class="btn btn-danger ml-1"
-      (click)="openConfirmModal()"
-    >
+    <button [disabled]="!selectedUnit" class="btn btn-danger ml-1" (click)="openConfirmModal()">
       Xóa
     </button>
     <button class="btn btn-danger ml-1" (click)="onClickCancel()">

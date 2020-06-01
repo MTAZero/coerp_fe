@@ -415,7 +415,7 @@ export class ListOrderDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  private sumListProduct() {
+  sumListProduct() {
     this.orderTotal = 0;
     this.listProduct.forEach((item) => {
       this.orderTotal += item.op_total_value;

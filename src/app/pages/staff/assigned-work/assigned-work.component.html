@@ -7,7 +7,6 @@
           color="white"
           text="center"
           headerClass="title header-title border-0 my-1"
-          (onContentRefresh)="contentRefresh()"
         >
           <div class="card-body text-center pt-0">
             <apx-chart
@@ -29,7 +28,6 @@
           color="white"
           text="center"
           headerClass="title header-title border-0 my-1"
-          (onContentRefresh)="contentRefresh()"
         >
           <div class="card-body text-center pt-0">
             <apx-chart
@@ -50,7 +48,6 @@
           color="white"
           text="center"
           headerClass="title header-title border-0 my-1"
-          (onContentRefresh)="contentRefresh()"
         >
           <div class="card-body text-center pt-0">
             <apx-chart
@@ -71,7 +68,6 @@
           color="white"
           text="center"
           headerClass="title header-title border-0 my-1"
-          (onContentRefresh)="contentRefresh()"
         >
           <div class="card-body text-center pt-0">
             <apx-chart
@@ -153,7 +149,7 @@
           <a
             [ngClass]="selectedOrder ? '' : 'disabled'"
             class="btn btn-secondary mr-1 button-link"
-            (click)="openCustomerCareModal(selectedOrder, true)"
+            (click)="openCustomerCareModal()"
             ><i class="mdi mdi-eye mr-1"></i> Chi tiết</a
           >
           <a class="btn btn-success mr-1 button-link" (click)="openCustomerCareModal()"
@@ -162,7 +158,7 @@
           <a
             class="btn btn-primary mr-1 button-link"
             [ngClass]="selectedOrder ? '' : 'disabled'"
-            (click)="openCustomerCareModal(selectedOrder)"
+            (click)="openCustomerCareModal()"
             ><i class="mdi mdi-square-edit-outline mr-1"></i> Cập nhật</a
           >
           <a
