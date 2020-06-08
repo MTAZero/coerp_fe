@@ -3,7 +3,6 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { StaffService } from '../../../core/services/api/staff.service';
-import { CustomerGroupService } from '../../../core/services/api/customer-group.service';
 import { CustomerService } from '../../../core/services/api/customer.service';
 
 @Component({
@@ -23,16 +22,14 @@ export class AssignWorkComponent implements OnInit {
   totalSize = 0;
 
   customerGroups: any;
+  customerTypes: any;
   staffs: any;
   selectedStaffs = [];
   selectedCustomerGroup = '';
+  selectedCustomerType = '';
   customers: any;
 
-  constructor(
-    private staffService: StaffService,
-    private customerService: CustomerService,
-    private customerGroupService: CustomerGroupService
-  ) {}
+  constructor(private staffService: StaffService, private customerService: CustomerService) {}
   ngOnInit() {
     this._fetchFilter();
   }
@@ -98,15 +95,18 @@ export class AssignWorkComponent implements OnInit {
       }
     });
 
-    const customerGroup$ = this.customerGroupService
-      .loadAllCustomerGroup()
-      .pipe(takeUntil(this.destroyed$));
+    const customerGroup$ = this.customerService.loadGroup().pipe(takeUntil(this.destroyed$));
     customerGroup$.subscribe((res: any) => {
       this.customerGroups = res.Data;
       this.customerGroups.push({
-        cg_id: 0,
-        cg_name: 'Ngẫu nhiên',
+        id: 0,
+        name: 'Ngẫu nhiên',
       });
+    });
+
+    const customerType$ = this.customerService.loadType().pipe(takeUntil(this.destroyed$));
+    customerType$.subscribe((res: any) => {
+      this.customerTypes = res.Data;
     });
   }
 

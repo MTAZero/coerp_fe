@@ -13,6 +13,7 @@ const router = {
   export_template: '/api/customer/export_template',
   source: '/api/source/getall',
   group: `/api/customer_group/getall`,
+  type: `/api/customer_type/getall`,
   // pending
   get_by_curator: '/api/customer/search_by_curator',
   create_location: `/api/ship-addresss/create`,
@@ -92,6 +93,10 @@ export class CustomerService {
 
   loadGroup() {
     return this.httpClient.get(router.group);
+  }
+
+  loadType() {
+    return this.httpClient.get(router.type);
   }
 
   createShipAddress(data: any) {

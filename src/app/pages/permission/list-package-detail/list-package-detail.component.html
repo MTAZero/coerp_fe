@@ -89,7 +89,7 @@
                   <input
                     class="form-control"
                     type="number"
-                    [readonly]="listView[0]"
+                    [readonly]="true"
                     formControlName="pac_price"
                     [ngClass]="{
                       'is-invalid': submitted && formPackage.controls.pac_price.errors
@@ -121,6 +121,7 @@
                   <th>STT</th>
                   <th>Mã chức năng</th>
                   <th>Tên chức năng</th>
+                  <th>Giá</th>
                   <th>Thao tác</th>
                 </tr>
               </thead>
@@ -131,6 +132,7 @@
                   </td>
                   <td>{{ function.fun_code }}</td>
                   <td>{{ function.fun_name }}</td>
+                  <td>{{ function.fun_price }}</td>
                   <td>
                     <a class="action-icon table-button-link" (click)="openFunctionModal(function)">
                       <i class="mdi mdi-square-edit-outline"></i

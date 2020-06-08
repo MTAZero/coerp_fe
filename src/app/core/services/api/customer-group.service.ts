@@ -3,7 +3,7 @@ import { ApiService } from './api-service';
 import { mapToHttpParamsQuery, mapToFormData } from '../../helpers/helpers';
 
 const router = {
-  load_all: '/api/customer-groups/all',
+  load_all: '/api/customer_group/getall',
   load: `/api/customer-groups/search`,
   info: '/api/customer-groups/info',
   create: '/api/customer-group/create',

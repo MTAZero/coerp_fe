@@ -127,6 +127,8 @@ export class ListCompanyDetailComponent implements OnInit, OnDestroy {
     } else {
       this.listFunction = this.listFunction.filter((item) => item.fun_id !== func.fun_id);
     }
+    this.isChange = true;
+    this._updatePrice();
   }
 
   onChangePackage(event: any, pk: any) {
@@ -146,6 +148,16 @@ export class ListCompanyDetailComponent implements OnInit, OnDestroy {
           (item.package_id && item.package_id !== pk.pac_id)
       );
     }
+    this.isChange = true;
+    this._updatePrice();
+  }
+
+  onChangeDuration() {
+    this._updatePrice();
+  }
+
+  onChangeDiscount() {
+    this._updatePrice();
   }
 
   //#region Private
@@ -157,10 +169,11 @@ export class ListCompanyDetailComponent implements OnInit, OnDestroy {
       co_address: [null, [Validators.required]],
       co_mission: ['', [Validators.required]],
       co_target: ['', [Validators.required]],
-      co_revenue: [0, [Validators.required]],
+      co_revenue: [0, null],
       sta_name: ['', null],
       co_duration: [1, [Validators.required]],
       co_price: [1, [Validators.required]],
+      co_discount: [0, [Validators.required]],
       co_description: ['', null],
     });
   }
@@ -196,11 +209,13 @@ export class ListCompanyDetailComponent implements OnInit, OnDestroy {
       co_revenue: company.co_revenue,
       sta_name: company.sta_name,
       co_duration: company.co_duration,
+      co_discount: company.co_discount ? company.co_discount : 0,
       co_price: company.co_price,
       co_description: company.co_description,
     });
 
     this.listFunction = company.list_function;
+    this._updatePrice();
   }
 
   private _createCompany(data: any) {
@@ -243,6 +258,17 @@ export class ListCompanyDetailComponent implements OnInit, OnDestroy {
         this.errorField = e.Error;
       }
     );
+  }
+
+  private _updatePrice() {
+    let p = 0;
+    this.listFunction.forEach((e) => {
+      p += e.fun_price;
+    });
+    const { co_discount, co_duration } = this.formCompany.value;
+    this.formCompany.patchValue({
+      co_price: (p * co_duration * (100 - co_discount)) / 100,
+    });
   }
 
   private _notify(isSuccess: boolean, message: string) {

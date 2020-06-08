@@ -122,6 +122,7 @@ export class ListPackageDetailComponent implements OnInit, OnDestroy {
             if (item.fun_id !== res.form.fun_id) return item;
             return res.form;
           });
+          this._reCalPrice();
           this.isChange = true;
         } else {
           this.listFunction.push({
@@ -130,6 +131,7 @@ export class ListPackageDetailComponent implements OnInit, OnDestroy {
           });
           this.tempFunction++;
           this.isChange = true;
+          this._reCalPrice();
         }
       }
       modalRef.close();
@@ -149,6 +151,7 @@ export class ListPackageDetailComponent implements OnInit, OnDestroy {
       if (result.value) {
         this.listFunction = this.listFunction.filter((item) => item.fun_id !== func.fun_id);
         this.isChange = true;
+        this._reCalPrice();
       }
     });
   }
@@ -184,6 +187,7 @@ export class ListPackageDetailComponent implements OnInit, OnDestroy {
     });
 
     this.listFunction = packagee.list_function;
+    this._reCalPrice();
   }
 
   private _createPackage(data: any) {
@@ -226,6 +230,16 @@ export class ListPackageDetailComponent implements OnInit, OnDestroy {
         this.errorField = e.Error;
       }
     );
+  }
+
+  private _reCalPrice() {
+    let sum = 0;
+    this.listFunction.forEach((item) => {
+      sum += parseInt(item.fun_price);
+    });
+    this.formPackage.patchValue({
+      pac_price: sum,
+    });
   }
 
   private _notify(isSuccess: boolean, message: string) {

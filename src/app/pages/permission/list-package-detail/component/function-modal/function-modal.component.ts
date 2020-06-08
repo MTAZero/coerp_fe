@@ -66,6 +66,7 @@ export class FunctionModalComponent implements OnInit {
       fun_id: ['temp_0', null],
       fun_code: ['', [Validators.required]],
       fun_name: ['', [Validators.required]],
+      fun_price: [0, [Validators.required]],
     });
   }
 
@@ -74,6 +75,7 @@ export class FunctionModalComponent implements OnInit {
       fun_id: func.fun_id,
       fun_code: func.fun_code,
       fun_name: func.fun_name,
+      fun_price: func.fun_price,
     });
   }
 }

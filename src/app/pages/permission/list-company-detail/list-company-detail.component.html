@@ -165,7 +165,7 @@
                 <div class="col-6">
                   <input
                     class="form-control"
-                    [readonly]="listView[0]"
+                    [readonly]="true"
                     formControlName="sta_name"
                     [ngClass]="{
                       'is-invalid': submitted && formCompany.controls.sta_name.errors
@@ -190,6 +190,7 @@
                     class="form-control"
                     [readonly]="listView[0]"
                     type="number"
+                    (change)="onChangeDuration()"
                     formControlName="co_duration"
                     [ngClass]="{
                       'is-invalid': submitted && formCompany.controls.co_duration.errors
@@ -206,11 +207,36 @@
                 </div>
               </div>
               <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Gía thuê <span>(*)</span> </label>
+                <label class="col-4 col-form-label">Chiết khấu <span>(*)</span> </label>
                 <div class="col-6">
                   <input
                     class="form-control"
                     [readonly]="listView[0]"
+                    type="number"
+                    formControlName="co_discount"
+                    (change)="onChangeDiscount()"
+                    [ngClass]="{
+                      'is-invalid': submitted && formCompany.controls.co_discount.errors
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted && formCompany.controls.co_discount.errors"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="formCompany.controls.co_discount.errors.required"
+                      >Trường bắt buộc</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Gía thuê <span>(*)</span> </label>
+                <div class="col-6">
+                  <input
+                    class="form-control"
+                    [readonly]="true"
                     type="number"
                     formControlName="co_price"
                     [ngClass]="{
@@ -227,6 +253,7 @@
                   </div>
                 </div>
               </div>
+              <div class="form-group row mb-3"></div>
             </div>
             <div class="form-row">
               <div class="form-group row mb-3" style="width: 100%;">

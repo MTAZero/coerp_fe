@@ -1,7 +1,7 @@
 <app-main-container [hasBottom]="false">
   <div top class="card-body" style="height: 100%;">
     <div class="row mb-1">
-      <div class="form-group col-xl-6">
+      <div class="form-group col-xl-5">
         <ng-select
           style="width: 100%;"
           placeholder="Nhân viên"
@@ -15,12 +15,16 @@
         >
         </ng-select>
       </div>
-      <div class="form-group col-xl-5">
+      <div class="form-group col-xl-3">
         <select class="custom-select mr-1" name="category" [(ngModel)]="selectedCustomerGroup">
           <option value="">Nhóm khách hàng</option>
-          <option *ngFor="let item of customerGroups" [value]="item.cg_id">{{
-            item.cg_name
-          }}</option>
+          <option *ngFor="let item of customerGroups" [value]="item.id">{{ item.name }}</option>
+        </select>
+      </div>
+      <div class="form-group col-xl-3">
+        <select class="custom-select mr-1" name="category" [(ngModel)]="selectedCustomerType">
+          <option value="">Loại khách hàng</option>
+          <option *ngFor="let item of customerTypes" [value]="item.id">{{ item.name }}</option>
         </select>
       </div>
       <div class="text-sm-right">

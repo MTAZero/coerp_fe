@@ -5,6 +5,7 @@
         <th>STT</th>
         <th>Mã chức năng</th>
         <th>Tên chức năng</th>
+        <th>Giá</th>
       </tr>
     </thead>
     <tbody>
@@ -18,9 +19,12 @@
         <td>
           {{ fun.fun_name }}
         </td>
+        <td>
+          {{ fun.fun_price }}
+        </td>
       </tr>
       <tr *ngIf="!listFunction || listFunction?.length === 0">
-        <td colspan="3">Không có dữ liệu gói chức năng</td>
+        <td colspan="4">Không có dữ liệu gói chức năng</td>
       </tr>
     </tbody>
   </table>
