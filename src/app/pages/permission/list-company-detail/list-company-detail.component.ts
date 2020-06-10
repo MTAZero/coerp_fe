@@ -26,6 +26,7 @@ export class ListCompanyDetailComponent implements OnInit, OnDestroy {
 
   formCompany: FormGroup;
   listFunction = [];
+  currentUser = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -37,6 +38,8 @@ export class ListCompanyDetailComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.co_id = this.route.snapshot.paramMap.get('co_id');
     if (this.co_id === '') this.listView = [false, false];
+
+    this.currentUser = localStorage.getItem('userName');
 
     this.menu = menu;
 
@@ -170,7 +173,7 @@ export class ListCompanyDetailComponent implements OnInit, OnDestroy {
       co_mission: ['', [Validators.required]],
       co_target: ['', [Validators.required]],
       co_revenue: [0, null],
-      sta_name: ['', null],
+      sta_name: [this.currentUser, null],
       co_duration: [1, [Validators.required]],
       co_price: [1, [Validators.required]],
       co_discount: [0, [Validators.required]],

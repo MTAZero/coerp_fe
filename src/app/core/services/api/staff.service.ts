@@ -21,8 +21,8 @@ const router = {
   load_bank_category: '/api/bank_category/getall',
   load_bank: '/api/bank/getall',
   load_bank_branch: '/api/bank_branch/getall',
+  get: '/api/staff/getall',
   // pending
-  get: '/api/staffs/all',
   create_location: `/api/undertakenLocations/create`,
   update_location: `/api/undertakenLocations/update`,
   delete_location: `/api/undertakenLocations/delete`,

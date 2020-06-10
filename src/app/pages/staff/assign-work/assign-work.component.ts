@@ -89,8 +89,8 @@ export class AssignWorkComponent implements OnInit {
     const staff$ = this.staffService.loadAllStaff().pipe(takeUntil(this.destroyed$));
     staff$.subscribe((res: any) => {
       this.staffs = res.Data;
-      if (res.Data) {
-        this.staffSearch = res.Data[0].sta_id;
+      if (res.Data && res.Data.length > 0) {
+        this.staffSearch = res.Data[0].id;
         this._fetchData();
       }
     });

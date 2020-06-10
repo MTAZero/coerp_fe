@@ -48,7 +48,7 @@
             <th>Mục tiêu</th>
             <th>Mô tả</th>
             <th>Kiểu công ty</th>
-            <th>employe</th>
+            <th>Nhân viên</th>
             <th>Thời lượng</th>
             <th>Doanh thu</th>
             <th>Gía thuê</th>
@@ -101,7 +101,7 @@
               {{ company.co_revenue }}
             </td>
             <td>
-              {{ company.co_price }}
+              {{ company.co_price | currency: 'VND' }}
             </td>
           </tr>
           <tr *ngIf="companies?.length === 0">

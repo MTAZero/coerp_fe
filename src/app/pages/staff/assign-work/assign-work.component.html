@@ -8,9 +8,9 @@
           name="staffs"
           [items]="staffs"
           [multiple]="true"
-          bindLabel="sta_fullname"
+          bindLabel="name"
           [closeOnSelect]="false"
-          bindValue="sta_id"
+          bindValue="id"
           [(ngModel)]="selectedStaffs"
         >
         </ng-select>
@@ -50,9 +50,7 @@
             [(ngModel)]="staffSearch"
             (change)="onChangeFilter()"
           >
-            <option *ngFor="let item of staffs" [value]="item.sta_id">{{
-              item.sta_fullname
-            }}</option>
+            <option *ngFor="let item of staffs" [value]="item.id">{{ item.name }}</option>
           </select>
         </form>
       </div>

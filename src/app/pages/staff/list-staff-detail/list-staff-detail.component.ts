@@ -181,7 +181,10 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
     if (this.formContractType.value.sta_type_contact === 1 && list_staff_work_time.length === 0)
       return this._notify(false, 'Chưa chọn ngày làm việc');
 
-    if (!/^\d+$/.test(this.formIdentityCard.value.sta_identity_card.trim()))
+    if (
+      !/^\d+$/.test(this.formIdentityCard.value.sta_identity_card.trim()) &&
+      this.formIdentityCard.value.sta_identity_card.trim() !== ''
+    )
       return this._notify(false, 'Số CMND/Thẻ căn cước chỉ chứa chữ số');
 
     const identityForm = this.formIdentityCard.value;
@@ -308,6 +311,19 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
         sta_end_work_date: null,
         sta_reason_to_end_work: '',
       });
+  }
+  //#endregion
+
+  //#region IdentityCard Form
+  onChangeIdentityCard(event) {
+    if (event.target.value.trim() === '') {
+      this.formIdentityCard.patchValue({
+        sta_identity_card_date: null,
+        sta_identity_card_date_end: null,
+        sta_identity_card_location: '',
+        sta_identity_card: '',
+      });
+    }
   }
   //#endregion
 

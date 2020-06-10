@@ -673,6 +673,7 @@
                     class="form-control"
                     [readonly]="listView[3]"
                     formControlName="sta_identity_card"
+                    (change)="onChangeIdentityCard($event)"
                     [ngClass]="{
                       'is-invalid': submitted && formIdentityCard.controls.sta_identity_card.errors
                     }"
