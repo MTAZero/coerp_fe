@@ -1,8 +1,5 @@
 <div class="container-fluid">
-  <app-page-title
-    title="Chiến dịch Email"
-    [breadcrumbItems]="breadCrumbItems"
-  ></app-page-title>
+  <app-page-title title="Chiến dịch Email" [breadcrumbItems]="breadCrumbItems"></app-page-title>
 
   <div class="row">
     <!-- Right Sidebar -->
@@ -34,9 +31,7 @@
                 <input
                   type="checkbox"
                   style="width: 20px; height: 20px;"
-                  [checked]="
-                    listItemChecked.length === endIndex - startIndex + 1
-                  "
+                  [checked]="listItemChecked.length === endIndex - startIndex + 1"
                   (change)="onCheckboxAllChange($event)"
                 />
                 <label></label>
@@ -50,21 +45,11 @@
             </div>
             <div class="dropdown-menu" ngbDropdownMenu>
               <a class="dropdown-item" href="javascript: void(0);">Tất cả</a>
-              <a class="dropdown-item" href="javascript: void(0);"
-                >Bỏ chọn tất cả</a
-              >
-              <a class="dropdown-item" href="javascript: void(0);"
-                >Thư đã đọc</a
-              >
-              <a class="dropdown-item" href="javascript: void(0);"
-                >Thư chưa đọc</a
-              >
-              <a class="dropdown-item" href="javascript: void(0);"
-                >Có gắn dấu sao</a
-              >
-              <a class="dropdown-item" href="javascript: void(0);"
-                >Thư không gắn dấu sao</a
-              >
+              <a class="dropdown-item" href="javascript: void(0);">Bỏ chọn tất cả</a>
+              <a class="dropdown-item" href="javascript: void(0);">Thư đã đọc</a>
+              <a class="dropdown-item" href="javascript: void(0);">Thư chưa đọc</a>
+              <a class="dropdown-item" href="javascript: void(0);">Có gắn dấu sao</a>
+              <a class="dropdown-item" href="javascript: void(0);">Thư không gắn dấu sao</a>
             </div>
             <div class="btn-group" *ngIf="listItemChecked.length > 0">
               <button type="button" class="btn btn-sm btn-light waves-effect">
@@ -90,17 +75,11 @@
                     />
                     <label for="chk-{{ i }}"></label>
                   </div>
-                  <span
-                    class="star-toggle far fa-star text-{{ email.text }}"
-                  ></span>
-                  <a href="javascript: void(0);" class="title">{{
-                    email.title
-                  }}</a>
+                  <span class="star-toggle far fa-star text-{{ email.text }}"></span>
+                  <a href="javascript: void(0);" class="title">{{ email.title }}</a>
                 </div>
                 <div class="col-mail col-mail-2">
-                  <a href="javascript: void(0);" class="subject"
-                    >{{ email.subject }}
-                  </a>
+                  <a href="javascript: void(0);" class="subject">{{ email.subject }} </a>
                   <div class="date">{{ email.date | date: 'MMM d' }}</div>
                 </div>
               </li>
@@ -111,6 +90,7 @@
               <ngb-pagination
                 [collectionSize]="totalRecords"
                 (pageChange)="onPageChange($event)"
+                [maxSize]="8"
                 [(page)]="page"
                 [pageSize]="pageSize"
               >
@@ -128,38 +108,23 @@
               <div class="input-group" style="margin-bottom: 1rem;">
                 <input type="text" class="form-control" placeholder="Đến" />
                 <div class="input-group-append">
-                  <button
-                    class="btn btn-primary"
-                    type="button"
-                    (click)="openCustomerModal()"
-                  >
+                  <button class="btn btn-primary" type="button" (click)="openCustomerModal()">
                     Danh sách khách hàng
                   </button>
                 </div>
               </div>
 
               <div class="form-group">
-                <input
-                  type="email"
-                  class="form-control"
-                  placeholder="Tên chiến dịch"
-                />
+                <input type="email" class="form-control" placeholder="Tên chiến dịch" />
               </div>
 
               <div class="form-group">
                 <input type="text" class="form-control" placeholder="Chủ đề" />
               </div>
 
-              <div
-                class="input-group align-items-md-center"
-                style="margin-bottom: 1rem;"
-              >
+              <div class="input-group align-items-md-center" style="margin-bottom: 1rem;">
                 Chọn
-                <button
-                  class="btn btn-primary ml-2"
-                  type="button"
-                  (click)="openEmailModal()"
-                >
+                <button class="btn btn-primary ml-2" type="button" (click)="openEmailModal()">
                   Mẫu Email
                 </button>
               </div>
@@ -175,16 +140,10 @@
 
               <div class="form-group m-b-0">
                 <div class="text-right">
-                  <button
-                    type="button"
-                    class="btn btn-success waves-effect waves-light m-r-5"
-                  >
+                  <button type="button" class="btn btn-success waves-effect waves-light m-r-5">
                     <i class="mdi mdi-content-save-outline"></i>
                   </button>
-                  <button
-                    type="button"
-                    class="btn btn-success waves-effect waves-light m-r-5 ml-1"
-                  >
+                  <button type="button" class="btn btn-success waves-effect waves-light m-r-5 ml-1">
                     <i class="mdi mdi-delete"></i>
                   </button>
                   <button class="btn btn-primary waves-effect waves-light ml-1">

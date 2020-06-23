@@ -1,8 +1,5 @@
 <div class="container-fluid">
-  <app-page-title
-    title="Văn thư đến"
-    [breadcrumbItems]="breadCrumbItems"
-  ></app-page-title>
+  <app-page-title title="Văn thư đến" [breadcrumbItems]="breadCrumbItems"></app-page-title>
 
   <div class="row">
     <!-- Right Sidebar -->
@@ -37,9 +34,7 @@
                     <input type="checkbox" id="chk-{{ i }}" />
                     <label for="chk-{{ i }}"></label>
                   </div>
-                  <span
-                    class="star-toggle far fa-star text-{{ email.text }}"
-                  ></span>
+                  <span class="star-toggle far fa-star text-{{ email.text }}"></span>
                   <a href="" class="title">{{ email.title }}</a>
                 </div>
                 <div class="col-mail col-mail-2">
@@ -50,14 +45,13 @@
             </ul>
           </div>
           <div class="row justify-content-md-between align-items-md-center">
-            <div class="col-7">
-              Showing {{ startIndex }} - {{ endIndex }} of {{ totalRecords }}
-            </div>
+            <div class="col-7">Showing {{ startIndex }} - {{ endIndex }} of {{ totalRecords }}</div>
             <!-- end col-->
             <div class="col-5">
               <div class="text-md-right float-md-right mt-2">
                 <ngb-pagination
                   [collectionSize]="totalRecords"
+                  [maxSize]="8"
                   (pageChange)="onPageChange($event)"
                   [(page)]="page"
                   [pageSize]="pageSize"

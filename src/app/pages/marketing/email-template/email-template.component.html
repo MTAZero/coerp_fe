@@ -1,17 +1,12 @@
 <div class="container-fluid">
-  <app-page-title
-    title="Mẫu Email"
-    [breadcrumbItems]="breadCrumbItems"
-  ></app-page-title>
+  <app-page-title title="Mẫu Email" [breadcrumbItems]="breadCrumbItems"></app-page-title>
 
   <div class="row">
     <div class="card" *ngIf="!viewChanged">
       <div class="card-body">
         <div class="col-sm-12">
           <div class="text-sm-right">
-            <a
-              class="btn btn-success mb-2 button-link"
-              (click)="onChangeView(null, false)"
+            <a class="btn btn-success mb-2 button-link" (click)="onChangeView(null, false)"
               ><i class="mdi mdi-plus-circle mr-1"></i> Thêm mới</a
             >
           </div>
@@ -48,22 +43,13 @@
                   {{ template.updated_by }}
                 </td>
                 <td>
-                  <a
-                    class="action-icon table-button-link"
-                    (click)="openTemplateModal(template)"
-                  >
+                  <a class="action-icon table-button-link" (click)="openTemplateModal(template)">
                     <i class="mdi mdi-eye"></i
                   ></a>
-                  <a
-                    class="action-icon table-button-link"
-                    (click)="onChangeView(template, false)"
-                  >
+                  <a class="action-icon table-button-link" (click)="onChangeView(template, false)">
                     <i class="mdi mdi-square-edit-outline"></i
                   ></a>
-                  <a
-                    class="action-icon table-button-link"
-                    (click)="openConfirmModal()"
-                  >
+                  <a class="action-icon table-button-link" (click)="openConfirmModal()">
                     <i class="mdi mdi-delete"></i
                   ></a>
                 </td>
@@ -74,6 +60,7 @@
         <ul class="pagination pagination-rounded justify-content-end my-2">
           <ngb-pagination
             (pageChange)="onPageChange($event)"
+            [maxSize]="8"
             [pageSize]="pageSize"
             [(page)]="page"
             [collectionSize]="totalSize"
@@ -85,10 +72,7 @@
       <div class="col-sm-3">
         <div class="card-box" style="padding: 1rem;">
           <div class="text-sm-left mb-2">
-            <a
-              class="mb-2"
-              href="javascript: void(0);"
-              (click)="onChangeView(null, true)"
+            <a class="mb-2" href="javascript: void(0);" (click)="onChangeView(null, true)"
               ><i class="fe-chevrons-left mr-1"></i>Quay lại</a
             >
           </div>
@@ -99,9 +83,7 @@
             </div>
             <div class="row">
               <div class="col-lg-6 pl-3">
-                <span
-                  class="badge badge-danger"
-                  (click)="onClickField('sta_fullname')"
+                <span class="badge badge-danger" (click)="onClickField('sta_fullname')"
                   ><i class="mdi mdi-hand-pointing-right"></i>sta_fullname
                 </span>
               </div>
@@ -109,9 +91,7 @@
             </div>
             <div class="row">
               <div class="col-lg-6 pl-3">
-                <span
-                  class="badge badge-danger"
-                  (click)="onClickField('sta_mobile')"
+                <span class="badge badge-danger" (click)="onClickField('sta_mobile')"
                   ><i class="mdi mdi-hand-pointing-right"></i> sta_mobile</span
                 >
               </div>
@@ -119,9 +99,7 @@
             </div>
             <div class="row">
               <div class="col-lg-6 pl-3">
-                <span
-                  class="badge badge-danger"
-                  (click)="onClickField('sta_email')"
+                <span class="badge badge-danger" (click)="onClickField('sta_email')"
                   ><i class="mdi mdi-hand-pointing-right"></i> sta_email</span
                 >
               </div>
@@ -134,10 +112,7 @@
             </div>
             <div class="row">
               <div class="col-lg-6 pl-3">
-                <span
-                  class="badge badge-danger"
-                  (click)="onClickField('cu_fullname')"
-                >
+                <span class="badge badge-danger" (click)="onClickField('cu_fullname')">
                   <i class="mdi mdi-hand-pointing-right"></i>cu_fullname
                 </span>
               </div>
@@ -145,10 +120,7 @@
             </div>
             <div class="row">
               <div class="col-lg-6 pl-3">
-                <span
-                  class="badge badge-danger"
-                  (click)="onClickField('cu_email')"
-                >
+                <span class="badge badge-danger" (click)="onClickField('cu_email')">
                   <i class="mdi mdi-hand-pointing-right"></i> cu_email</span
                 >
               </div>
@@ -156,9 +128,7 @@
             </div>
             <div class="row">
               <div class="col-lg-6 pl-3">
-                <span
-                  class="badge badge-danger"
-                  (click)="onClickField('cu_mobile')"
+                <span class="badge badge-danger" (click)="onClickField('cu_mobile')"
                   ><i class="mdi mdi-hand-pointing-right"></i> cu_mobile</span
                 >
               </div>
@@ -166,10 +136,7 @@
             </div>
             <div class="row">
               <div class="col-lg-6 pl-3">
-                <span
-                  class="badge badge-danger"
-                  (click)="onClickField('cu_address')"
-                >
+                <span class="badge badge-danger" (click)="onClickField('cu_address')">
                   <i class="mdi mdi-hand-pointing-right"></i>
                   cu_address
                 </span>
@@ -178,10 +145,7 @@
             </div>
             <div class="row">
               <div class="col-lg-6 pl-3">
-                <span
-                  class="badge badge-danger"
-                  (click)="onClickField('cu_age')"
-                >
+                <span class="badge badge-danger" (click)="onClickField('cu_age')">
                   <i class="mdi mdi-hand-pointing-right"></i>
                   cu_age
                 </span>

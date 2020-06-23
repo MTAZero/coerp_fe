@@ -15,11 +15,10 @@ import MetisMenu from 'metismenujs/dist/metismenujs';
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
-  @Input() isCondensed: boolean;
-  @Input() hasArrow: boolean;
+  @Input() isCondensed = false;
 
-  isAdmin = false;
   menu: any;
+  isAdmin = false;
 
   @ViewChild('sideMenu', { static: false }) sideMenu: ElementRef;
 

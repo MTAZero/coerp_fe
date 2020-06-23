@@ -147,6 +147,7 @@
     <ul class="pagination pagination-rounded justify-content-end my-3">
       <ngb-pagination
         (pageChange)="onPageChange($event)"
+        [maxSize]="8"
         [pageSize]="pageSize"
         [(page)]="page"
         [collectionSize]="totalSize"
