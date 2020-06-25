@@ -121,8 +121,9 @@ export class StaffService {
     return this.httpClient.putFormData(router.upload_attachment, formData);
   }
 
-  loadBankCategory() {
-    return this.httpClient.get(router.load_bank_category);
+  loadBankCategory(filter?: { name: string }) {
+    const params = mapToHttpParamsQuery(filter);
+    return this.httpClient.get(router.load_bank_category, params);
   }
 
   loadBank(filter?: { bank_category_id: any }) {

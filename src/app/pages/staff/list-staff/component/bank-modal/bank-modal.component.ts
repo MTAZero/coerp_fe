@@ -118,7 +118,9 @@ export class BankModalComponent implements OnInit {
   }
 
   private _loadCategory() {
-    const category$ = this.staffService.loadBankCategory().pipe(takeUntil(this.destroyed$));
+    const category$ = this.staffService
+      .loadBankCategory({ name: '' })
+      .pipe(takeUntil(this.destroyed$));
     category$.subscribe((res: any) => {
       if (res && res.Data) {
         this.categories = res.Data;

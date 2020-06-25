@@ -24,7 +24,7 @@ import { isUndefined } from 'util';
   styleUrls: ['./list-staff-detail.component.scss'],
 })
 export class ListStaffDetailComponent implements OnInit, OnDestroy {
-  sta_id = null;
+  sta_id = '';
   private destroyed$ = new Subject();
   timePeriod: any;
   menu: any[];

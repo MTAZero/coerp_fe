@@ -451,7 +451,7 @@
                       #end_work="ngbDatepicker"
                       formControlName="sta_end_work_date"
                       [minDate]="formProfile.value.sta_start_work_date"
-                      [disabled]="listView[1]"
+                      [disabled]="listView[1] || formProfile.value.sta_working_status === '1'"
                       [ngClass]="{
                         'is-invalid':
                           submitted &&
@@ -483,7 +483,7 @@
                 <div class="col-6">
                   <input
                     class="form-control"
-                    [readonly]="listView[1]"
+                    [readonly]="listView[1] || formProfile.value.sta_working_status === '1'"
                     formControlName="sta_reason_to_end_work"
                     [ngClass]="{
                       'is-invalid':
@@ -553,7 +553,7 @@
                 <div class="col-6">
                   <input
                     class="form-control"
-                    [readonly]="listView[1]"
+                    [readonly]="sta_id !== '' || listView[1]"
                     formControlName="sta_code"
                     [ngClass]="{
                       'is-invalid': submitted && formProfile.controls.sta_code.errors
@@ -699,6 +699,7 @@
                       placeholder="Chọn ngày"
                       #icd="ngbDatepicker"
                       formControlName="sta_identity_card_date"
+                      [maxDate]="formIdentityCard.value.sta_identity_card_date_end"
                       [disabled]="listView[3] || formIdentityCard.value.sta_identity_card === ''"
                     />
                     <div class="input-group-append" (click)="icd.toggle()">
@@ -729,6 +730,7 @@
                       class="form-control"
                       placeholder="Chọn ngày"
                       #icde="ngbDatepicker"
+                      [minDate]="formIdentityCard.value.sta_identity_card_date"
                       formControlName="sta_identity_card_date_end"
                       [disabled]="listView[3] || formIdentityCard.value.sta_identity_card === ''"
                     />

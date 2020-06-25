@@ -166,7 +166,9 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
 
     const customerData = this.formCustomer.value;
     customerData.cu_birthday = this._convertNgbDateToDate(customerData.cu_birthday);
-    customerData.cu_email = customerData.cu_email.trim();
+    customerData.cu_email = customerData.cu_email
+      ? customerData.cu_email.trim()
+      : customerData.cu_email;
 
     const repeatData = this.formRepeat.value;
     repeatData.st_start_date = this._convertNgbDateToDate(repeatData.st_start_date);
@@ -234,6 +236,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
   }
 
   changeDatalistCustomer(e: any) {
+    this.isChange = true;
     if (!e || e.cu_id === '') {
       this.selectedCustomer = null;
     } else {
@@ -496,7 +499,6 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
 
     let listSameDay = [];
     this.listExecutor.forEach((item) => {
-      console.log(item.exe_id, exe.exe_id, item.exe_id === exe.exe_id);
       if (
         item.work_time.substr(0, 10) === exe.work_time.substr(0, 10) &&
         item.start_time === exe.start_time &&
@@ -523,6 +525,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
   }
 
   onDuplicateExe(exe?: any, index?: number) {
+    this.tempExecutor++;
     const newItem = {
       exe_id: `temp_${this.tempExecutor}`,
       work_time: exe.work_time,
@@ -535,11 +538,11 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
       exe_note: '',
     };
     this.listExecutor.splice(index + 1, 0, newItem);
-    this.tempExecutor++;
     this.isChange = true;
   }
 
   onRemoveExe(exe?: any) {
+    console.log(this.listExecutor);
     this.listExecutor = this.listExecutor.filter((item) => item.exe_id !== exe.exe_id);
     this.isChange = true;
   }
@@ -677,6 +680,12 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
       this.services = res.Data.Results;
       this.services.push({ se_name: 'Chọn dịch vụ', se_id: '' });
       this.services = this.services.reverse();
+
+      if (this.listService) {
+        this.listService.forEach((item) => {
+          this.services = this.services.filter((e) => e.se_id !== item.se_id);
+        });
+      }
     });
 
     const staff$ = this.staffService.loadAllStaff().pipe(takeUntil(this.destroyed$));
@@ -744,6 +753,12 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
     this.listMobile = orderService.customer.list_customer_phone;
     this.listAddress = orderService.customer.list_ship_address;
     this.listService = orderService.list_service;
+
+    if (this.services) {
+      this.listService.forEach((item) => {
+        this.services = this.services.filter((e) => e.se_id !== item.se_id);
+      });
+    }
 
     this.cuo_discount = orderService.cuo_discount;
     this.cuo_color_show = orderService.cuo_color_show;

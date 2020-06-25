@@ -195,6 +195,9 @@
             }"
           >
             <td>
+              {{ i + 1 }}
+            </td>
+            <td>
               {{ orderService.cuo_code }}
             </td>
             <td>
@@ -217,7 +220,7 @@
             </td>
           </tr>
           <tr *ngIf="orderServices?.length === 0">
-            <td colspan="7">Không có dữ liệu lịch dịch vụ</td>
+            <td colspan="8">Không có dữ liệu lịch dịch vụ</td>
           </tr>
         </tbody>
       </table>
