@@ -721,7 +721,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
       sta_start_work_date: [this._convertDateToNgbDate(new Date(2020, 0, 1)), null],
       sta_birthday: [this._convertDateToNgbDate(new Date(1995, 0, 1)), null],
       sta_salary: [30, [Validators.required]],
-      sta_working_status: [1, [Validators.required]],
+      sta_working_status: ['1', [Validators.required]],
       sta_tax_code: ['', null],
       sta_end_work_date: [null, null],
       sta_reason_to_end_work: [null, null],

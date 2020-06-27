@@ -36,7 +36,11 @@ export class MobileModalComponent implements OnInit {
 
     let isConflict = false;
     this.listMobile.forEach((item) => {
-      if (item.cp_phone_number.trim() === this.form.value.cp_phone_number.trim()) isConflict = true;
+      if (
+        item.cp_phone_number.trim() === this.form.value.cp_phone_number.trim() &&
+        item.cp_id !== this.mobile.cp_id
+      )
+        isConflict = true;
     });
     if (isConflict) this._notify(false, 'Số điện thoại đã tồn tại');
 

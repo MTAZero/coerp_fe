@@ -19,9 +19,7 @@
             (change)="onChangeFilter()"
           >
             <option value="">Loại khách hàng</option>
-            <option [value]="1">Herbalife</option>
-            <option [value]="2">Nhân sâm</option>
-            <option [value]="3">Nhung hươu</option>
+            <option *ngFor="let type of types" [value]="type.id">{{ type.name }}</option>
           </select>
           <select
             class="custom-select mr-1"

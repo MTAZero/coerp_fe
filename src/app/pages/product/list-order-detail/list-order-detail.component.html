@@ -107,8 +107,9 @@
                       'is-invalid': submitted && formCustomer.controls.cu_type.errors
                     }"
                   >
-                    <option [value]="2" [disabled]="listView[0]">Khách lẻ</option>
-                    <option [value]="1" [disabled]="listView[0]">Khách sỉ</option>
+                    <option [disabled]="listView[0]" *ngFor="let type of types" [value]="type.id"
+                      >{{ type.name }}
+                    </option>
                   </select>
                   <div
                     *ngIf="submitted && formCustomer.controls.cu_type.errors"

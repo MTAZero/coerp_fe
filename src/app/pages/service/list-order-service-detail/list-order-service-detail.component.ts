@@ -32,6 +32,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
   sources: any;
   customerGroups: any;
   customers: any;
+  types: any;
   services: any;
   staffs: any;
 
@@ -658,6 +659,11 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
     const source$ = this.customerService.loadSource().pipe(takeUntil(this.destroyed$));
     source$.subscribe((res: any) => {
       this.sources = res.Data;
+    });
+
+    const type$ = this.customerService.loadType().pipe(takeUntil(this.destroyed$));
+    type$.subscribe((res: any) => {
+      this.types = res.Data;
     });
 
     const customerGroup$ = this.customerService.loadGroup().pipe(takeUntil(this.destroyed$));

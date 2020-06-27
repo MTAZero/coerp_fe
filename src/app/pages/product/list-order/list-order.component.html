@@ -22,6 +22,17 @@
             <option value="">Phương thức thanh toán</option>
             <option *ngFor="let item of paymentMethods" [value]="item.id">{{ item.name }}</option>
           </select>
+          <select
+            class="custom-select mr-1"
+            name="type"
+            [(ngModel)]="statusSearch"
+            (change)="onChangeFilter()"
+          >
+            <option value="">Trạng thái</option>
+            <option [value]="1">Đã báo kho</option>
+            <option [value]="2">Đang vận chuyển</option>
+            <option [value]="3">Đã thanh toán</option>
+          </select>
           <div class="input-group clockpicker mr-1">
             <input
               ngbDatepicker

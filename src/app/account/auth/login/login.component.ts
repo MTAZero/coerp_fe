@@ -66,40 +66,44 @@ export class LoginComponent implements OnInit, AfterViewInit {
       .login(this.f.username.value, this.f.password.value)
       .pipe(takeUntil(this.destroyed$), catchError(this.catchError));
 
-    login$.subscribe((res: any) => {
-      if (res) {
-        if (res && res.access_token && res.staff_Name) {
-          this.storageService.setItem('access_token', res.access_token);
-          this.storageService.setItem('userName', res.staff_Name);
-          this.storageService.setItem('thumbnail', res.url_thumbnai);
-          this.storageService.setItem('sta_id', res.sta_id);
-          this.storageService.setItem('role', res.Role);
+    login$.subscribe(
+      (res: any) => {
+        if (res) {
+          if (res && res.access_token && res.staff_Name) {
+            this.storageService.setItem('access_token', res.access_token);
+            this.storageService.setItem('userName', res.staff_Name);
+            this.storageService.setItem('thumbnail', res.url_thumbnai);
+            this.storageService.setItem('sta_id', res.sta_id);
+            this.storageService.setItem('role', res.Role);
 
-          if (res.sta_login === 'True') {
-            this.returnUrl = '/account/first-login';
-            this.router.navigate([this.returnUrl]);
-          } else {
-            Swal.fire({
-              position: 'top-end',
-              type: 'success',
-              title: 'Đăng nhập thành công',
-              showConfirmButton: false,
-              timer: 2000,
-            });
-            this.router.navigate([this.returnUrl]);
+            if (res.sta_login === 'True') {
+              this.returnUrl = '/account/first-login';
+              this.router.navigate([this.returnUrl]);
+            } else {
+              Swal.fire({
+                position: 'top-end',
+                type: 'success',
+                title: 'Đăng nhập thành công',
+                showConfirmButton: false,
+                timer: 2000,
+              });
+              this.router.navigate([this.returnUrl]);
+            }
           }
         }
-      }
-      if (typeof res !== 'object') {
-        Swal.fire({
-          position: 'top-end',
-          type: 'error',
-          title: 'Đăng nhập thất bại',
-          showConfirmButton: false,
-          timer: 2000,
-        });
-      }
-    });
+        console.log(res);
+        if (typeof res !== 'object') {
+          Swal.fire({
+            position: 'top-end',
+            type: 'error',
+            title: res.error_description,
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        }
+      },
+      (e) => console.log(e)
+    );
   }
 
   private catchError(err) {

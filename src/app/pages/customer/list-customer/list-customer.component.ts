@@ -18,6 +18,7 @@ export class ListCustomerComponent implements OnInit, OnDestroy {
 
   sources: any;
   groups: any;
+  types: any;
 
   textSearch = '';
   sourceSearch = '';
@@ -206,6 +207,12 @@ export class ListCustomerComponent implements OnInit, OnDestroy {
 
     group$.subscribe((res: any) => {
       this.groups = res.Data;
+    });
+
+    const type$ = this.customerService.loadType().pipe(takeUntil(this.destroyed$));
+
+    type$.subscribe((res: any) => {
+      this.types = res.Data;
     });
   }
 

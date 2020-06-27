@@ -32,6 +32,7 @@ export class ListOrderDetailComponent implements OnInit, OnDestroy {
   customerGroups: any;
   customers: any;
   products: any;
+  types: any;
 
   listView = [true, true, true, true];
   isChange = false;
@@ -461,6 +462,11 @@ export class ListOrderDetailComponent implements OnInit, OnDestroy {
     const customerGroup$ = this.customerService.loadGroup().pipe(takeUntil(this.destroyed$));
     customerGroup$.subscribe((res: any) => {
       this.customerGroups = res.Data;
+    });
+
+    const type$ = this.customerService.loadType().pipe(takeUntil(this.destroyed$));
+    type$.subscribe((res: any) => {
+      this.types = res.Data;
     });
 
     const customer$ = this.customerService

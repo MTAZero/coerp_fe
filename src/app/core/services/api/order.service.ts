@@ -25,6 +25,7 @@ export class OrderService {
     pageSize: any;
     payment_type_id: any;
     code: any;
+    cuo_status: any;
     start_date: any;
     end_date: any;
   }) {
