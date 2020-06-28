@@ -43,7 +43,11 @@ export class BankModalComponent implements OnInit {
 
     let isConflict = false;
     this.listBank.forEach((item) => {
-      if (item.stb_account.trim() === this.form.value.stb_account.trim()) isConflict = true;
+      if (
+        item.stb_account.trim() === this.form.value.stb_account.trim() &&
+        (!this.bank || (this.bank && item.stb_id !== this.bank.stb_id))
+      )
+        isConflict = true;
     });
     if (isConflict) this._notify(false, 'Số tài khoản đã có trong hệ thống');
 
@@ -74,12 +78,12 @@ export class BankModalComponent implements OnInit {
   }
 
   onChangeCategory(e) {
-    const bankId = e.target.value;
+    const bankId = e.id;
     this._loadBank(bankId);
   }
 
   onChangeBank(e) {
-    const branchId = e.target.value;
+    const branchId = e.id;
     this._loadBranch(branchId);
   }
 
@@ -119,7 +123,7 @@ export class BankModalComponent implements OnInit {
 
   private _loadCategory() {
     const category$ = this.staffService
-      .loadBankCategory({ name: '' })
+      .loadBankCategory({ name: '', search: '' })
       .pipe(takeUntil(this.destroyed$));
     category$.subscribe((res: any) => {
       if (res && res.Data) {
@@ -140,7 +144,7 @@ export class BankModalComponent implements OnInit {
 
   private _loadBank(categoryId: any, isFirst = false) {
     const bank$ = this.staffService
-      .loadBank({ bank_category_id: categoryId })
+      .loadBank({ bank_category_id: categoryId, search: '', name: '' })
       .pipe(takeUntil(this.destroyed$));
     bank$.subscribe((res: any) => {
       if (res && res.Data) {
@@ -158,7 +162,7 @@ export class BankModalComponent implements OnInit {
 
   private _loadBranch(bankId: any, isFirst = false) {
     const branch$ = this.staffService
-      .loadBankBranch({ bank_id: bankId })
+      .loadBankBranch({ bank_id: bankId, name: '', search: '' })
       .pipe(takeUntil(this.destroyed$));
     branch$.subscribe((res: any) => {
       if (res && res.Data) {
@@ -166,6 +170,7 @@ export class BankModalComponent implements OnInit {
 
         if (this.bank && isFirst) {
         } else {
+          console.log(res.Data);
           this.form.patchValue({
             bank_branch_id: res.Data[0].id,
             bank_branch_name: res.Data[0].name,

@@ -121,17 +121,17 @@ export class StaffService {
     return this.httpClient.putFormData(router.upload_attachment, formData);
   }
 
-  loadBankCategory(filter?: { name: string }) {
+  loadBankCategory(filter?: { name: string; search: string }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.load_bank_category, params);
   }
 
-  loadBank(filter?: { bank_category_id: any }) {
+  loadBank(filter?: { bank_category_id: any; name: any; search: any }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.load_bank, params);
   }
 
-  loadBankBranch(filter?: { bank_id: any }) {
+  loadBankBranch(filter?: { bank_id: any; name: any; search: any }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.load_bank_branch, params);
   }

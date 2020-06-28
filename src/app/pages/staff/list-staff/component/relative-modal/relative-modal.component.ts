@@ -42,11 +42,11 @@ export class RelativeModalComponent implements OnInit {
     this.listRelative.forEach((item) => {
       if (
         item.rels_phone.trim() === this.form.value.rels_phone.trim() &&
-        item.rels_id !== this.relative.rels_id
+        (!this.relative || (this.relative && item.rels_id !== this.relative.rels_id))
       )
         isConflict = true;
     });
-    if (isConflict) this._notify(false, 'Số điện thoại đã tồn tại');
+    if (isConflict) return this._notify(false, 'Số điện thoại đã tồn tại');
 
     if (this.form.valid && !isConflict) {
       const data = this.form.value;
