@@ -24,7 +24,7 @@ export class ListOrderComponent implements OnInit, OnDestroy {
   paymentMethodSearch = '';
   fromDate = this._convertDateToNgbDate(new Date('2010-01-01'));
   toDate = this._convertDateToNgbDate(new Date());
-  statusSearch = 1;
+  statusSearch = '';
   page = 1;
   pageSize = 10;
   totalSize = 0;

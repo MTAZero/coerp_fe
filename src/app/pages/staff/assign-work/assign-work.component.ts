@@ -53,6 +53,7 @@ export class AssignWorkComponent implements OnInit {
     const data = {
       list_staff_id: this.selectedStaffs,
       customer_group_id: this.selectedCustomerGroup,
+      cu_type_id: this.selectedCustomerType,
     };
 
     const updateCurator$ = this.staffService.updateCurator(data).pipe(takeUntil(this.destroyed$));

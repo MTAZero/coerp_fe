@@ -74,6 +74,7 @@
       />
       <div *ngIf="submitted && form.controls.stb_account.errors" class="invalid-feedback">
         <span *ngIf="form.controls.stb_account.errors.required">Trường bắt buộc</span>
+        <span *ngIf="form.controls.stb_account.errors.pattern">Số tài khoản chỉ chứa số</span>
       </div>
     </div>
   </div>

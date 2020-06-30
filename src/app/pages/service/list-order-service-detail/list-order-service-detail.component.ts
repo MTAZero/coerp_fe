@@ -582,11 +582,11 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
       ? ` cho đến ${moment(this._convertNgbDateToDate(st_custom_end)).format('DD/MM')}`
       : '';
 
-    var dayWeek = ` vào${st_mon_flag ? ' Thứ Hai' : ''}${st_tue_flag ? ' Thứ Ba' : ''}${
-      st_wed_flag ? ' Thứ Tư' : ''
-    }${st_thu_flag ? ' Thứ Năm' : ''}${st_fri_flag ? ' Thứ Sáu' : ''}${
-      st_sat_flag ? ' Thứ Bảy' : ''
-    }${st_sun_flag ? ' Chủ Nhật' : ''}`;
+    var dayWeek = ` vào${st_mon_flag ? ' Thứ Hai,' : ''}${st_tue_flag ? ' Thứ Ba,' : ''}${
+      st_wed_flag ? ' Thứ Tư,' : ''
+    }${st_thu_flag ? ' Thứ Năm,' : ''}${st_fri_flag ? ' Thứ Sáu,' : ''}${
+      st_sat_flag ? ' Thứ Bảy,' : ''
+    }${st_sun_flag ? ' Chủ Nhật,' : ''}`;
 
     if (st_repeat_type !== 2) dayWeek = '';
 
@@ -607,7 +607,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
     }
     if (st_repeat_type !== 3) dayMonth = '';
 
-    this.summary = `Xảy ra mỗi ${st_repeat_every} ${type}${dayWeek}${dayMonth}, bắt đầu từ ${startCustom}${endCustom}`;
+    this.summary = `Xảy ra mỗi ${st_repeat_every} ${type}${dayWeek}${dayMonth} bắt đầu từ ${startCustom}${endCustom}`;
   }
   //#endregion
 

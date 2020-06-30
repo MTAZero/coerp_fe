@@ -152,7 +152,9 @@ export class ListOrderDetailComponent implements OnInit, OnDestroy {
 
     const customerData = this.formCustomer.value;
     customerData.cu_birthday = this._convertNgbDateToDate(customerData.cu_birthday);
-    customerData.cu_email = customerData.cu_email.trim();
+    customerData.cu_email = customerData.cu_email
+      ? customerData.cu_email.trim()
+      : customerData.cu_email;
 
     const data = {
       list_product: this.listProduct,
@@ -218,6 +220,7 @@ export class ListOrderDetailComponent implements OnInit, OnDestroy {
     } else {
       this._fetchCustomer(e.cu_id);
     }
+    this.isChange = true;
   }
 
   openMobileModal(mobile?: any) {

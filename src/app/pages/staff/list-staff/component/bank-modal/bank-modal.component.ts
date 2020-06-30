@@ -97,7 +97,7 @@ export class BankModalComponent implements OnInit {
       bank_category_id: ['', [Validators.required]],
       bank_id: ['', [Validators.required]],
       bank_branch_id: ['', [Validators.required]],
-      stb_account: ['', [Validators.required]],
+      stb_account: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
       stb_fullname: ['', [Validators.required]],
       stb_note: ['', null],
       bank_category_name: ['', null],

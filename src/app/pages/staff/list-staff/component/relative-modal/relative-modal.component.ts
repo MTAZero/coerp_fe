@@ -38,6 +38,9 @@ export class RelativeModalComponent implements OnInit {
     if (this.form.value.rels_address.trim() === '')
       return this.form.controls['rels_address'].setErrors({ required: true });
 
+    if (!/^\d+$/.test(this.form.value.rels_phone.trim()))
+      return this.form.controls['rels_phone'].setErrors({ pattern: true });
+
     let isConflict = false;
     this.listRelative.forEach((item) => {
       if (
@@ -50,6 +53,10 @@ export class RelativeModalComponent implements OnInit {
 
     if (this.form.valid && !isConflict) {
       const data = this.form.value;
+      data.rels_fullname = data.rels_fullname.trim();
+      data.rels_relatives = data.rels_relatives.trim();
+      data.rels_phone = data.rels_phone.trim();
+      data.rels_address = data.rels_address.trim();
       this.passEvent.emit({ event: true, data });
     }
   }
@@ -83,7 +90,7 @@ export class RelativeModalComponent implements OnInit {
       rels_id: ['temp_0', null],
       rels_fullname: ['', [Validators.required]],
       rels_relatives: ['', [Validators.required]],
-      rels_phone: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
+      rels_phone: ['', [Validators.required, Validators.pattern(/$/)]],
       rels_address: ['', [Validators.required]],
     });
   }

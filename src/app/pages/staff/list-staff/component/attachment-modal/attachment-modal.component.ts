@@ -18,6 +18,7 @@ export class AttachmentModalComponent implements OnInit {
   submitted = false;
   files = null;
   file_link = '';
+  isChange = false;
 
   constructor(public formBuilder: FormBuilder, private staffService: StaffService) {
     this.initializeForm();
@@ -34,22 +35,29 @@ export class AttachmentModalComponent implements OnInit {
     if (this.form.value.ast_filename.trim() === '')
       return this.form.controls['ast_filename'].setErrors({ required: true });
 
-    if (this.files === null) return this._notify(false, 'Chưa chọn file đính kèm');
+    if (!this.file_link && this.files === null)
+      return this._notify(false, 'Chưa chọn file đính kèm');
 
     if (this.form.valid) {
-      const upload$ = this.staffService
-        .uploadAttachment(this.files[0])
-        .pipe(takeUntil(this.destroyed$));
-      upload$.subscribe(
-        (res: any) => {
-          if (res && res.Code == 200) {
-            const data = this.form.value;
-            data.ast_link = res.Data;
-            this.passEvent.emit({ event: true, data });
-          } else this._notify(false, res.Message);
-        },
-        (e) => this._notify(false, e.Message)
-      );
+      if (this.files) {
+        const upload$ = this.staffService
+          .uploadAttachment(this.files[0])
+          .pipe(takeUntil(this.destroyed$));
+        upload$.subscribe(
+          (res: any) => {
+            if (res && res.Code == 200) {
+              const data = this.form.value;
+              data.ast_link = res.Data;
+              this.passEvent.emit({ event: true, data });
+            } else this._notify(false, res.Message);
+          },
+          (e) => this._notify(false, e.Message)
+        );
+      } else {
+        const data = this.form.value;
+        data.ast_link = this.file_link;
+        this.passEvent.emit({ event: true, data });
+      }
     }
   }
 

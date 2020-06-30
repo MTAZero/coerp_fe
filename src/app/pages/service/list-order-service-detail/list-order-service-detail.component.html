@@ -592,6 +592,7 @@
                     #from="ngbDatepicker"
                     formControlName="st_custom_start"
                     [maxDate]="formRepeat.value.st_custom_end"
+                    [minDate]="formRepeat.value.st_start_date"
                     [disabled]="listView[3]"
                   />
                   <div class="input-group-append" (click)="from.toggle()">

@@ -141,7 +141,6 @@
                 [(ngModel)]="order.cuo_status"
                 (change)="onChangeStatus($event, order)"
               >
-                <option value="null">Trạng thái đơn hàng</option>
                 <option *ngFor="let status of orderStatus" [value]="status.id">{{
                   status.name
                 }}</option>
