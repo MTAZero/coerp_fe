@@ -45,6 +45,7 @@
           </div>
 
           <select
+            *ngIf="role === 'Admin'"
             class="custom-select mr-1"
             name="category"
             [(ngModel)]="staffSearch"

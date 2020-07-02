@@ -4,6 +4,7 @@ import { takeUntil } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { StaffService } from '../../../core/services/api/staff.service';
 import { CustomerService } from '../../../core/services/api/customer.service';
+import { LowerCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-assign-work',
@@ -29,9 +30,14 @@ export class AssignWorkComponent implements OnInit {
   selectedCustomerType = '';
   customers: any;
 
+  role: any;
+  sta_id: any;
+
   constructor(private staffService: StaffService, private customerService: CustomerService) {}
   ngOnInit() {
     this._fetchFilter();
+    this.role = localStorage.getItem('role');
+    this.sta_id = localStorage.getItem('sta_id');
   }
 
   onPageChange(page: number): void {
@@ -53,7 +59,7 @@ export class AssignWorkComponent implements OnInit {
     const data = {
       list_staff_id: this.selectedStaffs,
       customer_group_id: this.selectedCustomerGroup,
-      cu_type_id: this.selectedCustomerType,
+      cu_type_id: this.selectedCustomerType ? this.selectedCustomerType : 0,
     };
 
     const updateCurator$ = this.staffService.updateCurator(data).pipe(takeUntil(this.destroyed$));
@@ -75,7 +81,7 @@ export class AssignWorkComponent implements OnInit {
         pageNumber: this.page - 1,
         pageSize: this.pageSize,
         search_name: this.textSearch,
-        cu_curator_id: this.staffSearch,
+        cu_curator_id: this.role !== 'Admin' ? this.sta_id : this.staffSearch,
       })
       .pipe(takeUntil(this.destroyed$));
     customer$.subscribe((res: any) => {
