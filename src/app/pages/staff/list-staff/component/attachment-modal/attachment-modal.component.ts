@@ -87,6 +87,7 @@ export class AttachmentModalComponent implements OnInit {
       return;
     }
     this.files = files;
+    this.isChange = true;
   }
 
   get formUI() {
