@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { StaffService } from '../../../core/services/api/staff.service';
 import { CustomerService } from '../../../core/services/api/customer.service';
 import { LowerCasePipe } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-assign-work',
@@ -33,7 +34,11 @@ export class AssignWorkComponent implements OnInit {
   role: any;
   sta_id: any;
 
-  constructor(private staffService: StaffService, private customerService: CustomerService) {}
+  constructor(
+    private staffService: StaffService,
+    private customerService: CustomerService,
+    private router: Router
+  ) {}
   ngOnInit() {
     this._fetchFilter();
     this.role = localStorage.getItem('role');
@@ -47,6 +52,10 @@ export class AssignWorkComponent implements OnInit {
 
   onChangeFilter() {
     this._fetchData();
+  }
+
+  onClickRoute() {
+    this.router.navigate(['/staff/assigned-work']);
   }
 
   onClickExcute() {

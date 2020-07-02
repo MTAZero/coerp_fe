@@ -76,7 +76,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let customer of customers">
+          <tr *ngFor="let customer of customers" (click)="onClickRoute()">
             <td>
               {{ customer.cu_code }}
             </td>
