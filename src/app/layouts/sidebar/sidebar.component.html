@@ -4,12 +4,10 @@
   <div id="sidebar-menu">
     <ul class="metismenu" id="side-menu" #sideMenu>
       <li>
-        <a href="javascript: void(0);" class="waves-effect" aria-expanded="false">
+        <a routerLink="/dashboard" class="waves-effect" >
           <i class="fe-airplay"></i>
           <span>
-          <a routerLink="/dashboard" routerLinkActive="active" class="side-nav-link-ref" style="color: #6e768e;" style:hover="color: green"
-              >Bảng tin</a
-            >
+            Bảng tin
           </span>
         </a>
       </li>
@@ -20,19 +18,28 @@
           <span> Nhân sự </span>
           <span class="menu-arrow"></span>
         </a>
-        <ul class="nav-second-level collapse" aria-expanded="false">
+        <ul class="nav-second-level" aria-expanded="false">
           <li *ngIf="isAdmin">
-            <a routerLink="/staff/list-staff" routerLinkActive="active" class="side-nav-link-ref"
+            <a
+              routerLink="/staff/list-staff"
+              routerLinkActive="active"
+              class="side-nav-link-ref"
               >Thông tin nhân sự</a
             >
           </li>
           <li>
-            <a routerLink="/staff/assigned-work" routerLinkActive="active" class="side-nav-link-ref"
+            <a
+              routerLink="/staff/assigned-work"
+              routerLinkActive="active"
+              class="side-nav-link-ref"
               >Chăm sóc khách hàng</a
             >
           </li>
           <li>
-            <a routerLink="/staff/assign-work" routerLinkActive="active" class="side-nav-link-ref"
+            <a
+              routerLink="/staff/assign-work"
+              routerLinkActive="active"
+              class="side-nav-link-ref"
               >Giao việc</a
             >
           </li>
@@ -45,7 +52,7 @@
           <span> Khách hàng </span>
           <span class="menu-arrow"></span>
         </a>
-        <ul class="nav-second-level collapse" aria-expanded="false">
+        <ul class="nav-second-level" aria-expanded="false">
           <li>
             <a
               routerLink="/customer/customer-group"
@@ -114,7 +121,7 @@
           <span> Dịch vụ </span>
           <span class="menu-arrow"></span>
         </a>
-        <ul class="nav-second-level collapse" aria-expanded="false">
+        <ul class="nav-second-level" aria-expanded="false">
           <li>
             <a
               routerLink="/service/list-service"
@@ -161,7 +168,7 @@
           <span> Marketing </span>
           <span class="menu-arrow"></span>
         </a>
-        <ul class="nav-second-level nav collapse" aria-expanded="false">
+        <ul class="nav-second-level nav" aria-expanded="false">
           <li>
             <a href="javascript: void(0);" class="waves-effect">
               <span> Email </span>
@@ -185,7 +192,10 @@
                 >
               </li>
               <li>
-                <a href="javascript: void(0);" routerLinkActive="active" class="side-nav-link-ref"
+                <a
+                  href="javascript: void(0);"
+                  routerLinkActive="active"
+                  class="side-nav-link-ref"
                   >Thống kê</a
                 >
               </li>
@@ -214,7 +224,10 @@
                 >
               </li>
               <li>
-                <a href="javascript: void(0);" routerLinkActive="active" class="side-nav-link-ref"
+                <a
+                  href="javascript: void(0);"
+                  routerLinkActive="active"
+                  class="side-nav-link-ref"
                   >Thống kê</a
                 >
               </li>
@@ -229,21 +242,25 @@
           <span> Nhà cung cấp </span>
           <span class="menu-arrow"></span>
         </a>
-        <ul class="nav-second-level collapse" aria-expanded="false">
+        <ul class="nav-second-level" aria-expanded="false">
           <li>
-            <a routerLink="/vendor/list-vendor" routerLinkActive="active" class="side-nav-link-ref"
+            <a
+              routerLink="/vendor/list-vendor"
+              routerLinkActive="active"
+              class="side-nav-link-ref"
               >Thông tin nhà cung cấp</a
             >
           </li>
           <li>
-            <a href="javascript: void(0);" routerLinkActive="active" class="side-nav-link-ref"
+            <a
+              href="javascript: void(0);"
+              routerLinkActive="active"
+              class="side-nav-link-ref"
               >Giao dịch với nhà cung cấp</a
             >
           </li>
         </ul>
       </li>
-
-      
 
       <li>
         <a href="javascript: void(0);" class="waves-effect">
@@ -251,7 +268,7 @@
           <span> Thương mại </span>
           <span class="menu-arrow"></span>
         </a>
-        <ul class="nav-second-level collapse" aria-expanded="false">
+        <ul class="nav-second-level" aria-expanded="false">
           <li *ngIf="isAdmin">
             <a
               routerLink="/product/list-product"
@@ -261,7 +278,10 @@
             >
           </li>
           <li>
-            <a routerLink="/product/list-order" routerLinkActive="active" class="side-nav-link-ref"
+            <a
+              routerLink="/product/list-order"
+              routerLinkActive="active"
+              class="side-nav-link-ref"
               >Đặt hàng</a
             >
           </li>
@@ -281,7 +301,7 @@
           <i class="fas fa-fingerprint"></i>
           <span> Phân quyền </span>
         </a>
-        <ul class="nav-second-level collapse" aria-expanded="false">
+        <ul class="nav-second-level" aria-expanded="false">
           <li>
             <a
               routerLink="/permission/list-company"
