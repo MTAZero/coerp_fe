@@ -7,8 +7,7 @@
         <a href="javascript: void(0);" class="waves-effect" aria-expanded="false">
           <i class="fe-airplay"></i>
           <span>
-            <a routerLink="/dashboard" routerLinkActive="active" class="side-nav-link-ref"
-              style="color: #9097a7"
+          <a routerLink="/dashboard" routerLinkActive="active" class="side-nav-link-ref" style="color: #6e768e;" style:hover="color: green"
               >Bảng tin</a
             >
           </span>
@@ -109,6 +108,53 @@
         </ul>
       </li> -->
 
+      <li *ngIf="isAdmin">
+        <a href="javascript: void(0);" class="waves-effect">
+          <i class="fas fa-list"></i>
+          <span> Dịch vụ </span>
+          <span class="menu-arrow"></span>
+        </a>
+        <ul class="nav-second-level collapse" aria-expanded="false">
+          <li>
+            <a
+              routerLink="/service/list-service"
+              routerLinkActive="active"
+              class="side-nav-link-ref"
+              >Thông tin dịch vụ</a
+            >
+          </li>
+          <li>
+            <a
+              routerLink="/service/list-order-service"
+              routerLinkActive="active"
+              class="side-nav-link-ref"
+              >Đặt dịch vụ</a
+            >
+          </li>
+          <li>
+            <a
+              routerLink="/service/order-service-calendar"
+              routerLinkActive="active"
+              class="side-nav-link-ref"
+              >Lịch làm việc</a
+            >
+          </li>
+          <!-- <li>
+            <a
+              routerLink="/service/receive-work"
+              routerLinkActive="active"
+              class="side-nav-link-ref"
+              >Tiếp nhận công việc</a
+            >
+          </li>
+          <li>
+            <a href="javascript: void(0);" routerLinkActive="active" class="side-nav-link-ref"
+              >Báo cáo & Thống kê</a
+            >
+          </li> -->
+        </ul>
+      </li>
+
       <li>
         <a href="javascript: void(0);" class="waves-effect">
           <i class="fe-share-2"></i>
@@ -197,52 +243,7 @@
         </ul>
       </li>
 
-      <li *ngIf="isAdmin">
-        <a href="javascript: void(0);" class="waves-effect">
-          <i class="fas fa-list"></i>
-          <span> Dịch vụ </span>
-          <span class="menu-arrow"></span>
-        </a>
-        <ul class="nav-second-level collapse" aria-expanded="false">
-          <li>
-            <a
-              routerLink="/service/list-service"
-              routerLinkActive="active"
-              class="side-nav-link-ref"
-              >Thông tin dịch vụ</a
-            >
-          </li>
-          <li>
-            <a
-              routerLink="/service/list-order-service"
-              routerLinkActive="active"
-              class="side-nav-link-ref"
-              >Đặt dịch vụ</a
-            >
-          </li>
-          <li>
-            <a
-              routerLink="/service/order-service-calendar"
-              routerLinkActive="active"
-              class="side-nav-link-ref"
-              >Lịch làm việc</a
-            >
-          </li>
-          <li>
-            <a
-              routerLink="/service/receive-work"
-              routerLinkActive="active"
-              class="side-nav-link-ref"
-              >Tiếp nhận công việc</a
-            >
-          </li>
-          <li>
-            <a href="javascript: void(0);" routerLinkActive="active" class="side-nav-link-ref"
-              >Báo cáo & Thống kê</a
-            >
-          </li>
-        </ul>
-      </li>
+      
 
       <li>
         <a href="javascript: void(0);" class="waves-effect">
@@ -264,14 +265,14 @@
               >Đặt hàng</a
             >
           </li>
-          <li *ngIf="isAdmin">
+          <!-- <li *ngIf="isAdmin">
             <a
               routerLink="/product/product-statistic"
               routerLinkActive="active"
               class="side-nav-link-ref"
               >Báo cáo & Thống kê</a
             >
-          </li>
+          </li> -->
         </ul>
       </li>
 
