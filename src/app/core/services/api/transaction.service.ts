@@ -31,6 +31,7 @@ export class TransactionService {
     search_name: string;
     start_date: any;
     end_date: any;
+    tra_rate: any;
   }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.search, params);

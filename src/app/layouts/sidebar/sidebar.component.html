@@ -4,7 +4,7 @@
   <div id="sidebar-menu">
     <ul class="metismenu" id="side-menu" #sideMenu>
       <li>
-        <a routerLink="/dashboard" class="waves-effect" >
+        <a routerLink="/dashboard" routerLinkActive="active" href="javascript: void(0);" class="waves-effect" >
           <i class="fe-airplay"></i>
           <span>
             Bảng tin
@@ -25,6 +25,14 @@
               routerLinkActive="active"
               class="side-nav-link-ref"
               >Thông tin nhân sự</a
+            >
+          </li>
+          <li>
+            <a
+              routerLink="/service/receive-work"
+              routerLinkActive="active"
+              class="side-nav-link-ref"
+              >Tiếp nhận công việc</a
             >
           </li>
           <li>
@@ -116,12 +124,12 @@
       </li> -->
 
       <li *ngIf="isAdmin">
-        <a href="javascript: void(0);" class="waves-effect">
+        <a href="javascript: void(0);" class="waves-effect" data-toggle="collapse">
           <i class="fas fa-list"></i>
           <span> Dịch vụ </span>
           <span class="menu-arrow"></span>
         </a>
-        <ul class="nav-second-level" aria-expanded="false">
+        <ul id="collapse1" class="nav-second-level" aria-expanded="false">
           <li>
             <a
               routerLink="/service/list-service"
@@ -146,15 +154,8 @@
               >Lịch làm việc</a
             >
           </li>
+          
           <!-- <li>
-            <a
-              routerLink="/service/receive-work"
-              routerLinkActive="active"
-              class="side-nav-link-ref"
-              >Tiếp nhận công việc</a
-            >
-          </li>
-          <li>
             <a href="javascript: void(0);" routerLinkActive="active" class="side-nav-link-ref"
               >Báo cáo & Thống kê</a
             >

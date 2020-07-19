@@ -101,7 +101,8 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
    * Activates the menu dropdown
    */
   _activateMenuDropdown() {
-    const links = document.getElementsByClassName('side-nav-link-ref');
+    const links = document.getElementsByClassName('side-nav-link-ref'); 
+
     let menuItemEl = null;
     // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < links.length; i++) {

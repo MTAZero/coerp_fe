@@ -132,6 +132,7 @@ export class AssignedWorkComponent implements OnInit {
         search_name: this.textSearch,
         start_date: this._convertNgbDateToDate(this.fromDate),
         end_date: this._convertNgbDateToDate(this.toDate),
+        tra_rate: 1
       })
       .pipe(takeUntil(this.destroyed$));
     transaction$.subscribe((res: any) => {
