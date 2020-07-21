@@ -25,9 +25,9 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
   constructor() {}
 
   ngOnInit() {
-    // this.darkSidebar();
+    this.darkSidebar();
     // this.sidebarCollapsed();
-    this.smallSidebar()
+    // this.smallSidebar()
     this.isAdmin = localStorage.getItem('role') === 'Admin';
   }
 
@@ -66,6 +66,8 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
     document.body.classList.add('left-side-menu-dark');
     document.body.classList.remove('topbar-light');
     document.body.classList.remove('boxed-layout');
+
+    document.body.classList.toggle('enlarged');
   }
 
   /**
