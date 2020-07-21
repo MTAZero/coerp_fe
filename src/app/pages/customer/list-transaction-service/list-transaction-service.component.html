@@ -25,7 +25,9 @@
               (dateSelect)="onChangeFilter()"
             />
             <div class="input-group-append" (click)="from.toggle()">
-              <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+              <span class="input-group-text"
+                ><i class="mdi mdi-calendar"></i
+              ></span>
             </div>
           </div>
           <div class="input-group clockpicker">
@@ -41,8 +43,24 @@
               (dateSelect)="onChangeFilter()"
             />
             <div class="input-group-append" (click)="to.toggle()">
-              <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+              <span class="input-group-text"
+                ><i class="mdi mdi-calendar"></i
+              ></span>
             </div>
+          </div>
+          <div class="input-group">
+            <select
+              class="custom-select mr-1"
+              style="margin-left: 5px;"
+              name="filter_rate"
+              [(ngModel)]="filter_rate"
+              (change)="onChangeFilter()"
+            >
+              <option value="1002">Chưa tốt</option>
+              <option value="1003">Hài Lòng</option>
+              <option value="1004">Tốt</option>
+              <option value="1005">Rất tốt</option>
+            </select>
           </div>
         </form>
       </div>
@@ -51,10 +69,16 @@
           <button type="button" class="btn btn-info mr-1">
             Nhập
           </button>
-          <button type="button" class="btn btn-info mr-1" (click)="exportTransaction()">
+          <button
+            type="button"
+            class="btn btn-info mr-1"
+            (click)="exportTransaction()"
+          >
             Xuất
           </button>
-          <a class="btn btn-success mr-1 button-link" (click)="onRouteDetail()"> Thêm mới</a>
+          <a class="btn btn-success mr-1 button-link" (click)="onRouteDetail()">
+            Thêm mới</a
+          >
           <a
             class="btn btn-primary mr-1 button-link"
             [ngClass]="selectedTransaction ? '' : 'disabled'"

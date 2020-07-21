@@ -21,6 +21,7 @@ export class ListTransactionServiceComponent implements OnInit, OnDestroy {
   textSearch = '';
   fromDate = this._convertDateToNgbDate(new Date('2010-01-01'));
   toDate = this._convertDateToNgbDate(new Date());
+  filter_rate = 1003;
   page = 1;
   pageSize = 10;
   totalSize = 0;
@@ -112,7 +113,7 @@ export class ListTransactionServiceComponent implements OnInit, OnDestroy {
         search_name: this.textSearch,
         start_date: this._convertNgbDateToDate(this.fromDate),
         end_date: this._convertNgbDateToDate(this.toDate),
-        tra_rate: 1
+        tra_rate: this.filter_rate
       })
       .pipe(takeUntil(this.destroyed$));
     transaction$.subscribe((res: any) => {
