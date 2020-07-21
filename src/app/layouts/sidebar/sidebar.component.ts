@@ -25,7 +25,7 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
   constructor() {}
 
   ngOnInit() {
-    this.darkSidebar();
+    // this.darkSidebar();
     // this.sidebarCollapsed();
     // this.smallSidebar()
     this.isAdmin = localStorage.getItem('role') === 'Admin';

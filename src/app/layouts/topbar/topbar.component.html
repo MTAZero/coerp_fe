@@ -45,7 +45,11 @@
           </h5>
         </div>
 
-        <div id="notification-items" class="slimscroll noti-scroll" appSlimScroll>
+        <div
+          id="notification-items"
+          class="slimscroll noti-scroll"
+          appSlimScroll
+        >
           <!-- item-->
           <a
             *ngFor="let notification of notificationItems"
@@ -54,7 +58,9 @@
             ngbDropdownItem
           >
             <div
-              class="notify-icon bg-soft-{{ notification.bgColor }} text-{{ notification.bgColor }}"
+              class="notify-icon bg-soft-{{ notification.bgColor }} text-{{
+                notification.bgColor
+              }}"
             >
               <i class="{{ notification.icon }}"></i>
             </div>
@@ -106,7 +112,10 @@
         </div>
 
         <!-- item-->
-        <a class="dropdown-item notify-item table-button-link" routerLink="/support/my-profile">
+        <a
+          class="dropdown-item notify-item table-button-link"
+          routerLink="/support/my-profile"
+        >
           <i class="fe-user"></i>
           <span>Trang tin của tôi</span>
         </a>
@@ -132,7 +141,10 @@
         <div class="dropdown-divider"></div>
 
         <!-- item-->
-        <a class="dropdown-item notify-item table-button-link" (click)="logout()">
+        <a
+          class="dropdown-item notify-item table-button-link"
+          (click)="logout()"
+        >
           <i class="fe-log-out"></i>
           <span>Đăng xuất</span>
         </a>
@@ -140,7 +152,10 @@
     </li>
 
     <li class="dropdown notification-list">
-      <a href="javascript:void(0);" class="nav-link right-bar-toggle waves-effect waves-light">
+      <a
+        href="javascript:void(0);"
+        class="nav-link right-bar-toggle waves-effect waves-light"
+      >
         <i class="fe-settings noti-icon"></i>
       </a>
     </li>
@@ -170,7 +185,7 @@
       </button>
     </li> -->
 
-    <li class="dropdown d-none d-lg-block" ngbDropdown>
+    <!-- <li class="dropdown d-none d-lg-block" ngbDropdown>
       <a
         class="nav-link dropdown-toggle waves-effect waves-light"
         href="javascript: void(0);"
@@ -241,7 +256,232 @@
           <span>Doanh thu</span>
         </a>
       </div>
+    </li> -->
+
+    <li class="dropdown d-none d-lg-block" ngbDropdown>
+      <a
+        class="nav-link dropdown-toggle waves-effect waves-light"
+        href="javascript: void(0);"
+        ngbDropdownToggle
+        id="extraMenu"
+        role="button"
+        aria-haspopup="false"
+        aria-expanded="false"
+      >
+        <i class="fas fa-users-cog"></i>
+        Nhân sự
+        <i class="mdi mdi-chevron-down"></i>
+      </a>
+
+      <div class="dropdown-menu" ngbDropdownMenu aria-labelledby="extraMenu">
+        <a
+          class="dropdown-item table-button-link"
+          routerLink="/staff/list-staff"
+          routerLinkActive="active"
+        >
+          <!-- <i class="fe-credit-card mr-1"></i> -->
+          <span>Thông tin nhân sự</span>
+        </a>
+
+        <a
+          class="dropdown-item table-button-link"
+          routerLink="/service/receive-work"
+          routerLinkActive="active"
+        >
+          <span>Tiếp nhận công việc</span>
+        </a>
+
+        <a
+          class="dropdown-item table-button-link"
+          routerLink="/staff/assigned-work"
+          routerLinkActive="active"
+        >
+          <span>Chăm sóc khách hàng</span>
+        </a>
+
+        <a
+          class="dropdown-item table-button-link"
+          routerLink="/staff/assign-work"
+          routerLinkActive="active"
+        >
+          <span>Giao việc</span>
+        </a>
+      </div>
     </li>
+
+    <li class="dropdown d-none d-lg-block" ngbDropdown>
+      <a
+        class="nav-link dropdown-toggle waves-effect waves-light"
+        href="javascript: void(0);"
+        ngbDropdownToggle
+        id="extraMenu"
+        role="button"
+        aria-haspopup="false"
+        aria-expanded="false"
+      >
+        <i class="fe-users"></i>
+        Khách hàng
+        <i class="mdi mdi-chevron-down"></i>
+      </a>
+
+      <div class="dropdown-menu" ngbDropdownMenu aria-labelledby="extraMenu">
+        <a
+          class="dropdown-item table-button-link"
+          routerLink="/customer/customer-group"
+          routerLinkActive="active"
+        >
+          <!-- <i class="fe-credit-card mr-1"></i> -->
+          <span>Nhóm khách hàng</span>
+        </a>
+
+        <a
+          class="dropdown-item table-button-link"
+          routerLink="/customer/list-customer"
+          routerLinkActive="active"
+        >
+          <span>Thông tin khách hàng</span>
+        </a>
+
+        <a
+          class="dropdown-item table-button-link"
+          routerLink="/customer/list-transaction-service"
+          routerLinkActive="active"
+        >
+          <span>Khách hàng dịch vụ</span>
+        </a>
+      </div>
+    </li>
+
+    <li class="dropdown d-none d-lg-block" ngbDropdown>
+      <a
+        class="nav-link dropdown-toggle waves-effect waves-light"
+        href="javascript: void(0);"
+        ngbDropdownToggle
+        id="extraMenu"
+        role="button"
+        aria-haspopup="false"
+        aria-expanded="false"
+      >
+        <i class="fas fa-list"></i>
+        Dịch vụ
+        <i class="mdi mdi-chevron-down"></i>
+      </a>
+
+      <div class="dropdown-menu" ngbDropdownMenu aria-labelledby="extraMenu">
+        <a
+          class="dropdown-item table-button-link"
+          routerLink="/service/list-service"
+          routerLinkActive="active"
+        >
+          <!-- <i class="fe-credit-card mr-1"></i> -->
+          <span>Thông tin dịch vụ</span>
+        </a>
+
+        <a
+          class="dropdown-item table-button-link"
+          routerLink="/service/list-order-service"
+          routerLinkActive="active"
+        >
+          <span>Đặt dịch vụ</span>
+        </a>
+
+        <a
+          class="dropdown-item table-button-link"
+          routerLink="/service/order-service-calendar"
+          routerLinkActive="active"
+        >
+          <span>Lịch làm việc</span>
+        </a>
+      </div>
+    </li>
+    
+    <li class="dropdown d-none d-lg-block" ngbDropdown>
+      <a
+        class="nav-link dropdown-toggle waves-effect waves-light"
+        href="javascript: void(0);"
+        ngbDropdownToggle
+        id="extraMenu"
+        role="button"
+        aria-haspopup="false"
+        aria-expanded="false"
+      >
+        <i class="fe-share-2"></i>
+        Marketing 
+        <i class="mdi mdi-chevron-down"></i>
+      </a>
+
+      <div class="dropdown-menu" ngbDropdownMenu aria-labelledby="extraMenu">
+        <a
+          class="dropdown-item table-button-link"
+          routerLink="/marketing/email-template"
+          routerLinkActive="active"
+        >
+          <!-- <i class="fe-credit-card mr-1"></i> -->
+          <span>Mẫu Email</span>
+        </a>
+
+        <a
+          class="dropdown-item table-button-link"
+          routerLink="/marketing/email-campaign"
+          routerLinkActive="active"
+        >
+          <span>Chiến dịch Email</span>
+        </a>
+        <a
+          class="dropdown-item table-button-link"
+          routerLink="/marketing/sms-template"
+          routerLinkActive="active"
+        >
+          <!-- <i class="fe-credit-card mr-1"></i> -->
+          <span>Mẫu SMS</span>
+        </a>
+
+        <a
+          class="dropdown-item table-button-link"
+          routerLink="/marketing/sms-campaign"
+          routerLinkActive="active"
+        >
+          <span>Chiến dịch SMS</span>
+        </a>
+
+      </div>
+    </li>
+    <li class="dropdown d-none d-lg-block" ngbDropdown>
+      <a
+        class="nav-link dropdown-toggle waves-effect waves-light"
+        href="javascript: void(0);"
+        ngbDropdownToggle
+        id="extraMenu"
+        role="button"
+        aria-haspopup="false"
+        aria-expanded="false"
+      >
+        <i class="fas fa-fingerprint"></i>
+        Phân quyền
+        <i class="mdi mdi-chevron-down"></i>
+      </a>
+
+      <div class="dropdown-menu" ngbDropdownMenu aria-labelledby="extraMenu">
+        <a
+          class="dropdown-item table-button-link"
+          routerLink="/permission/list-company"
+          routerLinkActive="active"
+        >
+          <!-- <i class="fe-credit-card mr-1"></i> -->
+          <span>Công ty</span>
+        </a>
+
+        <a
+          class="dropdown-item table-button-link"
+          routerLink="/permission/list-package"
+          routerLinkActive="active"
+        >
+          <span>Gói sản phẩm</span>
+        </a>
+
+      </div>
+    </li>
+
   </ul>
 </div>
 <!-- end Topbar -->
