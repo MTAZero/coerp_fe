@@ -14,9 +14,11 @@
                   (change)="changeDatalistCustomer($event)"
                 >
                   <option value="">Chọn khách hàng</option>
-                  <option *ngFor="let customer of customers" [value]="customer.cu_id">{{
-                    customer.cu_fullname
-                  }}</option>
+                  <option
+                    *ngFor="let customer of customers"
+                    [value]="customer.cu_id"
+                    >{{ customer.cu_fullname }}</option
+                  >
                 </select>
               </div>
               <i
@@ -49,7 +51,10 @@
                 <td>
                   <img
                     *ngIf="selectedCustomer"
-                    [src]="'http://27.72.147.222:1230' + selectedCustomer?.cu_thumbnail"
+                    [src]="
+                      'http://27.72.147.222:1230' +
+                      selectedCustomer?.cu_thumbnail
+                    "
                     onerror="this.src='/assets/images/users/user-1.jpg';"
                     alt="user-image"
                     class="rounded-circle avatar-sm"
@@ -68,7 +73,7 @@
                   {{ selectedCustomer?.cu_address }}
                 </td>
                 <td>
-                  {{ selectedCustomer?.cu_create_date | date: 'dd/MM/yyyy' }}
+                  {{ selectedCustomer?.cu_create_date | date: "dd/MM/yyyy" }}
                 </td>
               </tr>
             </tbody>
@@ -90,7 +95,10 @@
             </thead>
             <tbody>
               <tr
-                *ngFor="let service of selectedCustomer?.list_customer_order_service; let i = index"
+                *ngFor="
+                  let service of selectedCustomer?.list_customer_order_service;
+                  let i = index
+                "
               >
                 <td>{{ i + 1 }}</td>
                 <td>
@@ -104,7 +112,7 @@
                 </td>
                 <td>{{ service.se_price }}</td>
                 <td>{{ service.se_saleoff }}</td>
-                <td>{{ service.cuo_date | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ service.cuo_date | date: "dd/MM/yyyy" }}</td>
               </tr>
               <tr
                 *ngIf="
@@ -150,9 +158,12 @@
                   'is-invalid': submitted && form.controls.tra_type.errors
                 }"
               >
-                <option *ngFor="let type of types" [disabled]="isView" [value]="type.id">{{
-                  type.name
-                }}</option>
+                <option
+                  *ngFor="let type of types"
+                  [disabled]="isView"
+                  [value]="type.id"
+                  >{{ type.name }}</option
+                >
               </select>
               <div
                 *ngIf="submitted && submitted && form.controls.tra_type.errors"
@@ -181,7 +192,9 @@
                 >
               </select>
               <div
-                *ngIf="submitted && submitted && form.controls.tra_priority.errors"
+                *ngIf="
+                  submitted && submitted && form.controls.tra_priority.errors
+                "
                 class="invalid-feedback"
               >
                 <span>Trường bắt buộc</span>
@@ -204,7 +217,9 @@
                 }"
               ></textarea>
               <div
-                *ngIf="submitted && submitted && form.controls.tra_content.errors"
+                *ngIf="
+                  submitted && submitted && form.controls.tra_content.errors
+                "
                 class="invalid-feedback"
               >
                 <span>Trường bắt buộc</span>
@@ -223,9 +238,12 @@
                   'is-invalid': submitted && form.controls.tra_rate.errors
                 }"
               >
-                <option *ngFor="let rate of rates" [disabled]="isView" [value]="rate.id">{{
-                  rate.name
-                }}</option>
+                <option
+                  *ngFor="let rate of rates"
+                  [disabled]="isView"
+                  [value]="rate.id"
+                  >{{ rate.name }}</option
+                >
               </select>
               <div
                 *ngIf="submitted && submitted && form.controls.tra_rate.errors"
@@ -238,7 +256,11 @@
           <div class="col-md-3">
             <div class="form-group">
               <label>Người giao việc</label>
-              <input [readonly]="true" class="form-control" [value]="currentStaff" />
+              <input
+                [readonly]="true"
+                class="form-control"
+                [value]="currentStaff"
+              />
             </div>
           </div>
           <div class="col-md-3 d-flex align-items-start">
@@ -266,7 +288,9 @@
                 }"
               />
               <div
-                *ngIf="submitted && submitted && form.controls.tra_result.errors"
+                *ngIf="
+                  submitted && submitted && form.controls.tra_result.errors
+                "
                 class="invalid-feedback"
               >
                 <span>Trường bắt buộc</span>
@@ -283,12 +307,17 @@
                   'is-invalid': submitted && form.controls.tra_status.errors
                 }"
               >
-                <option *ngFor="let status of statuses" [disabled]="isView" [value]="status.id">{{
-                  status.name
-                }}</option>
+                <option
+                  *ngFor="let status of statuses"
+                  [disabled]="isView"
+                  [value]="status.id"
+                  >{{ status.name }}</option
+                >
               </select>
               <div
-                *ngIf="submitted && submitted && form.controls.tra_status.errors"
+                *ngIf="
+                  submitted && submitted && form.controls.tra_status.errors
+                "
                 class="invalid-feedback"
               >
                 <span>Trường bắt buộc</span>
@@ -306,7 +335,11 @@
           >
             Lưu lại
           </button>
-          <a class="btn btn-danger mb-2 mr-1 button-link" (click)="onChangeToMain()">Quay lại </a>
+          <a
+            class="btn btn-danger mb-2 mr-1 button-link"
+            (click)="onChangeToMain()"
+            >Quay lại
+          </a>
         </div>
       </div>
     </div>

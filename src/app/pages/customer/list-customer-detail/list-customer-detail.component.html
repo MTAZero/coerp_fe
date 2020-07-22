@@ -25,7 +25,9 @@
           <div [formGroup]="formProfile">
             <div class="form-row">
               <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Họ và tên <span>(*)</span></label>
+                <label class="col-4 col-form-label"
+                  >Họ và tên <span>(*)</span></label
+                >
                 <div class="col-6">
                   <input
                     class="form-control"
@@ -34,13 +36,15 @@
                     [ngClass]="{
                       'is-invalid':
                         submitted &&
-                        (formProfile.controls.cu_fullname.errors || errorField === 'cu_fullname')
+                        (formProfile.controls.cu_fullname.errors ||
+                          errorField === 'cu_fullname')
                     }"
                   />
                   <div
                     *ngIf="
                       submitted &&
-                      (formProfile.controls.cu_fullname.errors || errorField === 'cu_fullname')
+                      (formProfile.controls.cu_fullname.errors ||
+                        errorField === 'cu_fullname')
                     "
                     class="invalid-feedback"
                   >
@@ -49,13 +53,16 @@
                 </div>
               </div>
               <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Nguồn <span>(*)</span></label>
+                <label class="col-4 col-form-label"
+                  >Nguồn <span>(*)</span></label
+                >
                 <div class="col-6">
                   <select
                     class="custom-select"
                     formControlName="source_id"
                     [ngClass]="{
-                      'is-invalid': submitted && formProfile.controls.source_id.errors
+                      'is-invalid':
+                        submitted && formProfile.controls.source_id.errors
                     }"
                   >
                     <option
@@ -78,18 +85,22 @@
             </div>
             <div class="form-row">
               <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Loại khách hàng <span>(*)</span></label>
+                <label class="col-4 col-form-label"
+                  >Loại khách hàng <span>(*)</span></label
+                >
                 <div class="col-6">
                   <select
                     class="custom-select"
                     formControlName="cu_type"
                     [ngClass]="{
-                      'is-invalid': submitted && formProfile.controls.cu_type.errors
+                      'is-invalid':
+                        submitted && formProfile.controls.cu_type.errors
                     }"
                   >
-                    <option [value]="1" [disabled]="listView[0]">Herbalife</option>
-                    <option [value]="2" [disabled]="listView[0]">Nhân sâm</option>
-                    <option [value]="3" [disabled]="listView[0]">Nhung hươu</option>
+                    <option value="">Loại khách hàng</option>
+                    <option *ngFor="let type of types" [value]="type.id">{{
+                      type.name
+                    }}</option>
                   </select>
                   <div
                     *ngIf="submitted && formProfile.controls.cu_type.errors"
@@ -115,7 +126,9 @@
                       [disabled]="listView[0]"
                     />
                     <div class="input-group-append" (click)="dob.toggle()">
-                      <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                      <span class="input-group-text"
+                        ><i class="mdi mdi-calendar"></i
+                      ></span>
                     </div>
                   </div>
                 </div>
@@ -123,13 +136,17 @@
             </div>
             <div class="form-row">
               <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Nhóm khách hàng <span>(*)</span></label>
+                <label class="col-4 col-form-label"
+                  >Nhóm khách hàng <span>(*)</span></label
+                >
                 <div class="col-6">
                   <select
                     class="custom-select"
                     formControlName="customer_group_id"
                     [ngClass]="{
-                      'is-invalid': submitted && formProfile.controls.customer_group_id.errors
+                      'is-invalid':
+                        submitted &&
+                        formProfile.controls.customer_group_id.errors
                     }"
                   >
                     <option
@@ -140,10 +157,15 @@
                     >
                   </select>
                   <div
-                    *ngIf="submitted && formProfile.controls.customer_group_id.errors"
+                    *ngIf="
+                      submitted && formProfile.controls.customer_group_id.errors
+                    "
                     class="invalid-feedback"
                   >
-                    <span *ngIf="formProfile.controls.customer_group_id.errors.required"
+                    <span
+                      *ngIf="
+                        formProfile.controls.customer_group_id.errors.required
+                      "
                       >Trường bắt buộc</span
                     >
                   </div>
@@ -159,13 +181,15 @@
                     [ngClass]="{
                       'is-invalid':
                         submitted &&
-                        (formProfile.controls.cu_email.errors || errorField === 'cu_email')
+                        (formProfile.controls.cu_email.errors ||
+                          errorField === 'cu_email')
                     }"
                   />
                   <div
                     *ngIf="
                       submitted &&
-                      (formProfile.controls.cu_email.errors || errorField === 'cu_email')
+                      (formProfile.controls.cu_email.errors ||
+                        errorField === 'cu_email')
                     "
                     class="invalid-feedback"
                   >
@@ -178,35 +202,54 @@
             </div>
             <div class="form-row">
               <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Đặt dịch vụ <span>(*)</span></label>
+                <label class="col-4 col-form-label"
+                  >Đặt dịch vụ <span>(*)</span></label
+                >
                 <div class="col-6">
                   <select class="custom-select" formControlName="cu_flag_order"
-                    ><option [disabled]="listView[0]" [value]="1">Cần đặt</option>
+                    ><option [disabled]="listView[0]" [value]="1"
+                      >Cần đặt</option
+                    >
                     <option [disabled]="listView[0]" [value]="2">Đã đặt</option>
-                    <option [disabled]="listView[0]" [value]="3">Chưa đặt</option>
+                    <option [disabled]="listView[0]" [value]="3"
+                      >Chưa đặt</option
+                    >
                   </select>
                   <div
-                    *ngIf="submitted && formProfile.controls.cu_flag_order.errors"
+                    *ngIf="
+                      submitted && formProfile.controls.cu_flag_order.errors
+                    "
                     class="invalid-feedback"
                   >
-                    <span *ngIf="formProfile.controls.cu_flag_order.errors.required"
+                    <span
+                      *ngIf="formProfile.controls.cu_flag_order.errors.required"
                       >Trường bắt buộc</span
                     >
                   </div>
                 </div>
               </div>
               <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Sử dụng dịch vụ <span>(*)</span></label>
+                <label class="col-4 col-form-label"
+                  >Sử dụng dịch vụ <span>(*)</span></label
+                >
                 <div class="col-6">
                   <select class="custom-select" formControlName="cu_flag_used"
-                    ><option [disabled]="listView[0]" [value]="1">Cần sử dụng</option>
-                    <option [disabled]="listView[0]" [value]="2">Chưa sử dụng</option></select
+                    ><option [disabled]="listView[0]" [value]="1"
+                      >Cần sử dụng</option
+                    >
+                    <option [disabled]="listView[0]" [value]="2"
+                      >Chưa sử dụng</option
+                    ></select
                   >
                   <div
-                    *ngIf="submitted && formProfile.controls.cu_flag_used.errors"
+                    *ngIf="
+                      submitted && formProfile.controls.cu_flag_used.errors
+                    "
                     class="invalid-feedback"
                   >
-                    <span *ngIf="formProfile.controls.cu_flag_used.errors.required">
+                    <span
+                      *ngIf="formProfile.controls.cu_flag_used.errors.required"
+                    >
                       Trường bắt buộc
                     </span>
                   </div>
@@ -215,16 +258,21 @@
             </div>
             <div class="form-row">
               <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Trạng thái <span>(*)</span></label>
+                <label class="col-4 col-form-label"
+                  >Trạng thái <span>(*)</span></label
+                >
                 <div class="col-6">
                   <select
                     class="custom-select"
                     formControlName="cu_status"
                     [ngClass]="{
-                      'is-invalid': submitted && formProfile.controls.cu_status.errors
+                      'is-invalid':
+                        submitted && formProfile.controls.cu_status.errors
                     }"
                   >
-                    <option [disabled]="listView[0]" [value]="1">Kích hoạt</option>
+                    <option [disabled]="listView[0]" [value]="1"
+                      >Kích hoạt</option
+                    >
                     <option [disabled]="listView[0]" [value]="2">Khóa</option>
                   </select>
                   <div
@@ -240,7 +288,11 @@
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Ghi chú </label>
                 <div class="col-6">
-                  <input class="form-control" [readonly]="listView[0]" formControlName="cu_note" />
+                  <input
+                    class="form-control"
+                    [readonly]="listView[0]"
+                    formControlName="cu_note"
+                  />
                 </div>
               </div>
             </div>
@@ -256,7 +308,9 @@
           <div [formGroup]="formAddress">
             <div class="form-row">
               <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Tỉnh/Thành phố <span>(*)</span></label>
+                <label class="col-4 col-form-label"
+                  >Tỉnh/Thành phố <span>(*)</span></label
+                >
                 <div class="col-6">
                   <select
                     class="custom-select"
@@ -274,7 +328,9 @@
                 </div>
               </div>
               <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Quận/Huyện <span>(*)</span></label>
+                <label class="col-4 col-form-label"
+                  >Quận/Huyện <span>(*)</span></label
+                >
                 <div class="col-6">
                   <select
                     class="custom-select"
@@ -294,9 +350,15 @@
             </div>
             <div class="form-row">
               <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Xã/Phường <span>(*)</span></label>
+                <label class="col-4 col-form-label"
+                  >Xã/Phường <span>(*)</span></label
+                >
                 <div class="col-6">
-                  <select class="custom-select" formControlName="sha_ward_now" class="form-control">
+                  <select
+                    class="custom-select"
+                    formControlName="sha_ward_now"
+                    class="form-control"
+                  >
                     <option
                       *ngFor="let ward of ward"
                       [disabled]="listView[1]"
@@ -307,7 +369,9 @@
                 </div>
               </div>
               <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Địa chỉ <span>(*)</span></label>
+                <label class="col-4 col-form-label"
+                  >Địa chỉ <span>(*)</span></label
+                >
                 <div class="col-6">
                   <input
                     class="form-control"
@@ -337,7 +401,9 @@
 
           <div id="2" class="row title-section">
             <h5>{{ menu[2] }}</h5>
-            <a class="btn btn-success btn-xs ml-2 button-link" (click)="openMobileModal()"
+            <a
+              class="btn btn-success btn-xs ml-2 button-link"
+              (click)="openMobileModal()"
               >Thêm mới</a
             >
           </div>
@@ -361,10 +427,16 @@
                     {{ mobile.cp_note }}
                   </td>
                   <td>
-                    <a class="action-icon table-button-link" (click)="openMobileModal(mobile)">
+                    <a
+                      class="action-icon table-button-link"
+                      (click)="openMobileModal(mobile)"
+                    >
                       <i class="mdi mdi-square-edit-outline"></i
                     ></a>
-                    <a class="action-icon table-button-link" (click)="onRemoveMobile(mobile)">
+                    <a
+                      class="action-icon table-button-link"
+                      (click)="onRemoveMobile(mobile)"
+                    >
                       <i class="mdi mdi-delete"></i
                     ></a>
                   </td>
@@ -378,7 +450,9 @@
 
           <div id="3" class="row title-section">
             <h5>{{ menu[3] }}</h5>
-            <a class="btn btn-primary btn-xs ml-2 button-link" (click)="openAddressModal()"
+            <a
+              class="btn btn-primary btn-xs ml-2 button-link"
+              (click)="openAddressModal()"
               >Thêm mới</a
             >
           </div>
@@ -406,10 +480,16 @@
                   <td>{{ address.sha_detail }}</td>
                   <td>{{ address.sha_note }}</td>
                   <td>
-                    <a class="action-icon table-button-link" (click)="openAddressModal(address)">
+                    <a
+                      class="action-icon table-button-link"
+                      (click)="openAddressModal(address)"
+                    >
                       <i class="mdi mdi-square-edit-outline"></i
                     ></a>
-                    <a class="action-icon table-button-link" (click)="onRemoveAddress(address)">
+                    <a
+                      class="action-icon table-button-link"
+                      (click)="onRemoveAddress(address)"
+                    >
                       <i class="mdi mdi-delete"></i
                     ></a>
                   </td>
@@ -430,7 +510,11 @@
             >
               Lưu lại
             </button>
-            <a class="btn btn-danger mb-2 mr-1 button-link" (click)="onChangeToMain()">Quay lại </a>
+            <a
+              class="btn btn-danger mb-2 mr-1 button-link"
+              (click)="onChangeToMain()"
+              >Quay lại
+            </a>
           </div>
         </div>
       </div>

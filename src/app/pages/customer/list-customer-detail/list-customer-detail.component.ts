@@ -28,6 +28,7 @@ export class ListCustomerDetailComponent implements OnInit, OnDestroy {
 
   sources: any;
   customerGroups: any;
+  types: any;
 
   listView = [true, true];
   isChange = false;
@@ -276,6 +277,11 @@ export class ListCustomerDetailComponent implements OnInit, OnDestroy {
     const customerGroup$ = this.customerService.loadGroup().pipe(takeUntil(this.destroyed$));
     customerGroup$.subscribe((res: any) => {
       this.customerGroups = res.Data;
+    });
+
+    const type$ = this.customerService.loadType().pipe(takeUntil(this.destroyed$));
+    type$.subscribe((res: any) => {
+      this.types = res.Data;
     });
   }
 
