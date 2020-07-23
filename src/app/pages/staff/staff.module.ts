@@ -31,6 +31,8 @@ import { BonusModalComponent } from './list-staff/component/bonus-modal/bonus-mo
 import { BonusTabComponent } from './list-staff/component/bonus-tab/bonus-tab.component';
 import { AttachmentModalComponent } from './list-staff/component/attachment-modal/attachment-modal.component';
 import { AttachmentTabComponent } from './list-staff/component/attachment-tab/attachment-tab.component';
+import { CourseStaffComponent } from './course-staff/course-staff.component';
+import { CourseStaffDetailComponent } from './course-staff-detail/course-staff-detail.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +56,8 @@ import { AttachmentTabComponent } from './list-staff/component/attachment-tab/at
     BonusTabComponent,
     AttachmentModalComponent,
     AttachmentTabComponent,
+    CourseStaffComponent,
+    CourseStaffDetailComponent,
   ],
   imports: [
     CommonModule,
