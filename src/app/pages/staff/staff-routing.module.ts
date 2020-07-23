@@ -6,7 +6,8 @@ import { ListStaffComponent } from './list-staff/list-staff.component';
 import { ListStaffDetailComponent } from './list-staff-detail/list-staff-detail.component';
 import { AssignedWorkComponent } from './assigned-work/assigned-work.component';
 import { AssignWorkComponent } from './assign-work/assign-work.component';
-
+import { CourseStaffComponent } from './course-staff/course-staff.component';
+import { CourseStaffDetailComponent} from './course-staff-detail/course-staff-detail.component';
 const routes: Routes = [
   {
     path: 'list-staff',
@@ -25,6 +26,14 @@ const routes: Routes = [
   {
     path: 'assign-work',
     component: AssignWorkComponent,
+  },
+  {
+    path: 'course-staff',
+    component: CourseStaffComponent,
+  },
+  {
+    path: 'course-staff-detail/:sta_id',
+    component: CourseStaffDetailComponent,
   },
 ];
 
