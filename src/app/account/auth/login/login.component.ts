@@ -96,7 +96,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
           Swal.fire({
             position: 'top-end',
             type: 'error',
-            title: res.error_description,
+            title: "Bạn đã nhập sai tên đăng nhập hoặc mật khẩu. Vui lòng nhập lại",//res.error_description,
             showConfirmButton: false,
             timer: 2000,
           });

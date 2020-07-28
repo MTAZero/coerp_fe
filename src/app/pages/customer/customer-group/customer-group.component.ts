@@ -107,8 +107,8 @@ export class CustomerGroupComponent implements OnInit, OnDestroy {
     const chart$ = this.customerGroupService.loadChart().pipe(takeUntil(this.destroyed$));
     chart$.subscribe((res: any) => {
       if (res && res.Data) {
-        this.simplePieChart.series = [];
-        this.simplePieChart.labels = [];
+        // this.simplePieChart.series = [];
+        // this.simplePieChart.labels = [];
         res.Data.map((e: any) => {
           this.simplePieChart.series.push(e.number);
           this.simplePieChart.labels.push(e.cg_name);
