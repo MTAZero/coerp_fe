@@ -5,7 +5,10 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ServiceService } from '../../../core/services/api/service.service';
 import Swal from 'sweetalert2';
-
+import { CourseService } from 'src/app/core/services/api/course.service';
+import { StaffService } from '../../../core/services/api/staff.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { timePeriod, menu, days } from './data';
 @Component({
   selector: 'app-course-staff-detail',
   templateUrl: './course-staff-detail.component.html',
@@ -14,30 +17,61 @@ import Swal from 'sweetalert2';
 export class CourseStaffDetailComponent implements OnInit {
   listView = [true, true];
   se_id = null;
+  tn_id = '';
+  menu: any[];
+  days: any[];
   private destroyed$ = new Subject();
   submitted = false;
   errorField = null;
-  menu: any[];
+
   types: any;
   categories: any;
   selectedMenuItem = 0;
   form: FormGroup;
-
+  formProfile: FormGroup;
+  formAddress: FormGroup;
+  timePeriod: any;
+  formIdentityCard: FormGroup;
+  formContractType: FormGroup;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     public formBuilder: FormBuilder,
+    private courseService: CourseService,
+    private staffService: StaffService,
+    private modalService: NgbModal,
     private serviceService: ServiceService
   ) {}
 
   ngOnInit() {
-    this.se_id = this.route.snapshot.paramMap.get('se_id');
-
+    this.tn_id = this.route.snapshot.paramMap.get('tn_id');
+    if (this.tn_id === '')
+    this.listView = [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+     
+    ];
+    this.timePeriod = timePeriod;
+    this.menu = menu;
+    this.days = days;
     this._initializeForm();
-    this._fetchFilter();
+    // this._fetchFilter();
 
-    if (this.se_id) this._fetchService(this.se_id);
+    // if (this.tn_id) this._fetchService(this.tn_id);
+    if (this.tn_id) {
+      this._fetchTraining(this.tn_id);
+    } else {
+      // this._loadProvincePermanent();
+      // this._loadProvinceNow();
+    }
   }
+  
   switchViewType(index: number) {
     this.listView[index] = !this.listView[index];
   }
@@ -74,66 +108,66 @@ export class CourseStaffDetailComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     if (this.form.invalid) return;
-    if (this.form.value.se_name.trim() === '') {
-      return this.form.controls['se_name'].setErrors({ required: true });
+    if (this.form.value.tn_name.trim() === '') {
+      return this.form.controls['tn_name'].setErrors({ required: true });
     }
 
     const data = this.form.value;
-    if (this.se_id)
-      this._updateService({
+    if (this.tn_id)
+      this._updateTraining({
         ...data,
-        se_id: this.se_id,
+        tn_id: this.tn_id,
       });
-    else this._createService(data);
+    else this._createTraining(data);
   }
 
   //#region Private
   private _initializeForm() {
     this.form = this.formBuilder.group({
-      se_name: ['', [Validators.required]],
-      se_description: ['', null],
-      service_category_id: ['', [Validators.required]],
-      se_price: ['', [Validators.required]],
-      se_saleoff: ['', null],
-      se_type: ['', [Validators.required]],
+      tn_name: ['', [Validators.required]],
+      tn_content: ['', null],
+      tn_start_date: ['', [Validators.required]],
+      tn_end_date: ['', [Validators.required]],
+      tn_purpose: ['', null],
+     
     });
   }
 
-  private _fetchFilter() {
-    const type$ = this.serviceService.getType().pipe(takeUntil(this.destroyed$));
-    type$.subscribe((res: any) => {
-      this.types = res.Data;
-    });
+  // private _fetchFilter() {
+  //   const type$ = this.courseService.getType().pipe(takeUntil(this.destroyed$));
+  //   type$.subscribe((res: any) => {
+  //     this.types = res.Data;
+  //   });
 
-    const category$ = this.serviceService.getCategory().pipe(takeUntil(this.destroyed$));
-    category$.subscribe((res: any) => {
-      this.categories = res.Data;
-    });
-  }
+  //   const category$ = this.serviceService.getCategory().pipe(takeUntil(this.destroyed$));
+  //   category$.subscribe((res: any) => {
+  //     this.categories = res.Data;
+  //   });
+  // }
 
-  private _fetchService(se_id: any) {
-    const info$ = this.serviceService.loadServiceInfo({ se_id }).pipe(takeUntil(this.destroyed$));
+  private _fetchTraining(tn_id: any) {
+    const info$ = this.courseService.loadTrainingInfo({ tn_id }).pipe(takeUntil(this.destroyed$));
     info$.subscribe((res: any) => {
       if (res && res.Data) {
-        this._patchService(res.Data);
+        this._patchTraining(res.Data);
       }
     });
   }
 
-  private _patchService(service: any) {
+  private _patchTraining(training: any) {
     this.form.patchValue({
-      se_name: service.se_name,
-      se_description: service.se_description,
-      service_category_id: service.service_category_id,
-      se_price: service.se_price,
-      se_saleoff: service.se_saleoff,
-      se_type: service.se_type,
+      tn_name: training.tn_name,
+      tn_content: training.tn_content,
+      tn_start_date: training.tn_start_date,
+      tn_end_date: training.tn_end_date,
+      tn_purpose: training.tn_purpose,
+     
     });
   }
 
-  private _createService(data: any) {
-    const createService$ = this.serviceService.createService(data).pipe(takeUntil(this.destroyed$));
-    createService$.subscribe(
+  private _createTraining(data: any) {
+    const createTraining$ = this.courseService.createTraining(data).pipe(takeUntil(this.destroyed$));
+    createTraining$.subscribe(
       (res: any) => {
         if (res && res.Code === 200) {
           this._notify(true, res.Message);
@@ -150,11 +184,11 @@ export class CourseStaffDetailComponent implements OnInit {
     );
   }
 
-  private _updateService(updated: any) {
-    const updateService$ = this.serviceService
-      .updateService(updated)
+  private _updateTraining(updated: any) {
+    const updateTraining$ = this.courseService
+      .updateTraining(updated)
       .pipe(takeUntil(this.destroyed$));
-    updateService$.subscribe(
+    updateTraining$.subscribe(
       (res: any) => {
         if (res && res.Code === 200) {
           this._notify(true, res.Message);

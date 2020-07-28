@@ -14,6 +14,7 @@ import { CustomerGroupService } from './customer-group.service';
 import { AuthService } from './auth.service';
 import { ProfileService } from './profile.service';
 import { PermissionService } from './permission.service';
+import { CourseService } from './course.service';
 
 const providers = [
   ApiService,
@@ -30,6 +31,7 @@ const providers = [
   AuthService,
   ProfileService,
   PermissionService,
+  CourseService,
 ];
 
 @NgModule({

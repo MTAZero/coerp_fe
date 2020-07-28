@@ -51,21 +51,24 @@
           <button type="button" class="btn btn-info mr-1">
             Nhập
           </button>
-          <button type="button" class="btn btn-info mr-1" (click)="exportTransaction()">
+          <!-- <button type="button" class="btn btn-info mr-1" (click)="exportTraining()">
+            Xuất
+          </button> -->
+          <button type="button" class="btn btn-info mr-1">
             Xuất
           </button>
           <a class="btn btn-success mr-1 button-link" (click)="onRouteDetail()"> Thêm mới</a>
           <a
             class="btn btn-primary mr-1 button-link"
-            [ngClass]="selectedTransaction ? '' : 'disabled'"
-            (click)="onRouteDetail(selectedTransaction)"
+            [ngClass]="selectedTraining ? '' : 'disabled'"
+            (click)="onRouteDetail(selectedTraining)"
           >
             Xem & Sửa</a
           >
           <a
             class="btn btn-danger mr-1 button-link"
-            [ngClass]="selectedTransaction ? '' : 'disabled'"
-            (click)="openConfirmModal(selectedTransaction)"
+            [ngClass]="selectedTraining ? '' : 'disabled'"
+            (click)="openConfirmModal(selectedTraining)"
           >
             Xóa</a
           >
@@ -91,41 +94,40 @@
         </thead>
         <tbody>
           <tr
-            *ngFor="let transaction of transactions; let i = index"
-            (click)="onClickOrder(transaction)"
+            *ngFor="let training of trainings; let i = index"
+            (click)="onClickTrainning(training)"
             [ngClass]="{
-              'is-selected': transaction.tra_id === selectedTransaction?.tra_id
+              'is-selected': training.tn_id === selectedTraining?.tn_id
             }"
           >
             <td>
               {{ i + 1 }}
             </td>
             <td>
-              
+              {{training.tn_code}}
             </td>
             <td>
-             
+              {{training.tn_name}}
             </td>
             <td>
-             
+              {{training.tn_content}}
             </td>
             <td>
-            
+              {{training.tn_purpose}}
             </td>
             <td>
-             
+              {{training.tn_start_date}}
             </td>
             <td>
-             
+              {{training.tn_end_date}}
             </td>
             <td>
-             
+              {{training.tn_code}}
             <td>
-            
+              {{training.tn_code}}
             </td>
-            
           </tr>
-          <tr *ngIf="transactions?.length === 0">
+          <tr *ngIf="trainings?.length === 0">
             <td colspan="10">Không có dữ liệu khóa học</td>
           </tr>
         </tbody>

@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import * as moment from 'moment';
 import { isNullOrUndefined, isUndefined } from 'util';
 import { Router } from '@angular/router';
+import { CourseService } from 'src/app/core/services/api/course.service';
 
 @Component({
   selector: 'app-course-staff',
@@ -17,7 +18,11 @@ export class CourseStaffComponent implements OnInit, OnDestroy {
   private destroyed$ = new Subject();
 
   submitted: boolean;
+  sources: any;
 
+  trainings: any;
+  groups: any;
+  types: any;
   textSearch = '';
   fromDate = this._convertDateToNgbDate(new Date('2010-01-01'));
   toDate = this._convertDateToNgbDate(new Date());
@@ -26,15 +31,18 @@ export class CourseStaffComponent implements OnInit, OnDestroy {
   totalSize = 0;
 
   transactions: any[];
-  selectedTransaction = null;
+  selectedTraining = null;
 
   constructor(
+    // private modalService: NgbModal,
+    // private transactionService: TransactionService,
     private modalService: NgbModal,
-    private transactionService: TransactionService,
+    private courseService: CourseService,
     private router: Router
   ) {}
   ngOnInit() {
     this._fetchData();
+    this._fetchFilter();
   }
 
   ngOnDestroy() {
@@ -42,26 +50,62 @@ export class CourseStaffComponent implements OnInit, OnDestroy {
     this.destroyed$.complete();
   }
 
-  onClickOrder(transaction: any) {
-    if (isNullOrUndefined(this.selectedTransaction)) {
-      this.selectedTransaction = transaction;
+  private _fetchFilter() {
+    const sources$ = this.courseService.loadSource().pipe(takeUntil(this.destroyed$));
+
+    sources$.subscribe((res: any) => {
+      this.sources = res.Data;
+    });
+
+    const group$ = this.courseService.loadGroup().pipe(takeUntil(this.destroyed$));
+
+    group$.subscribe((res: any) => {
+      this.groups = res.Data;
+    });
+
+    const type$ = this.courseService.loadType().pipe(takeUntil(this.destroyed$));
+
+    type$.subscribe((res: any) => {
+      this.types = res.Data;
+    });
+  }
+
+  // onClickOrder(transaction: any) {
+  //   if (isNullOrUndefined(this.selectedTraining)) {
+  //     this.selectedTraining = transaction;
+  //   } else {
+  //     if (this.selectedTraining.tra_id !== transaction.tra_id) {
+  //       this.selectedTraining = transaction;
+  //     } else {
+  //       this.selectedTraining = null;
+  //     }
+  //   }
+  // }
+  onClickTrainning(training: any) {
+    if (isNullOrUndefined(this.selectedTraining)) {
+      this.selectedTraining = training;
     } else {
-      if (this.selectedTransaction.tra_id !== transaction.tra_id) {
-        this.selectedTransaction = transaction;
+      if (this.selectedTraining.tn_id !== training.tn_id) {
+        this.selectedTraining = training;
       } else {
-        this.selectedTransaction = null;
+        this.selectedTraining = null;
       }
     }
   }
-
-  onRouteDetail(transaction?: any) {
+  // onRouteDetail(transaction?: any) {
+  //   this.router.navigate([
+  //     '/staff/course-staff-detail',
+  //     transaction ? transaction.tra_id : '',
+  //   ]);
+  // }
+  onRouteDetail(training?: any) {
     this.router.navigate([
       '/staff/course-staff-detail',
-      transaction ? transaction.tra_id : '',
+      training ? training.tn_id : '',
     ]);
   }
 
-  openConfirmModal(transaction?: any) {
+  openConfirmModal(training?: any) {
     Swal.fire({
       title: 'Bạn có chắc chắn muốn xóa khóa học vừa chọn không?',
       type: 'warning',
@@ -72,7 +116,7 @@ export class CourseStaffComponent implements OnInit, OnDestroy {
       cancelButtonColor: '#d33',
     }).then((result) => {
       if (result.value) {
-        this._removeTransaction(transaction);
+        this._removeTraining(training);
       }
     });
   }
@@ -83,61 +127,73 @@ export class CourseStaffComponent implements OnInit, OnDestroy {
   }
 
   onChangeFilter() {
-    this._fetchData(this.selectedTransaction);
+    this._fetchData(this.selectedTraining);
   }
 
-  exportTransaction() {
-    const export$ = this.transactionService
-      .exportTransaction({
-        pageNumber: this.page - 1,
-        pageSize: this.pageSize,
-        search_name: this.textSearch,
-        start_date: this._convertNgbDateToDate(this.fromDate),
-        end_date: this._convertNgbDateToDate(this.toDate),
-      })
-      .pipe(takeUntil(this.destroyed$));
-    export$.subscribe((res: any) => {
-      if (res && res.Data) {
-        const link = 'http://27.72.147.222:1230/' + res.Data;
-        window.open(link);
-      }
-    });
-  }
+  // exportTraining() {
+  //   const export$ = this.courseService
+  //     .exportTraining({
+  //       pageNumber: this.page - 1,
+  //       pageSize: this.pageSize,
+  //       search_name: this.textSearch,
+  //       start_date: this._convertNgbDateToDate(this.fromDate),
+  //       end_date: this._convertNgbDateToDate(this.toDate),
+  //     })
+  //     .pipe(takeUntil(this.destroyed$));
+  //   export$.subscribe((res: any) => {
+  //     if (res && res.Data) {
+  //       const link = 'http://27.72.147.222:1230/' + res.Data;
+  //       window.open(link);
+  //     }
+  //   });
+  // }
 
   private _fetchData(selected?: any) {
-    const transaction$ = this.transactionService
-      .searchTransaction({
+    const training$ = this.courseService
+      .searchTraining({
         pageNumber: this.page - 1,
         pageSize: this.pageSize,
         search_name: this.textSearch,
-        start_date: this._convertNgbDateToDate(this.fromDate),
-        end_date: this._convertNgbDateToDate(this.toDate),
-        tra_rate: 1
+      
       })
       .pipe(takeUntil(this.destroyed$));
-    transaction$.subscribe((res: any) => {
-      if (res && res.Data) {
+    training$.subscribe((res: any) => {
+      if (res) {
         this.totalSize = res.Data.TotalNumberOfRecords;
-        this.transactions = res.Data.Results;
+        this.trainings = res.Data.Results;
 
         if (selected) {
-          this.selectedTransaction = this.transactions.find(
-            (item) => item.tra_id === selected.tra_id
+          this.selectedTraining = this.trainings.find(
+            (item) => item.tn_id === selected.tn_id
           );
         } else {
-          this.selectedTransaction = this.transactions[0];
+          this.selectedTraining = this.trainings[0];
         }
       }
     });
   }
+  private _updateTraining(updated: any) {
+    const updateTraining$ = this.courseService
+      .updateTraining(updated)
+      .pipe(takeUntil(this.destroyed$));
+    updateTraining$.subscribe(
+      (res: any) => {
+        if (res && res.Code === 200) {
+          this._notify(true, res.Message);
+          this._fetchData(this.selectedTraining);
+        } else this._notify(false, res.Message);
+      },
+      (e) => this._notify(false, e.Message)
+    );
+  }
 
-  private _removeTransaction(transaction: any) {
-    const removeTransaction$ = this.transactionService
-      .removeTransaction({
-        transactionId: transaction.tra_id,
+  private _removeTraining(training: any) {
+    const removeTraining$ = this.courseService
+      .removeTraining({
+        trainingId: training.tn_id,
       })
       .pipe(takeUntil(this.destroyed$));
-    removeTransaction$.subscribe(
+    removeTraining$.subscribe(
       (res: any) => {
         if (res && res.Code === 200) {
           this._notify(true, res.Message);

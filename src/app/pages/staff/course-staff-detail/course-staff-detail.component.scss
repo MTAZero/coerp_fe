@@ -33,7 +33,7 @@
     }
 
     .content {
-     
+    
       overflow: auto;
       padding-left: 20px;
 
@@ -50,7 +50,7 @@
       }
 
       .title-section {
-        padding: 5px 5px;
+        padding: 5px 0px;
         align-items: center;
 
         i {
@@ -63,6 +63,10 @@
         align-items: baseline;
         flex-flow: row;
       }
+    }
+
+    .pr-300 {
+      margin-right: 333px;
     }
   }
 }
