@@ -30,7 +30,7 @@ export class ListDeviceDetailComponent implements OnInit {
 
   ngOnInit() {
     this.dev_id = this.route.snapshot.paramMap.get('dev_id');
-    if (this.dev_id === '') this.listView = [false];
+    // if (this.dev_id === '') this.listView = [false];
     this._initializeForm();
     this._fetchFilter();
     if (this.dev_id) this._fetchDevice(this.dev_id)
@@ -61,7 +61,7 @@ export class ListDeviceDetailComponent implements OnInit {
   private _initializeForm() {
     this.form = this.formBuilder.group({
       dev_name: ['', [Validators.required]],
-      dev_number: [10, null],
+      dev_number: [10, [Validators.required]],
       dev_unit: [1, [Validators.required]],
       dev_note: ['', null],
     });
@@ -94,21 +94,12 @@ export class ListDeviceDetailComponent implements OnInit {
     if (this.form.value.dev_name.trim() === '') {
       return this.form.controls['dev_name'].setErrors({ required: true });
     }
-
-    // if (this.form.value.dev_number.trim() === '') {
-    //   // return this.form.controls['dev_number'].setErrors({ required: true });
-    // }
-    if (this.form.value.dev_unit.trim() === '') {
-      return this.form.controls['dev_unit'].setErrors({ required: true });
-    }
-    // if (this.form.value.dev_note.trim() === '') {
-    //   // return this.form.controls['dev_note'].setErrors({ required: true });
-    // }
-
-    const data = {
-      device: this.selectedDevice,
-      ...this.form.value,
-    };
+    
+    const data = this.form.value;
+    // const data = {
+    //   device: this.selectedDevice,
+    //   ...this.form.value,
+    // };
     if (this.dev_id)
       this._updateDevice({
         ...data,

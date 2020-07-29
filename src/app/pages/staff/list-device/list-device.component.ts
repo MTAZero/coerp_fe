@@ -101,6 +101,7 @@ export class ListDeviceComponent implements OnInit {
   //     transaction ? transaction.tra_id : '',
   //   ]);
   // }
+  
   onRouteDetail(device?: any) {
     this.router.navigate([
       '/staff/list-device-detail',
@@ -189,11 +190,11 @@ export class ListDeviceComponent implements OnInit {
       (e) => this._notify(false, e.Message)
     );
   }
-
+ 
   private _removeDevice(device: any) {
     const removeDevice$ = this.deviceService
       .removeDevice({
-        devId: device.dev_id,
+        dev_id: device.dev_id,
       })
       .pipe(takeUntil(this.destroyed$));
     removeDevice$.subscribe(

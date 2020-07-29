@@ -20,13 +20,20 @@
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Tên vật tư <span>(*)</span></label>
                 <div class="col-6">
-                  <input class="form-control" formControlName="dev_name" />
+                  <input
+                    class="form-control"
+                    formControlName="dev_name"
+                    [ngClass]="{
+                      'is-invalid':
+                        submitted && (form.controls.dev_name.errors || errorField === 'dev_name')
+                    }"
+                  />
                   <div
-                *ngIf="submitted && (form.controls.dev_name.errors || errorField === 'dev_name')"
-                class="invalid-feedback"
-              >
-                <span *ngIf="form.controls.dev_name.errors.required">Trường bắt buộc</span>
-              </div>
+                    *ngIf="submitted && (form.controls.dev_name.errors || errorField === 'dev_name')"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="form.controls.dev_name.errors.required">Trường bắt buộc</span>
+                  </div>
                 </div>
               </div>
               <div class="form-group row mb-3">
@@ -71,20 +78,7 @@
                 </div>
               </div>
             </div>
-            <!-- <div class="form-row">
-              <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Thời gian bắt đầu <span>(*)</span></label>
-                <div class="col-6">
-                  <input class="form-control" formControlName="se_description" />
-                </div>
-              </div>
-              <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Thời gian kết thúc <span>(*)</span></label>
-                <div class="col-6">
-                  <input class="form-control" formControlName="se_description" />
-                </div>
-              </div>
-            </div> -->
+
           </div>
         </div>
         
