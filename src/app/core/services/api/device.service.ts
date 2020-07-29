@@ -16,11 +16,9 @@ const router = {
 export class DeviceService {
   constructor(private httpClient: ApiService) {}
 
-//   loadDeviceInfo(filter?: { dev_id: any }) {
-//     const params = mapToHttpParamsQuery(filter);
-//     return this.httpClient.get(router.get_by_id, params);
-//   }
-
+  loadAllDevice() {
+    return this.httpClient.get(router.get_dropdown);
+  }
   searchDevice(filter?: {
     pageNumber: number;
     pageSize: number;
@@ -35,16 +33,16 @@ export class DeviceService {
     return this.httpClient.get(router.get_by_id, params);
   }
   createDevice(data: any) {
-    const formData = mapToFormData(data);
-    return this.httpClient.post(router.create, formData);
+    
+    return this.httpClient.post(router.create, data);
   }
 
   updateDevice(data?: any) {
-    const formData = mapToFormData(data);
-    return this.httpClient.putFormData(router.update, formData);
+    // const formData = mapToFormData(data);
+    return this.httpClient.putFormData(router.update, data);
   }
 
-  removeDevice(filter?: { devId: number }) {
+  removeDevice(filter?: { dev_id: number }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.delete(router.delete, params);
   }
