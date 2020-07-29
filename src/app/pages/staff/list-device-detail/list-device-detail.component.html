@@ -1,0 +1,107 @@
+<app-main-container [hasBottom]="false">
+  <div top class="card-body pb-2" style="height: 100%;">
+    <div class="customer-detail">
+      <div class="menu content mb-2" id="content">
+        <div id="0" class="row title-section">
+          <h5>Thông tin chung</h5>
+        </div>
+      </div>
+      <div class="main">
+        <div class="content mb-2" id="content">
+          <div id="0" class="row title-section">
+            <h5>Thông tin chung</h5>
+          <i
+              [ngClass]="listView[0] ? 'fe-edit ml-2' : 'fe-save ml-2'"
+              
+            ></i>
+          </div>
+          <div [formGroup]="form">
+            <div class="form-row">
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Tên vật tư <span>(*)</span></label>
+                <div class="col-6">
+                  <input class="form-control" formControlName="dev_name" />
+                  <div
+                *ngIf="submitted && (form.controls.dev_name.errors || errorField === 'dev_name')"
+                class="invalid-feedback"
+              >
+                <span *ngIf="form.controls.dev_name.errors.required">Trường bắt buộc</span>
+              </div>
+                </div>
+              </div>
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Đơn vị <span>(*)</span></label>
+                <div class="col-6">
+                  <select
+                    class="custom-select"
+                    formControlName="dev_unit"
+                    [ngClass]="{
+                      'is-invalid':
+                        submitted && form.controls.dev_unit.errors
+                    }"
+                  >
+                    <option value="">Đơn vị</option>
+                    <option *ngFor="let unit of units" [value]="unit.id">{{
+                      unit.name
+                    }}</option>
+                  </select>
+                  <div
+                    *ngIf="submitted && form.controls.dev_unit.errors"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="form.controls.dev_unit.errors.required"
+                      >Trường bắt buộc</span
+                    >
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+            <div class="form-row">
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Số lượng </label>
+                <div class="col-6">
+                  <input class="form-control" formControlName="dev_number" />
+                </div>
+              </div>
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Ghi chú</label>
+                <div class="col-6">
+                  <input class="form-control" formControlName="dev_note" />
+                </div>
+              </div>
+            </div>
+            <!-- <div class="form-row">
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Thời gian bắt đầu <span>(*)</span></label>
+                <div class="col-6">
+                  <input class="form-control" formControlName="se_description" />
+                </div>
+              </div>
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Thời gian kết thúc <span>(*)</span></label>
+                <div class="col-6">
+                  <input class="form-control" formControlName="se_description" />
+                </div>
+              </div>
+            </div> -->
+          </div>
+        </div>
+        
+        <div class="row justify-content-end mr-2">
+          <div class="text-sm-right">
+            <button
+              class="btn btn-success mb-2 mr-1 button-link"
+              [disabled]="!form.dirty"
+              (click)="onSubmit()"
+            >
+              Lưu lại
+            </button>
+            <a class="btn btn-danger mb-2 mr-1 button-link" (click)="onChangeToMain()">Hủy </a>
+          </div>
+        </div>
+      </div>
+    </div>
+   
+  </div>
+</app-main-container>

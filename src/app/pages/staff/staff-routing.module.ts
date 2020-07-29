@@ -8,6 +8,8 @@ import { AssignedWorkComponent } from './assigned-work/assigned-work.component';
 import { AssignWorkComponent } from './assign-work/assign-work.component';
 import { CourseStaffComponent } from './course-staff/course-staff.component';
 import { CourseStaffDetailComponent} from './course-staff-detail/course-staff-detail.component';
+import { ListDeviceComponent } from './list-device/list-device.component';
+import { ListDeviceDetailComponent } from './list-device-detail/list-device-detail.component';
 const routes: Routes = [
   {
     path: 'list-staff',
@@ -35,6 +37,14 @@ const routes: Routes = [
     path: 'course-staff-detail/:tn_id',
     component: CourseStaffDetailComponent,
   },
+  {
+    path: 'list-device',
+    component: ListDeviceComponent,
+  },
+  {
+    path: 'list-device-detail/:dev_id',
+    component: ListDeviceDetailComponent,
+  }
 ];
 
 @NgModule({

@@ -33,6 +33,8 @@ import { AttachmentModalComponent } from './list-staff/component/attachment-moda
 import { AttachmentTabComponent } from './list-staff/component/attachment-tab/attachment-tab.component';
 import { CourseStaffComponent } from './course-staff/course-staff.component';
 import { CourseStaffDetailComponent } from './course-staff-detail/course-staff-detail.component';
+import { ListDeviceComponent } from './list-device/list-device.component';
+import { ListDeviceDetailComponent } from './list-device-detail/list-device-detail.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +60,8 @@ import { CourseStaffDetailComponent } from './course-staff-detail/course-staff-d
     AttachmentTabComponent,
     CourseStaffComponent,
     CourseStaffDetailComponent,
+    ListDeviceComponent,
+    ListDeviceDetailComponent,
   ],
   imports: [
     CommonModule,

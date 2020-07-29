@@ -15,7 +15,7 @@ import { AuthService } from './auth.service';
 import { ProfileService } from './profile.service';
 import { PermissionService } from './permission.service';
 import { CourseService } from './course.service';
-
+import { DeviceService } from './device.service';
 const providers = [
   ApiService,
   StaffService,
@@ -32,6 +32,7 @@ const providers = [
   ProfileService,
   PermissionService,
   CourseService,
+  DeviceService,
 ];
 
 @NgModule({
