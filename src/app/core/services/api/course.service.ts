@@ -4,6 +4,7 @@ import { mapToHttpParamsQuery, mapToFormData } from '../../helpers/helpers';
 
 const router = {
   get: '/api/training/getall',
+  get_by_id: '/api/training/get_by_id',
   search: '/api/training/search',
   create: '/api/training/create',
   update: '/api/training/update',
@@ -32,7 +33,7 @@ export class CourseService {
 
   loadTrainingInfo(filter?: { tn_id: any }) {
     const params = mapToHttpParamsQuery(filter);
-    return this.httpClient.get(router.get, params);
+    return this.httpClient.get(router.get_by_id, params);
   }
 
   searchTraining(filter?: {
@@ -56,9 +57,9 @@ export class CourseService {
 //   exportTemplate() {
 //     return this.httpClient.get(router.export_template);
 //   }
-  loadTraining(filter?: { tn_id: any }) {
-    const params = mapToHttpParamsQuery(filter);
-    return this.httpClient.get(router.get, params);
+  loadTraining() {
+    // const params = mapToHttpParamsQuery(filter);
+    return this.httpClient.get(router.get);
   }
   createTraining(data: any) {
     return this.httpClient.post(router.create, data);
@@ -68,7 +69,7 @@ export class CourseService {
     return this.httpClient.putFormData(router.update, data);
   }
 
-  removeTraining(filter?: { trainingId: number }) {
+  removeTraining(filter?: { tn_id: number }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.delete(router.delete, params);
   }

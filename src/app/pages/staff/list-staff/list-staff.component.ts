@@ -25,6 +25,7 @@ export class ListStaffComponent implements OnInit, OnDestroy {
   pageSize = 10;
   totalSize = 0;
 
+  selectedDevice = null;
   selectedStaff = null;
   staffs: any;
 
@@ -117,6 +118,11 @@ export class ListStaffComponent implements OnInit, OnDestroy {
   onChangeAttachment(event) {
     var updated = this.selectedStaff;
     updated.list_attachments = event;
+    this._updateStaff(updated);
+  }
+  onChangeDevice(event) {
+    var updated = this.selectedStaff;
+    updated.list_devices = event;
     this._updateStaff(updated);
   }
 

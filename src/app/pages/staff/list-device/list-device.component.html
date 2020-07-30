@@ -48,26 +48,29 @@
       </div>
       <div class="col-lg-6">
         <div class="text-sm-right">
-          <button type="button" class="btn btn-info mr-1">
-            Nhập
-          </button>
+          <label class="btn btn-info mb-2 mr-1">
+            <input type="file" (change)="setFile($event)" style="display: none;" />
+            <a mat-raised-button color="primary">
+              Nhập
+            </a>
+          </label>
           <!-- <button type="button" class="btn btn-info mr-1" (click)="exportTraining()">
             Xuất
           </button> -->
-          <button type="button" class="btn btn-info mr-1">
+          <button type="button" class="btn btn-info mb-2 mr-1">
             Xuất
           </button>
-          <a class="btn btn-success mr-1 button-link" (click)="onRouteDetail()"> 
+          <a class="btn btn-success mb-2 mr-1 button-link" (click)="onRouteDetail()"> 
             Thêm mới</a>
           <a
-            class="btn btn-primary mr-1 button-link"
+            class="btn btn-primary mb-2 mr-1 button-link"
             [ngClass]="selectedDevice ? '' : 'disabled'"
             (click)="onRouteDetail(selectedDevice)"
           >
             Xem & Sửa</a
           >
           <a
-            class="btn btn-danger mr-1 button-link"
+            class="btn btn-danger mb-2 mr-1 button-link"
             [ngClass]="selectedDevice ? '' : 'disabled'"
             (click)="openConfirmModal(selectedDevice)"
           >
@@ -108,7 +111,7 @@
               {{device.dev_name}}
             </td>
             <td>
-              {{device.dev_unit}}
+              {{device.dev_unit_name}}
             </td>
             <td>
               {{device.dev_number}}
@@ -121,7 +124,7 @@
             </td>
           </tr>
           <tr *ngIf="devices?.length === 0">
-            <td colspan="10">Không có dữ liệu khóa học</td>
+            <td colspan="10">Không có dữ liệu vật tư</td>
           </tr>
         </tbody>
       </table>

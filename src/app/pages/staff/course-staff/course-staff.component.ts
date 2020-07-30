@@ -190,7 +190,7 @@ export class CourseStaffComponent implements OnInit, OnDestroy {
   private _removeTraining(training: any) {
     const removeTraining$ = this.courseService
       .removeTraining({
-        trainingId: training.tn_id,
+        tn_id: training.tn_id,
       })
       .pipe(takeUntil(this.destroyed$));
     removeTraining$.subscribe(

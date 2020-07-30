@@ -9,6 +9,7 @@ import { isNullOrUndefined, isUndefined } from 'util';
 import { Router } from '@angular/router';
 import { CourseService } from 'src/app/core/services/api/course.service';
 import { DeviceService } from 'src/app/core/services/api/device.service';
+import { StaffService } from 'src/app/core/services/api/staff.service';
 
 @Component({
   selector: 'app-list-device',
@@ -19,6 +20,7 @@ export class ListDeviceComponent implements OnInit {
 
   private destroyed$ = new Subject();
 
+  filter_unit = 1;
   submitted: boolean;
   sources: any;
   devices: any;
@@ -41,6 +43,7 @@ export class ListDeviceComponent implements OnInit {
     private modalService: NgbModal,
     private courseService: CourseService,
     private deviceService: DeviceService,
+    private staffService: StaffService,
     private router: Router
   ) {}
   ngOnInit() {
@@ -101,7 +104,23 @@ export class ListDeviceComponent implements OnInit {
   //     transaction ? transaction.tra_id : '',
   //   ]);
   // }
-  
+  setFile(event) {
+    let files = event.srcElement.files;
+    if (!files) {
+      return;
+    }
+
+    const import$ = this.staffService.importStaff(files[0]).pipe(takeUntil(this.destroyed$));
+    import$.subscribe(
+      (res: any) => {
+        if (res && res.Code == 200) {
+          this._notify(true, res.Message);
+          this._fetchData();
+        } else this._notify(false, res.Message);
+      },
+      (e) => this._notify(false, e.Message)
+    );
+  }
   onRouteDetail(device?: any) {
     this.router.navigate([
       '/staff/list-device-detail',
@@ -158,7 +177,7 @@ export class ListDeviceComponent implements OnInit {
         pageNumber: this.page - 1,
         pageSize: this.pageSize,
         search_name: this.textSearch,
-      
+        
       })
       .pipe(takeUntil(this.destroyed$));
     device$.subscribe((res: any) => {
