@@ -1,21 +1,21 @@
 <div class="row justify-content-end">
   <a
     class="btn btn-success mb-1 mr-1 button-link"
-    [ngClass]="staffId ? '' : 'disabled'"
-    (click)="openRelativeModal()"
+    [ngClass]="deviceId ? '' : 'disabled'"
+    (click)="openDeviceModal()"
   >
     Thêm mới</a
   >
   <a
     class="btn btn-primary mb-1 mr-1 button-link"
-    [ngClass]="selectedRelative ? '' : 'disabled'"
-    (click)="openRelativeModal(selectedRelative)"
+    [ngClass]="selectedDevice ? '' : 'disabled'"
+    (click)="openDeviceModal(selectedDevice)"
     >Cập nhật</a
   >
   <a
     class="btn btn-danger mb-1 button-link"
-    [ngClass]="selectedRelative ? '' : 'disabled'"
-    (click)="openConfirmModal(selectedRelative)"
+    [ngClass]="selectedDevice ? '' : 'disabled'"
+    (click)="openConfirmModal(selectedDevice)"
   >
     Xóa</a
   >
@@ -27,7 +27,7 @@
         <th>STT</th>
         <th>Tên vật tư</th>
         <th>Đơn vị</th>
-        <th>Số lượng-option</th>
+        <th>Số lượng</th>
         <th>Ngày giao</th>
         <th>Người giao</th>
         <th>Trạng thái</th>
@@ -37,9 +37,9 @@
     <tbody>
       <tr
         *ngFor="let device of listDevice; let i = index"
-        (click)="onClickRelative(device)"
+        (click)="onClickDevice(device)"
         [ngClass]="{
-          'is-selected': device.rels_id === selectedRelative?.rels_id
+          'is-selected': device.dev_id === selectedDevice?.dev_id
         }"
       >
         <td>
@@ -68,7 +68,7 @@
         </td>
       </tr>
       <tr *ngIf="!listDevice || listDevice.length === 0">
-        <td colspan="5">Không có dữ liệu gia đình</td>
+        <td colspan="5">Không có dữ liệu vật tư</td>
       </tr>
     </tbody>
   </table>

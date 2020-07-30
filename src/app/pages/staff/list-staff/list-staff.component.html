@@ -299,8 +299,8 @@
       <ngb-tab title="10. Danh sách vật tư">
         <ng-template ngbTabContent>
           <app-device-tab
-            [listDevice]="selectedStaff?.list_devices"
-            [staffId]="selectedStaff?.sta_id"
+            [listDevice]="selectedDevice?.list_devices"
+            [deviceId]="selectedDevice?.dev_id"
             (formSubmit)="onChangeDevice($event)"
           ></app-device-tab>
         </ng-template>

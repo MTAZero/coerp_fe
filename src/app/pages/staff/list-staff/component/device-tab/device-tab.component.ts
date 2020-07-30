@@ -3,6 +3,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RelativeModalComponent } from '../relative-modal/relative-modal.component';
 import { isNullOrUndefined } from 'util';
 import Swal from 'sweetalert2';
+import { DeviceService } from 'src/app/core/services/api/device.service';
+import { DeviceModalComponent } from '../device-modal/device-modal.component';
 
 @Component({
   selector: 'app-device-tab',
@@ -11,58 +13,64 @@ import Swal from 'sweetalert2';
 })
 export class DeviceTabComponent implements OnInit {
   @Input() listDevice: any[];
-  @Input() staffId: any;
+  @Input() deviceId: any;
   @Output() formSubmit: EventEmitter<any> = new EventEmitter();
-  selectedRelative = null;
+  selectedDevice = null;
 
-  constructor(private modalService: NgbModal) {}
+  constructor(
+    private modalService: NgbModal,
+    private deviceService: DeviceService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    // if (this.listDevice) {
+    //   this.patchData(this.listDevice);
+    // }
+  }
 
   ngOnChanges() {
-    if (!this.staffId) this.selectedRelative = null;
-    if (this.selectedRelative)
-      this.selectedRelative = this.listDevice.filter(
-        (item) => item.rels_id === this.selectedRelative.rels_id
+    if (this.deviceId) this.selectedDevice = null;
+    if (this.selectedDevice)
+      this.selectedDevice = this.listDevice.filter(
+        (item) => item.dev_id === this.selectedDevice.dev_id
       )[0];
   }
 
-  onClickRelative(relative: any) {
-    if (isNullOrUndefined(this.selectedRelative)) {
-      this.selectedRelative = relative;
+  onClickDevice(device: any) {
+    if (isNullOrUndefined(this.selectedDevice)) {
+      this.selectedDevice = device;
     } else {
-      if (this.selectedRelative.rels_id !== relative.rels_id) {
-        this.selectedRelative = relative;
+      if (this.selectedDevice.dev_id !== device.dev_id) {
+        this.selectedDevice = device;
       } else {
-        this.selectedRelative = null;
+        this.selectedDevice = null;
       }
     }
   }
 
-  openRelativeModal(relative?: any) {
-    const modalRef = this.modalService.open(RelativeModalComponent, {
+  openDeviceModal(device?: any) {
+    const modalRef = this.modalService.open(DeviceModalComponent, {
       centered: true,
     });
-    modalRef.componentInstance.staffId = this.staffId;
+    // modalRef.componentInstance.deviceId = this.deviceId;
     modalRef.componentInstance.listDevice = this.listDevice;
-    if (relative) {
-      modalRef.componentInstance.relative = relative;
+    if (device) {
+      modalRef.componentInstance.device = device;
     }
     modalRef.componentInstance.passEvent.subscribe((res) => {
       if (res.event) {
-        if (relative) {
-          this._updateRelative(res.data);
+        if (device) {
+          this._updateDevice(res.data);
         } else {
-          this._createRelative(res.data);
+          this._createDevice(res.data);
         }
       }
       modalRef.close();
     });
   }
 
-  openConfirmModal(relative?: any) {
+  openConfirmModal(device?: any) {
     Swal.fire({
-      title: 'Chắc chắn muốn xóa quan hệ gia đình đang chọn?',
+      title: 'Chắc chắn muốn xóa vật tư đang chọn?',
       type: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Xóa',
@@ -71,26 +79,26 @@ export class DeviceTabComponent implements OnInit {
       cancelButtonColor: '#d33',
     }).then((result) => {
       if (result.value) {
-        this._removeRelative(relative);
+        this._removeDevice(device);
       }
     });
   }
 
-  private _createRelative(data: any) {
+  private _createDevice(data: any) {
     const updatedList = this.listDevice.concat(data);
     this.formSubmit.emit(updatedList);
   }
 
-  private _updateRelative(updated: any) {
+  private _updateDevice(updated: any) {
     const updatedList = this.listDevice.map((item) => {
-      if (item.rels_id !== updated.rels_id) return item;
+      if (item.dev_id !== updated.dev_id) return item;
       return updated;
     });
     this.formSubmit.emit(updatedList);
   }
 
-  private _removeRelative(relative: any) {
-    const updatedList = this.listDevice.filter((item) => item.rels_id !== relative.rels_id);
+  private _removeDevice(device: any) {
+    const updatedList = this.listDevice.filter((item) => item.dev_id !== device.dev_id);
     this.formSubmit.emit(updatedList);
   }
 }

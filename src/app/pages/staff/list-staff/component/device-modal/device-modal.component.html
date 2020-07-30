@@ -1,69 +1,83 @@
 <div class="modal-header bg-dark">
-  <h4 class="modal-title text-white">{{ relative ? 'Sửa' : 'Thêm' }} quan hệ gia đình</h4>
+  <h4 class="modal-title text-white">{{ device ? 'Sửa' : 'Thêm' }} vật tư</h4>
   <button class="close text-white" aria-label="Close" (click)="onClickCancel()">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <div class="modal-body p-3" [formGroup]="form">
   <div class="form-group row mb-3">
-    <label class="col-4 col-form-label">Họ và tên <span>(*)</span></label>
+    <label class="col-4 col-form-label">Tên vật tư <span>(*)</span></label>
     <div class="col-8">
       <input
         class="form-control"
-        formControlName="rels_fullname"
+        formControlName="dev_name"
         [ngClass]="{
-          'is-invalid': submitted && form.controls.rels_fullname.errors
+          'is-invalid': submitted && form.controls.dev_name.errors
         }"
       />
-      <div *ngIf="submitted && form.controls.rels_fullname.errors" class="invalid-feedback">
-        <span *ngIf="form.controls.rels_fullname.errors.required">Trường bắt buộc</span>
+      <div *ngIf="submitted && form.controls.dev_name.errors" class="invalid-feedback">
+        <span *ngIf="form.controls.dev_name.errors.required">Trường bắt buộc</span>
       </div>
     </div>
   </div>
   <div class="form-group row mb-3">
-    <label class="col-4 col-form-label">Quan hệ <span>(*)</span></label>
+    <label class="col-4 col-form-label">Đơn vị <span>(*)</span></label>
     <div class="col-8">
+      <select
+      class="custom-select"
+      formControlName="dev_unit"
+      [ngClass]="{
+        'is-invalid':
+          submitted && form.controls.dev_unit.errors
+      }"
+    >
+      <!-- <option value="">Đơn vị</option> -->
+      <option 
+        *ngFor="let unit of units" 
+        [disabled]="listView[1]"
+        [value]="unit.id">{{
+        unit.name
+      }}</option>
+    </select>
+    <div
+    *ngIf="submitted && form.controls.dev_unit.errors"
+    class="invalid-feedback"
+  >
+    <span *ngIf="form.controls.dev_unit.errors.required"
+      >Trường bắt buộc</span
+    >
+  </div>
+    </div>
+  </div>
+  <div class="form-group row mb-3">
+    <label class="col-4 col-form-label">Số lượng <span>(*)</span></label>
+    <div class="col-6">
       <input
         class="form-control"
-        formControlName="rels_relatives"
+        id="example-number"
+        type="number"
+        [readonly]="listView[1]"
+        formControlName="dev_number"
+        style="width: 100%;"
         [ngClass]="{
-          'is-invalid': submitted && form.controls.rels_relatives.errors
+          'is-invalid': submitted && form.controls.dev_number.errors
         }"
       />
-      <div *ngIf="submitted && form.controls.rels_relatives.errors" class="invalid-feedback">
-        <span *ngIf="form.controls.rels_relatives.errors.required">Trường bắt buộc</span>
+      <div
+        *ngIf="submitted && form.controls.dev_number.errors"
+        class="invalid-feedback"
+      >
+        <span>Trường bắt buộc</span>
       </div>
     </div>
   </div>
   <div class="form-group row mb-3">
-    <label class="col-4 col-form-label">Số điện thoại <span>(*)</span></label>
-    <div class="col-8">
-      <input
-        class="form-control"
-        formControlName="rels_phone"
-        [ngClass]="{
-          'is-invalid': submitted && form.controls.rels_phone.errors
-        }"
-      />
-      <div *ngIf="submitted && form.controls.rels_phone.errors" class="invalid-feedback">
-        <span *ngIf="form.controls.rels_phone.errors.required">Trường bắt buộc</span>
-        <span *ngIf="form.controls.rels_phone.errors.pattern">Số điện thoại chỉ chứa số</span>
-      </div>
-    </div>
-  </div>
-  <div class="form-group row mb-3">
-    <label class="col-4 col-form-label">Địa chỉ <span>(*)</span></label>
-    <div class="col-8">
-      <input
-        class="form-control"
-        formControlName="rels_address"
-        [ngClass]="{
-          'is-invalid': submitted && form.controls.rels_address.errors
-        }"
-      />
-      <div *ngIf="submitted && form.controls.rels_address.errors" class="invalid-feedback">
-        <span *ngIf="form.controls.rels_address.errors.required">Trường bắt buộc</span>
-      </div>
+    <label class="col-4 col-form-label">Ghi chú</label>
+    <div class="col-6">
+      <input 
+        class="form-control" 
+        formControlName="dev_note" 
+        [readonly]="listView[1]"/>
     </div>
   </div>
   <div class="text-right mt-3">

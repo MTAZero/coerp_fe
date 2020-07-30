@@ -25,6 +25,7 @@ export class ListStaffComponent implements OnInit, OnDestroy {
   pageSize = 10;
   totalSize = 0;
 
+  selectedDevice = null;
   selectedStaff = null;
   staffs: any;
 

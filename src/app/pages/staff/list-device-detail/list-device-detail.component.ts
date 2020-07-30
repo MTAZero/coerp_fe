@@ -102,10 +102,6 @@ export class ListDeviceDetailComponent implements OnInit {
     }
     
     const data = this.form.value;
-    // const data = {
-    //   device: this.selectedDevice,
-    //   ...this.form.value,
-    // };
     if (this.dev_id)
       this._updateDevice({
         ...data,

@@ -2,16 +2,16 @@
   <div top class="card-body pb-2" style="height: 100%;">
     <div class="customer-detail">
       <div class="menu content mb-2" id="content">
-        <div id="0" class="row title-section">
+        <div id="1" class="row title-section">
           <h5>Thông tin chung</h5>
         </div>
       </div>
       <div class="main">
         <div class="content mb-2" id="content">
-          <div id="0" class="row title-section">
+          <div id="1" class="row title-section">
             <h5>Thông tin chung</h5>
           <i
-              [ngClass]="listView[0] ? 'fe-edit ml-2' : 'fe-save ml-2'"
+              [ngClass]="listView[1] ? 'fe-edit ml-2' : 'fe-save ml-2'"
               
             ></i>
           </div>
@@ -20,13 +20,40 @@
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Tên khóa học <span>(*)</span></label>
                 <div class="col-6">
-                  <input class="form-control" formControlName="training.tn_name" />
+                  <input 
+                    class="form-control" 
+                    formControlName="tn_name"
+                    [ngClass]="{
+                      'is-invalid':
+                        submitted && (form.controls.tn_name.errors || errorField === 'tn_name')
+                    }"
+                  />
+                  <div
+                    *ngIf="submitted && (form.controls.tn_name.errors || errorField === 'tn_name')"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="form.controls.tn_name.errors.required">Trường bắt buộc</span>
+                  </div>
                 </div>
               </div>
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Nội dung khóa học <span>(*)</span></label>
                 <div class="col-6">
-                  <input class="form-control" formControlName="training.tn_content" />
+                  <input 
+                    class="form-control" 
+                    formControlName="tn_content"
+                    [ngClass]="{
+                      'is-invalid': submitted && form.controls.tn_content.errors
+                    }" 
+                    />
+                    <div
+                    *ngIf="submitted && form.controls.tn_content.errors"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="form.controls.tn_content.errors.required"
+                      >Trường bắt buộc</span
+                    >
+                  </div>
                 </div>
               </div>
             </div>
@@ -34,13 +61,27 @@
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Mục tiêu khóa học <span>(*)</span></label>
                 <div class="col-6">
-                  <input class="form-control" formControlName="training.tn_purpose" />
+                  <input 
+                    class="form-control" 
+                    formControlName="tn_purpose" 
+                    [ngClass]="{
+                      'is-invalid': submitted && form.controls.tn_purpose.errors
+                    }" 
+                    />
+                    <div
+                    *ngIf="submitted && form.controls.tn_purpose.errors"
+                    class="invalid-feedback"
+                  >
+                    <span *ngIf="form.controls.tn_purpose.errors.required"
+                      >Trường bắt buộc</span
+                    >
+                  </div>
                 </div>
               </div>
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Đánh giá</label>
                 <div class="col-6">
-                  <input class="form-control" formControlName="" />
+                  <!-- <input class="form-control" formControlName="" /> -->
                 </div>
               </div>
             </div>
@@ -48,42 +89,42 @@
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Thời gian bắt đầu <span>(*)</span></label>
                 <div class="col-6">
-                  <!-- <div class="input-group clockpicker mb-2 mr-1">
+                  <div class="input-group clockpicker mb-2 mr-1">
                     <input
                       ngbDatepicker
                       readonly="true"
                       class="form-control"
                       placeholder="Chọn ngày"
                       #start_work="ngbDatepicker"
-                      formControlName="sta_start_work_date"
-                      [minDate]="formProfile.value.sta_birthday"
-                      [maxDate]="formProfile.value.sta_end_work_date"
+                      formControlName="tn_start_date"
+                     
+                      [maxDate]="form.value.tn_end_date"
                       [disabled]="listView[1]"
                     />
                     <div class="input-group-append" (click)="start_work.toggle()">
                       <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
                     </div>
-                  </div> -->
+                  </div>
                 </div>
               </div>
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Thời gian kết thúc <span>(*)</span></label>
                 <div class="col-6">
-                  <!-- <div class="input-group clockpicker mb-2 mr-1">
+                  <div class="input-group clockpicker mb-2 mr-1">
                     <input
                       ngbDatepicker
                       readonly="true"
                       class="form-control"
                       placeholder="Chọn ngày"
                       #end_work="ngbDatepicker"
-                      formControlName="sta_end_work_date"
-                      [minDate]="formProfile.value.sta_start_work_date"
-                      [disabled]="listView[1] || formProfile.value.sta_working_status === '1'"
+                      formControlName="tn_end_date"
+                      [minDate]="form.value.tn_start_date"
+                     
                       [ngClass]="{
                         'is-invalid':
                           submitted &&
-                          formProfile.value.sta_working_status === '2' &&
-                          formProfile.value.sta_end_work_date === null
+                         
+                          formProfile.value.tn_end_date === null
                       }"
                     />
                     <div class="input-group-append" (click)="end_work.toggle()">
@@ -92,14 +133,14 @@
                     <div
                       *ngIf="
                         submitted &&
-                        formProfile.value.sta_working_status === '2' &&
-                        formProfile.value.sta_end_work_date === null
+                      
+                        formProfile.value.tn_end_date === null
                       "
                       class="invalid-feedback"
                     >
                       <span>Trường bắt buộc</span>
                     </div>
-                  </div> -->
+                  </div>
                 </div>
               </div>
             </div>
