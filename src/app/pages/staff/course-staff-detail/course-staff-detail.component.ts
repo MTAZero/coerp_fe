@@ -38,37 +38,24 @@ export class CourseStaffDetailComponent implements OnInit {
     private router: Router,
     public formBuilder: FormBuilder,
     private courseService: CourseService,
-    private staffService: StaffService,
-    private modalService: NgbModal,
-    private serviceService: ServiceService
+    // private staffService: StaffService,
+    // private modalService: NgbModal,
+    // private serviceService: ServiceService
   ) {}
 
   ngOnInit() {
     this.tn_id = this.route.snapshot.paramMap.get('tn_id');
-    if (this.tn_id === '')
-    this.listView = [
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-     
-    ];
-    this.timePeriod = timePeriod;
-    this.menu = menu;
-    this.days = days;
+    // if (this.tn_id === '')
+    
+    // this.timePeriod = timePeriod;
+    // this.menu = menu;
+    // this.days = days;
     this._initializeForm();
     // this._fetchFilter();
 
     // if (this.tn_id) this._fetchService(this.tn_id);
     if (this.tn_id) {
       this._fetchTraining(this.tn_id);
-    } else {
-      // this._loadProvincePermanent();
-      // this._loadProvinceNow();
     }
   }
   
@@ -166,7 +153,9 @@ export class CourseStaffDetailComponent implements OnInit {
   }
 
   private _createTraining(data: any) {
-    const createTraining$ = this.courseService.createTraining(data).pipe(takeUntil(this.destroyed$));
+    const createTraining$ = this.courseService.
+      createTraining(data).
+      pipe(takeUntil(this.destroyed$));
     createTraining$.subscribe(
       (res: any) => {
         if (res && res.Code === 200) {

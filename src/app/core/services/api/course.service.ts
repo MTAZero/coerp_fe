@@ -68,7 +68,7 @@ export class CourseService {
     return this.httpClient.putFormData(router.update, data);
   }
 
-  removeTraining(filter?: { trainingId: number }) {
+  removeTraining(filter?: { tn_id: number }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.delete(router.delete, params);
   }

@@ -5,7 +5,7 @@ import { DeviceService } from 'src/app/core/services/api/device.service';
 import { takeUntil } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { Subject } from 'rxjs';
-
+import { timePeriod, menu, days } from './data';
 @Component({
   selector: 'app-list-device-detail',
   templateUrl: './list-device-detail.component.html',
@@ -13,12 +13,14 @@ import { Subject } from 'rxjs';
 })
 export class ListDeviceDetailComponent implements OnInit {
   form: FormGroup;
+  menu: any[];
   submitted = false;
   dev_id = null;
   errorField = null;
   units: any;
   isView = true;
   selectedDevice = null;
+  selectedMenuItem = 0;
   listView = [true];
   private destroyed$ = new Subject();
   constructor(
@@ -87,6 +89,10 @@ export class ListDeviceDetailComponent implements OnInit {
       dev_unit: device.dev_unit,
       dev_note: device.dev_note,
     });
+  }
+  
+  switchViewType(index: number) {
+    this.listView[index] = !this.listView[index];
   }
   onSubmit() {
     this.submitted = true;

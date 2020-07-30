@@ -48,9 +48,12 @@
       </div>
       <div class="col-lg-6">
         <div class="text-sm-right">
-          <button type="button" class="btn btn-info mr-1">
-            Nhập
-          </button>
+          <label class="btn btn-info mb-2 mr-1">
+            <input type="file" (change)="setFile($event)" style="display: none;" />
+            <a mat-raised-button color="primary">
+              Nhập
+            </a>
+          </label>
           <!-- <button type="button" class="btn btn-info mr-1" (click)="exportTraining()">
             Xuất
           </button> -->
@@ -108,7 +111,7 @@
               {{device.dev_name}}
             </td>
             <td>
-              {{device.dev_unit}}
+              {{device.dev_unit_name}}
             </td>
             <td>
               {{device.dev_number}}

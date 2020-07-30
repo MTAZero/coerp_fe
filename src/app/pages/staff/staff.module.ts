@@ -35,6 +35,8 @@ import { CourseStaffComponent } from './course-staff/course-staff.component';
 import { CourseStaffDetailComponent } from './course-staff-detail/course-staff-detail.component';
 import { ListDeviceComponent } from './list-device/list-device.component';
 import { ListDeviceDetailComponent } from './list-device-detail/list-device-detail.component';
+import { DeviceTabComponent } from './list-staff/component/device-tab/device-tab.component';
+import { DeviceModalComponent } from './list-staff/component/device-modal/device-modal.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +64,8 @@ import { ListDeviceDetailComponent } from './list-device-detail/list-device-deta
     CourseStaffDetailComponent,
     ListDeviceComponent,
     ListDeviceDetailComponent,
+    DeviceTabComponent,
+    DeviceModalComponent,
   ],
   imports: [
     CommonModule,

@@ -119,6 +119,11 @@ export class ListStaffComponent implements OnInit, OnDestroy {
     updated.list_attachments = event;
     this._updateStaff(updated);
   }
+  onChangeDevice(event) {
+    var updated = this.selectedStaff;
+    updated.list_devices = event;
+    this._updateStaff(updated);
+  }
 
   setFile(event) {
     let files = event.srcElement.files;

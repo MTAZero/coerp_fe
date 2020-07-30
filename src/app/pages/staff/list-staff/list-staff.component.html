@@ -295,6 +295,16 @@
           ></app-attachment-tab>
         </ng-template>
       </ngb-tab>
+
+      <ngb-tab title="10. Danh sách vật tư">
+        <ng-template ngbTabContent>
+          <app-device-tab
+            [listDevice]="selectedStaff?.list_devices"
+            [staffId]="selectedStaff?.sta_id"
+            (formSubmit)="onChangeDevice($event)"
+          ></app-device-tab>
+        </ng-template>
+      </ngb-tab>
     </ngb-tabset>
   </div>
 </app-main-container>
