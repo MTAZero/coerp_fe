@@ -1,7 +1,11 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import Swal from 'sweetalert2';
+import * as moment from 'moment';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { DeviceService } from 'src/app/core/services/api/device.service';
+import { StaffService } from 'src/app/core/services/api/staff.service';
+import { isUndefined } from 'util';
 @Component({
   selector: 'app-device-modal',
   templateUrl: './device-modal.component.html',
@@ -18,6 +22,7 @@ export class DeviceModalComponent implements OnInit {
 
   constructor(
     public formBuilder: FormBuilder,
+    private staffService: StaffService,
     private deviceService: DeviceService) {
     this.initializeForm();
     // this._loadCategory();
@@ -32,42 +37,41 @@ export class DeviceModalComponent implements OnInit {
   onClickSubmit() {
     this.submitted = true;
  
-    if (this.form.value.dev_name.trim() === '')
-      return this.form.controls['dev_name'].setErrors({ required: true });
+    if (this.form.value.device_name.trim() === '')
+      return this.form.controls['device_name'].setErrors({ required: true });
 
     // if (this.form.value.rels_relatives.trim() === '')
     //   return this.form.controls['rels_relatives'].setErrors({ required: true });
 
-    if (this.form.value.dev_number.trim() === '')
-      return this.form.controls['dev_number'].setErrors({ required: true });
+    if (this.form.value.des_quantity.trim() === '')
+      return this.form.controls['des_quantity'].setErrors({ required: true });
 
-    // if (this.form.value.rels_address.trim() === '')
-    //   return this.form.controls['rels_address'].setErrors({ required: true });
-
-    // if (!/^\d+$/.test(this.form.value.rels_phone.trim()))
-    //   return this.form.controls['rels_phone'].setErrors({ pattern: true });
-
-    let isConflict = false;
-    this.listDevice.forEach((item) => {
-      if (
-        item.dev_name.trim() === this.form.value.dev_name.trim() &&
-        item.dev_number.trim() === this.form.value.dev_number.trim() &&
-        item.dev_note.trim() === this.form.value.dev_note.trim()
-      )
-        isConflict = true;
-    });
-    if (isConflict) return this._notify(false, 'Vật tư đã tồn tại');
-
-    if (this.form.valid && !isConflict) {
+    if (this.form.valid) {
       const data = this.form.value;
-      // data.dev_name = data.dev_name.trim();
-      // data.dev_unit = data.dev_unit.trim();
-      // data.dev_number = data.dev_number.trim();
-      // data.rels_address = data.rels_address.trim();
+      data.des_date = this._convertNgbDateToDate(data.des_date);
       this.passEvent.emit({ event: true, data });
     }
   }
+  onChangeEvaluate(event) {
+    console.log(event.target.value);
+    const evaluate = event.target.value;
 
+    if (evaluate === 1 || evaluate === '1')
+      this.form.patchValue({
+        dev_unit_name: 'Bộ ',
+      });
+
+    if (evaluate === 2 || evaluate === '2')
+      this.form.patchValue({
+        dev_unit_name: 'Chiếc',
+      });
+
+    if (evaluate === 3 || evaluate === '3')
+      this.form.patchValue({
+        dev_unit_name: 'Cái',
+      });
+
+  }
   onClickCancel() {
     if (this.form.dirty) {
       Swal.fire({
@@ -97,24 +101,45 @@ export class DeviceModalComponent implements OnInit {
 
   private initializeForm() {
     this.form = this.formBuilder.group({
-      dev_id: ['temp_0', null],
-      dev_name: ['', [Validators.required]],
-      dev_number: ['', [Validators.required]],
-      rels_note: ['', [Validators.required]],
+      device_id: ['temp_0', null],
+      device_name: ['', [Validators.required]],
+      des_quantity: ['', [Validators.required]],
+      des_note: ['', [Validators.required]],
+      des_unit: ['', [Validators.required]],
+      des_date: [this._convertDateToNgbDate(new Date()), [Validators.required]],
       // rels_address: ['', [Validators.required]],
     });
   }
 
   private patchData(device: any) {
     this.form.patchValue({
-      dev_id: device.dev_id,
-      dev_name: device.dev_name,
-      dev_number: device.dev_number,
-      dev_note: device.dev_note,
+      device_id: device.device_id,
+      device_name: device.device_name,
+      des_quantity: device.des_quantity,
+      des_note: device.des_note,
+      des_unit: device.des_unit,
+      des_date: this._convertDateToNgbDate(device.des_date),
       // rels_address: device.rels_address,
     });
   }
+  private _convertDateToNgbDate(date: any) {
+    if (!date) {
+      return null;
+    }
+    const year = moment(date).year();
+    const month = moment(date).month() + 1;
+    const day = moment(date).date();
+    return new NgbDate(year, month, day);
+  }
 
+  private _convertNgbDateToDate(ngbDate: any) {
+    if (!ngbDate) {
+      return '';
+    }
+    if (isUndefined(ngbDate.year)) return ngbDate;
+    const newDate = new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
+    return moment(newDate).format();
+  }
   private _notify(isSuccess: boolean, message: string) {
     return Swal.fire({
       toast: true,

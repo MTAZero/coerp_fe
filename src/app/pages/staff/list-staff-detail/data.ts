@@ -62,6 +62,7 @@ const menu = [
   'File đính kèm',
   'Thông tin ngân hàng',
   'Khen thưởng/Kỷ luật',
+  'Danh sách vật tư'
 ];
 
 const days = ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ nhật'];

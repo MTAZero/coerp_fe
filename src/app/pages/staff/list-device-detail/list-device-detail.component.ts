@@ -63,7 +63,7 @@ export class ListDeviceDetailComponent implements OnInit {
   private _initializeForm() {
     this.form = this.formBuilder.group({
       dev_name: ['', [Validators.required]],
-      dev_number: [10, [Validators.required]],
+      dev_number: ['', [Validators.required]],
       dev_unit: [1, [Validators.required]],
       dev_note: ['', null],
     });
@@ -159,5 +159,4 @@ export class ListDeviceDetailComponent implements OnInit {
         timer: 2000,
       });
     }
-  
 }

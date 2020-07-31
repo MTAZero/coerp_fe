@@ -14,6 +14,7 @@ import { DeviceModalComponent } from '../device-modal/device-modal.component';
 export class DeviceTabComponent implements OnInit {
   @Input() listDevice: any[];
   @Input() deviceId: any;
+  @Input() staffId: any;
   @Output() formSubmit: EventEmitter<any> = new EventEmitter();
   selectedDevice = null;
 
@@ -28,10 +29,10 @@ export class DeviceTabComponent implements OnInit {
   }
 
   ngOnChanges() {
-    if (this.deviceId) this.selectedDevice = null;
+    if (!this.staffId) this.selectedDevice = null;
     if (this.selectedDevice)
       this.selectedDevice = this.listDevice.filter(
-        (item) => item.dev_id === this.selectedDevice.dev_id
+        (item) => item.device_id === this.selectedDevice.device_id
       )[0];
   }
 
@@ -39,7 +40,7 @@ export class DeviceTabComponent implements OnInit {
     if (isNullOrUndefined(this.selectedDevice)) {
       this.selectedDevice = device;
     } else {
-      if (this.selectedDevice.dev_id !== device.dev_id) {
+      if (this.selectedDevice.device_id !== device.device_id) {
         this.selectedDevice = device;
       } else {
         this.selectedDevice = null;
@@ -51,7 +52,7 @@ export class DeviceTabComponent implements OnInit {
     const modalRef = this.modalService.open(DeviceModalComponent, {
       centered: true,
     });
-    // modalRef.componentInstance.deviceId = this.deviceId;
+    // modalRef.componentInstance.staffId = this.staffId;
     modalRef.componentInstance.listDevice = this.listDevice;
     if (device) {
       modalRef.componentInstance.device = device;
@@ -59,9 +60,9 @@ export class DeviceTabComponent implements OnInit {
     modalRef.componentInstance.passEvent.subscribe((res) => {
       if (res.event) {
         if (device) {
-          this._updateDevice(res.data);
+          this._updateDevice(res.form);
         } else {
-          this._createDevice(res.data);
+          this._createDevice(res.form);
         }
       }
       modalRef.close();
@@ -91,14 +92,14 @@ export class DeviceTabComponent implements OnInit {
 
   private _updateDevice(updated: any) {
     const updatedList = this.listDevice.map((item) => {
-      if (item.dev_id !== updated.dev_id) return item;
+      if (item.device_id !== updated.device_id) return item;
       return updated;
     });
     this.formSubmit.emit(updatedList);
   }
 
   private _removeDevice(device: any) {
-    const updatedList = this.listDevice.filter((item) => item.dev_id !== device.dev_id);
+    const updatedList = this.listDevice.filter((item) => item.device_id !== device.device_id);
     this.formSubmit.emit(updatedList);
   }
 }

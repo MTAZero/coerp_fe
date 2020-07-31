@@ -88,6 +88,7 @@ import { DeviceModalComponent } from './list-staff/component/device-modal/device
     BankModalComponent,
     RelativeModalComponent,
     BonusModalComponent,
+    DeviceModalComponent,
     AttachmentModalComponent,
   ],
 })
