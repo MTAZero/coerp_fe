@@ -10,13 +10,13 @@
     <div class="col-8">
       <input
         class="form-control"
-        formControlName="dev_name"
+        formControlName="device_name"
         [ngClass]="{
-          'is-invalid': submitted && form.controls.dev_name.errors
+          'is-invalid': submitted && formUI.device_name.errors
         }"
       />
-      <div *ngIf="submitted && form.controls.dev_name.errors" class="invalid-feedback">
-        <span *ngIf="form.controls.dev_name.errors.required">Trường bắt buộc</span>
+      <div *ngIf="submitted && formUI.device_name.errors" class="invalid-feedback">
+        <span *ngIf="formUI.device_name.errors.required">Trường bắt buộc</span>
       </div>
     </div>
   </div>
@@ -26,24 +26,22 @@
       <select
       class="custom-select"
       formControlName="dev_unit"
+      (change)="onChangeEvaluate($event)"
       [ngClass]="{
         'is-invalid':
-          submitted && form.controls.dev_unit.errors
+          submitted && formUI.dev_unit.errors
       }"
     >
       <!-- <option value="">Đơn vị</option> -->
-      <option 
-        *ngFor="let unit of units" 
-        [disabled]="listView[1]"
-        [value]="unit.id">{{
-        unit.name
-      }}</option>
+      <option [value]="1">Bộ</option>
+        <option [value]="2">Chiếc</option>
+        <option [value]="3">Cái</option>
     </select>
     <div
-    *ngIf="submitted && form.controls.dev_unit.errors"
+    *ngIf="submitted && formUI.dev_unit.errors"
     class="invalid-feedback"
   >
-    <span *ngIf="form.controls.dev_unit.errors.required"
+    <span *ngIf="formUI.dev_unit.errors.required"
       >Trường bắt buộc</span
     >
   </div>
@@ -57,17 +55,42 @@
         id="example-number"
         type="number"
         [readonly]="listView[1]"
-        formControlName="dev_number"
+        formControlName="des_quantity"
         style="width: 100%;"
         [ngClass]="{
-          'is-invalid': submitted && form.controls.dev_number.errors
+          'is-invalid': submitted && formUI.des_quantity.errors
         }"
       />
       <div
-        *ngIf="submitted && form.controls.dev_number.errors"
+        *ngIf="submitted && formUI.des_quantity.errors"
         class="invalid-feedback"
       >
         <span>Trường bắt buộc</span>
+      </div>
+    </div>
+  </div>
+  <div class="form-group row mb-3">
+    <label class="col-4 col-form-label">Ngày giao <span>(*)</span></label>
+    <div class="col-8">
+      <div class="input-group clockpicker mb-2 mr-1">
+        <input
+          ngbDatepicker
+          readonly="true"
+          class="form-control"
+          placeholder="yyyy-mm-dd"
+          #from="ngbDatepicker"
+          name="from"
+          formControlName="des_date"
+          [ngClass]="{
+            'is-invalid': submitted && formUI.des_date.errors
+          }"
+        />
+        <div class="input-group-append" (click)="from.toggle()">
+          <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+        </div>
+        <div *ngIf="submitted && formUI.des_date.errors" class="invalid-feedback">
+          <span *ngIf="formUI.des_date.errors.required">Trường bắt buộc</span>
+        </div>
       </div>
     </div>
   </div>
@@ -76,7 +99,7 @@
     <div class="col-6">
       <input 
         class="form-control" 
-        formControlName="dev_note" 
+        formControlName="des_note" 
         [readonly]="listView[1]"/>
     </div>
   </div>

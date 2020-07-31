@@ -1283,6 +1283,60 @@
               </tbody>
             </table>
           </div>
+
+          <div id="11" class="row title-section">
+            <h5>{{ menu[12] }}</h5>
+            <a class="btn btn-primary btn-xs ml-2 button-link" (click)="openDeviceModal()"
+              >Thêm mới</a
+            >
+          </div>
+          <div class="table-responsive border mb-2">
+            <table class="table table-centered table-hover mb-0">
+              <thead>
+                <tr>
+                  <th>STT</th>
+                  <th>Tên vật tư</th>
+                  <th>Đơn vị</th>
+                  <th>Số lượng</th>
+                  <th>Ngày giao</th>
+                  <th>Người giao</th>
+                  <th>Trạng thái</th>
+                  <th>Ghi chú</th>
+                  <th>Thao tác</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let device of listDevice; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>
+                    {{ device.device_name }}
+                  </td>
+                  <td>{{ device.dev_unit_name }}</td>
+                  <td>
+                    {{ device.des_quantity }}
+                  </td>
+                  <td>
+                    {{ device.des_date | date: 'dd/MM/yyyy' }}
+                  </td>
+                  <td>{{ device.staff_name }}</td>
+                  <td>{{ device.des_status }}</td>
+                  <td>{{ device.des_note }}</td>
+                  <!-- <td>{{ device.bos_note }}</td> -->
+                  <td>
+                    <a class="action-icon table-button-link" (click)="openDeviceModal(device)">
+                      <i class="mdi mdi-square-edit-outline"></i
+                    ></a>
+                    <a class="action-icon table-button-link" (click)="onRemoveDevice(device)">
+                      <i class="mdi mdi-delete"></i
+                    ></a>
+                  </td>
+                </tr>
+                <tr *ngIf="!listDevice || listDevice.length === 0">
+                  <td colspan="9">Không có dữ liệu vật tư</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
         <div class="row justify-content-end mr-2">
           <div class="text-sm-right">

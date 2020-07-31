@@ -11,8 +11,10 @@ import { RelativeModalComponent } from '../list-staff/component/relative-modal/r
 import { AttachmentModalComponent } from '../list-staff/component/attachment-modal/attachment-modal.component';
 import { BankModalComponent } from '../list-staff/component/bank-modal/bank-modal.component';
 import { BonusModalComponent } from '../list-staff/component/bonus-modal/bonus-modal.component';
+import { DeviceModalComponent } from '../list-staff/component/device-modal/device-modal.component'
 import { AddressService } from '../../../core/services/api/address.service';
 import { StaffService } from '../../../core/services/api/staff.service';
+import { DeviceService } from '../../../core/services/api/device.service';
 import Swal from 'sweetalert2';
 import * as moment from 'moment';
 import { timePeriod, menu, days } from './data';
@@ -25,6 +27,7 @@ import { isUndefined } from 'util';
 })
 export class ListStaffDetailComponent implements OnInit, OnDestroy {
   sta_id = '';
+  device_id = '';
   private destroyed$ = new Subject();
   timePeriod: any;
   menu: any[];
@@ -53,6 +56,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
   tempAttachment = 0;
   tempBank = 0;
   tempBonus = 0;
+  tempDevice = 0;
   isChange = false;
 
   formContractType: FormGroup;
@@ -68,6 +72,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
   listAttachment = [];
   listBank = [];
   listBonus = [];
+  listDevice = [];
   listNewTraining = [];
   listWorkTime = [[], [], [], [], [], [], []];
 
@@ -217,6 +222,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
       list_bank: this.listBank,
       list_relatives: this.listRelative,
       list_bonus: this.listBonus,
+      list_devices: this.listDevice,
       list_attachments: this.listAttachment,
       list_staff_work_time,
     };
@@ -700,6 +706,53 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  openDeviceModal(device?: any) {
+    const modalRef = this.modalService.open(DeviceModalComponent, {
+      centered: true,
+    });
+    modalRef.componentInstance.listDevice = this.listDevice;
+    // modalRef.componentInstance.staffId = this.sta_id;
+    if (device) {
+      modalRef.componentInstance.device = device;
+    }
+    modalRef.componentInstance.passEvent.subscribe((res) => {
+      if (res.event) {
+        if (device) {
+          this.listDevice = this.listDevice.map((item) => {
+            if (item.device_id !== res.data.device_id) return item;
+            return res.data;
+          });
+          this.isChange = true;
+        } else {
+          this.listDevice.push({
+            ...res.data,
+            device_id: `temp_${this.tempDevice}`,
+          });
+          this.tempDevice++;
+          this.isChange = true;
+        }
+      }
+      modalRef.close();
+    });
+  }
+
+  onRemoveDevice(device: any) {
+    Swal.fire({
+      title: 'Chắc chắn muốn xóa khen thưởng/kỉ luật đang chọn?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Xóa',
+      cancelButtonText: 'Hủy',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+    }).then((result) => {
+      if (result.value) {
+        this.listDevice = this.listDevice.filter((item) => item.device_id !== device.device_id);
+        this.isChange = true;
+      }
+    });
+  }
   //#endregion
 
   //#region Private
@@ -854,6 +907,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
     this.listRelative = staff.list_relatives;
     this.listBank = staff.list_bank;
     this.listBonus = staff.list_bonus;
+    this.listDevice = staff.list_devices;
     this.listAttachment = staff.list_attachments;
     this.transformWorkTime(staff.list_staff_work_time);
   }
