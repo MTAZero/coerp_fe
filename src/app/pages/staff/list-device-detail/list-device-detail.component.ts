@@ -32,7 +32,7 @@ export class ListDeviceDetailComponent implements OnInit {
 
   ngOnInit() {
     this.dev_id = this.route.snapshot.paramMap.get('dev_id');
-    // if (this.dev_id === '') this.listView = [false];
+    if (this.dev_id === '') this.listView = [false];
     this._initializeForm();
     this._fetchFilter();
     if (this.dev_id) this._fetchDevice(this.dev_id)

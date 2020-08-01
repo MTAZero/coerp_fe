@@ -8,15 +8,18 @@
   <div class="form-group row mb-3">
     <label class="col-4 col-form-label">Tên vật tư <span>(*)</span></label>
     <div class="col-8">
-      <input
-        class="form-control"
-        formControlName="device_name"
+      <select
+        class="custom-select"
+        formControlName="device_id"
         [ngClass]="{
-          'is-invalid': submitted && formUI.device_name.errors
+          'is-invalid': submitted && form.controls.device_id.errors
         }"
-      />
-      <div *ngIf="submitted && formUI.device_name.errors" class="invalid-feedback">
-        <span *ngIf="formUI.device_name.errors.required">Trường bắt buộc</span>
+      >
+        <option [value]="1">Khen thưởng</option>
+        <option [value]="2">Kỉ luật</option>
+      </select>
+      <div *ngIf="submitted && formUI.device_id.errors" class="invalid-feedback">
+        <span *ngIf="formUI.device_id.errors.required">Trường bắt buộc</span>
       </div>
     </div>
   </div>

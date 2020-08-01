@@ -23,6 +23,8 @@ export class DeviceService {
     pageNumber: number;
     pageSize: number;
     search_name: string;
+    start_date: any;
+    end_date: any;
   }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.get_search, params);
