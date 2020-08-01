@@ -62,11 +62,13 @@ export class CourseService {
     return this.httpClient.get(router.get);
   }
   createTraining(data: any) {
-    return this.httpClient.post(router.create, data);
+    const formData = mapToFormData(data);
+    return this.httpClient.post(router.create, formData);
   }
 
   updateTraining(data?: any) {
-    return this.httpClient.putFormData(router.update, data);
+    const form = mapToFormData(data);
+    return this.httpClient.putFormData(router.update, form);
   }
 
   removeTraining(filter?: { tn_id: number }) {

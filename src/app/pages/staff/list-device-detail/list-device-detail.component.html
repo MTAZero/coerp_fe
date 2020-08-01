@@ -11,8 +11,8 @@
           <div id="1" class="row title-section">
             <h5>Thông tin chung</h5>
           <i
-              [ngClass]="listView[1] ? 'fe-edit ml-2' : 'fe-save ml-2'"
-              (click)="switchViewType(1)"
+              [ngClass]="listView[0] ? 'fe-edit ml-2' : 'fe-save ml-2'"
+              (click)="switchViewType(0)"
             ></i>
 
           </div>
@@ -24,7 +24,7 @@
                   <input
                     class="form-control"
                     formControlName="dev_name"
-                    [readonly]="listView[1]"
+                    [readonly]="listView[0]"
                     [ngClass]="{
                       'is-invalid':
                         submitted && (form.controls.dev_name.errors || errorField === 'dev_name')
@@ -52,7 +52,7 @@
                     <!-- <option value="">Đơn vị</option> -->
                     <option 
                       *ngFor="let unit of units" 
-                      [disabled]="listView[1]"
+                      [disabled]="listView[0]"
                       [value]="unit.id">{{
                       unit.name
                     }}</option>
@@ -77,7 +77,7 @@
                     class="form-control"
                     id="example-number"
                     type="number"
-                    [readonly]="listView[1]"
+                    [readonly]="listView[0]"
                     formControlName="dev_number"
                     style="width: 100%;"
                     [ngClass]="{
@@ -98,7 +98,7 @@
                   <input 
                     class="form-control" 
                     formControlName="dev_note" 
-                    [readonly]="listView[1]"/>
+                    [readonly]="listView[0]"/>
                 </div>
               </div>
             </div>

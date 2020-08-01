@@ -11,8 +11,8 @@
           <div id="1" class="row title-section">
             <h5>Thông tin chung</h5>
           <i
-              [ngClass]="listView[1] ? 'fe-edit ml-2' : 'fe-save ml-2'"
-              
+              [ngClass]="listView[0] ? 'fe-edit ml-2' : 'fe-save ml-2'"
+              (click)="switchViewType(0)"
             ></i>
           </div>
           <div [formGroup]="form">
@@ -23,6 +23,7 @@
                   <input 
                     class="form-control" 
                     formControlName="tn_name"
+                    [readonly]="listView[0]"
                     [ngClass]="{
                       'is-invalid':
                         submitted && (form.controls.tn_name.errors || errorField === 'tn_name')
@@ -32,7 +33,12 @@
                     *ngIf="submitted && (form.controls.tn_name.errors || errorField === 'tn_name')"
                     class="invalid-feedback"
                   >
-                    <span *ngIf="form.controls.tn_name.errors.required">Trường bắt buộc</span>
+                  <div
+                  *ngIf="submitted && submitted && form.controls.tn_name.errors"
+                  class="invalid-feedback"
+                >
+                  <span>Trường bắt buộc</span>
+                  </div>
                   </div>
                 </div>
               </div>
@@ -42,28 +48,29 @@
                   <input 
                     class="form-control" 
                     formControlName="tn_content"
+                    [readonly]="listView[0]"
                     [ngClass]="{
-                      'is-invalid': submitted && form.controls.tn_content.errors
+                      'is-invalid':
+                        submitted && (form.controls.tn_content.errors || errorField === 'tn_content')
                     }" 
                     />
                     <div
-                    *ngIf="submitted && form.controls.tn_content.errors"
+                    *ngIf="submitted && (form.controls.tn_content.errors || errorField === 'tn_content')"
                     class="invalid-feedback"
                   >
-                    <span *ngIf="form.controls.tn_content.errors.required"
-                      >Trường bắt buộc</span
-                    >
+                    <span *ngIf="form.controls.tn_content.errors.required">Trường bắt buộc</span>
                   </div>
                 </div>
               </div>
             </div>
             <div class="form-row">
-              <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Mục tiêu khóa học <span>(*)</span></label>
+              <div class="form-group row mb-3 ">
+                <label class="col-4 col-form-label ">Mục tiêu khóa học <span>(*)</span></label>
                 <div class="col-6">
                   <input 
                     class="form-control" 
                     formControlName="tn_purpose" 
+                    [readonly]="listView[0]"
                     [ngClass]="{
                       'is-invalid': submitted && form.controls.tn_purpose.errors
                     }" 
@@ -79,11 +86,11 @@
                 </div>
               </div>
               <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Đánh giá</label>
+                <!-- <label class="col-4 col-form-label">Đánh giá</label> -->
                 <div class="col-6">
-                  <!-- <input class="form-control" formControlName="" /> -->
-                </div>
-              </div>
+                  <!-- <input class="form-control" formControlName="" />  -->
+                 </div>
+              </div> 
             </div>
             <div class="form-row">
               <div class="form-group row mb-3">
@@ -97,12 +104,27 @@
                       placeholder="Chọn ngày"
                       #start_work="ngbDatepicker"
                       formControlName="tn_start_date"
-                     
+                      [disabled]="listView[0]"
                       [maxDate]="form.value.tn_end_date"
-                     
+                      [ngClass]="{
+                        'is-invalid':
+                          submitted &&
+                        
+                          formProfile.value.tn_start_date === null
+                      }"
                     />
                     <div class="input-group-append" (click)="start_work.toggle()">
                       <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                    </div>
+                    <div
+                      *ngIf="
+                        submitted &&
+                  
+                        formProfile.value.tn_start_date === null
+                      "
+                      class="invalid-feedback"
+                    >
+                      <span>Trường bắt buộc</span>
                     </div>
                   </div>
                 </div>
@@ -118,14 +140,15 @@
                       placeholder="Chọn ngày"
                       #end_work="ngbDatepicker"
                       formControlName="tn_end_date"
+                      [disabled]="listView[0]"
                       [minDate]="form.value.tn_start_date"
-                     
                       [ngClass]="{
                         'is-invalid':
                           submitted &&
-                         
+                        
                           formProfile.value.tn_end_date === null
                       }"
+                     
                     />
                     <div class="input-group-append" (click)="end_work.toggle()">
                       <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>

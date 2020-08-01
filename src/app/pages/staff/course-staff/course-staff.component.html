@@ -122,9 +122,9 @@
               {{training.tn_end_date | date: 'dd/MM/yyyy'}}
             </td>
             <td>
-              {{training.tn_code}}
+              {{training.tn_create_date | date: 'dd/MM/yyyy'}}
             <td>
-              {{training.tn_code}}
+              {{training.tn_create_staff_name}}
             </td>
           </tr>
           <tr *ngIf="trainings?.length === 0">

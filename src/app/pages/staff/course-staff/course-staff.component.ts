@@ -43,6 +43,7 @@ export class CourseStaffComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this._fetchData();
     this._fetchFilter();
+
   }
 
   ngOnDestroy() {

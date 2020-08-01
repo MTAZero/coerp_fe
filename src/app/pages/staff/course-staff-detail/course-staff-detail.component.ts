@@ -22,9 +22,10 @@ import { isUndefined } from 'util';
   styleUrls: ['./course-staff-detail.component.scss']
 })
 export class CourseStaffDetailComponent implements OnInit, OnDestroy {
-  listView = [true, true];
+  listView = [true];
   se_id = null;
   tn_id = '';
+  isView = true;
   menu: any[];
   days: any[];
   private destroyed$ = new Subject();
@@ -53,6 +54,8 @@ export class CourseStaffDetailComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.tn_id = this.route.snapshot.paramMap.get('tn_id');
     this._initializeForm();
+
+    if (this.tn_id === '') this.listView = [false];
     if (this.tn_id) {
       this._fetchTraining(this.tn_id);
     }
@@ -115,7 +118,7 @@ export class CourseStaffDetailComponent implements OnInit, OnDestroy {
     this.form = this.formBuilder.group({
       tn_name: ['', [Validators.required]],
       tn_content: ['', [Validators.required]],
-      tn_start_date: [null, null],
+      tn_start_date: [this._convertDateToNgbDate(new Date(2020, 0, 1)), null],
       tn_end_date: [null, null],
       tn_purpose: ['', [Validators.required]],
      

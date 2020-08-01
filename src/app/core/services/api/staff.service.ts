@@ -17,6 +17,11 @@ const router = {
   search_training: '/api/training/search',
   update_training: '/api/training/update',
   remove_training: '/api/training/delete',
+
+  search_device: '/api/device/search',
+  update_device: '/api/device/update',
+  remove_device: '/api/device/delete',
+
   upload_attachment: '/api/attachment/update_file',
   load_bank_category: '/api/bank_category/getall',
   load_bank: '/api/bank/getall',
@@ -100,6 +105,7 @@ export class StaffService {
     return this.httpClient.get(router.department);
   }
 
+
   searchTraining(filter?: { pageNumber: number; pageSize: number; search_name: string }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.search_training, params);
@@ -113,6 +119,23 @@ export class StaffService {
   removeTraining(filter?: { tn_id: number }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.delete(router.remove_training, params);
+  }
+
+  
+  searchDevice(filter?: { pageNumber: number; pageSize: number; search_name: string, start_date: any;
+    end_date: any; }) {
+    const params = mapToHttpParamsQuery(filter);
+    return this.httpClient.get(router.search_device, params);
+  }
+
+  updateDevice(data?: any) {
+    const form = mapToFormData(data);
+    return this.httpClient.putFormData(router.update_device, form);
+  }
+
+  removeDevice(filter?: { dev_id: number }) {
+    const params = mapToHttpParamsQuery(filter);
+    return this.httpClient.delete(router.remove_device, params);
   }
 
   uploadAttachment(file: any) {

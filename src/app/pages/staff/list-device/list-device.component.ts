@@ -177,7 +177,8 @@ export class ListDeviceComponent implements OnInit {
         pageNumber: this.page - 1,
         pageSize: this.pageSize,
         search_name: this.textSearch,
-        
+        start_date: this._convertNgbDateToDate(this.fromDate),
+        end_date: this._convertNgbDateToDate(this.toDate),
       })
       .pipe(takeUntil(this.destroyed$));
     device$.subscribe((res: any) => {
