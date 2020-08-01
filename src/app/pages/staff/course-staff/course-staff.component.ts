@@ -155,7 +155,8 @@ export class CourseStaffComponent implements OnInit, OnDestroy {
         pageNumber: this.page - 1,
         pageSize: this.pageSize,
         search_name: this.textSearch,
-      
+        start_date: this._convertNgbDateToDate(this.fromDate),
+        end_date: this._convertNgbDateToDate(this.toDate),
       })
       .pipe(takeUntil(this.destroyed$));
     training$.subscribe((res: any) => {

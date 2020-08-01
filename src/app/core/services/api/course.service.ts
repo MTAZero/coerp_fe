@@ -40,6 +40,8 @@ export class CourseService {
     pageNumber: number;
     pageSize: number;
     search_name: string;
+    start_date: any;
+    end_date: any;
   }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.search, params);
