@@ -6,12 +6,15 @@ import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { DeviceService } from 'src/app/core/services/api/device.service';
 import { StaffService } from 'src/app/core/services/api/staff.service';
 import { isUndefined } from 'util';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-device-modal',
   templateUrl: './device-modal.component.html',
   styleUrls: ['./device-modal.component.scss']
 })
 export class DeviceModalComponent implements OnInit {
+  private destroyed$ = new Subject();
   @Input() device: any;
   @Input() listDevice: any;
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
@@ -19,7 +22,7 @@ export class DeviceModalComponent implements OnInit {
   submitted = false;
   listView = [true];
   units: any;
-
+  devices: any;
   constructor(
     public formBuilder: FormBuilder,
     private staffService: StaffService,
@@ -95,6 +98,30 @@ export class DeviceModalComponent implements OnInit {
   //   const bankId = e.id;
   //   this._loadDevice(bankId);
   // }
+  onChangeDevice(e) {
+    const districtId = this.devices.find((item) => item.name === e.target.value).id;
+    this._loadAllDevice(districtId);
+  }
+
+  private _loadAllDevice(deviceId: any, isFirst = false) {
+    const device$ = this.deviceService
+      .loadAllDevice()
+      .pipe(takeUntil(this.destroyed$));
+    device$.subscribe((res: any) => {
+      if (res && res.Data) {
+        this.devices = res.Data;
+
+        if (this.device && isFirst) {
+          this.form.patchValue({ device_name: this.device.device_name });
+         
+        } else {
+          this.form.patchValue({ device_name: res.Data[0].name });
+         
+        }
+      }
+    });
+  }
+
   get formUI() {
     return this.form.controls;
   }

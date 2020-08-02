@@ -1306,7 +1306,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let device of listDevice; let i = index">
+                <tr *ngFor="let device of listNewDevice; let i = index">
                   <td>{{ i + 1 }}</td>
                   <td>
                     {{ device.device_name }}
@@ -1331,7 +1331,7 @@
                     ></a>
                   </td>
                 </tr>
-                <tr *ngIf="!listDevice || listDevice.length === 0">
+                <tr *ngIf="!listNewDevice || listNewDevice.length === 0">
                   <td colspan="9">Không có dữ liệu vật tư</td>
                 </tr>
               </tbody>
