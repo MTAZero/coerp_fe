@@ -12,11 +12,13 @@
         class="custom-select"
         formControlName="device_id"
         [ngClass]="{
-          'is-invalid': submitted && form.controls.device_id.errors
+          'is-invalid': submitted && formUI.device_id.errors
         }"
       >
-        <option [value]="1">Khen thưởng</option>
-        <option [value]="2">Kỉ luật</option>
+        <option *ngFor="let device of devices" [value]="device.name">
+          {{device.name}}
+        </option>
+        
       </select>
       <div *ngIf="submitted && formUI.device_id.errors" class="invalid-feedback">
         <span *ngIf="formUI.device_id.errors.required">Trường bắt buộc</span>
@@ -34,6 +36,7 @@
         'is-invalid':
           submitted && formUI.dev_unit.errors
       }"
+      (change)="onChangeDevice($event)"
     >
       <!-- <option value="">Đơn vị</option> -->
       <option [value]="1">Bộ</option>

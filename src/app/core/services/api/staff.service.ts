@@ -106,7 +106,8 @@ export class StaffService {
   }
 
 
-  searchTraining(filter?: { pageNumber: number; pageSize: number; search_name: string }) {
+  searchTraining(filter?: { pageNumber: number; pageSize: number; search_name: string, start_date: any;
+    end_date: any; }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.search_training, params);
   }
