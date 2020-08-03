@@ -26,6 +26,8 @@ const router = {
   load_bank_category: '/api/bank_category/getall',
   load_bank: '/api/bank/getall',
   load_bank_branch: '/api/bank_branch/getall',
+
+  load_device: '/api/device/getall',
   get: '/api/staff/getall',
   // pending
   create_location: `/api/undertakenLocations/create`,
@@ -149,7 +151,15 @@ export class StaffService {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.load_bank_category, params);
   }
-
+  // loadAllDevice(filter?: { name: string; search: string }) {
+  //   const params = mapToHttpParamsQuery(filter);
+  //   return this.httpClient.get(router.load_device, params);
+  // }
+  loadAllDevice(filter?: {device_id: any}) {
+    const params = mapToHttpParamsQuery(filter);
+    return this.httpClient.get(router.load_device, params);
+  }
+ 
   loadBank(filter?: { bank_category_id: any; name: any; search: any }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.load_bank, params);

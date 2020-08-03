@@ -60,9 +60,9 @@ export class DeviceTabComponent implements OnInit {
     modalRef.componentInstance.passEvent.subscribe((res) => {
       if (res.event) {
         if (device) {
-          this._updateDevice(res.form);
+          this._updateDevice(res.data);
         } else {
-          this._createDevice(res.form);
+          this._createDevice(res.data);
         }
       }
       modalRef.close();

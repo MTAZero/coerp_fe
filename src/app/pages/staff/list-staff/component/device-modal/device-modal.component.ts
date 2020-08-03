@@ -28,7 +28,7 @@ export class DeviceModalComponent implements OnInit {
     private staffService: StaffService,
     private deviceService: DeviceService) {
     this.initializeForm();
-    // this._loadCategory();
+    this.loadAllDevice();
   }
 
   ngOnInit() {
@@ -39,42 +39,33 @@ export class DeviceModalComponent implements OnInit {
 
   onClickSubmit() {
     this.submitted = true;
- 
-    if (this.form.value.device_name.trim() === '')
-      return this.form.controls['device_name'].setErrors({ required: true });
-
-    // if (this.form.value.rels_relatives.trim() === '')
-    //   return this.form.controls['rels_relatives'].setErrors({ required: true });
-
-    if (this.form.value.des_quantity.trim() === '')
-      return this.form.controls['des_quantity'].setErrors({ required: true });
-
-    if (this.form.valid) {
+    
+    if (this.form.valid ) {
       const data = this.form.value;
       data.des_date = this._convertNgbDateToDate(data.des_date);
       this.passEvent.emit({ event: true, data });
     }
   }
-  onChangeEvaluate(event) {
-    console.log(event.target.value);
-    const evaluate = event.target.value;
+  // onChangeEvaluate(event) {
+  //   console.log(event.target.value);
+  //   const evaluate = event.target.value;
 
-    if (evaluate === 1 || evaluate === '1')
-      this.form.patchValue({
-        dev_unit_name: 'Bộ ',
-      });
+  //   if (evaluate === 1 || evaluate === '1')
+  //     this.form.patchValue({
+  //       dev_unit_name: 'Bộ ',
+  //     });
 
-    if (evaluate === 2 || evaluate === '2')
-      this.form.patchValue({
-        dev_unit_name: 'Chiếc',
-      });
+  //   if (evaluate === 2 || evaluate === '2')
+  //     this.form.patchValue({
+  //       dev_unit_name: 'Chiếc',
+  //     });
 
-    if (evaluate === 3 || evaluate === '3')
-      this.form.patchValue({
-        dev_unit_name: 'Cái',
-      });
+  //   if (evaluate === 3 || evaluate === '3')
+  //     this.form.patchValue({
+  //       dev_unit_name: 'Cái',
+  //     });
 
-  }
+  // }
   onClickCancel() {
     if (this.form.dirty) {
       Swal.fire({
@@ -98,12 +89,12 @@ export class DeviceModalComponent implements OnInit {
   //   const bankId = e.id;
   //   this._loadDevice(bankId);
   // }
-  onChangeDevice(e) {
-    const districtId = this.devices.find((item) => item.name === e.target.value).id;
-    this._loadAllDevice(districtId);
-  }
+  // onChangeDevice() {
 
-  private _loadAllDevice(deviceId: any, isFirst = false) {
+  //   this._loadAllDevice();
+  // }
+
+  loadAllDevice() {
     const device$ = this.deviceService
       .loadAllDevice()
       .pipe(takeUntil(this.destroyed$));
@@ -111,13 +102,13 @@ export class DeviceModalComponent implements OnInit {
       if (res && res.Data) {
         this.devices = res.Data;
 
-        if (this.device && isFirst) {
+        if (this.device ) {
           this.form.patchValue({ device_name: this.device.device_name });
-         
-        } else {
-          this.form.patchValue({ device_name: res.Data[0].name });
-         
+        }else{
+          this.form.patchValue({  device_name: res.Data[0].name });
         }
+               
+        
       }
     });
   }
@@ -129,10 +120,11 @@ export class DeviceModalComponent implements OnInit {
   private initializeForm() {
     this.form = this.formBuilder.group({
       device_id: ['temp_0', null],
+    
       device_name: ['', [Validators.required]],
       des_quantity: ['', [Validators.required]],
-      des_note: ['', [Validators.required]],
-      des_unit: ['', [Validators.required]],
+      des_note: ['', null],
+      // des_unit: ['', [Validators.required]],
       des_date: [this._convertDateToNgbDate(new Date()), [Validators.required]],
       // rels_address: ['', [Validators.required]],
     });
@@ -140,6 +132,7 @@ export class DeviceModalComponent implements OnInit {
 
   private patchData(device: any) {
     this.form.patchValue({
+   
       device_id: device.device_id,
       device_name: device.device_name,
       des_quantity: device.des_quantity,
