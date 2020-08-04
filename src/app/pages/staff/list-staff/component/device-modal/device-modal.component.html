@@ -11,21 +11,22 @@
       <select
         class="custom-select"
         formControlName="device_id"
+        class="form-control"
         [ngClass]="{
-          'is-invalid': submitted && formUI.device_id.errors
+          'is-invalid': submitted && form.controls.device_id.errors
         }"
+        (change)="loadAllDevice()"
       >
-        <option *ngFor="let device of devices" [value]="device.name">
-          {{device.name}}
-        </option>
-        
+      <option *ngFor="let device of devices" [value]="device.id">{{
+        device.name
+      }}</option>
       </select>
       <div *ngIf="submitted && formUI.device_id.errors" class="invalid-feedback">
         <span *ngIf="formUI.device_id.errors.required">Trường bắt buộc</span>
       </div>
     </div>
   </div>
-  <div class="form-group row mb-3">
+  <!-- <div class="form-group row mb-3">
     <label class="col-4 col-form-label">Đơn vị <span>(*)</span></label>
     <div class="col-8">
       <select
@@ -38,8 +39,8 @@
       }"
       (change)="onChangeDevice($event)"
     >
-      <!-- <option value="">Đơn vị</option> -->
-      <option [value]="1">Bộ</option>
+       <option value="">Đơn vị</option> -->
+      <!-- <option [value]="1">Bộ</option>
         <option [value]="2">Chiếc</option>
         <option [value]="3">Cái</option>
     </select>
@@ -50,9 +51,9 @@
     <span *ngIf="formUI.dev_unit.errors.required"
       >Trường bắt buộc</span
     >
-  </div>
-    </div>
-  </div>
+  </div> --> 
+    <!-- </div>
+  </div> -->
   <div class="form-group row mb-3">
     <label class="col-4 col-form-label">Số lượng <span>(*)</span></label>
     <div class="col-6">

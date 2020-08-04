@@ -712,8 +712,8 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
     const modalRef = this.modalService.open(DeviceModalComponent, {
       centered: true,
     });
-    // modalRef.componentInstance.listDevice = this.listDevice;
-    modalRef.componentInstance.staffId = this.sta_id;
+    modalRef.componentInstance.listDevice = this.listDevice;
+    // modalRef.componentInstance.staffId = this.sta_id;
     if (device) {
       modalRef.componentInstance.device = device;
     }
@@ -749,7 +749,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
       cancelButtonColor: '#d33',
     }).then((result) => {
       if (result.value) {
-        this.listNewDevice = this.listNewDevice.filter((item) => item.device_id !== device.device_id);
+
         this.listDevice = this.listDevice.filter((item) => item.device_id !== device.device_id);
         this.isChange = true;
       }

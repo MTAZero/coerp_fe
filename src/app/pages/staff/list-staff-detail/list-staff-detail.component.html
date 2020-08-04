@@ -1296,7 +1296,7 @@
                 <tr>
                   <th>STT</th>
                   <th>Tên vật tư</th>
-                  <th>Đơn vị</th>
+                  <!-- <th>Đơn vị</th> -->
                   <th>Số lượng</th>
                   <th>Ngày giao</th>
                   <th>Người giao</th>
@@ -1306,12 +1306,12 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let device of listNewDevice; let i = index">
+                <tr *ngFor="let device of listDevice; let i = index">
                   <td>{{ i + 1 }}</td>
                   <td>
                     {{ device.device_name }}
                   </td>
-                  <td>{{ device.dev_unit_name }}</td>
+                  <!-- <td>{{ device.dev_unit_name }}</td> -->
                   <td>
                     {{ device.des_quantity }}
                   </td>
@@ -1331,7 +1331,7 @@
                     ></a>
                   </td>
                 </tr>
-                <tr *ngIf="!listNewDevice || listNewDevice.length === 0">
+                <tr *ngIf="!listDevice || listDevice.length === 0">
                   <td colspan="9">Không có dữ liệu vật tư</td>
                 </tr>
               </tbody>

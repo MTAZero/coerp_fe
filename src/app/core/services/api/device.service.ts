@@ -30,6 +30,10 @@ export class DeviceService {
     return this.httpClient.get(router.get_search, params);
   }
 
+  // loadAllDevice(filter?: { dev_id: any }) {
+  //   const params = mapToHttpParamsQuery(filter);
+  //   return this.httpClient.get(router.get_dropdown, params);
+  // }
   loadDevice(filter?: { dev_id: any }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.get_by_id, params);
