@@ -94,7 +94,7 @@ export class DeviceModalComponent implements OnInit {
   //   this._loadAllDevice();
   // }
 
-  loadAllDevice() {
+  loadAllDevice(isFirst = false) {
     const device$ = this.deviceService
       .loadAllDevice()
       .pipe(takeUntil(this.destroyed$));
@@ -104,6 +104,9 @@ export class DeviceModalComponent implements OnInit {
 
         if (this.device) {
           this.form.patchValue({ device_name: this.device.device_name });
+        }
+        if (this.device && isFirst) {
+          // this.form.patchValue({ device_name: this.device.device_name });
         }else{
           this.form.patchValue({  device_name: res.Data[0].name });
         }
@@ -119,8 +122,8 @@ export class DeviceModalComponent implements OnInit {
 
   private initializeForm() {
     this.form = this.formBuilder.group({
-      device_id: ['temp_0', null],
-    
+      dev_id: ['temp_0', null],
+      device_id: [null, null],
       device_name: ['', [Validators.required]],
       des_quantity: ['', [Validators.required]],
       des_note: ['', null],
@@ -132,7 +135,7 @@ export class DeviceModalComponent implements OnInit {
 
   private patchData(device: any) {
     this.form.patchValue({
-   
+      dev_id: device.dev_id,
       device_id: device.device_id,
       device_name: device.device_name,
       des_quantity: device.des_quantity,

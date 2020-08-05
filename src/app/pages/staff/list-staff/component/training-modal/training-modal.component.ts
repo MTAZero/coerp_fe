@@ -4,6 +4,9 @@ import Swal from 'sweetalert2';
 import * as moment from 'moment';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { isUndefined } from 'util';
+import { CourseService } from 'src/app/core/services/api/course.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-training-modal',
@@ -11,14 +14,18 @@ import { isUndefined } from 'util';
   styleUrls: ['./training-modal.component.scss'],
 })
 export class TrainingModalComponent implements OnInit {
+  private destroyed$ = new Subject();
   @Input() training: any;
   @Input() fromList: any;
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
   form: FormGroup;
   submitted = false;
-
-  constructor(public formBuilder: FormBuilder) {
+  trainings: any;
+  constructor(
+    public formBuilder: FormBuilder,
+    public courseService: CourseService) {
     this.initializeForm();
+    this._loadTraining();
   }
 
   ngOnInit() {
@@ -43,7 +50,31 @@ export class TrainingModalComponent implements OnInit {
       this.passEvent.emit({ event: true, data });
     }
   }
+  // onChangeTraining(e) {
+  //   const trainingId = e.id;
+  //   this._loadTraining(trainingId);
+  // }
+  _loadTraining() {
+    const training$ = this.courseService
+      .loadTraining({ name: '', search: ''})
+      .pipe(takeUntil(this.destroyed$));
+    training$.subscribe((res: any) => {
+      if (res && res.Data) {
+        this.trainings = res.Data;
 
+        if (this.training) {
+          // // this._loadBranch(this.bank.bank_id, true);
+          // this.form.patchValue({ tn_name: this.training.tn_name });
+        } else {
+          this.form.patchValue({
+            // tn_id: res.Data[0].id,
+            tn_name: res.Data[0].name
+          });
+          // this._loadBranch(res.Data[0].id);
+        }
+      }
+    });
+  }
   onChangeEvaluate(event) {
     console.log(event.target.value);
     const evaluate = event.target.value;

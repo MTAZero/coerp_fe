@@ -21,6 +21,9 @@
                   </select>
       <div *ngIf="submitted && formUI.dev_id.errors" class="invalid-feedback">
         <span *ngIf="formUI.dev_id.errors.required">Trường bắt buộc</span>
+    
+      <div *ngIf="submitted && formUI.device_id.errors" class="invalid-feedback">
+        <span *ngIf="formUI.device_id.errors.required">Trường bắt buộc</span>
       </div>
     </div>
   </div>
