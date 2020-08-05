@@ -94,7 +94,7 @@ export class DeviceModalComponent implements OnInit {
   //   this._loadAllDevice();
   // }
 
-  private loadAllDevice(isFirst = false) {
+  loadAllDevice(isFirst = false) {
     const device$ = this.deviceService
       .loadAllDevice()
       .pipe(takeUntil(this.destroyed$));
