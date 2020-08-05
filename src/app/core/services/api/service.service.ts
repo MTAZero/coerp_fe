@@ -16,8 +16,10 @@ const router = {
   create_service: `/api/service/create`,
   update_service: `/api/service/update`,
   delete_service: `/api/service/delete`,
+
   get_category: '/api/service/get_category',
   get_type: '/api/service/get_type',
+  
   export_service: '/api/customer_order_service/export',
   import_service: '/api/customer_order_service/import',
   export_template_service: '/api/customer_order_service/export_template',
@@ -37,7 +39,8 @@ export class ServiceService {
   searchService(filter?: { 
     pageSize: number; 
     pageNumber: number; 
-    search_name: string }) {
+    search_name: string;
+  }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.search_service, params);
   }

@@ -24,6 +24,7 @@
   <table class="table table-centered table-hover mb-0">
     <thead>
       <tr>
+        <th>STT</th>
         <th>Mã đào tạo</th>
         <th>Tên CTĐT</th>
         <th>Nội dung đào tạo</th>
@@ -35,12 +36,14 @@
     </thead>
     <tbody>
       <tr
-        *ngFor="let training of listTraining"
+        *ngFor="let training of listTraining; let i = index"
+        
         (click)="onClickTraining(training)"
         [ngClass]="{
           'is-selected': training.tn_id === selectedTraining?.tn_id
         }"
       >
+      <td>{{ i + 1 }}</td>
         <td>
           {{ training.tn_code }}
         </td>

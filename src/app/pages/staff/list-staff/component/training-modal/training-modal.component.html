@@ -19,6 +19,8 @@
       class="custom-select"
       formControlName="tn_id"
       class="form-control"
+      name="searchTraining"
+      [(ngModel)]="searchTraining"
       [ngClass]="{ 'is-invalid': submitted && formUI.tn_id.errors }"
       (change)="_loadTraining()"
     >
@@ -37,6 +39,7 @@
       <input
         class="form-control"
         formControlName="tn_content"
+      
         [ngClass]="{
           'is-invalid': submitted && form.controls.tn_content.errors
         }"

@@ -79,6 +79,8 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
     pageNumber: 0,
     pageSize: 100,
     search_name: '',
+    start_date: '',
+    end_date: '',
   };
 
   constructor(

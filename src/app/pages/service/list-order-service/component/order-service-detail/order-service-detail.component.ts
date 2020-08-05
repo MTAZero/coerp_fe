@@ -65,6 +65,7 @@ export class OrderServiceDetailComponent implements OnInit {
     pageNumber: 0,
     pageSize: 100,
     search_name: '',
+   
   };
 
   formCustomer: FormGroup;

@@ -59,10 +59,10 @@ export class CourseService {
 //   exportTemplate() {
 //     return this.httpClient.get(router.export_template);
 //   }
-  loadTraining(filter?: { name: string; search: string }){
+  loadTraining(){
     // const params = mapToHttpParamsQuery(filter);
-    const params = mapToHttpParamsQuery(filter);
-    return this.httpClient.get(router.get, params);
+   
+    return this.httpClient.get(router.get);
   }
   createTraining(data: any) {
     const formData = mapToFormData(data);

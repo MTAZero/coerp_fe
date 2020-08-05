@@ -21,6 +21,7 @@ export class TrainingModalComponent implements OnInit {
   form: FormGroup;
   submitted = false;
   trainings: any;
+  searchTraining = '';
   constructor(
     public formBuilder: FormBuilder,
     public courseService: CourseService) {
@@ -56,16 +57,18 @@ export class TrainingModalComponent implements OnInit {
   // }
   _loadTraining() {
     const training$ = this.courseService
-      .loadTraining({ name: '', search: ''})
+      .loadTraining()
       .pipe(takeUntil(this.destroyed$));
     training$.subscribe((res: any) => {
       if (res && res.Data) {
         this.trainings = res.Data;
 
         if (this.training) {
+          this.form.patchValue({ tn_name: this.training.tn_name });
           // // this._loadBranch(this.bank.bank_id, true);
           // this.form.patchValue({ tn_name: this.training.tn_name });
-        } else {
+        }
+        else {
           this.form.patchValue({
             // tn_id: res.Data[0].id,
             tn_name: res.Data[0].name
