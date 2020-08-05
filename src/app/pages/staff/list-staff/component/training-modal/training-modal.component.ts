@@ -54,7 +54,7 @@ export class TrainingModalComponent implements OnInit {
   //   const trainingId = e.id;
   //   this._loadTraining(trainingId);
   // }
-  private _loadTraining() {
+  _loadTraining() {
     const training$ = this.courseService
       .loadTraining({ name: '', search: ''})
       .pipe(takeUntil(this.destroyed$));
