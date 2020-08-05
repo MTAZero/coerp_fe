@@ -5,6 +5,7 @@ import { ServiceService } from '../../../core/services/api/service.service';
 import Swal from 'sweetalert2';
 import { isNullOrUndefined } from 'util';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-list-service',
@@ -13,7 +14,7 @@ import { Router } from '@angular/router';
 })
 export class ListServiceComponent implements OnInit, OnDestroy {
   private destroyed$ = new Subject();
-
+  submitted: boolean;
   textSearch = '';
   page = 1;
   pageSize = 10;
@@ -22,7 +23,10 @@ export class ListServiceComponent implements OnInit, OnDestroy {
   selectedService = null;
   services: any[];
 
-  constructor(private serviceService: ServiceService, private router: Router) {}
+  constructor(
+    private serviceService: ServiceService, 
+    private router: Router,
+    private modalService: NgbModal) {}
   ngOnInit() {
     this._fetchData();
   }
@@ -45,9 +49,10 @@ export class ListServiceComponent implements OnInit, OnDestroy {
   }
 
   onRouteDetail(service?: any) {
-    this.router.navigate(['/service/list-service-detail', service ? service.se_id : '']);
+    this.router.navigate([
+      '/service/list-service-detail', service ? service.se_id : '']);
   }
-
+  
   openConfirmModal(service?: any) {
     Swal.fire({
       title: 'Chắc chắn muốn xóa dịch vụ đang chọn?',
@@ -108,7 +113,8 @@ export class ListServiceComponent implements OnInit, OnDestroy {
         this.services = res.Data.Results;
 
         if (selected) {
-          this.selectedService = this.services.find((item) => item.se_id === selected.se_id);
+          this.selectedService = this.services.find(
+            (item) => item.se_id === selected.se_id);
         } else {
           this.selectedService = this.services[0];
         }

@@ -15,6 +15,7 @@ export class DeviceTabComponent implements OnInit {
   @Input() listDevice: any[];
   @Input() deviceId: any;
   @Input() staffId: any;
+  
   @Output() formSubmit: EventEmitter<any> = new EventEmitter();
   selectedDevice = null;
 
@@ -23,13 +24,11 @@ export class DeviceTabComponent implements OnInit {
     private deviceService: DeviceService) {}
 
   ngOnInit() {
-    // if (this.listDevice) {
-    //   this.patchData(this.listDevice);
-    // }
+    
   }
 
   ngOnChanges() {
-    if (!this.staffId) this.selectedDevice = null;
+    if (this.staffId) this.selectedDevice = null;
     if (this.selectedDevice)
       this.selectedDevice = this.listDevice.filter(
         (item) => item.device_id === this.selectedDevice.device_id
@@ -40,7 +39,9 @@ export class DeviceTabComponent implements OnInit {
     if (isNullOrUndefined(this.selectedDevice)) {
       this.selectedDevice = device;
     } else {
-      if (this.selectedDevice.device_id !== device.device_id) {
+      if (this.selectedDevice.device_id !== device.device_id
+        
+       ) {
         this.selectedDevice = device;
       } else {
         this.selectedDevice = null;
@@ -52,7 +53,7 @@ export class DeviceTabComponent implements OnInit {
     const modalRef = this.modalService.open(DeviceModalComponent, {
       centered: true,
     });
-    // modalRef.componentInstance.staffId = this.staffId;
+  
     modalRef.componentInstance.listDevice = this.listDevice;
     if (device) {
       modalRef.componentInstance.device = device;

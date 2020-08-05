@@ -39,7 +39,7 @@
         *ngFor="let device of listDevice; let i = index"
         (click)="onClickDevice(device)"
         [ngClass]="{
-          'is-selected': device.device_id === selectedDevice?.device_id
+          'is-selected': device.device_id === selectedDevice?.device_id 
         }"
       >
         <td>
@@ -66,9 +66,7 @@
         <td>
           {{ device.des_note }}
         </td>
-        <!-- <td>
-          {{ device.dev_note }}
-        </td> -->
+      
       </tr>
       <tr *ngIf="!listDevice || listDevice.length === 0">
         <td colspan="7">Không có dữ liệu vật tư</td>

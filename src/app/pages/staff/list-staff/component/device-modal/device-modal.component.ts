@@ -20,8 +20,8 @@ export class DeviceModalComponent implements OnInit {
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
   form: FormGroup;
   submitted = false;
-  listView = [true];
-  units: any;
+  
+  dev: any;
   devices: any;
   constructor(
     public formBuilder: FormBuilder,
@@ -102,7 +102,7 @@ export class DeviceModalComponent implements OnInit {
       if (res && res.Data) {
         this.devices = res.Data;
 
-        if (this.device ) {
+        if (this.device) {
           this.form.patchValue({ device_name: this.device.device_name });
         }else{
           this.form.patchValue({  device_name: res.Data[0].name });
@@ -137,7 +137,7 @@ export class DeviceModalComponent implements OnInit {
       device_name: device.device_name,
       des_quantity: device.des_quantity,
       des_note: device.des_note,
-      des_unit: device.des_unit,
+  
       des_date: this._convertDateToNgbDate(device.des_date),
       // rels_address: device.rels_address,
     });

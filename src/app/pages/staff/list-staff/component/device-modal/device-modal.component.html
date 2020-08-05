@@ -10,19 +10,17 @@
     <div class="col-8">
       <select
         class="custom-select"
-        formControlName="device_name"
+        formControlName="dev_id"
         class="form-control"
-        [ngClass]="{
-          'is-invalid': submitted && form.controls.device_name.errors
-        }"
         (change)="loadAllDevice()"
       >
-      <option *ngFor="let device of devices" [value]="device.name">{{
-        device.name
-      }}</option>
-      </select>
-      <div *ngIf="submitted && formUI.device_name.errors" class="invalid-feedback">
-        <span *ngIf="formUI.device_name.errors.required">Trường bắt buộc</span>
+      <option
+        *ngFor="let device of devices"
+        [value]="dev.id"
+        >{{ device.name }}</option>
+                  </select>
+      <div *ngIf="submitted && formUI.dev_id.errors" class="invalid-feedback">
+        <span *ngIf="formUI.dev_id.errors.required">Trường bắt buộc</span>
       </div>
     </div>
   </div>
@@ -61,7 +59,7 @@
         class="form-control"
         id="example-number"
         type="number"
-        [readonly]="listView[1]"
+        
         formControlName="des_quantity"
         style="width: 100%;"
         [ngClass]="{
@@ -107,7 +105,7 @@
       <input 
         class="form-control" 
         formControlName="des_note" 
-        [readonly]="listView[1]"/>
+        />
     </div>
   </div>
   <div class="text-right mt-3">

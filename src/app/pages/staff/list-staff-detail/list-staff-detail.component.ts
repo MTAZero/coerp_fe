@@ -713,7 +713,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
       centered: true,
     });
     modalRef.componentInstance.listDevice = this.listDevice;
-    // modalRef.componentInstance.staffId = this.sta_id;
+    modalRef.componentInstance.staffId = this.sta_id;
     if (device) {
       modalRef.componentInstance.device = device;
     }

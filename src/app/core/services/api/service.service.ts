@@ -10,6 +10,7 @@ const router = {
   delete_order_service: '/api/customer_order_service/delete',
   gen_work_time: '/api/customer_order_service/gen_work_time',
   get_free_staff: '/api/customer_order_service/get_staffs_free',
+
   info_service: '/api/service/get_by_id',
   search_service: `/api/service/search`,
   create_service: `/api/service/create`,
@@ -33,7 +34,10 @@ export class ServiceService {
     return this.httpClient.get(router.info_service, params);
   }
 
-  searchService(filter?: { pageSize: number; pageNumber: number; search_name: string }) {
+  searchService(filter?: { 
+    pageSize: number; 
+    pageNumber: number; 
+    search_name: string }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.search_service, params);
   }
@@ -44,8 +48,8 @@ export class ServiceService {
   }
 
   updateService(data?: any) {
-    const formData = mapToFormData(data);
-    return this.httpClient.putFormData(router.update_service, formData);
+    const form = mapToFormData(data);
+    return this.httpClient.putFormData(router.update_service, form);
   }
 
   removeService(filter?: { serviceId: number }) {

@@ -124,7 +124,8 @@ export class ListServiceDetailComponent implements OnInit, OnDestroy {
   }
 
   private _createService(data: any) {
-    const createService$ = this.serviceService.createService(data).pipe(takeUntil(this.destroyed$));
+    const createService$ = this.serviceService.
+    createService(data).pipe(takeUntil(this.destroyed$));
     createService$.subscribe(
       (res: any) => {
         if (res && res.Code === 200) {
