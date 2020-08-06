@@ -19,7 +19,7 @@ const router = {
 
   get_category: '/api/service/get_category',
   get_type: '/api/service/get_type',
-  
+  get_unit: '/api/service/get_unit',
   export_service: '/api/customer_order_service/export',
   import_service: '/api/customer_order_service/import',
   export_template_service: '/api/customer_order_service/export_template',
@@ -66,6 +66,9 @@ export class ServiceService {
 
   getType() {
     return this.httpClient.get(router.get_type);
+  }
+  getUnit() {
+    return this.httpClient.get(router.get_unit);
   }
 
   getCalendar(filter?: { start_date: any; to_date: any }) {

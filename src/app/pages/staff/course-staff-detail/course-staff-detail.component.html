@@ -25,16 +25,15 @@
                     formControlName="tn_name"
                     [readonly]="listView[0]"
                     [ngClass]="{
-                      'is-invalid':
-                        submitted && (form.controls.tn_name.errors || errorField === 'tn_name')
+                      'is-invalid': submitted && (form.controls.tn_name.errors)
                     }"
                   />
                   <div
-                    *ngIf="submitted && (form.controls.tn_name.errors || errorField === 'tn_name')"
+                    *ngIf="submitted && (form.controls.tn_name.errors)"
                     class="invalid-feedback"
                   >
                  
-                  <span *ngIf="form.controls.tn_name.errors.required">Trường bắt buộc</span>
+                  <span >Trường bắt buộc</span>
                   </div>
                   </div>
                 </div>
@@ -52,7 +51,7 @@
                     }" 
                     />
                     <div
-                    *ngIf="submitted && (form.controls.dev_name.errors)"
+                    *ngIf="submitted && (form.controls.tn_content.errors)"
                     class="invalid-feedback"
                   >
                     <span>Trường bắt buộc</span>
@@ -74,26 +73,13 @@
                       formControlName="tn_start_date"
                       [disabled]="listView[0]"
                       [maxDate]="form.value.tn_end_date"
-                      [ngClass]="{
-                        'is-invalid':
-                          submitted &&
-                        
-                          formProfile.value.tn_start_date === null
-                      }"
                     />
                     <div class="input-group-append" (click)="start_work.toggle()">
                       <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
                     </div>
-                    <div
-                      *ngIf="
-                        submitted &&
-                  
-                        formProfile.value.tn_start_date === null
-                      "
-                      class="invalid-feedback"
-                    >
+                    <!-- <div                    >
                       <span>Trường bắt buộc</span>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
               </div>
@@ -110,27 +96,19 @@
                       formControlName="tn_end_date"
                       [disabled]="listView[0]"
                       [minDate]="form.value.tn_start_date"
-                      [ngClass]="{
-                        'is-invalid':
-                          submitted &&
-                        
-                          formProfile.value.tn_end_date === null
-                      }"
-                     
                     />
                     <div class="input-group-append" (click)="end_work.toggle()">
                       <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
                     </div>
-                    <div
+                    <!-- <div
                       *ngIf="
                         submitted &&
-                      
                         formProfile.value.tn_end_date === null
                       "
                       class="invalid-feedback"
                     >
                       <span>Trường bắt buộc</span>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
               </div>
@@ -151,7 +129,7 @@
                     *ngIf="submitted && form.controls.tn_purpose.errors"
                     class="invalid-feedback"
                   >
-                    <span *ngIf="form.controls.tn_purpose.errors.required"
+                    <span
                       >Trường bắt buộc</span
                     >
                   </div>

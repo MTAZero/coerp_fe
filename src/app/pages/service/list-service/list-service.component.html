@@ -48,6 +48,7 @@
             <th>STT</th>
             <th>Mã dịch vụ</th>
             <th>Tên dịch vụ</th>
+            <th>Đơn vị</th>
             <th>Kiểu dịch vụ</th>
             <th>Giá dịch vụ</th>
             <th>Giảm giá (%)</th>
@@ -84,6 +85,9 @@
                   (change)="readURL($event)"
               /></span> -->
               {{ service.se_name }}
+            </td>
+            <td>
+              {{ service.se_unit_name}}
             </td>
             <td>
               {{ service.se_type_name }}

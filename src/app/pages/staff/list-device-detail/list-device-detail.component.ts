@@ -32,10 +32,13 @@ export class ListDeviceDetailComponent implements OnInit {
 
   ngOnInit() {
     this.dev_id = this.route.snapshot.paramMap.get('dev_id');
-    if (this.dev_id === '') this.listView = [false];
     this._initializeForm();
+    if (this.dev_id === '') this.listView = [false];
+    
     this._fetchFilter();
-    if (this.dev_id) this._fetchDevice(this.dev_id)
+    if (this.dev_id){
+      this._fetchDevice(this.dev_id);
+    } 
   }
   ngOnDestroy() {
     this.destroyed$.next();
@@ -64,7 +67,7 @@ export class ListDeviceDetailComponent implements OnInit {
     this.form = this.formBuilder.group({
       dev_name: ['', [Validators.required]],
       dev_number: ['', [Validators.required]],
-      dev_unit: [1, [Validators.required]],
+      dev_unit: ['', [Validators.required]],
       dev_note: ['', null],
     });
   }

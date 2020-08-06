@@ -14,7 +14,9 @@
                   'is-invalid': submitted && form.controls.se_type.errors
                 }"
               >
-                <option *ngFor="let type of types" [value]="type.id">{{ type.name }}</option>
+                <option 
+                  *ngFor="let type of types" 
+                  [value]="type.id">{{ type.name }}</option>
               </select>
               <div *ngIf="submitted && form.controls.se_type.errors" class="invalid-feedback">
                 <span *ngIf="form.controls.se_type.errors.required">Trường bắt buộc</span>
@@ -27,12 +29,13 @@
               <input
                 class="form-control"
                 formControlName="se_name"
+                style="width: 100%;"
                 [ngClass]="{
                   'is-invalid': submitted && form.controls.se_name.errors
                 }"
               />
               <div *ngIf="submitted && form.controls.se_name.errors" class="invalid-feedback">
-                <span *ngIf="form.controls.se_name.errors.required">Trường bắt buộc</span>
+                <span>Trường bắt buộc</span>
               </div>
             </div>
           </div>
@@ -64,6 +67,34 @@
             </div>
           </div>
           <div class="form-group row mb-3">
+            <label class="col-4 col-form-label">Đơn vị <span>(*)</span></label>
+            <div class="col-6">
+              <select
+                class="custom-select"
+                formControlName="se_unit"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid': submitted && form.controls.se_unit.errors
+                }"
+              >
+                <option *ngFor="let unit of units" [value]="unit.id">{{
+                  unit.name
+                }}</option>
+              </select>
+              <div
+                *ngIf="submitted && form.controls.se_unit.errors"
+                class="invalid-feedback"
+              >
+                <span *ngIf="form.controls.se_unit.errors.required"
+                  >Trường bắt buộc</span
+                >
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        <div class="form-row">
+          <div class="form-group row mb-3">
             <label class="col-4 col-form-label">Giá <span>(*)</span></label>
             <div class="col-6">
               <input
@@ -71,7 +102,7 @@
                 type="number"
                 formControlName="se_price"
                 [ngClass]="{
-                  'is-invalid': submitted && form.controls.se_price.errors
+                  'is-invalid': submitted && (form.controls.se_price.errors || errorField === 'se_price')
                 }"
               />
               <div *ngIf="submitted && form.controls.se_price.errors" class="invalid-feedback">
@@ -79,20 +110,30 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="form-row">
           <div class="form-group row mb-3">
             <label class="col-4 col-form-label">Giảm giá (%)</label>
             <div class="col-6">
               <input class="form-control" type="number" formControlName="se_saleoff" />
             </div>
           </div>
+         
+        </div>
+
+        <div class="form-row" >
+          
           <div class="form-group row mb-3">
             <label class="col-4 col-form-label">Mô tả</label>
             <div class="col-6">
               <input class="form-control" formControlName="se_description" />
             </div>
           </div>
+          <div class="form-group row mb-3">
+            
+            <div class="col-6">
+             
+            </div>
+          </div>
+         
         </div>
       </div>
       <div class="row justify-content-end mr-2">

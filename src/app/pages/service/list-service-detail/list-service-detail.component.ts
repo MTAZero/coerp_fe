@@ -19,7 +19,7 @@ export class ListServiceDetailComponent implements OnInit, OnDestroy {
 
   types: any;
   categories: any;
-
+  units: any;
   form: FormGroup;
 
   constructor(
@@ -88,6 +88,7 @@ export class ListServiceDetailComponent implements OnInit, OnDestroy {
       se_price: ['', [Validators.required]],
       se_saleoff: ['', null],
       se_type: ['', [Validators.required]],
+      se_unit: ['', [Validators.required]],
     });
   }
 
@@ -100,6 +101,10 @@ export class ListServiceDetailComponent implements OnInit, OnDestroy {
     const category$ = this.serviceService.getCategory().pipe(takeUntil(this.destroyed$));
     category$.subscribe((res: any) => {
       this.categories = res.Data;
+    });
+    const unit$ = this.serviceService.getUnit().pipe(takeUntil(this.destroyed$));
+    unit$.subscribe((res: any) => {
+      this.units = res.Data;
     });
   }
 
@@ -120,6 +125,7 @@ export class ListServiceDetailComponent implements OnInit, OnDestroy {
       se_price: service.se_price,
       se_saleoff: service.se_saleoff,
       se_type: service.se_type,
+      se_unit: service.se_unit,
     });
   }
 
