@@ -74,6 +74,7 @@
                 <label class="col-4 col-form-label">Số lượng <span>(*)</span></label>
                 <div class="col-6">
                   <input
+                    onlyNumber
                     class="form-control"
                     id="example-number"
                     type="number"
@@ -88,7 +89,8 @@
                     *ngIf="submitted && form.controls.dev_number.errors"
                     class="invalid-feedback"
                   >
-                    <span>Trường bắt buộc</span>
+                    <span  *ngIf="form.controls.dev_number.errors.required ">Trường bắt buộc</span>
+                    <span *ngIf="form.controls.dev_number.errors.patterns ">Title is required</span>
                   </div>
                 </div>
               </div>

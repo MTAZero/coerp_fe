@@ -15,98 +15,90 @@
           'is-invalid': submitted && form.controls.tn_name.errors
         }"
       /> -->
-      <select
-      class="custom-select"
-      formControlName="tn_id"
-      class="form-control"
-      name="searchTraining"
-      [(ngModel)]="searchTraining"
-      [ngClass]="{ 'is-invalid': submitted && formUI.tn_id.errors }"
-      (change)="_loadTraining()"
-    >
-      <option *ngFor="let trainn of trainings" [value]="trainn.id">{{
-        trainn.name
-      }}</option>
-    </select>
+      <ng-select
+        [ngModelOptions]="{ standalone: true }"
+        [items]="trainings"
+        bindLabel="tn_name"
+        bindValue="tn_id"
+        name="searchTraining"
+       
+        [(ngModel)]="searchTraining"
+        (change)="onChangeTraining($event)"
+      >
+    </ng-select>
       <div *ngIf="submitted && form.controls.tn_id.errors" class="invalid-feedback">
         <span *ngIf="form.controls.tn_id.errors.required">Trường bắt buộc</span>
       </div>
     </div>
   </div>
-  <div class="form-group row mb-3">
+  
+  <div>
+    <div class="form-group row mb-3">
     <label class="col-4 col-form-label">Nội dung khóa học <span>(*)</span></label>
     <div class="col-8">
       <input
         class="form-control"
         formControlName="tn_content"
-      
-        [ngClass]="{
-          'is-invalid': submitted && form.controls.tn_content.errors
-        }"
+        readonly="true"
       />
-      <div *ngIf="submitted && form.controls.tn_content.errors" class="invalid-feedback">
-        <span *ngIf="form.controls.tn_content.errors.required">Trường bắt buộc</span>
-      </div>
     </div>
   </div>
-  <div class="form-group row mb-3">
-    <label class="col-4 col-form-label">Từ ngày <span>(*)</span></label>
-    <div class="col-8">
-      <div class="input-group clockpicker mb-2 mr-1">
-        <input
-          ngbDatepicker
-          readonly="true"
-          class="form-control"
-          placeholder="yyyy-mm-dd"
-          #from="ngbDatepicker"
-          name="from"
-          [maxDate]="form.value.tn_end_date"
-          formControlName="tn_start_date"
-          [ngClass]="{
-            'is-invalid': submitted && form.controls.tn_start_date.errors
-          }"
-        />
-        <div class="input-group-append" (click)="from.toggle()">
-          <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-        </div>
-        <div *ngIf="submitted && form.controls.tn_start_date.errors" class="invalid-feedback">
-          <span *ngIf="form.controls.tn_start_date.errors.required">Trường bắt buộc</span>
+    <div class="form-group row mb-3">
+      <label class="col-4 col-form-label">Từ ngày <span>(*)</span></label>
+      <div class="col-8">
+        <div class="input-group clockpicker mb-2 mr-1">
+          <input
+            ngbDatepicker
+            readonly="true"
+            class="form-control"
+            placeholder="yyyy-mm-dd"
+            #from="ngbDatepicker"
+            name="from"
+            [maxDate]="form.value.tn_end_date"
+            formControlName="tn_start_date"
+           
+          />
+          <div class="input-group-append" (click)="from.toggle()">
+            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+          </div>
+          <!-- <div *ngIf="submitted && form.controls.tn_start_date.errors" class="invalid-feedback">
+            <span *ngIf="form.controls.tn_start_date.errors.required">Trường bắt buộc</span>
+          </div> -->
         </div>
       </div>
     </div>
-  </div>
-  <div class="form-group row mb-3">
-    <label class="col-4 col-form-label">Đến ngày <span>(*)</span></label>
-    <div class="col-8">
-      <div class="input-group clockpicker mb-2">
-        <input
-          ngbDatepicker
-          readonly="true"
-          class="form-control"
-          placeholder="yyyy-mm-dd"
-          #to="ngbDatepicker"
-          name="to"
-          [minDate]="form.value.tn_start_date"
-          formControlName="tn_end_date"
-          [ngClass]="{
-            'is-invalid': submitted && form.controls.tn_end_date.errors
-          }"
-        />
-        <div class="input-group-append" (click)="to.toggle()">
-          <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-        </div>
-        <div *ngIf="submitted && form.controls.tn_end_date.errors" class="invalid-feedback">
-          <span *ngIf="form.controls.tn_end_date.errors.required">Trường bắt buộc</span>
+    <div class="form-group row mb-3">
+      <label class="col-4 col-form-label">Đến ngày <span>(*)</span></label>
+      <div class="col-8">
+        <div class="input-group clockpicker mb-2">
+          <input
+            ngbDatepicker
+            readonly="true"
+            class="form-control"
+            placeholder="yyyy-mm-dd"
+            #to="ngbDatepicker"
+            name="to"
+            [minDate]="form.value.tn_start_date"
+            formControlName="tn_end_date"
+          
+          />
+          <div class="input-group-append" (click)="to.toggle()">
+            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+          </div>
+          <!-- <div *ngIf="submitted && form.controls.tn_end_date.errors" class="invalid-feedback">
+            <span *ngIf="form.controls.tn_end_date.errors.required">Trường bắt buộc</span>
+          </div> -->
         </div>
       </div>
     </div>
-  </div>
-  <div class="form-group row mb-3">
-    <label class="col-4 col-form-label">Mục đích khóa học</label>
-    <div class="col-8">
-      <input class="form-control" formControlName="tn_purpose" />
+    <div class="form-group row mb-3">
+      <label class="col-4 col-form-label">Mục đích khóa học</label>
+      <div class="col-8">
+        <input class="form-control" formControlName="tn_purpose" />
+      </div>
     </div>
   </div>
+ 
   <div class="form-group row mb-3" *ngIf="!fromList">
     <label class="col-4 col-form-label">Đánh giá khóa học</label>
     <div class="col-8">

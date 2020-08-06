@@ -46,26 +46,7 @@ export class DeviceModalComponent implements OnInit {
       this.passEvent.emit({ event: true, data });
     }
   }
-  // onChangeEvaluate(event) {
-  //   console.log(event.target.value);
-  //   const evaluate = event.target.value;
-
-  //   if (evaluate === 1 || evaluate === '1')
-  //     this.form.patchValue({
-  //       dev_unit_name: 'Bộ ',
-  //     });
-
-  //   if (evaluate === 2 || evaluate === '2')
-  //     this.form.patchValue({
-  //       dev_unit_name: 'Chiếc',
-  //     });
-
-  //   if (evaluate === 3 || evaluate === '3')
-  //     this.form.patchValue({
-  //       dev_unit_name: 'Cái',
-  //     });
-
-  // }
+  
   onClickCancel() {
     if (this.form.dirty) {
       Swal.fire({
