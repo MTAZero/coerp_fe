@@ -118,9 +118,10 @@ export class CourseStaffDetailComponent implements OnInit, OnDestroy {
     this.form = this.formBuilder.group({
       tn_name: ['', [Validators.required]],
       tn_content: ['', [Validators.required]],
+      tn_purpose: ['', [Validators.required]],
       tn_start_date: [this._convertDateToNgbDate(new Date(2020, 0, 1)), null],
       tn_end_date: [null, null],
-      tn_purpose: ['', [Validators.required]],
+      
      
     });
   }
@@ -152,8 +153,7 @@ export class CourseStaffDetailComponent implements OnInit, OnDestroy {
       tn_content: training.tn_content,
       tn_start_date: this._convertDateToNgbDate(training.tn_start_date),
       tn_end_date: this._convertDateToNgbDate(training.tn_end_date),
-      tn_purpose: training.tn_purpose,
-     
+      tn_purpose: training.tn_purpose
     });
   }
 

@@ -42,7 +42,7 @@ export class CourseStaffComponent implements OnInit, OnDestroy {
   ) {}
   ngOnInit() {
     this._fetchData();
-    this._fetchFilter();
+    // this._fetchFilter();
 
   }
 
@@ -51,25 +51,25 @@ export class CourseStaffComponent implements OnInit, OnDestroy {
     this.destroyed$.complete();
   }
 
-  private _fetchFilter() {
-    const sources$ = this.courseService.loadSource().pipe(takeUntil(this.destroyed$));
+  // private _fetchFilter() {
+  //   const sources$ = this.courseService.loadSource().pipe(takeUntil(this.destroyed$));
 
-    sources$.subscribe((res: any) => {
-      this.sources = res.Data;
-    });
+  //   sources$.subscribe((res: any) => {
+  //     this.sources = res.Data;
+  //   });
 
-    const group$ = this.courseService.loadGroup().pipe(takeUntil(this.destroyed$));
+  //   const group$ = this.courseService.loadGroup().pipe(takeUntil(this.destroyed$));
 
-    group$.subscribe((res: any) => {
-      this.groups = res.Data;
-    });
+  //   group$.subscribe((res: any) => {
+  //     this.groups = res.Data;
+  //   });
 
-    const type$ = this.courseService.loadType().pipe(takeUntil(this.destroyed$));
+  //   const type$ = this.courseService.loadType().pipe(takeUntil(this.destroyed$));
 
-    type$.subscribe((res: any) => {
-      this.types = res.Data;
-    });
-  }
+  //   type$.subscribe((res: any) => {
+  //     this.types = res.Data;
+  //   });
+  // }
 
   // onClickOrder(transaction: any) {
   //   if (isNullOrUndefined(this.selectedTraining)) {

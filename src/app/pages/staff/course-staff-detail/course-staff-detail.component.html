@@ -26,15 +26,17 @@
                     [readonly]="listView[0]"
                     [ngClass]="{
                       'is-invalid':
-                        submitted && (form.controls.tn_name.errors || errorField === 'tn_name')
+                        submitted && 
+                        (form.controls.tn_name.errors || errorField === 'tn_name')
                     }"
                   />
                   <div
-                    *ngIf="submitted && (form.controls.tn_name.errors || errorField === 'tn_name')"
+                    *ngIf="submitted && (form.controls.tn_name.errors || 
+                    errorField === 'tn_name')"
                     class="invalid-feedback"
                   >
                  
-                  <span *ngIf="form.controls.tn_name.errors.required">Trường bắt buộc</span>
+                  <span>Trường bắt buộc</span>
                   </div>
                   </div>
                 </div>
@@ -52,7 +54,7 @@
                     }" 
                     />
                     <div
-                    *ngIf="submitted && (form.controls.dev_name.errors)"
+                    *ngIf="submitted && (form.controls.tn_content.errors)"
                     class="invalid-feedback"
                   >
                     <span>Trường bắt buộc</span>
@@ -151,7 +153,7 @@
                     *ngIf="submitted && form.controls.tn_purpose.errors"
                     class="invalid-feedback"
                   >
-                    <span *ngIf="form.controls.tn_purpose.errors.required"
+                    <span
                       >Trường bắt buộc</span
                     >
                   </div>
