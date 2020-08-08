@@ -34,13 +34,17 @@ export class TrainingModalComponent implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     public courseService: CourseService) {
-  
+    this.initializeForm();
+    this._fetchFilter();
     // this._loadTraining(null);
   }
 
   ngOnInit() {
-    this.initializeForm();
-    this._fetchFilter();
+
+    
+    if (this.training) {
+      this.patchData(this.training);
+    }
   }
   
   onClickSubmit() {
@@ -69,11 +73,9 @@ export class TrainingModalComponent implements OnInit {
   }
   onChangeTraining(e) {
     // this.isChange = true;
-    if (!e || e.tn_id === '') {
-      // this.selectedTraining = null;
-    } else {
+    
       this._loadTraining(e.tn_id);
-    }
+    
   }
   private _loadTraining(tn_id: any) {
     const training$ = this.courseService
@@ -82,24 +84,23 @@ export class TrainingModalComponent implements OnInit {
 
     training$.subscribe((res: any) => {
       this.selectedTraining = res.Data;
-      this.patchData();
-      // if (res && res.Data) {
-      //   this.trainings = res.Data;
+      this.patchData(res.Data);
+      if (res && res.Data) {
+        this.trainings = res.Data;
 
-      //   if (this.training) {
-      //     this.form.patchValue({  tn_name: res.Data[0].name });
-      //     // // this._loadBranch(this.bank.bank_id, true);
-      //     // this.form.patchValue({ tn_name: this.training.tn_name });
-      //   }
-      //   else {
-      //     this.form.patchValue({
-      //       tn_id: res.Data[0].id,
-      //       tn_name: res.Data[0].name
+        if (this.training) {
+          this.form.patchValue({  tn_name: this.training.tn_name });
+          // // this._loadBranch(this.bank.bank_id, true);
+          // this.form.patchValue({ tn_name: this.training.tn_name });
+        }
+        else {
+          this.form.patchValue({
+            tn_name: res.Data[0].name
             
-      //     });
-      //     // this._loadBranch(res.Data[0].id);
-      //   }
-      // }
+          });
+          // this._loadBranch(res.Data[0].id);
+        }
+      }
     });
   }
  
@@ -166,8 +167,8 @@ export class TrainingModalComponent implements OnInit {
     });
   }
 
-  private patchData() {
-    const training = this.selectedTraining;
+  private patchData(training: any) {
+  
     this.form.patchValue({
       tn_id: training.tn_id,
       tn_code: training.tn_code,

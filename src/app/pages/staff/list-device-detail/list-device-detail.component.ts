@@ -78,7 +78,9 @@ export class ListDeviceDetailComponent implements OnInit {
     });
   }
   private _fetchDevice(dev_id: any) {
-    const info$ = this.deviceService.loadDevice({ dev_id }).pipe(takeUntil(this.destroyed$));
+    const info$ = this.deviceService
+    .loadDevice({ dev_id })
+    .pipe(takeUntil(this.destroyed$));
     info$.subscribe((res: any) => {
       if (res && res.Data) {
         this._patchDevice(res.Data);

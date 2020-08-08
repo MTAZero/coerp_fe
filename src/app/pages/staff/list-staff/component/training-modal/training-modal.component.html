@@ -16,13 +16,14 @@
         }"
       /> -->
       <ng-select
-       
+        
         [items]="trainings"
         bindLabel="tn_name"
         bindValue="tn_id"
-        name="searchTraining"
-       
-        [(ngModel)]="searchTraining"
+        formControlName="tn_id"
+        [ngClass]="{
+          'is-invalid': submitted && form.controls.tn_id.errors
+        }"
         (change)="onChangeTraining($event)"
       >
     </ng-select>

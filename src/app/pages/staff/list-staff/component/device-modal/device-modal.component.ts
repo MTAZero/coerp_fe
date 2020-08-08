@@ -79,6 +79,7 @@ export class DeviceModalComponent implements OnInit {
     const device$ = this.deviceService
       .loadAllDevice()
       .pipe(takeUntil(this.destroyed$));
+      
     device$.subscribe((res: any) => {
       if (res && res.Data) {
         this.devices = res.Data;
