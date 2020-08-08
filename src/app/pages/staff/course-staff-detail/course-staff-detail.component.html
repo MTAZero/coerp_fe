@@ -59,6 +59,7 @@
                   >
                     <span>Trường bắt buộc</span>
                   </div>
+                  
                 </div>
               </div>
             </div>
@@ -76,26 +77,13 @@
                       formControlName="tn_start_date"
                       [disabled]="listView[0]"
                       [maxDate]="form.value.tn_end_date"
-                      [ngClass]="{
-                        'is-invalid':
-                          submitted &&
-                        
-                          formProfile.value.tn_start_date === null
-                      }"
                     />
                     <div class="input-group-append" (click)="start_work.toggle()">
                       <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
                     </div>
-                    <div
-                      *ngIf="
-                        submitted &&
-                  
-                        formProfile.value.tn_start_date === null
-                      "
-                      class="invalid-feedback"
-                    >
+                    <!-- <div                    >
                       <span>Trường bắt buộc</span>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
               </div>
@@ -112,27 +100,19 @@
                       formControlName="tn_end_date"
                       [disabled]="listView[0]"
                       [minDate]="form.value.tn_start_date"
-                      [ngClass]="{
-                        'is-invalid':
-                          submitted &&
-                        
-                          formProfile.value.tn_end_date === null
-                      }"
-                     
                     />
                     <div class="input-group-append" (click)="end_work.toggle()">
                       <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
                     </div>
-                    <div
+                    <!-- <div
                       *ngIf="
                         submitted &&
-                      
                         formProfile.value.tn_end_date === null
                       "
                       class="invalid-feedback"
                     >
                       <span>Trường bắt buộc</span>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
               </div>

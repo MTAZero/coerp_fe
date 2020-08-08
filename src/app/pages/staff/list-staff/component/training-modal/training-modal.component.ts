@@ -22,26 +22,31 @@ export class TrainingModalComponent implements OnInit {
   submitted = false;
   trainings: any;
   searchTraining = '';
+  selectedTraining: any;
+
+  filterTraining = {
+    pageNumber: 0,
+    pageSize: 100,
+    search_name: '',
+    start_date: '2010-01-01',
+    end_date: moment(new Date()).format('YYYY-MM-DD'),
+  };
   constructor(
     public formBuilder: FormBuilder,
     public courseService: CourseService) {
-    this.initializeForm();
-    this._loadTraining();
+  
+    // this._loadTraining(null);
   }
 
   ngOnInit() {
-    if (this.training) {
-      this.patchData(this.training);
-    }
+    this.initializeForm();
+    this._fetchFilter();
   }
-
+  
   onClickSubmit() {
     this.submitted = true;
     if (this.form.value.tn_name.trim() === '')
       return this.form.controls['tn_name'].setErrors({ required: true });
-
-    if (this.form.value.tn_content.trim() === '')
-      return this.form.controls['tn_content'].setErrors({ required: true });
 
     if (this.form.valid) {
       const data = this.form.value;
@@ -51,33 +56,53 @@ export class TrainingModalComponent implements OnInit {
       this.passEvent.emit({ event: true, data });
     }
   }
-  // onChangeTraining(e) {
-  //   const trainingId = e.id;
-  //   this._loadTraining(trainingId);
-  // }
-  _loadTraining() {
+  private _fetchFilter() {
     const training$ = this.courseService
-      .loadTraining()
+      .searchTraining(this.filterTraining)
       .pipe(takeUntil(this.destroyed$));
-    training$.subscribe((res: any) => {
-      if (res && res.Data) {
-        this.trainings = res.Data;
+      
+      training$.subscribe((res: any) => {
+      this.trainings = res.Data.Results
+    });
 
-        if (this.training) {
-          this.form.patchValue({ tn_name: this.training.tn_name });
-          // // this._loadBranch(this.bank.bank_id, true);
-          // this.form.patchValue({ tn_name: this.training.tn_name });
-        }
-        else {
-          this.form.patchValue({
-            // tn_id: res.Data[0].id,
-            tn_name: res.Data[0].name
-          });
-          // this._loadBranch(res.Data[0].id);
-        }
-      }
+    
+  }
+  onChangeTraining(e) {
+    // this.isChange = true;
+    if (!e || e.tn_id === '') {
+      // this.selectedTraining = null;
+    } else {
+      this._loadTraining(e.tn_id);
+    }
+  }
+  private _loadTraining(tn_id: any) {
+    const training$ = this.courseService
+      .loadTrainingInfo({tn_id})
+      .pipe(takeUntil(this.destroyed$));
+
+    training$.subscribe((res: any) => {
+      this.selectedTraining = res.Data;
+      this.patchData();
+      // if (res && res.Data) {
+      //   this.trainings = res.Data;
+
+      //   if (this.training) {
+      //     this.form.patchValue({  tn_name: res.Data[0].name });
+      //     // // this._loadBranch(this.bank.bank_id, true);
+      //     // this.form.patchValue({ tn_name: this.training.tn_name });
+      //   }
+      //   else {
+      //     this.form.patchValue({
+      //       tn_id: res.Data[0].id,
+      //       tn_name: res.Data[0].name
+            
+      //     });
+      //     // this._loadBranch(res.Data[0].id);
+      //   }
+      // }
     });
   }
+ 
   onChangeEvaluate(event) {
     console.log(event.target.value);
     const evaluate = event.target.value;
@@ -132,7 +157,7 @@ export class TrainingModalComponent implements OnInit {
       tn_id: ['temp_0', null],
       tn_code: [null, null],
       tn_name: [null, [Validators.required]],
-      tn_content: ['', [Validators.required]],
+      tn_content: ['', null],
       tn_start_date: [this._convertDateToNgbDate(new Date()), [Validators.required]],
       tn_end_date: [this._convertDateToNgbDate(new Date()), [Validators.required]],
       tn_purpose: ['', null],
@@ -141,7 +166,8 @@ export class TrainingModalComponent implements OnInit {
     });
   }
 
-  private patchData(training: any) {
+  private patchData() {
+    const training = this.selectedTraining;
     this.form.patchValue({
       tn_id: training.tn_id,
       tn_code: training.tn_code,
@@ -154,7 +180,13 @@ export class TrainingModalComponent implements OnInit {
       ts_evaluate_name: training.ts_evaluate_name,
     });
   }
-
+  // private _updateContent() {
+   
+  //   const { co_discount, co_duration } = this.form.value;
+  //   this.formCompany.patchValue({
+  //     co_price: (p * co_duration * (100 - co_discount)) / 100,
+  //   });
+  // }
   private _convertDateToNgbDate(date: any) {
     if (!date) {
       return null;

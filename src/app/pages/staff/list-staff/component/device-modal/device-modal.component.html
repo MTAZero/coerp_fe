@@ -70,7 +70,9 @@
         *ngIf="submitted && formUI.des_quantity.errors"
         class="invalid-feedback"
       >
-        <span>Trường bắt buộc</span>
+      <span  *ngIf="form.controls.des_quantity.errors.required ">Trường bắt buộc</span>
+      <span *ngIf="!form.controls.des_quantity.errors.required ">Số lượng phải lớn hơn 0 </span>
+     
       </div>
     </div>
   </div>
