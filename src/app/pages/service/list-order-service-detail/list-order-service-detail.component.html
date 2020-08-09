@@ -464,64 +464,125 @@
               </ng-select>
             </div>
           </div>
-          <div class="table-responsive border mb-2">
-            <table class="table table-centered table-hover mb-0">
-              <thead>
-                <tr>
-                  <th>STT</th>
-                  <th>Mã dịch vụ</th>
-                  <th>Tên dịch vụ</th>
-                  <th>Loại dịch vụ</th>
-                  <th>Giá</th>
-                  <th>Giảm giá (%)</th>
-                  <th>Ghi chú</th>
-                  <th>Thao tác</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let service of listService; let i = index">
-                  <td>
-                    {{ i + 1 }}
-                  </td>
-                  <td>
-                    {{ service.se_code }}
-                  </td>
-                  <td>{{ service.se_name }}</td>
-                  <td>{{ service.se_type_name }}</td>
-                  <td>
-                    {{ service.se_price }}
-                  </td>
-                  <td>
-                    {{ service.se_saleoff }}
-                  </td>
-                  <td>{{ service.se_note }}</td>
-                  <td>
-                    <a class="action-icon table-button-link" (click)="onRemoveService(service)">
-                      <i class="mdi mdi-delete"></i
-                    ></a>
-                  </td>
-                </tr>
-                <tr *ngIf="listService.length === 0">
-                  <td colspan="8">Không có dữ liệu dịch vụ</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="form-row">
-            <div class="form-group row mb-3"></div>
-            <div class="form-group row mb-3">
-              <label class="col-4 col-form-label">Khuyến mãi (%): </label>
-              <div class="col-6">
-                <input
-                  type="number"
-                  class="form-control"
-                  [readonly]="listView[2]"
-                  [(ngModel)]="cuo_discount"
-                  (change)="isChange = true"
-                />
+          <div [formGroup]="formMoney">
+            <div class="table-responsive border mb-2">
+              <table class="table table-centered table-hover mb-0">
+                <thead>
+                  <tr>
+                    <th>STT</th>
+                    <th>Mã dịch vụ</th>
+                    <th>Tên dịch vụ</th>
+                    <th>Loại dịch vụ</th>
+                    <th>Đơn vị</th>
+                    <th>Số lượng</th>
+                    <th>Giá</th>
+                    <th>Giảm giá (%)</th>
+                    <th>Ghi chú</th>
+                    <th>Thao tác</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr 
+                    *ngFor="let service of listService; let i = index"
+                    (change)="onChangeDiscount()">
+                    <td>
+                      {{ i + 1 }}
+                    </td>
+                    <td>
+                      {{ service.se_code }}
+                    </td>
+                    <td>{{ service.se_name }}</td>
+                    <td>{{ service.se_type_name }}</td>
+                    <td>
+                      {{ service.se_unit_name}}
+                    </td>
+                    <td>
+                      <input
+                        onlyNumber
+                        type="number"
+                        class="form-control"
+                        formControlName="se_number"
+                        [readonly]="listView[2]"
+                         
+                        (change)="onChangeDiscount()"                 
+                      />
+                    </td>
+                    <td>
+                      <input
+                      [readonly]="true"
+                      class="form-control hi"
+                      type="number"
+                      formControlName="se_price"
+                      (change)="onChangeDiscount()"
+                      [ngModel]="service.se_price"
+                     
+                      />
+                    </td>
+                    <td>
+                      <input
+                      [readonly]="true"
+                    class="form-control hi"
+                    type="number"
+                    formControlName="se_saleoff"
+                    (change)="onChangeDiscount()"
+                    [ngModel]="service.se_saleoff"
+                  
+                  />
+                    
+                    </td>
+                    <td>{{ service.se_note }}</td>
+                    <td>
+                      <a class="action-icon table-button-link" (click)="onRemoveService(service)">
+                        <i class="mdi mdi-delete"></i
+                      ></a>
+                    </td>
+                  </tr>
+                  <tr *ngIf="listService.length === 0">
+                    <td colspan="8">Không có dữ liệu dịch vụ</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="form-row">
+              <div class="form-group row mb-3"></div>
+              <div class="form-group row mb-3">
+                <label class="col-4 col-form-label">Khuyến mãi (%): </label>
+                <div class="col-6">
+                  <input
+                    class="form-control"
+                    type="number"
+                    [readonly]="listView[2]"
+                    formControlName="cuo_discount"
+                    (change)="onChangeDiscount()"
+                    [ngClass]="{
+                      'is-invalid': submitted && formMoney.controls.cuo_discount.errors
+                    }"
+                  />
+                </div>
               </div>
             </div>
+              <div class="form-row">
+                <div class="form-group row mb-3"></div>
+                <div class="form-group row mb-3">
+                  <label class="col-4 col-form-label">Thành tiền: </label>
+                  <div class="col-6">
+                    <input
+                  
+                      [readonly]="true"
+                      formControlName="cuo_total_price"
+                      type="any"
+                      class="form-control"
+                      [ngClass]="{
+                        'is-invalid': submitted && formMoney.controls.cuo_total_price.errors
+                      }"
+                    />
+                  </div>
+                </div>
+              </div>
           </div>
+          
+            
+         
 
           <div id="3" class="row title-section mb-2">
             <h5>{{ menu[3] }}</h5>
@@ -541,7 +602,8 @@
                   #from="ngbDatepicker"
                   formControlName="st_start_date"
                   (ngModelChange)="onChangeStartDate($event)"
-                  [maxDate]="formRepeat.value.st_end_date"
+              
+                  
                   [disabled]="listView[3]"
                 />
                 <div class="input-group-append" (click)="from.toggle()">
@@ -562,7 +624,8 @@
                   placeholder="Chọn ngày"
                   #to="ngbDatepicker"
                   formControlName="st_end_date"
-                  [minDate]="formRepeat.value.st_start_date"
+               
+                  
                   [disabled]="listView[3]"
                 />
                 <div class="input-group-append" (click)="to.toggle()">
@@ -591,8 +654,7 @@
                     placeholder="Chọn ngày"
                     #from="ngbDatepicker"
                     formControlName="st_custom_start"
-                    [maxDate]="formRepeat.value.st_custom_end"
-                    [minDate]="formRepeat.value.st_start_date"
+                 
                     [disabled]="listView[3]"
                   />
                   <div class="input-group-append" (click)="from.toggle()">
@@ -602,10 +664,16 @@
               </div>
               <div class="form-inline">
                 <label class="mr-2">Lặp lại mỗi</label>
-                <input class="form-control small" formControlName="st_repeat_every" />
+                <input 
+               
+                  class="form-control small" 
+                  formControlName="st_repeat_every"
+                  (change)="onChangeDiscount()" />
                 <select
+                    
                   class="custom-select mr-1"
                   formControlName="st_repeat_type"
+                  
                   (change)="onChangeRepeatType($event)"
                 >
                   <option [disabled]="listView[3]" [ngValue]="1">Ngày</option>
@@ -694,7 +762,7 @@
                     placeholder="Chọn ngày"
                     #to="ngbDatepicker"
                     formControlName="st_custom_end"
-                    [minDate]="formRepeat.value.st_custom_start"
+                
                     [disabled]="listView[3]"
                   />
                   <div class="input-group-append" (click)="to.toggle()">
@@ -718,76 +786,110 @@
               >Sinh ngày làm việc</a
             >
           </div>
-
-          <div class="table-responsive border mb-2">
-            <table class="table table-centered table-hover mb-0">
-              <thead>
-                <tr>
-                  <th>STT</th>
-                  <th>Nhân viên phụ trách</th>
-                  <th>Ngày làm</th>
-                  <th>Thời gian bắt đầu</th>
-                  <th>Thời gian kết thúc</th>
-                  <th>Làm thêm giờ</th>
-                  <th>Thời gian làm thêm giờ</th>
-                  <th>Trạng thái công việc</th>
-                  <th>Đánh giá nhân sự</th>
-                  <th>Tổng lương</th>
-                  <th>Ghi chú</th>
-                  <th style="text-align: center;">Thao tác</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let exe of listExecutor; let i = index">
-                  <td>
-                    {{ i + 1 }}
-                  </td>
-                  <td>
-                    {{ exe.staff_name }}
-                  </td>
-                  <td>{{ exe.work_time | date: 'dd/MM/yyyy' }}</td>
-                  <td>{{ exe.start_time }}</td>
-                  <td>
-                    {{ exe.end_time }}
-                  </td>
-                  <td>
-                    <div
-                      [ngClass]="
-                        exe.exe_flag_overtime ? 'badge badge-success' : 'badge badge-primary'
-                      "
-                    >
-                      {{ exe.exe_flag_overtime ? 'Có' : 'Không' }}
-                    </div>
-                  </td>
-                  <td>{{ exe.exe_time_overtime }}</td>
-                  <td>
-                    <div
-                      [ngClass]="
-                        exe.exe_status === 1 ? 'badge badge-success' : 'badge badge-primary'
-                      "
-                    >
-                      {{ exe.exe_status === 1 ? 'Đã làm' : 'Chưa làm' }}
-                    </div>
-                  </td>
-                  <td>{{ exe.exe_evaluate }}</td>
-                  <td></td>
-                  <td>{{ exe.exe_note }}</td>
-                  <td style="text-align: center;">
-                    <i class="fe-edit" *ngIf="exe.exe_status !== 1" (click)="onUpdateExe(exe)"></i>
-                    <i class="fe-plus-circle ml-2" (click)="onDuplicateExe(exe, i)"></i>
-                    <i
-                      *ngIf="!isNumber(exe.exe_id)"
-                      class="fe-trash-2 ml-2"
-                      (click)="onRemoveExe(exe)"
-                    ></i>
-                  </td>
-                </tr>
-                <tr *ngIf="listExecutor.length === 0">
-                  <td colspan="12">Không có dữ liệu thời gian làm việc</td>
-                </tr>
-              </tbody>
-            </table>
+          <div [formGroup]="formMoney">
+            <div class="table-responsive border mb-2">
+              <table class="table table-centered table-hover mb-0">
+                <thead>
+                  <tr>
+                    <th>STT</th>
+                    <th>Nhân viên phụ trách</th>
+                    <th>Ngày làm</th>
+                    <th>Thời gian bắt đầu</th>
+                    <th>Thời gian kết thúc</th>
+                    <th>Làm thêm giờ</th>
+                    <th>Thời gian làm thêm giờ</th>
+                    <th>Trạng thái công việc</th>
+                    <th>Đánh giá nhân sự</th>
+                    <th>Tổng lương</th>
+                    <th>Ghi chú</th>
+                    <th style="text-align: center;">Thao tác</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr 
+                    *ngFor="let exe of listExecutor; let i = index"
+                    (change)="onChangeDiscount()">
+                    <td>
+                      {{ i + 1 }}
+                    </td>
+                    <td>
+                      {{ exe.staff_name }}
+                    </td>
+                    <td>{{ exe.work_time | date: 'dd/MM/yyyy' }}</td>
+                    <td>
+                      <input
+                        [readonly]="true"
+                        class="form-control hi"
+                        type="string"
+                        formControlName="start_time"
+                        (change)="onChangeDiscount()"
+                        [ngModel]="exe.start_time"
+                        
+                        />
+                    </td>
+                    <td>
+                      <input
+                        [readonly]="true"
+                        class="form-control hi"
+                        type="string"
+                        formControlName="end_time"
+                        (change)="onChangeDiscount()"
+                        [ngModel]="exe.end_time"
+                        />
+                    
+                    </td>
+                    <td>
+                      <div
+                        [ngClass]="
+                          exe.exe_flag_overtime ? 'badge badge-success' : 'badge badge-primary'
+                        "
+                      >
+                        {{ exe.exe_flag_overtime ? 'Có' : 'Không' }}
+                      </div>
+                    </td>
+                    <td>
+                      <input
+                        [readonly]="true"
+                        class="form-control hi"
+                        type="number"
+                        formControlName="exe_time_overtime"
+                        (change)="onChangeDiscount()"
+                        [ngModel]="exe.exe_time_overtime"
+                        [ngClass]="{
+                          'is-invalid': submitted && formMoney.controls.exe_time_overtime.errors
+                        }"
+                        />
+                     </td>
+                    <td>
+                      <div
+                        [ngClass]="
+                          exe.exe_status === 1 ? 'badge badge-success' : 'badge badge-primary'
+                        "
+                      >
+                        {{ exe.exe_status === 1 ? 'Đã làm' : 'Chưa làm' }}
+                      </div>
+                    </td>
+                    <td>{{ exe.exe_evaluate }}</td>
+                    <td></td>
+                    <td>{{ exe.exe_note }}</td>
+                    <td style="text-align: center;">
+                      <i class="fe-edit" *ngIf="exe.exe_status !== 1" (click)="onUpdateExe(exe)"></i>
+                      <i class="fe-plus-circle ml-2" (click)="onDuplicateExe(exe, i)"></i>
+                      <i
+                        *ngIf="!isNumber(exe.exe_id)"
+                        class="fe-trash-2 ml-2"
+                        (click)="onRemoveExe(exe)"
+                      ></i>
+                    </td>
+                  </tr>
+                  <tr *ngIf="listExecutor.length === 0">
+                    <td colspan="12">Không có dữ liệu thời gian làm việc</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
+         
         </div>
         <div class="row justify-content-end mr-2">
           <div class="text-sm-right">

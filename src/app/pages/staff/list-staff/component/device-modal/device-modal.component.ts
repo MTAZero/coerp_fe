@@ -75,11 +75,10 @@ export class DeviceModalComponent implements OnInit {
   //   this._loadAllDevice();
   // }
 
-  loadAllDevice(isFirst = false) {
+  loadAllDevice() {
     const device$ = this.deviceService
       .loadAllDevice()
       .pipe(takeUntil(this.destroyed$));
-      
     device$.subscribe((res: any) => {
       if (res && res.Data) {
         this.devices = res.Data;
@@ -87,7 +86,7 @@ export class DeviceModalComponent implements OnInit {
         if (this.device) {
           this.form.patchValue({ device_name: this.device.device_name });
         }
-        if (this.device && isFirst) {
+        if (this.device) {
           // this.form.patchValue({ device_name: this.device.device_name });
         }else{
           this.form.patchValue({  device_name: res.Data[0].name });

@@ -53,7 +53,7 @@ export class DeviceTabComponent implements OnInit {
     const modalRef = this.modalService.open(DeviceModalComponent, {
       centered: true,
     });
-  
+    modalRef.componentInstance.staffId = this.staffId;
     modalRef.componentInstance.listDevice = this.listDevice;
     if (device) {
       modalRef.componentInstance.device = device;

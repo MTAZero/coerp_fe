@@ -39,9 +39,7 @@ export class TrainingModalComponent implements OnInit {
     // this._loadTraining(null);
   }
 
-  ngOnInit() {
-
-    
+  ngOnInit() {    
     if (this.training) {
       this.patchData(this.training);
     }

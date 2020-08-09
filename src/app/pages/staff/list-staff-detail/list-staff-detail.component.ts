@@ -726,7 +726,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
           });
           this.isChange = true;
         } else {
-          this.listNewDevice.push({
+          this.listDevice.push({
             ...res.data,
             device_id: `temp_${this.tempDevice}`,
           });
@@ -740,7 +740,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
 
   onRemoveDevice(device: any) {
     Swal.fire({
-      title: 'Chắc chắn muốn xóa khen thưởng/kỉ luật đang chọn?',
+      title: 'Chắc chắn muốn xóa vật tư đang chọn?',
       type: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Xóa',

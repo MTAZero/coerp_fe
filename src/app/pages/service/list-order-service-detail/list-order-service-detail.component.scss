@@ -92,7 +92,27 @@
           background-color: lightgrey;
         }
       }
-
+      input[type=number].hi {
+        font-size: 0.875rem;
+        font-weight: 400;
+        line-height: 1.5;
+        border: none;
+       
+      }
+      input[type=string].hi {
+        font-size: 0.875rem;
+        font-weight: 400;
+        line-height: 1.5;
+        border: none;
+       
+      }
+      input[type=any].hi {
+        font-size: 0.875rem;
+        font-weight: 400;
+        line-height: 1.5;
+        border: none;
+       
+      }
       .repeat-setting {
         input {
           &.small {

@@ -22,7 +22,9 @@ export class BankModalComponent implements OnInit {
   banks: any;
   branchs: any;
 
-  constructor(public formBuilder: FormBuilder, private staffService: StaffService) {
+  constructor(
+    public formBuilder: FormBuilder, 
+    private staffService: StaffService) {
     this.initializeForm();
     this._loadCategory();
   }

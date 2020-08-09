@@ -21,7 +21,9 @@ export class ExecutorModalComponent implements OnInit {
 
   staffs = [];
 
-  constructor(public formBuilder: FormBuilder, private serviceService: ServiceService) {
+  constructor(
+    public formBuilder: FormBuilder, 
+    private serviceService: ServiceService) {
     this.initializeForm();
   }
 
@@ -37,7 +39,8 @@ export class ExecutorModalComponent implements OnInit {
   }
 
   onChangeStaff(event: any) {
-    const item = this.staffs.find((item) => item.id === parseInt(event.target.value));
+    const item = this.staffs.find((item) => 
+    item.id === parseInt(event.target.value));
     this.form.patchValue({
       staff_name: item.name,
     });

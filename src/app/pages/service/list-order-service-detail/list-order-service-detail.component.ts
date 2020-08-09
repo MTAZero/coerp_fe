@@ -47,16 +47,18 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
   tempAddress = 0;
   tempExecutor = 0;
 
+  form: FormGroup;
   formCustomer: FormGroup;
   formRepeat: FormGroup;
+  formMoney: FormGroup;
   listMobile = [];
   listAddress = [];
   listService = [];
   listExecutor = [];
-  cuo_discount = null;
+
   cuo_color_show = null;
   cuo_address = null;
-
+  listFunction = [];
   days: any[];
   summary = '';
   timePeriod: any;
@@ -131,6 +133,9 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
   switchViewType(index: number) {
     this.listView[index] = !this.listView[index];
   }
+  onChangeDiscount() {
+    this._updatePrice();
+  }
 
   onChangeToMain() {
     if (this.formCustomer.dirty || this.formRepeat.dirty || this.isChange) {
@@ -183,7 +188,6 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
 
     const data = {
       cuo_color_show: this.cuo_color_show,
-      cuo_discount: this.cuo_discount,
       ...repeatData,
       customer: {
         ...customerData,
@@ -195,6 +199,10 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
       cuo_infor_time: this.summary,
       cuo_address: this.cuo_address,
     };
+    const data2 = {
+      ...this.formMoney.value,
+      list_function: this.listFunction,
+    };
     console.log(data);
     if (this.cuo_id)
       this._updateOrderService({
@@ -203,7 +211,14 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
       });
     else this._createOrderService(data);
   }
-
+  checkFunction(cuo_id: any) {
+    let flag = false;
+    this.listFunction.forEach((item) => {
+      if (item.cuo_id === cuo_id) flag = true;
+    });
+    return flag;
+  }
+ 
   //#region Customer
   onChangeProvince(e) {
     const districtId = this.province.find((item) => item.name === e.target.value).id;
@@ -489,6 +504,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
             exe_id: `temp_${this.tempExecutor}`,
             start_time: item.start_time.substr(0, 5),
             end_time: item.end_time.substr(0, 5),
+            
           };
         });
       }
@@ -631,6 +647,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
       sha_district_now: [null, [Validators.required]],
       sha_province_now: [null, [Validators.required]],
       sha_detail_now: [null, [Validators.required]],
+     
     });
 
     this.formRepeat = this.formBuilder.group({
@@ -655,8 +672,45 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
       st_custom_start: [this._convertDateToNgbDate(new Date()), null],
       st_custom_end: [this._convertDateToNgbDate(new Date()), null],
     });
+    this.formMoney = this.formBuilder.group({
+      start_time: ['', null],
+      end_time: ['', null],
+      exe_time_overtime: ['', null],
+      cuo_total_price: [1, [Validators.required]],
+      cuo_discount: [1, [Validators.required]],
+      se_name: ['', [Validators.required]],
+      se_description: ['', null],
+      service_category_id: ['', [Validators.required]],
+      se_price: [1, [Validators.required]],
+      se_saleoff: ['', null],
+      se_type: ['', [Validators.required]],
+      se_unit: ['', [Validators.required]],
+      se_number:  [1, [Validators.required]],
+    });
+   
   }
+  // private _patchMoney(money: any) {
+  //   this.formMoney.patchValue({
+  //     cuo_total_price: money.cuo_total_price,
+  //     cuo_discount: money.cuo_discount,
+  //     se_price: money.se_price,
+  //     se_saleoff: money.se_saleoff,
+  
+  //   });
 
+  //   this.listFunction = money.list_function;
+  //   this._updatePrice();
+  // }
+  // private _fetchMoney(cuo_id: any) {
+  //   const info$ = this.permissionService
+  //     .loadCompanyInfo({ co_id })
+  //     .pipe(takeUntil(this.destroyed$));
+  //   info$.subscribe((res: any) => {
+  //     if (res && res.Data) {
+  //       this._patchCompany(res.Data);
+  //     }
+  //   });
+  // }
   private _fetchFilter() {
     const source$ = this.customerService.loadSource().pipe(takeUntil(this.destroyed$));
     source$.subscribe((res: any) => {
@@ -709,6 +763,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
     info$.subscribe((res: any) => {
       if (res && res.Data) {
         this._patchOrderService(res.Data);
+        // this._patchMoney(res.Data);
       }
     });
   }
@@ -730,6 +785,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
       sha_district_now: orderService.customer.sha_district_now,
       sha_province_now: orderService.customer.sha_province_now,
       sha_detail_now: orderService.customer.sha_detail_now,
+      cuo_total_price: orderService.customer.cuo_total_price,
     });
 
     this.formRepeat.patchValue({
@@ -768,7 +824,6 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
       });
     }
 
-    this.cuo_discount = orderService.cuo_discount;
     this.cuo_color_show = orderService.cuo_color_show;
     this.cuo_address = orderService.cuo_address;
 
@@ -933,7 +988,45 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
     const newDate = new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
     return moment(newDate).format();
   }
+  private _fetchService(se_id: any) {
+    const info$ = this.serviceService.loadServiceInfo({se_id})
+    .pipe(takeUntil(this.destroyed$));
+    info$.subscribe((res: any) => {
+      if (res && res.Data) {
+        this._patchService(res.Data);
+      }
+    });
+  }
+  private _patchService(service: any) {
+    this.form.patchValue({
+      se_price: service.se_price,
+      
+    });
+  }
+  private _updatePrice() {
+   
+    let p = 0;
+    this.listFunction.forEach((e) => {
+      p += e.fun_price;
+    });
+    
+   
+    const { st_repeat_every } = this.formRepeat.value;
+   
+    const {  cuo_discount, se_price, se_saleoff, se_number, start_time, end_time, exe_time_overtime } = this.formMoney.value;
+    
+    var a = moment(start_time, "HH:mm")
+    var b = moment(end_time, "HH:mm")
 
+    this.formMoney.patchValue({
+
+      cuo_total_price: ((se_price + se_number + se_saleoff + st_repeat_every 
+        + b.diff(a, 'hours')
+        + exe_time_overtime)
+        * cuo_discount ),
+        
+    });
+  }
   private _notify(isSuccess: boolean, message: string) {
     return Swal.fire({
       toast: true,
