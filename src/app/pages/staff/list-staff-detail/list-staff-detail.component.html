@@ -358,8 +358,7 @@
                       placeholder="Chọn ngày"
                       #start_work="ngbDatepicker"
                       formControlName="sta_start_work_date"
-                      [minDate]="formProfile.value.sta_birthday"
-                      [maxDate]="formProfile.value.sta_end_work_date"
+                     z
                       [disabled]="listView[1]"
                     />
                     <div class="input-group-append" (click)="start_work.toggle()">
@@ -380,7 +379,7 @@
                       #dob="ngbDatepicker"
                       formControlName="sta_birthday"
                       [disabled]="listView[1]"
-                      [maxDate]="formProfile.value.sta_start_work_date"
+                   
                     />
                     <div class="input-group-append" (click)="dob.toggle()">
                       <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
@@ -450,7 +449,7 @@
                       placeholder="Chọn ngày"
                       #end_work="ngbDatepicker"
                       formControlName="sta_end_work_date"
-                      [minDate]="formProfile.value.sta_start_work_date"
+                    
                       [disabled]="listView[1] || formProfile.value.sta_working_status === '1'"
                       [ngClass]="{
                         'is-invalid':
@@ -699,7 +698,7 @@
                       placeholder="Chọn ngày"
                       #icd="ngbDatepicker"
                       formControlName="sta_identity_card_date"
-                      [maxDate]="formIdentityCard.value.sta_identity_card_date_end"
+                     
                       [disabled]="listView[3] || formIdentityCard.value.sta_identity_card === ''"
                     />
                     <div class="input-group-append" (click)="icd.toggle()">
@@ -730,7 +729,7 @@
                       class="form-control"
                       placeholder="Chọn ngày"
                       #icde="ngbDatepicker"
-                      [minDate]="formIdentityCard.value.sta_identity_card_date"
+                   
                       formControlName="sta_identity_card_date_end"
                       [disabled]="listView[3] || formIdentityCard.value.sta_identity_card === ''"
                     />

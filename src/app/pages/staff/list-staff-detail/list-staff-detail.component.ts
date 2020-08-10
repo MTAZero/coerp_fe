@@ -171,30 +171,30 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
       this.formPermanentAddress.invalid ||
       this.formNowAddress.invalid ||
       this.formIdentityCard.invalid ||
-      (this.formContractType.value.sta_type_contact === 0 &&
+      (this.formContractType.value.sta_type_contact === 1 &&
         this.formContact.value.sta_email === '') ||
-      (this.formContractType.value.sta_type_contact === 0 &&
+      (this.formContractType.value.sta_type_contact === 1 &&
         this.formProfile.value.department_id === null) ||
       (this.formProfile.value.sta_working_status === '2' &&
         this.formProfile.value.sta_end_work_date === null) ||
       (this.formProfile.value.sta_working_status === '2' &&
         (!this.formProfile.value.sta_reason_to_end_work ||
-          this.formProfile.value.sta_reason_to_end_work.trim() === ''))
+          this.formProfile.value.sta_reason_to_end_wor === ''))
     )
       return;
 
     const list_staff_work_time = this.transformData();
-    if (this.formContractType.value.sta_type_contact === 1 && list_staff_work_time.length === 0)
+    if (this.formContractType.value.sta_type_contact === 0 && list_staff_work_time.length === 0)
       return this._notify(false, 'Chưa chọn ngày làm việc');
 
     if (
-      !/^\d+$/.test(this.formIdentityCard.value.sta_identity_card.trim()) &&
-      this.formIdentityCard.value.sta_identity_card.trim() !== ''
+      !/^\d+$/.test(this.formIdentityCard.value.sta_identity_card) &&
+      this.formIdentityCard.value.sta_identity_card !== ''
     )
       return this._notify(false, 'Số CMND/Thẻ căn cước chỉ chứa chữ số');
 
     const identityForm = this.formIdentityCard.value;
-    identityForm.sta_identity_card = identityForm.sta_identity_card.trim();
+    identityForm.sta_identity_card = identityForm.sta_identity_card;
     identityForm.sta_identity_card_date = this._convertNgbDateToDate(
       identityForm.sta_identity_card_date
     );
@@ -203,12 +203,12 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
     );
 
     const profileForm = this.formProfile.value;
-    profileForm.sta_health_card = profileForm.sta_health_card.trim();
-    profileForm.sta_social_insurance = profileForm.sta_social_insurance.trim();
+    profileForm.sta_health_card = profileForm.sta_health_card;
+    profileForm.sta_social_insurance = profileForm.sta_social_insurance;
     profileForm.sta_birthday = this._convertNgbDateToDate(profileForm.sta_birthday);
     profileForm.sta_start_work_date = this._convertNgbDateToDate(profileForm.sta_start_work_date);
     profileForm.sta_end_work_date = this._convertNgbDateToDate(profileForm.sta_end_work_date);
-    profileForm.sta_username = profileForm.sta_username.trim().toLowerCase();
+    profileForm.sta_username = profileForm.sta_username.toLowerCase();
 
     const data = {
       ...this.formContractType.value,
@@ -323,7 +323,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
 
   //#region IdentityCard Form
   onChangeIdentityCard(event) {
-    if (event.target.value.trim() === '') {
+    if (event.target.value === '') {
       this.formIdentityCard.patchValue({
         sta_identity_card_date: null,
         sta_identity_card_date_end: null,
@@ -760,7 +760,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
   //#region Private
   private _initializeForm() {
     this.formContractType = this.formBuilder.group({
-      sta_type_contact: [0, null],
+      sta_type_contact: [1, null],
     });
 
     this.formProfile = this.formBuilder.group({

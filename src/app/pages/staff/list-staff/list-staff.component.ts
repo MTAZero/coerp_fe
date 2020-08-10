@@ -131,11 +131,10 @@ export class ListStaffComponent implements OnInit, OnDestroy {
     if (!files) {
       return;
     }
-
     const import$ = this.staffService.importStaff(files[0]).pipe(takeUntil(this.destroyed$));
     import$.subscribe(
       (res: any) => {
-        if (res && res.Code == 200) {
+        if (res && res.Data == 200) {
           this._notify(true, res.Message);
           this._fetchData();
         } else this._notify(false, res.Message);

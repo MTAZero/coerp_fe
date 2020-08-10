@@ -83,14 +83,14 @@
           <a class="btn btn-success mb-2 mr-1 button-link" (click)="onRouteDetail()"> Thêm mới</a>
           <a
             class="btn btn-primary mb-2 mr-1 button-link"
-            [ngClass]="selectedStaff ? '' : 'disabled'"
+            [ngClass]="selectedStaff ? '' : 'attr.disabled'"
             (click)="onRouteDetail(selectedStaff)"
           >
             Xem & Sửa</a
           >
           <a
             class="btn btn-danger mb-2 mr-1 button-link"
-            [ngClass]="selectedStaff ? '' : 'disabled'"
+            [ngClass]="selectedStaff ? '' : 'attr.disabled'"
             (click)="openConfirmModal(selectedStaff)"
           >
             Xóa</a
