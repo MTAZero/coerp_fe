@@ -3,13 +3,15 @@
     <div class="row">
       <div class="col-sm-8">
         <form class="form-inline">
-          <div class="form-group ml-1 mr-1 mb-2">
+          <div class="form-group ml-1 mr-1 mb-2" >
             <input
+              type="number"
               class="form-control"
               name="textSearch"
-              placeholder="Tìm kiếm..."
+              placeholder="Tìm kiếm theo số điện thoại..."
               [(ngModel)]="textSearch"
               (input)="onChangeFilter()"
+              style="width: 200px;"
             />
           </div>
           <select
@@ -225,21 +227,21 @@
           ></app-mobile-tab>
         </ng-template>
       </ngb-tab>
-      <ngb-tab title="2. Lịch sử mua hàng">
+      <!-- <ngb-tab title="2. Lịch sử mua hàng">
         <ng-template ngbTabContent>
           <app-purchase-history-tab
             [listCustomerOrder]="selectedCustomer?.list_customer_order_product"
           ></app-purchase-history-tab>
         </ng-template>
-      </ngb-tab>
-      <ngb-tab title="3. Lịch sử chăm sóc">
+      </ngb-tab> -->
+      <ngb-tab title="2. Lịch sử chăm sóc">
         <ng-template ngbTabContent>
           <app-care-history-tab
             [listTransaction]="selectedCustomer?.list_transaction"
           ></app-care-history-tab>
         </ng-template>
       </ngb-tab>
-      <ngb-tab title="4. Địa chỉ nhận hàng">
+      <ngb-tab title="3. Địa chỉ nhận hàng">
         <ng-template ngbTabContent>
           <app-address-tab
             [listAddress]="selectedCustomer?.list_ship_address"
@@ -248,7 +250,7 @@
           ></app-address-tab>
         </ng-template>
       </ngb-tab>
-      <ngb-tab title="5. Lịch sử sử dụng dịch vụ">
+      <ngb-tab title="4. Lịch sử sử dụng dịch vụ">
         <ng-template ngbTabContent>
           <app-service-history-tab
             [listCustomerOrder]="selectedCustomer?.list_customer_order_service"

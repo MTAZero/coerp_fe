@@ -25,7 +25,7 @@ export class ListTransactionServiceDetailComponent implements OnInit, OnDestroy 
   statuses: any;
   rates: any;
   customers: any;
-
+  listView = [true];
   form: FormGroup;
 
   searchCustomer = '';
@@ -86,7 +86,9 @@ export class ListTransactionServiceDetailComponent implements OnInit, OnDestroy 
       this.router.navigate(['/customer/list-transaction-service']);
     }
   }
-
+  switchViewType(index: number) {
+    this.listView[index] = !this.listView[index];
+  }
   onSubmit() {
     this.submitted = true;
     if (this.form.invalid) return;
