@@ -136,7 +136,32 @@ export class ListServiceComponent implements OnInit, OnDestroy {
       }
     );
   }
-
+  exportService() {
+    const export$ = this.serviceService
+      // .exportService({
+      //   pageNumber: this.page - 1,
+      //   pageSize: this.pageSize,
+      //   source_id: this.sourceSearch,
+      //   cu_type: this.typeSearch,
+      //   customer_group_id: this.groupSearch,
+      //   name: this.textSearch,
+      //   start_date: this._convertNgbDateToDate(this.fromDate),
+      //   end_date: this._convertNgbDateToDate(this.toDate),
+      // })
+    //   .pipe(takeUntil(this.destroyed$));
+    // export$.subscribe((res: any) => {
+    //   if (res && res.Data) {
+    //     const link = 'http://27.72.147.222:1230/' + res.Data;
+    //     window.open(link);
+    //   }
+    // });
+  }
+  setFile(event) {
+    let files = event.srcElement.files;
+    if (!files) {
+      return;
+    }
+  }
   private _notify(isSuccess: boolean, message: string) {
     return Swal.fire({
       toast: true,

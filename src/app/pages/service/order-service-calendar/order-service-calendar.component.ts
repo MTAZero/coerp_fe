@@ -9,7 +9,7 @@ import * as moment from 'moment';
 import { takeUntil } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { ServiceService } from '../../../core/services/api/service.service';
-
+// import { someEvent } from './order-s';
 @Component({
   selector: 'app-order-service-calendar',
   templateUrl: './order-service-calendar.component.html',
@@ -22,8 +22,8 @@ export class OrderServiceCalendarComponent implements OnInit {
   calendarWeekends: any;
   // show events
   calendarEvents = [];
+ 
   widgetData: any[];
-
   constructor(private serviceService: ServiceService) {}
   ngOnInit() {
     this._fetchData();
@@ -38,7 +38,10 @@ export class OrderServiceCalendarComponent implements OnInit {
     Swal.fire({
       title: e.event.title,
       type: 'info',
+      
       html:
+        '<p>Nhân viên: ' +
+        e.event.id +
         '<p>Bắt đầu: ' +
         moment(e.event.start).format('HH:mm / DD-MM-YYYY').toString() +
         '<p>Kết thúc: ' +
@@ -51,7 +54,7 @@ export class OrderServiceCalendarComponent implements OnInit {
   }
 
   datesRender(event: any) {
-    const { activeStart, activeEnd } = event.view;
+    const { activeStart, activeEnd} = event.view;
     this._fetchCalendar(activeStart, activeEnd);
   }
 
@@ -60,26 +63,32 @@ export class OrderServiceCalendarComponent implements OnInit {
   }
 
   private _fetchCalendar(start: Date, end: Date) {
+
     const calendar$ = this.serviceService
       .getCalendar({
         start_date: moment(start).format('YYYY-MM-DD'),
         to_date: moment(end).format('YYYY-MM-DD'),
       })
       .pipe(takeUntil(this.destroyed$));
-
+      
     calendar$.subscribe((res: any) => {
       this.calendarEvents = [];
-      res.Data.forEach((day) => {
-        const { work_time, list_service } = day;
-        const work_day = work_time.substr(0, 11);
 
+      res.Data.forEach((day) => {
+    
+        const { work_time, list_service, staff_name } = day;
+        const work_day = work_time.substr(0, 11);
+        
         list_service.forEach((time) => {
+        
           const { start_time, end_time, service_name } = time;
           this.calendarEvents.push({
             title: service_name,
+            id: staff_name,
             start: work_day.concat(start_time),
             end: work_day.concat(end_time),
-          });
+          },
+          );
         });
       });
     });

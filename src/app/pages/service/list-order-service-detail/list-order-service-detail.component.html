@@ -464,7 +464,7 @@
               </ng-select>
             </div>
           </div>
-          <div [formGroup]="formMoney">
+          <div>
             <div class="table-responsive border mb-2">
               <table class="table table-centered table-hover mb-0">
                 <thead>
@@ -492,39 +492,38 @@
                       {{ service.se_code }}
                     </td>
                     <td>{{ service.se_name }}</td>
-                    <td>{{ service.se_type_name }}</td>
+                    <td>{{ service.se_type_name}}</td>
                     <td>
                       {{ service.se_unit_name}}
                     </td>
                     <td>
                       <input
+                     
                         onlyNumber
                         type="number"
                         class="form-control"
                         formControlName="se_number"
-                        [readonly]="listView[2]"
-                         
-                        (change)="onChangeDiscount()"                 
+                        [readonly]="listView[2]"            
                       />
                     </td>
-                    <td>
+                    <td [formGroup]="formMoney">
                       <input
+                      
                       [readonly]="true"
                       class="form-control hi"
                       type="number"
                       formControlName="se_price"
-                      (change)="onChangeDiscount()"
+                  
                       [ngModel]="service.se_price"
-                     
                       />
                     </td>
-                    <td>
+                    <td [formGroup]="formMoney">
                       <input
+                      
                       [readonly]="true"
                     class="form-control hi"
                     type="number"
                     formControlName="se_saleoff"
-                    (change)="onChangeDiscount()"
                     [ngModel]="service.se_saleoff"
                   
                   />

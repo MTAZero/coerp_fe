@@ -16,22 +16,25 @@
       </div>
       <div class="col-sm-6">
         <div class="text-sm-right">
-          <button type="button" class="btn btn-info mr-1">
-            Nhập
-          </button>
-          <button type="button" class="btn btn-info mr-1">
+          <label class="btn btn-info mb-2 mr-1">
+            <input type="file" (change)="setFile($event)" style="display: none;" />
+            <a mat-raised-button color="primary">
+              Nhập
+            </a>
+          </label>
+          <button type="button" class="btn btn-info mb-2 mr-1" (click)="exportService()">
             Xuất
           </button>
-          <a class="btn btn-success mr-1 button-link" (click)="onRouteDetail()"> Thêm mới</a>
+          <a class="btn btn-success mb-2 mr-1 button-link" (click)="onRouteDetail()"> Thêm mới</a>
           <a
-            class="btn btn-primary mr-1 button-link"
+            class="btn btn-primary mb-2 mr-1 button-link"
             [ngClass]="selectedService ? '' : 'disabled'"
             (click)="onRouteDetail(selectedService)"
           >
             Xem & Sửa</a
           >
           <a
-            class="btn btn-danger mr-1 button-link"
+            class="btn btn-danger mb-2 mr-1 button-link"
             [ngClass]="selectedService ? '' : 'disabled'"
             (click)="openConfirmModal(selectedService)"
           >

@@ -179,7 +179,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
         this.formProfile.value.sta_end_work_date === null) ||
       (this.formProfile.value.sta_working_status === '2' &&
         (!this.formProfile.value.sta_reason_to_end_work ||
-          this.formProfile.value.sta_reason_to_end_wor === ''))
+          this.formProfile.value.sta_reason_to_end_work === ''))
     )
       return;
 

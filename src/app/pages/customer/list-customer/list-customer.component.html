@@ -116,6 +116,7 @@
             <th>Mã khách hàng</th>
             <th>Họ và tên</th>
             <th>Email</th>
+            <th>Số điện thoại</th>
             <th>Loại khách hàng</th>
             <th>Nhóm khách hàng</th>
             <th>Ngày sinh</th>
@@ -162,6 +163,7 @@
             <td>
               {{ customer.cu_email }}
             </td>
+            <td>{{ customer.cu_phone_number }}</td>
             <td>
               <span
                 [ngClass]="

@@ -101,11 +101,13 @@
         <form class="form-inline row">
           <div class="form-group mr-1">
             <input
+              type="number"
               class="form-control"
               name="textSearch"
-              placeholder="Tìm kiếm..."
+              placeholder="Tìm kiếm theo số điện thoại..."
               [(ngModel)]="textSearch"
               (input)="onChangeFilter()"
+              style="width: 200px;"
             />
           </div>
           <div class="input-group clockpicker mr-1">

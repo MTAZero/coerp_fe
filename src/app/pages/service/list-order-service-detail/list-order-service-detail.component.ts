@@ -1020,10 +1020,10 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
 
     this.formMoney.patchValue({
 
-      cuo_total_price: ((se_price + se_number + se_saleoff + st_repeat_every 
-        + b.diff(a, 'hours')
-        + exe_time_overtime)
-        * cuo_discount ),
+      cuo_total_price: ( ((se_price * se_number * (1 - (se_saleoff / 100)) * st_repeat_every 
+        * ((b.diff(a, 'minutes') / 60))
+        * exe_time_overtime) )
+        * (1 - (cuo_discount / 100) ) ),
         
     });
   }
