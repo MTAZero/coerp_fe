@@ -62,6 +62,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
   days: any[];
   summary = '';
   timePeriod: any;
+  selectedService: any;
   selectedCustomer: any;
   searchCustomer = '';
   searchService: any;
@@ -121,6 +122,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
 
   ngAfterViewInit() {
     this.formRepeat.valueChanges.subscribe((data) => this._updateSummary(data));
+    // this.formMoney.valueChanges.subscribe((data) => this._updateNumber(data));
   }
 
   onClickMenuItem(index: any) {
@@ -138,7 +140,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
   }
 
   onChangeToMain() {
-    if (this.formCustomer.dirty || this.formRepeat.dirty || this.isChange) {
+    if (this.formCustomer.dirty || this.formRepeat.dirty || this.formMoney.dirty || this.isChange) {
       Swal.fire({
         title: 'Dữ liệu đã bị thay đổi, bạn có chắc chắn muốn hủy thao tác không?',
         type: 'warning',
@@ -159,7 +161,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.submitted = true;
-    if (this.formCustomer.invalid || this.formRepeat.invalid || !this._checkValidExecutor()) return;
+    if (this.formCustomer.invalid || this.formRepeat.invalid || this.formMoney.invalid || !this._checkValidExecutor()) return;
     if (this.formCustomer.value.cu_fullname.trim() === '') {
       return this.formCustomer.controls['cu_fullname'].setErrors({ required: true });
     }
@@ -179,6 +181,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
       : customerData.cu_email;
 
     const repeatData = this.formRepeat.value;
+    
     repeatData.st_start_date = this._convertNgbDateToDate(repeatData.st_start_date);
     repeatData.st_end_date = this._convertNgbDateToDate(repeatData.st_end_date);
     repeatData.st_custom_start = this._convertNgbDateToDate(repeatData.st_custom_start);
@@ -189,6 +192,8 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
     const data = {
       cuo_color_show: this.cuo_color_show,
       ...repeatData,
+      ...this.formMoney.value,
+    
       customer: {
         ...customerData,
         list_customer_phone: this.listMobile,
@@ -198,10 +203,6 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
       list_executor: this.listExecutor,
       cuo_infor_time: this.summary,
       cuo_address: this.cuo_address,
-    };
-    const data2 = {
-      ...this.formMoney.value,
-      list_function: this.listFunction,
     };
     console.log(data);
     if (this.cuo_id)
@@ -236,7 +237,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
       cu_fullname: '',
       source_id: '',
       cu_type: 1,
-      cu_birthday: this._convertDateToNgbDate(new Date(1995, 0, 1)),
+      cu_birthday: '',
       customer_group_id: '',
       cu_email: '',
       cu_flag_order: 1,
@@ -383,12 +384,22 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
   changeDatalistService(e: any) {
     this.searchService = { se_id: '', se_name: 'Chọn dịch vụ' };
     if (e.se_id !== '') {
+      this.selectedService = null;
       this.services = this.services.filter((item) => item.se_id !== e.se_id);
       this.listService.push(e);
       this.isChange = true;
+    } else {
+      this._fetchService(e.se_id);
     }
   }
-
+  // changeDatalistCustomer(e: any) {
+  //   this.isChange = true;
+  //   if (!e || e.cu_id === '') {
+  //     this.selectedCustomer = null;
+  //   } else {
+  //     this._fetchCustomer(e.cu_id);
+  //   }
+  // }
   onRemoveService(service: any) {
     Swal.fire({
       title: 'Chắc chắn muốn xóa dịch vụ đang chọn?',
@@ -574,7 +585,11 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
     if (!res) this._notify(false, 'Chưa phân công cho một số thời gian làm việc');
     return res;
   }
-
+  // private _updateNumber(data: any) {
+  //   const {
+  //     se_number
+  //   } = data;
+  // }
   private _updateSummary(data: any) {
     data.st_on_the_flag = data.st_on_day_flag === 1 ? 0 : 1;
     const {
@@ -593,6 +608,8 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
       st_on_the_flag,
       st_custom_start,
       st_custom_end,
+      
+
     } = data;
     const type = st_repeat_type === 1 ? 'ngày' : st_repeat_type === 2 ? 'tuần' : 'tháng';
     const startCustom = moment(this._convertNgbDateToDate(st_custom_start)).format('DD/MM');
@@ -647,7 +664,6 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
       sha_district_now: [null, [Validators.required]],
       sha_province_now: [null, [Validators.required]],
       sha_detail_now: [null, [Validators.required]],
-     
     });
 
     this.formRepeat = this.formBuilder.group({
@@ -665,27 +681,33 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
       st_sat_flag: [0, null],
       st_repeat: [0, null],
       st_repeat_every: [1, null],
+
+      cuo_discount: [1, null],
+      cuo_total_price: [1, null],
+
       st_on_the: [1, null],
       st_on_day_flag: [1, null],
       st_on_day: [1, null],
       st_on_the_flag: [0, null],
       st_custom_start: [this._convertDateToNgbDate(new Date()), null],
-      st_custom_end: [this._convertDateToNgbDate(new Date()), null],
+      st_custom_end: [this._convertDateToNgbDate(new Date()), null],      
+
     });
     this.formMoney = this.formBuilder.group({
+      se_number:  [1, null],
       start_time: ['', null],
       end_time: ['', null],
       exe_time_overtime: ['', null],
-      cuo_total_price: [1, [Validators.required]],
-      cuo_discount: [1, [Validators.required]],
-      se_name: ['', [Validators.required]],
-      se_description: ['', null],
-      service_category_id: ['', [Validators.required]],
-      se_price: [1, [Validators.required]],
-      se_saleoff: ['', null],
-      se_type: ['', [Validators.required]],
-      se_unit: ['', [Validators.required]],
-      se_number:  [1, [Validators.required]],
+      // cuo_total_price: [1, [Validators.required]],
+      // cuo_discount: [1, [Validators.required]],
+      // se_name: ['', [Validators.required]],
+      // se_description: ['', null],
+      // service_category_id: ['', [Validators.required]],
+      // se_price: [1, [Validators.required]],
+      // se_saleoff: [1 , null],
+      // se_type: ['', [Validators.required]],
+      // se_unit: ['', [Validators.required]],
+      
     });
    
   }
@@ -785,15 +807,19 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
       sha_district_now: orderService.customer.sha_district_now,
       sha_province_now: orderService.customer.sha_province_now,
       sha_detail_now: orderService.customer.sha_detail_now,
-      cuo_total_price: orderService.customer.cuo_total_price,
+      
     });
-
+    this.formMoney.patchValue({
+     
+      se_number: orderService.list_service.se_number,
+    });
     this.formRepeat.patchValue({
       st_start_date: this._convertDateToNgbDate(orderService.st_start_date),
       st_end_date: this._convertDateToNgbDate(orderService.st_end_date),
       st_start_time: orderService.st_start_time ? orderService.st_start_time.substring(0, 5) : '',
       st_end_time: orderService.st_end_time ? orderService.st_end_time.substring(0, 5) : '',
-      st_repeat_type: orderService.st_repeat_type,
+      st_repeat_type: orderService.st_repeat_type,      
+
       st_sun_flag: orderService.st_sun_flag ? 1 : 0,
       st_mon_flag: orderService.st_mon_flag ? 1 : 0,
       st_tue_flag: orderService.st_tue_flag ? 1 : 0,
@@ -802,7 +828,12 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
       st_fri_flag: orderService.st_fri_flag ? 1 : 0,
       st_sat_flag: orderService.st_sat_flag ? 1 : 0,
       st_repeat: orderService.st_repeat ? 1 : 0,
+
       st_repeat_every: orderService.st_repeat_every,
+
+      cuo_total_price: orderService.cuo_total_price,
+      cuo_discount: orderService.cuo_discount,
+
       st_on_the: orderService.st_on_the,
       st_on_day_flag: orderService.st_on_day_flag ? 1 : 0,
       st_on_day: orderService.st_on_day,
@@ -812,7 +843,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
     });
 
     this._loadProvince();
-
+    this.selectedService = orderService.list_service;
     this.selectedCustomer = orderService.customer;
     this.listMobile = orderService.customer.list_customer_phone;
     this.listAddress = orderService.customer.list_ship_address;
@@ -826,7 +857,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
 
     this.cuo_color_show = orderService.cuo_color_show;
     this.cuo_address = orderService.cuo_address;
-
+   
     this.listExecutor = orderService.list_executor;
     this.listExecutor = this.listExecutor.map((item) => {
       return {
@@ -988,20 +1019,27 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
     const newDate = new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
     return moment(newDate).format();
   }
+  
+  
   private _fetchService(se_id: any) {
     const info$ = this.serviceService.loadServiceInfo({se_id})
     .pipe(takeUntil(this.destroyed$));
     info$.subscribe((res: any) => {
       if (res && res.Data) {
-        this._patchService(res.Data);
+        this.selectedService = res.Data;
+        this._patchService();
       }
     });
   }
-  private _patchService(service: any) {
-    this.form.patchValue({
-      se_price: service.se_price,
+  private _patchService() {
+    const service = this.selectedService;
+    this.formMoney.patchValue({
+      se_number: service.se_number,
       
     });
+  }
+  onChangeNumber() {
+    this._updatePrice();
   }
   private _updatePrice() {
    
@@ -1011,21 +1049,21 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
     });
     
    
-    const { st_repeat_every } = this.formRepeat.value;
+    // const { st_repeat_every, cuo_discount, cuo_total_price } = this.formRepeat.value;
    
-    const {  cuo_discount, se_price, se_saleoff, se_number, start_time, end_time, exe_time_overtime } = this.formMoney.value;
+    // const { se_price, se_saleoff, se_number, start_time, end_time, exe_time_overtime } = this.formMoney.value;
     
-    var a = moment(start_time, "HH:mm")
-    var b = moment(end_time, "HH:mm")
+    // var a = moment(start_time, "HH:mm")
+    // var b = moment(end_time, "HH:mm")
 
-    this.formMoney.patchValue({
+    // this.formRepeat.patchValue({
 
-      cuo_total_price: ( ((se_price * se_number * (1 - (se_saleoff / 100)) * st_repeat_every 
-        * ((b.diff(a, 'minutes') / 60))
-        * exe_time_overtime) )
-        * (1 - (cuo_discount / 100) ) ),
+    //   cuo_total_price: ( ((se_price * se_number * (1 - (se_saleoff / 100)) * st_repeat_every 
+    //     * ((b.diff(a, 'minutes') / 60))
+    //     * exe_time_overtime) )
+    //     * (1 - (cuo_discount / 100) ) ),
         
-    });
+    // });
   }
   private _notify(isSuccess: boolean, message: string) {
     return Swal.fire({

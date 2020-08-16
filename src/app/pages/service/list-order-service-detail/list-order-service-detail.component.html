@@ -464,7 +464,7 @@
               </ng-select>
             </div>
           </div>
-          <div>
+          <div [formGroup]="formMoney">
             <div class="table-responsive border mb-2">
               <table class="table table-centered table-hover mb-0">
                 <thead>
@@ -484,7 +484,7 @@
                 <tbody>
                   <tr 
                     *ngFor="let service of listService; let i = index"
-                    (change)="onChangeDiscount()">
+                   >
                     <td>
                       {{ i + 1 }}
                     </td>
@@ -498,36 +498,21 @@
                     </td>
                     <td>
                       <input
-                     
-                        onlyNumber
                         type="number"
                         class="form-control"
                         formControlName="se_number"
-                        [readonly]="listView[2]"            
+                        [readonly]="listView[2] || service.se_unit == '1' " 
+
                       />
                     </td>
-                    <td [formGroup]="formMoney">
-                      <input
-                      
-                      [readonly]="true"
-                      class="form-control hi"
-                      type="number"
-                      formControlName="se_price"
-                  
-                      [ngModel]="service.se_price"
-                      />
-                    </td>
-                    <td [formGroup]="formMoney">
-                      <input
-                      
-                      [readonly]="true"
-                    class="form-control hi"
-                    type="number"
-                    formControlName="se_saleoff"
-                    [ngModel]="service.se_saleoff"
-                  
-                  />
+                      <td >
+                        
+                        {{ service.se_price}}
+                      </td>
+                   
                     
+                    <td >
+                  {{service.se_saleoff}}
                     </td>
                     <td>{{ service.se_note }}</td>
                     <td>
@@ -542,6 +527,10 @@
                 </tbody>
               </table>
             </div>
+            
+            
+          </div>
+          <div [formGroup]="formRepeat">
             <div class="form-row">
               <div class="form-group row mb-3"></div>
               <div class="form-group row mb-3">
@@ -553,9 +542,7 @@
                     [readonly]="listView[2]"
                     formControlName="cuo_discount"
                     (change)="onChangeDiscount()"
-                    [ngClass]="{
-                      'is-invalid': submitted && formMoney.controls.cuo_discount.errors
-                    }"
+                   
                   />
                 </div>
               </div>
@@ -566,20 +553,18 @@
                   <label class="col-4 col-form-label">Thành tiền: </label>
                   <div class="col-6">
                     <input
-                  
-                      [readonly]="true"
+                    class="form-control"
+                    type="number"
+                    [readonly]="listView[2]"
                       formControlName="cuo_total_price"
-                      type="any"
+              
                       class="form-control"
-                      [ngClass]="{
-                        'is-invalid': submitted && formMoney.controls.cuo_total_price.errors
-                      }"
+                      
                     />
                   </div>
                 </div>
               </div>
           </div>
-          
             
          
 
