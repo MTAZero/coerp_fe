@@ -29,6 +29,8 @@ const router = {
 
   load_device: '/api/device/getall',
   get: '/api/staff/getall',
+
+  type: `/api/staff_type/getall`,
   // pending
   create_location: `/api/undertakenLocations/create`,
   update_location: `/api/undertakenLocations/update`,
@@ -55,6 +57,7 @@ export class StaffService {
     name: string;
     start_date: any;
     end_date: any;
+    position_id: any;
   }) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.search, params);
@@ -72,7 +75,9 @@ export class StaffService {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.export, params);
   }
-
+  loadType() {
+    return this.httpClient.get(router.type);
+  }
   exportTemplate() {
     return this.httpClient.get(router.export_template);
   }

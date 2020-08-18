@@ -16,15 +16,17 @@ import Swal from 'sweetalert2';
 export class ListStaffComponent implements OnInit, OnDestroy {
   private destroyed$ = new Subject();
 
+  types: any;
   textSearch = '';
   statusSearch = '';
   workingStatusSearch = '';
+  position = '';
   fromDate = this._convertDateToNgbDate(new Date('2010-01-01'));
   toDate = this._convertDateToNgbDate(new Date());
   page = 1;
   pageSize = 10;
   totalSize = 0;
-
+  typeSearch = '';
   selectedDevice = null;
   selectedStaff = null;
   staffs: any;
@@ -37,13 +39,20 @@ export class ListStaffComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this._fetchData();
+    this._fetchFilter();
   }
 
   ngOnDestroy() {
     this.destroyed$.next();
     this.destroyed$.complete();
   }
+  private _fetchFilter() {
+    const type$ = this.staffService.loadType().pipe(takeUntil(this.destroyed$));
 
+    type$.subscribe((res: any) => {
+      this.types = res.Data;
+    });
+  }
   onClickStaff(staff: any) {
     if (isNullOrUndefined(this.selectedStaff)) {
       this.selectedStaff = staff;
@@ -150,6 +159,7 @@ export class ListStaffComponent implements OnInit, OnDestroy {
         pageSize: this.pageSize,
         name: this.textSearch,
         status: this.statusSearch,
+        // position_id: this.typeSearch,
         sta_working_status: this.workingStatusSearch,
         start_date: this._convertNgbDateToDate(this.fromDate),
         end_date: this._convertNgbDateToDate(this.toDate),
@@ -181,6 +191,7 @@ export class ListStaffComponent implements OnInit, OnDestroy {
         name: this.textSearch,
         status: this.statusSearch,
         sta_working_status: this.workingStatusSearch,
+        position_id: this.typeSearch,
         start_date: this._convertNgbDateToDate(this.fromDate),
         end_date: this._convertNgbDateToDate(this.toDate),
       })

@@ -13,6 +13,15 @@
             />
           </div>
           <select
+            class="custom-select mr-1"
+            name="type"
+            [(ngModel)]="typeSearch"
+            (change)="onChangeFilter()"
+          >
+            <option value="">Chức danh</option>
+            <option *ngFor="let type of types" [value]="type.id">{{ type.name }}</option>
+          </select>
+          <select
             class="custom-select mr-1 mb-2"
             name="select"
             [(ngModel)]="statusSearch"
