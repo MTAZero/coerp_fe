@@ -76,7 +76,7 @@ export class StaffService {
     return this.httpClient.get(router.export, params);
   }
   loadType() {
-    return this.httpClient.get(router.type);
+    return this.httpClient.get(router.position);
   }
   exportTemplate() {
     return this.httpClient.get(router.export_template);

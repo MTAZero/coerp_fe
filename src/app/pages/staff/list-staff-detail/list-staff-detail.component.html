@@ -28,23 +28,48 @@
                 <input
                   type="radio"
                   id="inlineRadio1"
-                  [value]="0"
+                  [value]="1"
                   name="sta_type_contact"
                   formControlName="sta_type_contact"
                   disabled
                 />
                 <label for="inlineRadio1"> Fulltime </label>
               </div>
-              <div class="radio form-check-inline">
+
+              <div class="radio radio-info form-check-inline mr-5">
                 <input
                   type="radio"
                   id="inlineRadio2"
-                  [value]="1"
+                  [value]="2"
                   name="sta_type_contact"
                   formControlName="sta_type_contact"
                   disabled
                 />
-                <label for="inlineRadio2"> Parttime </label>
+                <label for="inlineRadio2"> Khối văn phòng </label>
+              </div>
+
+              <div class="radio radio-info form-check-inline mr-5">
+                <input
+                  type="radio"
+                  id="inlineRadio3"
+                  [value]="3"
+                  name="sta_type_contact"
+                  formControlName="sta_type_contact"
+                  disabled
+                />
+                <label for="inlineRadio3"> Tạp vụ </label>
+              </div>
+
+              <div class="radio form-check-inline">
+                <input
+                  type="radio"
+                  id="inlineRadio4"
+                  [value]="4"
+                  name="sta_type_contact"
+                  formControlName="sta_type_contact"
+                  disabled
+                />
+                <label for="inlineRadio4"> Parttime </label>
               </div>
             </div>
             <div class="row justify-content-center mb-2" *ngIf="!listView[0]">
@@ -52,24 +77,47 @@
                 <input
                   type="radio"
                   id="inlineRadio1"
-                  [value]="0"
+                  [value]="1"
                   name="sta_type_contact"
                   formControlName="sta_type_contact"
                 />
                 <label for="inlineRadio1"> Fulltime </label>
               </div>
-              <div class="radio form-check-inline">
+
+              <div class="radio radio-info form-check-inline mr-5">
                 <input
                   type="radio"
                   id="inlineRadio2"
-                  [value]="1"
+                  [value]="2"
                   name="sta_type_contact"
                   formControlName="sta_type_contact"
                 />
-                <label for="inlineRadio2"> Parttime </label>
+                <label for="inlineRadio2"> Khối văn phòng </label>
+              </div>
+
+              <div class="radio radio-info form-check-inline mr-5">
+                <input
+                  type="radio"
+                  id="inlineRadio3"
+                  [value]="3"
+                  name="sta_type_contact"
+                  formControlName="sta_type_contact"
+                />
+                <label for="inlineRadio3"> Tạp vụ </label>
+              </div>
+
+              <div class="radio form-check-inline">
+                <input
+                  type="radio"
+                  id="inlineRadio4"
+                  [value]="4"
+                  name="sta_type_contact"
+                  formControlName="sta_type_contact"
+                />
+                <label for="inlineRadio4"> Parttime </label>
               </div>
             </div>
-            <div class="row" *ngIf="formContractType.value.sta_type_contact === 1">
+            <div class="row" *ngIf="formContractType.value.sta_type_contact === 4">
               <div
                 *ngFor="let day of days; let i = index"
                 class="col-6 d-flex"
@@ -285,12 +333,7 @@
                   <select
                     class="custom-select"
                     formControlName="department_id"
-                    [ngClass]="{
-                      'is-invalid':
-                        submitted &&
-                        formContractType.value.sta_type_contact === 0 &&
-                        formProfile.value.department_id === null
-                    }"
+                   
                   >
                     <option
                       [disabled]="listView[1]"
@@ -299,16 +342,16 @@
                       >{{ dep.name }}</option
                     >
                   </select>
-                  <div
+                  <!-- <div
                     *ngIf="
                       submitted &&
-                      formContractType.value.sta_type_contact === 0 &&
+                      formContractType.value.sta_type_contact === 1 &&
                       formProfile.value.department_id === null
                     "
                     class="invalid-feedback"
                   >
                     <span>Trường bắt buộc</span>
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>
@@ -610,7 +653,7 @@
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label"
                   >Email
-                  <span *ngIf="formContractType.value.sta_type_contact === 0">(*)</span></label
+                  <span *ngIf="formContractType.value.sta_type_contact === 1">(*)</span></label
                 >
                 <div class="col-6">
                   <input
@@ -622,7 +665,7 @@
                         submitted &&
                         (formContact.controls.sta_email.errors ||
                           errorField === 'sta_email' ||
-                          (formContractType.value.sta_type_contact === 0 &&
+                          (formContractType.value.sta_type_contact === 1 &&
                             formContact.value.sta_email === ''))
                     }"
                   />
@@ -630,14 +673,14 @@
                     *ngIf="
                       submitted &&
                       (formContact.controls.sta_email.errors ||
-                        (formContractType.value.sta_type_contact === 0 &&
+                        (formContractType.value.sta_type_contact === 1 &&
                           formContact.value.sta_email === ''))
                     "
                     class="invalid-feedback"
                   >
                     <span
                       *ngIf="
-                        formContractType.value.sta_type_contact === 0 &&
+                        formContractType.value.sta_type_contact === 1 &&
                         formContact.value.sta_email === ''
                       "
                       >Trường bắt buộc</span

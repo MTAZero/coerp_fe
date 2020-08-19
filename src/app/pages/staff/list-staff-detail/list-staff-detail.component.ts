@@ -171,10 +171,10 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
       this.formPermanentAddress.invalid ||
       this.formNowAddress.invalid ||
       this.formIdentityCard.invalid ||
-      (this.formContractType.value.sta_type_contact === 1 &&
-        this.formContact.value.sta_email === '') ||
-      (this.formContractType.value.sta_type_contact === 1 &&
-        this.formProfile.value.department_id === null) ||
+      // (this.formContractType.value.sta_type_contact === 4 &&
+      //   this.formContact.value.sta_email === '') ||
+      // (this.formContractType.value.sta_type_contact === 4 &&
+      //   this.formProfile.value.department_id === null) ||
       (this.formProfile.value.sta_working_status === '2' &&
         this.formProfile.value.sta_end_work_date === null) ||
       (this.formProfile.value.sta_working_status === '2' &&
@@ -184,8 +184,8 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
       return;
 
     const list_staff_work_time = this.transformData();
-    if (this.formContractType.value.sta_type_contact === 0 && list_staff_work_time.length === 0)
-      return this._notify(false, 'Chưa chọn ngày làm việc');
+    // if (this.formContractType.value.sta_type_contact === 1 && list_staff_work_time.length === 0)
+    //   return this._notify(false, 'Chưa chọn ngày làm việc');
 
     if (
       !/^\d+$/.test(this.formIdentityCard.value.sta_identity_card) &&
@@ -760,7 +760,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
   //#region Private
   private _initializeForm() {
     this.formContractType = this.formBuilder.group({
-      sta_type_contact: [1, null],
+      sta_type_contact: ['', null],
     });
 
     this.formProfile = this.formBuilder.group({
