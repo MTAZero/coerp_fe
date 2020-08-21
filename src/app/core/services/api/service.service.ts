@@ -71,7 +71,7 @@ export class ServiceService {
     return this.httpClient.get(router.get_unit);
   }
 
-  getCalendar(filter?: { start_date: any; to_date: any }) {
+  getCalendar(filter?: { start_date: any; to_date: any}) {
     const params = mapToHttpParamsQuery(filter);
     return this.httpClient.get(router.get_calendar, params);
   }

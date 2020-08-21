@@ -22,7 +22,8 @@ export class OrderServiceCalendarComponent implements OnInit {
   calendarWeekends: any;
   // show events
   calendarEvents = [];
- 
+  textSearch = '';
+  staff = '';
   widgetData: any[];
   constructor(private serviceService: ServiceService) {}
   ngOnInit() {
@@ -42,6 +43,8 @@ export class OrderServiceCalendarComponent implements OnInit {
       html:
         '<p>Nhân viên: ' +
         e.event.id +
+        '<p>Khách hàng: ' +
+        e.event.groupId +
         '<p>Bắt đầu: ' +
         moment(e.event.start).format('HH:mm / DD-MM-YYYY').toString() +
         '<p>Kết thúc: ' +
@@ -68,6 +71,7 @@ export class OrderServiceCalendarComponent implements OnInit {
       .getCalendar({
         start_date: moment(start).format('YYYY-MM-DD'),
         to_date: moment(end).format('YYYY-MM-DD'),
+        
       })
       .pipe(takeUntil(this.destroyed$));
       
@@ -76,7 +80,7 @@ export class OrderServiceCalendarComponent implements OnInit {
 
       res.Data.forEach((day) => {
     
-        const { work_time, list_service, staff_name } = day;
+        const { work_time, list_service, staff_name, customer_name } = day;
         const work_day = work_time.substr(0, 11);
         
         list_service.forEach((time) => {
@@ -85,6 +89,7 @@ export class OrderServiceCalendarComponent implements OnInit {
           this.calendarEvents.push({
             title: service_name,
             id: staff_name,
+            groupId: customer_name,
             start: work_day.concat(start_time),
             end: work_day.concat(end_time),
           },
