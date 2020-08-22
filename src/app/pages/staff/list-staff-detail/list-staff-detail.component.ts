@@ -76,7 +76,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
   listNewTraining = [];
   listNewDevice = [];
   listWorkTime = [[], [], [], [], [], [], []];
-
+  listWorkTimea = [[], [], [], [], [], [], []];
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -248,12 +248,26 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
         sw_time_start: sw_time_start.substr(0, 5),
         sw_time_end: sw_time_end.substr(0, 5),
       });
+      this.listWorkTimea[index].push({
+        ...item,
+        sw_time_start: sw_time_start.substr(0, 5),
+        sw_time_end: sw_time_end.substr(0, 5),
+      });
     });
   }
 
   transformData() {
     var data = [];
     this.listWorkTime.forEach((item, index) => {
+      if (item.length === 0) return;
+      item.forEach((time) => {
+        data.push({
+          ...time,
+          sw_day_flag: `TH${index + 2}`,
+        });
+      });
+    });
+    this.listWorkTimea.forEach((item, index) => {
       if (item.length === 0) return;
       item.forEach((time) => {
         data.push({
@@ -272,18 +286,28 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
       sw_time_start: '08:30',
       sw_time_end: '16:00',
     });
+    this.listWorkTimea[index].push({
+      sw_id: `sw_${this.tempWorkTime}`,
+      sw_time_start: '08:30',
+      sw_time_end: '16:00',
+    });
     this.tempWorkTime++;
   }
 
   onClickMinus(index: number, timeIndex: number) {
     this.isChange = true;
     this.listWorkTime[index].splice(timeIndex, 1);
+    this.listWorkTimea[index].splice(timeIndex, 1);
   }
 
   onChangeStart(index, timeIndex, event) {
     this.isChange = true;
     this.listWorkTime[index][timeIndex] = {
       ...this.listWorkTime[index][timeIndex],
+      sw_time_start: event.target.value,
+    };
+    this.listWorkTimea[index][timeIndex] = {
+      ...this.listWorkTimea[index][timeIndex],
       sw_time_start: event.target.value,
     };
   }
@@ -294,6 +318,10 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
       ...this.listWorkTime[index][timeIndex],
       sw_time_end: event.target.value,
     };
+    this.listWorkTimea[index][timeIndex] = {
+      ...this.listWorkTimea[index][timeIndex],
+      sw_time_end: event.target.value,
+    };
   }
 
   onCheckDay(index: any) {
@@ -301,6 +329,20 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
     if (this.listWorkTime[index].length !== 0) this.listWorkTime[index] = [];
     else {
       this.listWorkTime[index].push({
+        sw_id: `sw_${this.tempWorkTime}`,
+        sw_time_start: '08:30',
+        sw_time_end: '16:00',
+      });
+      this.tempWorkTime++;
+    }
+    
+  }
+  onCheckDaya(index: any) {
+    this.isChange = true;
+   
+    if (this.listWorkTimea[index].length !== 0) this.listWorkTimea[index] = [];
+    else {
+      this.listWorkTimea[index].push({
         sw_id: `sw_${this.tempWorkTime}`,
         sw_time_start: '08:30',
         sw_time_end: '16:00',
