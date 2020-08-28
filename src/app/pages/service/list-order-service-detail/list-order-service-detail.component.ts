@@ -382,7 +382,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
 
   //#region List Service
   changeDatalistService(e: any) {
-    this.searchService = { se_id: '', se_name: 'Chọn dịch vụ' };
+    this.searchService = { se_id: '', se_name: 'Chọn dịch vụ', se_price: '' };
     if (e.se_id !== '') {
       this.selectedService = null;
       this.services = this.services.filter((item) => item.se_id !== e.se_id);
@@ -762,7 +762,7 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroyed$));
     service$.subscribe((res: any) => {
       this.services = res.Data.Results;
-      this.services.push({ se_name: 'Chọn dịch vụ', se_id: '' });
+      this.services.push({ se_name: 'Chọn dịch vụ', se_price: '', se_id: '' });
       this.services = this.services.reverse();
 
       if (this.listService) {

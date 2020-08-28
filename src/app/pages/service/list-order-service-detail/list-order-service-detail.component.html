@@ -450,18 +450,37 @@
               ></i>
             </div>
             <div class="row align-items-center" *ngIf="!listView[2]">
-              <ng-select
+              <ng-select 
+              placeholder="Chọn dịch vụ"
+                style="width: 300px;"
+               [items]="services" 
+               bindLabel="se_name" 
+               #buddiesInput="ngModel" 
+               [(ngModel)]="searchService" 
+               name="searchService"
+               [clearable]="false"
+                (change)="changeDatalistService($event)" >
+                <ng-template ng-label-tmp let-item="item">
+                {{item.se_name}} {{item.se_price}}
+                </ng-template>
+                <ng-template ng-option-tmp let-item="item" let-search="searchService">
+                  {{item.se_name}}    -   {{item.se_price}}
+                </ng-template>
+                </ng-select>
+              <!-- <ng-select
                 placeholder="Chọn dịch vụ"
                 style="width: 300px;"
                 [items]="services"
-                bindLabel="se_name"
+               
+                bindLabel="se_name"  
+                             
                 bindValue="se_id"
                 name="searchService"
                 [(ngModel)]="searchService"
                 [clearable]="false"
                 (change)="changeDatalistService($event)"
               >
-              </ng-select>
+              </ng-select> -->
             </div>
           </div>
           <div [formGroup]="formMoney">

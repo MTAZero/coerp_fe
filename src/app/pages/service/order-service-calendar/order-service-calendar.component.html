@@ -20,6 +20,7 @@
                   <div class="app-calendar">
                     <!-- calendar -->
                     <full-calendar
+              
                       #calendar
                       defaultView="dayGridMonth"
                       [header]="{
@@ -33,8 +34,10 @@
                       deepChangeDetection="true"
                       [events]="calendarEvents"
                       (dateClick)="onDateClick($event)"
-                      (eventClick)="onEventClick($event)"
-                      (eventMouseEnter)="onHoverEvent()"
+                      
+                      
+                      (eventMouseEnter)="onEventClick($event)"
+  
                       (datesRender)="datesRender($event)"
                     >
                     </full-calendar>

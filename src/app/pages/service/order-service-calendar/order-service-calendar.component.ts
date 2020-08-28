@@ -45,6 +45,8 @@ export class OrderServiceCalendarComponent implements OnInit {
         e.event.id +
         '<p>Khách hàng: ' +
         e.event.groupId +
+        '<p>SĐT Khách hàng: ' +
+        e.event.classNames +
         '<p>Bắt đầu: ' +
         moment(e.event.start).format('HH:mm / DD-MM-YYYY').toString() +
         '<p>Kết thúc: ' +
@@ -52,8 +54,24 @@ export class OrderServiceCalendarComponent implements OnInit {
     });
   }
 
-  onHoverEvent() {
-    //console.log(event.event._def.title);
+  onHoverEvent(e) {
+    // console.log(e);
+    // Swal.fire({
+    //   title: e.tooltip.title,
+    //   type: 'info',
+      
+    //   html:
+    //     '<p>Nhân viên: ' +
+    //     e.tooltip.id +
+    //     '<p>Khách hàng: ' +
+    //     e.tooltip.groupId +
+    //     '<p>SĐT Khách hàng: ' +
+    //     e.tooltip.classNames +
+    //     '<p>Bắt đầu: ' +
+    //     moment(e.tooltip.start).format('HH:mm / DD-MM-YYYY').toString() +
+    //     '<p>Kết thúc: ' +
+    //     moment(e.tooltip.end).format('HH:mm / DD-MM-YYYY').toString(),
+    // });
   }
 
   datesRender(event: any) {
@@ -80,7 +98,7 @@ export class OrderServiceCalendarComponent implements OnInit {
 
       res.Data.forEach((day) => {
     
-        const { work_time, list_service, staff_name, customer_name } = day;
+        const { work_time, list_service, staff_name, customer_name, cu_phone_number } = day;
         const work_day = work_time.substr(0, 11);
         
         list_service.forEach((time) => {
@@ -90,6 +108,7 @@ export class OrderServiceCalendarComponent implements OnInit {
             title: service_name,
             id: staff_name,
             groupId: customer_name,
+            classNames: cu_phone_number,
             start: work_day.concat(start_time),
             end: work_day.concat(end_time),
           },

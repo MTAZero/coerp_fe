@@ -20,7 +20,6 @@ export class DeviceModalComponent implements OnInit {
   @Output() passEvent: EventEmitter<any> = new EventEmitter();
   form: FormGroup;
   submitted = false;
-  
   dev: any;
   devices: any;
   constructor(

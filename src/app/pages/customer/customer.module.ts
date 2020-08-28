@@ -24,7 +24,7 @@ import { ListTransactionProductDetailComponent } from './list-transaction-produc
 import { ListTransactionServiceComponent } from './list-transaction-service/list-transaction-service.component';
 import { ListTransactionServiceDetailComponent } from './list-transaction-service-detail/list-transaction-service-detail.component';
 import { CustomerGroupDetailComponent } from './customer-group-detail/customer-group-detail.component';
-
+import { NgSelectModule } from '@ng-select/ng-select';
 @NgModule({
   declarations: [
     ListCustomerComponent,
@@ -57,6 +57,7 @@ import { CustomerGroupDetailComponent } from './customer-group-detail/customer-g
     NgbPaginationModule,
     Ng2SearchPipeModule,
     NgApexchartsModule,
+    NgSelectModule,
   ],
   entryComponents: [
     CustomerGroupModalComponent,

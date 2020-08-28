@@ -754,7 +754,7 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
     const modalRef = this.modalService.open(DeviceModalComponent, {
       centered: true,
     });
-    modalRef.componentInstance.listDevice = this.listDevice;
+    // modalRef.componentInstance.listDevice = this.listDevice;
     modalRef.componentInstance.staffId = this.sta_id;
     if (device) {
       modalRef.componentInstance.device = device;
