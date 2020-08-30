@@ -27,7 +27,7 @@ export class ListTransactionServiceDetailComponent implements OnInit, OnDestroy 
   customers: any;
   listView = [true];
   form: FormGroup;
-
+  isChange = false;
   searchCustomer = '';
   selectedCustomer = null;
   currentStaff = '';
@@ -53,8 +53,8 @@ export class ListTransactionServiceDetailComponent implements OnInit, OnDestroy 
 
   ngOnInit() {
     this.tra_id = this.route.snapshot.paramMap.get('tra_id');
-    if (this.tra_id === '') this.isView = false;
-
+    // if (this.tra_id === '') this.isView = false;
+    if (this.tra_id === '') this.listView = [false];
     this.initializeForm();
     this._fetchFilter();
 
@@ -68,7 +68,7 @@ export class ListTransactionServiceDetailComponent implements OnInit, OnDestroy 
   }
 
   onChangeToMain() {
-    if (this.form.dirty) {
+    if (this.form.dirty || this.isChange) {
       Swal.fire({
         title: 'Dữ liệu đã bị thay đổi, bạn có chắc chắn muốn hủy thao tác không?',
         type: 'warning',
@@ -117,10 +117,11 @@ export class ListTransactionServiceDetailComponent implements OnInit, OnDestroy 
   }
 
   changeDatalistCustomer(e: any) {
-    if (e.target.value === '') {
+    this.isChange = true;
+    if (!e || e.cu_id === '') {
       this.selectedCustomer = null;
     } else {
-      this._fetchCustomer(e.target.value);
+      this._fetchCustomer(e.cu_id);
     }
   }
 

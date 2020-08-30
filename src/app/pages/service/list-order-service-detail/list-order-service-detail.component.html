@@ -451,7 +451,7 @@
             </div>
             <div class="row align-items-center" *ngIf="!listView[2]">
               <ng-select 
-              placeholder="Chọn dịch vụ"
+                placeholder="Chọn dịch vụ"
                 style="width: 300px;"
                [items]="services" 
                bindLabel="se_name" 
@@ -460,11 +460,11 @@
                name="searchService"
                [clearable]="false"
                 (change)="changeDatalistService($event)" >
-                <ng-template ng-label-tmp let-item="item">
+                <!-- <ng-template ng-label-tmp let-item="item">
                 {{item.se_name}} {{item.se_price}}
-                </ng-template>
+                </ng-template> -->
                 <ng-template ng-option-tmp let-item="item" let-search="searchService">
-                  {{item.se_name}}    -   {{item.se_price}}
+                  {{item.se_name}}: {{item.se_price}} VNĐ
                 </ng-template>
                 </ng-select>
               <!-- <ng-select

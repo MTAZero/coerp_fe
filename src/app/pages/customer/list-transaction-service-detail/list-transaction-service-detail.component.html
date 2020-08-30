@@ -6,7 +6,18 @@
           <div class="col-lg-6">
             <form class="form-inline">
               <div class="form-group">
-                <select
+                <ng-select
+              
+                style="width: 200px;"
+                [items]="customers"
+                bindLabel="cu_fullname"
+                bindValue="cu_id"
+                name="searchCustomer"
+                [(ngModel)]="searchCustomer"
+                (change)="changeDatalistCustomer($event)"
+              >
+              </ng-select>
+                <!-- <select
                  
                   class="custom-select"
                   name="searchCustomer"
@@ -20,7 +31,7 @@
                     [value]="customer.cu_id"
                     >{{ customer.cu_fullname }}</option
                   >
-                </select>
+                </select> -->
               </div>
               <i
               [ngClass]="listView[0] ? 'fe-edit ml-2' : 'fe-save ml-2'"
@@ -338,7 +349,7 @@
         <div class="text-sm-right">
           <button
             class="btn btn-success mb-2 mr-1 button-link"
-            [disabled]="!form.dirty"
+            [disabled]="!isChange && !form.dirty"
             (click)="onSubmit()"
           >
             Lưu lại
