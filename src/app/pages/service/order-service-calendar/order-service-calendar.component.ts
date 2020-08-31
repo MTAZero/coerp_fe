@@ -35,11 +35,10 @@ export class OrderServiceCalendarComponent implements OnInit {
   }
 
   onEventClick(e) {
-    console.log(e);
+    // console.log(e);
     Swal.fire({
       title: e.event.title,
       type: 'info',
-      
       html:
         '<p>Nhân viên: ' +
         e.event.id +
@@ -55,23 +54,7 @@ export class OrderServiceCalendarComponent implements OnInit {
   }
 
   onHoverEvent(e) {
-    // console.log(e);
-    // Swal.fire({
-    //   title: e.tooltip.title,
-    //   type: 'info',
-      
-    //   html:
-    //     '<p>Nhân viên: ' +
-    //     e.tooltip.id +
-    //     '<p>Khách hàng: ' +
-    //     e.tooltip.groupId +
-    //     '<p>SĐT Khách hàng: ' +
-    //     e.tooltip.classNames +
-    //     '<p>Bắt đầu: ' +
-    //     moment(e.tooltip.start).format('HH:mm / DD-MM-YYYY').toString() +
-    //     '<p>Kết thúc: ' +
-    //     moment(e.tooltip.end).format('HH:mm / DD-MM-YYYY').toString(),
-    // });
+   
   }
 
   datesRender(event: any) {

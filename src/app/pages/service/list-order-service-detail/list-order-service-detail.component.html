@@ -464,7 +464,7 @@
                 {{item.se_name}} {{item.se_price}}
                 </ng-template> -->
                 <ng-template ng-option-tmp let-item="item" let-search="searchService">
-                  {{item.se_name}}: {{item.se_price}} VNĐ
+                  {{item.se_name}}: {{item.se_price | number:'1.0-3'}} VNĐ
                 </ng-template>
                 </ng-select>
               <!-- <ng-select
@@ -526,7 +526,7 @@
                     </td>
                       <td >
                         
-                        {{ service.se_price}}
+                        {{ service.se_price | number:'1.0-3'}}
                       </td>
                    
                     
