@@ -6,6 +6,8 @@ import { takeUntil } from 'rxjs/operators';
 import { ServiceService } from '../../../core/services/api/service.service';
 import Swal from 'sweetalert2';
 
+import {EventEmitter} from '@angular/core';
+import {ReactiveFormsModule, FormsModule} from '@angular/forms';
 @Component({
   selector: 'app-list-service-detail',
   templateUrl: './list-service-detail.component.html',
@@ -36,6 +38,10 @@ export class ListServiceDetailComponent implements OnInit, OnDestroy {
     this._fetchFilter();
 
     if (this.se_id) this._fetchService(this.se_id);
+
+    // this.form = this.formBuilder.group({
+    //   se_price: this.formBuilder.control('se_price')
+    // })
   }
 
   ngOnDestroy() {
@@ -77,6 +83,8 @@ export class ListServiceDetailComponent implements OnInit, OnDestroy {
         se_id: this.se_id,
       });
     else this._createService(data);
+
+    
   }
 
   //#region Private

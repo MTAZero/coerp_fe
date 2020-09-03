@@ -31,6 +31,7 @@
     "@ng-select/ng-select": "^3.0.3",
     "angular-archwizard": "^4.0.0",
     "angular-calendar": "^0.28.16",
+    "angular-material": "^1.2.0",
     "angular-resizable-element": "^3.3.0",
     "animate.css": "^3.7.2",
     "apexcharts": "^3.8.3",

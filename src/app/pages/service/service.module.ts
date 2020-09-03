@@ -3,6 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbTabsetModule, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { BrowserModule } from '@angular/platform-browser';
+
+import { CurrencyPipe, DecimalPipe } from '@angular/common';
+
 import { UIModule } from '../../shared/ui/ui.module';
 import { NgbModalModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
@@ -20,7 +24,7 @@ import { ListOrderServiceDetailComponent } from './list-order-service-detail/lis
 import { CustomerModule } from '../customer/customer.module';
 import { ExecutorModalComponent } from './list-order-service-detail/component/executor-modal/executor-modal.component';
 import { ListServiceDetailComponent } from './list-service-detail/list-service-detail.component';
-
+import { UsdOnlyDirective } from './list-service-detail/usd-only.directive';
 @NgModule({
   declarations: [
     ListServiceComponent,
@@ -32,6 +36,7 @@ import { ListServiceDetailComponent } from './list-service-detail/list-service-d
     ListOrderServiceDetailComponent,
     ExecutorModalComponent,
     ListServiceDetailComponent,
+    UsdOnlyDirective,
   ],
   imports: [
     CommonModule,
@@ -50,5 +55,6 @@ import { ListServiceDetailComponent } from './list-service-detail/list-service-d
     CustomerModule,
   ],
   entryComponents: [ExecutorModalComponent],
+  providers: [ CurrencyPipe, DecimalPipe ],
 })
 export class ServiceModule {}
