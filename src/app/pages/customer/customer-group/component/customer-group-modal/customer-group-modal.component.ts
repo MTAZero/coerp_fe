@@ -84,6 +84,6 @@ export class CustomerGroupModalComponent implements OnInit {
       cg_thumbnail: customerGroup.cg_thumbnail,
       cg_description: customerGroup.cg_description
     });
-    this.thumbnail = 'http://27.72.147.222:1230' + customerGroup.cg_thumbnail;
+    this.thumbnail = 'http://27.72.88.15:83' + customerGroup.cg_thumbnail;
   }
 }

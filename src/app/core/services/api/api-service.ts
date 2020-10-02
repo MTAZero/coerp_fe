@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
 export class ApiService {
   private httpHeaders = new HttpHeaders();
   private httpOptions = {};
-  private apiUrl = 'http://27.72.147.222:1230';
+  private apiUrl = 'http://27.72.88.15:83';
   constructor(private httpClient: HttpClient, private router: Router) {
     this.httpOptions = {
       headers: new HttpHeaders({

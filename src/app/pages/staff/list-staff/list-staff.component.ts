@@ -167,7 +167,7 @@ export class ListStaffComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroyed$));
     export$.subscribe((res: any) => {
       if (res && res.Data) {
-        const link = 'http://27.72.147.222:1230/' + res.Data;
+        const link = 'http://27.72.88.15:83/' + res.Data;
         window.open(link);
       }
     });
@@ -177,7 +177,7 @@ export class ListStaffComponent implements OnInit, OnDestroy {
     const export$ = this.staffService.exportTemplate().pipe(takeUntil(this.destroyed$));
     export$.subscribe((res: any) => {
       if (res && res.Data) {
-        const link = 'http://27.72.147.222:1230/' + res.Data;
+        const link = 'http://27.72.88.15:83/' + res.Data;
         window.open(link);
       }
     });

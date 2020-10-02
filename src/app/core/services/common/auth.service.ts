@@ -6,7 +6,7 @@ import { StorageService } from './storage.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-  url = 'http://27.72.147.222:1230';
+  url = 'http://27.72.88.15:83';
   constructor(private http: HttpClient, private storageService: StorageService) {}
 
   public accessToken() {
@@ -20,7 +20,7 @@ export class AuthenticationService {
       .set('grant_type', 'password');
 
     return this.http
-      .post(`http://27.72.147.222:1230/token`, body.toString(), {
+      .post(`http://27.72.88.15:83/token`, body.toString(), {
         headers: new HttpHeaders({
           'Content-Type': 'application/json; charset=utf-8',
           'Access-Control-Allow-Origin': '*',
@@ -35,7 +35,7 @@ export class AuthenticationService {
     const body = new HttpParams().set('email', email);
 
     return this.http
-      .post(`http://27.72.147.222:1230/api/authentication/forgotpassword`, body.toString(), {
+      .post(`http://27.72.88.15:83/api/authentication/forgotpassword`, body.toString(), {
         headers: new HttpHeaders({
           'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
           'Access-Control-Allow-Origin': '*',

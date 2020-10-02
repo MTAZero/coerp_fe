@@ -44,7 +44,7 @@ export class MyProfileComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.thumbnail = 'http://27.72.147.222:1230' + localStorage.getItem('thumbnail');
+    this.thumbnail = 'http://27.72.88.15:83' + localStorage.getItem('thumbnail');
     this._fetchData();
     this._fetchProfile();
     this._fetchOrder();
@@ -66,7 +66,7 @@ export class MyProfileComponent implements OnInit {
               showConfirmButton: false,
               timer: 2000,
             });
-            this.thumbnail = 'http://27.72.147.222:1230' + res.Data;
+            this.thumbnail = 'http://27.72.88.15:83' + res.Data;
             localStorage.setItem('thumbnail', res.Data);
           } else {
             Swal.fire({

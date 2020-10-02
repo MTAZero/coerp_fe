@@ -41,7 +41,7 @@ export class AttachmentTabComponent implements OnInit {
 
   onClickLink(attachment: any) {
     this.onClickAttachment(attachment);
-    window.open('http://27.72.147.222:1230/' + attachment.ast_link);
+    window.open('http://27.72.88.15:83/' + attachment.ast_link);
   }
 
   openAttachmentModal(attachment?: any) {
