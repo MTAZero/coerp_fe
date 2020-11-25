@@ -55,7 +55,9 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
   listAddress = [];
   listService = [];
   listExecutor = [];
-
+  total_price;
+  amount=0;
+  discount=0;
   cuo_color_show = null;
   cuo_address = null;
   listFunction = [];
@@ -135,10 +137,6 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
   switchViewType(index: number) {
     this.listView[index] = !this.listView[index];
   }
-  onChangeDiscount() {
-    this._updatePrice();
-  }
-
   onChangeToMain() {
     if (this.formCustomer.dirty || this.formRepeat.dirty || this.formMoney.dirty || this.isChange) {
       Swal.fire({
@@ -1038,17 +1036,17 @@ export class ListOrderServiceDetailComponent implements OnInit, OnDestroy {
       
     });
   }
-  onChangeNumber() {
-    this._updatePrice();
+  onChangeDiscount(data : any) {
+    this._updatePrice(data)
   }
-  private _updatePrice() {
-   
-    let p = 0;
-    this.listFunction.forEach((e) => {
-      p += e.fun_price;
-    });
+
+  onChangeNumber(data: any) {
+    this._updatePrice(data);
+  }
+  _updatePrice(data) {
+      this.total_price = (this.amount * data[0].se_price) * ((100 - this.discount)/100)
     
-   
+  
     // const { st_repeat_every, cuo_discount, cuo_total_price } = this.formRepeat.value;
    
     // const { se_price, se_saleoff, se_number, start_time, end_time, exe_time_overtime } = this.formMoney.value;
