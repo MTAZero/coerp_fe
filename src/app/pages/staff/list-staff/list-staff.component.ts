@@ -68,7 +68,32 @@ export class ListStaffComponent implements OnInit, OnDestroy {
   onRouteDetail(staff?: any) {
     this.router.navigate(['/staff/list-staff-detail', staff ? staff.sta_id : '']);
   }
-
+  classTypeContact(type?: any) {
+    if(type === 1 ) {
+      return "badge badge-danger"
+    } else if(type ===2) {
+      return "badge badge-info"
+    } else if(type ===3) {
+      return "badge badge-primary"
+    } else if(type===4) {
+      return "badge badge-success"
+    } else {
+      return
+    }
+  }
+  typeContact(type?: any) {
+    if(type === 1 ) {
+      return "FullTime"
+    } else if(type ===2) {
+      return "Khối văn phòng"
+    } else if(type ===3) {
+      return "Tạp vụ"
+    } else if(type===4) {
+      return "Parttime"
+    } else{
+      return
+    }
+  }
   openConfirmModal(staff?: any) {
     Swal.fire({
       title: 'Chắc chắn muốn xóa nhân sự đang chọn?',

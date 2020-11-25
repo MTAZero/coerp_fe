@@ -1,157 +1,76 @@
 <app-main-container [hasBottom]="false">
-  <div top class="card-body pb-2" style="height: 100%;">
-    <div class="staff-detail">
-      <div class="menu">
-        <div
-          class="item"
-          *ngFor="let item of menu; let i = index"
-          [ngClass]="{
+    <div top class="card-body pb-2" style="height: 100%;">
+        <div class="staff-detail">
+            <div class="menu">
+                <div class="item" *ngFor="let item of menu; let i = index" [ngClass]="{
             'is-selected': i === selectedMenuItem
-          }"
-          (click)="onClickMenuItem(i)"
-        >
-          {{ item }}
-        </div>
-      </div>
-      <div class="main">
-        <div class="content mb-2" id="content">
-          <div id="0" class="row title-section">
-            <h5>{{ menu[0] }}</h5>
-            <i
-              [ngClass]="listView[0] ? 'fe-edit ml-2' : 'fe-save ml-2'"
-              (click)="switchViewType(0)"
-            ></i>
-          </div>
-          <div [formGroup]="formContractType">
-            <div class="row justify-content-center mb-2" *ngIf="listView[0]">
-              <div class="radio radio-info form-check-inline mr-5">
-                <input
-                  type="radio"
-                  id="inlineRadio1"
-                  [value]="1"
-                  name="sta_type_contact"
-                  formControlName="sta_type_contact"
-                  disabled
-                />
-                <label for="inlineRadio1"> Fulltime </label>
-              </div>
-
-              <div class="radio radio-info form-check-inline mr-5">
-                <input
-                  type="radio"
-                  id="inlineRadio2"
-                  [value]="2"
-                  name="sta_type_contact"
-                  formControlName="sta_type_contact"
-                  disabled
-                />
-                <label for="inlineRadio2"> Khối văn phòng </label>
-              </div>
-
-              <div class="radio radio-info form-check-inline mr-5">
-                <input
-                  type="radio"
-                  id="inlineRadio3"
-                  [value]="3"
-                  name="sta_type_contact"
-                  formControlName="sta_type_contact"
-                  disabled
-                />
-                <label for="inlineRadio3"> Tạp vụ </label>
-              </div>
-
-              <div class="radio form-check-inline">
-                <input
-                  type="radio"
-                  id="inlineRadio4"
-                  [value]="4"
-                  name="sta_type_contact"
-                  formControlName="sta_type_contact"
-                  disabled
-                />
-                <label for="inlineRadio4"> Parttime </label>
-              </div>
+          }" (click)="onClickMenuItem(i)">
+                    {{ item }}
+                </div>
             </div>
-            <div class="row justify-content-center mb-2" *ngIf="!listView[0]">
-              <div class="radio radio-info form-check-inline mr-5">
-                <input
-                  type="radio"
-                  id="inlineRadio1"
-                  [value]="1"
-                  name="sta_type_contact"
-                  formControlName="sta_type_contact"
-                />
-                <label for="inlineRadio1"> Fulltime </label>
-              </div>
+            <div class="main">
+                <div class="content mb-2" id="content">
+                    <div id="0" class="row title-section">
+                        <h5>{{ menu[0] }}</h5>
+                        <i [ngClass]="listView[0] ? 'fe-edit ml-2' : 'fe-save ml-2'" (click)="switchViewType(0)"></i>
+                    </div>
+                    <div [formGroup]="formContractType">
+                        <div class="row justify-content-center mb-2" *ngIf="listView[0]">
+                            <div class="radio radio-info form-check-inline mr-5">
+                                <input type="radio" id="inlineRadio1" [value]="1" name="sta_type_contact" formControlName="sta_type_contact" disabled />
+                                <label for="inlineRadio1"> Fulltime </label>
+                            </div>
 
-              <div class="radio radio-info form-check-inline mr-5">
-                <input
-                  type="radio"
-                  id="inlineRadio2"
-                  [value]="2"
-                  name="sta_type_contact"
-                  formControlName="sta_type_contact"
-                />
-                <label for="inlineRadio2"> Khối văn phòng </label>
-              </div>
+                            <div class="radio radio-info form-check-inline mr-5">
+                                <input type="radio" id="inlineRadio2" [value]="2" name="sta_type_contact" formControlName="sta_type_contact" disabled />
+                                <label for="inlineRadio2"> Khối văn phòng </label>
+                            </div>
 
-              <div class="radio radio-info form-check-inline mr-5">
-                <input
-                  type="radio"
-                  id="inlineRadio3"
-                  [value]="3"
-                  name="sta_type_contact"
-                  formControlName="sta_type_contact"
-                />
-                <label for="inlineRadio3"> Tạp vụ </label>
-              </div>
+                            <div class="radio radio-info form-check-inline mr-5">
+                                <input type="radio" id="inlineRadio3" [value]="3" name="sta_type_contact" formControlName="sta_type_contact" disabled />
+                                <label for="inlineRadio3"> Tạp vụ </label>
+                            </div>
 
-              <div class="radio form-check-inline">
-                <input
-                  type="radio"
-                  id="inlineRadio4"
-                  [value]="4"
-                  name="sta_type_contact"
-                  formControlName="sta_type_contact"
-                />
-                <label for="inlineRadio4"> Parttime </label>
-              </div>
-            </div>
-            <div class="row" *ngIf="formContractType.value.sta_type_contact === 3">
-              <div
-                *ngFor="let day of days; let i = index"
-                class="col-6 d-flex"
-                [ngClass]="i % 2 === 0 ? 'justify-content-end pr-4' : 'justify-content-start pl-4'"
-              >
-                <div
-                  class="checkbox checkbox-success mb-2"
-                  style="line-height: 2; width: 100px;"
-                  [ngClass]="i % 2 === 0 && listWorkTimea[i].length === 0 ? 'pr-300' : ''"
-                >
-                  <input
-                    [id]="day"
-                    type="checkbox"
-                    (change)="onCheckDaya(i)"
-                    [disabled]="listView[0]"
-                    [checked]="listWorkTimea[i].length !== 0"
-                  />
-                  <label [for]="day">
+                            <div class="radio form-check-inline">
+                                <input type="radio" id="inlineRadio4" [value]="4" name="sta_type_contact" formControlName="sta_type_contact" disabled />
+                                <label for="inlineRadio4"> Parttime </label>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center mb-2" *ngIf="!listView[0]">
+                            <div class="radio radio-info form-check-inline mr-5">
+                                <input type="radio" id="inlineRadio1" [value]="1" name="sta_type_contact" formControlName="sta_type_contact" />
+                                <label for="inlineRadio1"> Fulltime </label>
+                            </div>
+
+                            <div class="radio radio-info form-check-inline mr-5">
+                                <input type="radio" id="inlineRadio2" [value]="2" name="sta_type_contact" formControlName="sta_type_contact" />
+                                <label for="inlineRadio2"> Khối văn phòng </label>
+                            </div>
+
+                            <div class="radio radio-info form-check-inline mr-5">
+                                <input type="radio" id="inlineRadio3" [value]="3" name="sta_type_contact" formControlName="sta_type_contact" />
+                                <label for="inlineRadio3"> Tạp vụ </label>
+                            </div>
+
+                            <div class="radio form-check-inline">
+                                <input type="radio" id="inlineRadio4" [value]="4" name="sta_type_contact" formControlName="sta_type_contact" />
+                                <label for="inlineRadio4"> Parttime </label>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="formContractType.value.sta_type_contact === 3">
+                            <div *ngFor="let day of days; let i = index" class="col-6 d-flex" [ngClass]="i % 2 === 0 ? 'justify-content-end pr-4' : 'justify-content-start pl-4'">
+                                <div class="checkbox checkbox-success mb-2" style="line-height: 2; width: 100px;" [ngClass]="i % 2 === 0 && listWorkTimea[i].length === 0 ? 'pr-300' : ''">
+                                    <input [id]="day" type="checkbox" (change)="onCheckDaya(i)" [disabled]="listView[0]" [checked]="listWorkTimea[i].length !== 0" />
+                                    <label [for]="day">
                     {{ day }}
                   </label>
-                </div>
-                <div style="line-height: 2;" *ngIf="listWorkTimea[i].length !== 0">
-                  Thời gian làm việc:
-                </div>
-                <div class="time-container">
-                  <div
-                    class="form-inline mb-2 justify-content-center"
-                    *ngFor="let time of listWorkTimea[i]; let timeIndex = index"
-                  >
-                    <select
-                      class="custom-select mr-2 ml-2"
-                      [value]="time.sw_time_start"
-                      (change)="onChangeStart(i, timeIndex, $event)"
-                    >
+                                </div>
+                                <div style="line-height: 2;" *ngIf="listWorkTimea[i].length !== 0">
+                                    Thời gian làm việc:
+                                </div>
+                                <div class="time-container">
+                                    <div class="form-inline mb-2 justify-content-center" *ngFor="let time of listWorkTimea[i]; let timeIndex = index">
+                                        <select class="custom-select mr-2 ml-2" [value]="time.sw_time_start" (change)="onChangeStart(i, timeIndex, $event)">
                       <option
                         *ngFor="let time of timePeriod"
                         [disabled]="listView[0]"
@@ -159,12 +78,8 @@
                         >{{ time }}</option
                       >
                     </select>
-                    <div>-</div>
-                    <select
-                      class="custom-select ml-2"
-                      [value]="time.sw_time_end"
-                      (change)="onChangeEnd(i, timeIndex, $event)"
-                    >
+                                        <div>-</div>
+                                        <select class="custom-select ml-2" [value]="time.sw_time_end" (change)="onChangeEnd(i, timeIndex, $event)">
                       <option
                         *ngFor="let time of timePeriod"
                         [disabled]="listView[0]"
@@ -172,62 +87,30 @@
                         >{{ time }}</option
                       >
                     </select>
-                    <div class="ml-2" *ngIf="!listView[0]">
-                      <i
-                        class="fe-minus-circle"
-                        style="font-size: large; cursor: pointer;"
-                        (click)="onClickMinus(i, timeIndex)"
-                      ></i>
-                    </div>
-                  </div>
-                  <div
-                    class="row justify-content-center mb-2"
-                    *ngIf="!listView[0] && listWorkTimea[i].length !== 0"
-                  >
-                    <i
-                      class="fe-plus-circle"
-                      style="font-size: large; cursor: pointer;"
-                      (click)="onClickPlus(i)"
-                    ></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row" *ngIf="formContractType.value.sta_type_contact === 4">
-              <div
-                *ngFor="let day of days; let i = index"
-                class="col-6 d-flex"
-                [ngClass]="i % 2 === 0 ? 'justify-content-end pr-4' : 'justify-content-start pl-4'"
-              >
-                <div
-                  class="checkbox checkbox-success mb-2"
-                  style="line-height: 2; width: 100px;"
-                  [ngClass]="i % 2 === 0 && listWorkTime[i].length === 0 ? 'pr-300' : ''"
-                >
-                  <input
-                    [id]="day"
-                    type="checkbox"
-                    (change)="onCheckDay(i)"
-                    [disabled]="listView[0]"
-                    [checked]="listWorkTime[i].length !== 0"
-                  />
-                  <label [for]="day">
+                                        <div class="ml-2" *ngIf="!listView[0]">
+                                            <i class="fe-minus-circle" style="font-size: large; cursor: pointer;" (click)="onClickMinus(i, timeIndex)"></i>
+                                        </div>
+                                    </div>
+                                    <div class="row justify-content-center mb-2" *ngIf="!listView[0] && listWorkTimea[i].length !== 0">
+                                        <i class="fe-plus-circle" style="font-size: large; cursor: pointer;" (click)="onClickPlus(i)"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="formContractType.value.sta_type_contact === 4">
+                            <div *ngFor="let day of days; let i = index" class="col-6 d-flex" [ngClass]="i % 2 === 0 ? 'justify-content-end pr-4' : 'justify-content-start pl-4'">
+                                <div class="checkbox checkbox-success mb-2" style="line-height: 2; width: 100px;" [ngClass]="i % 2 === 0 && listWorkTime[i].length === 0 ? 'pr-300' : ''">
+                                    <input [id]="day" type="checkbox" (change)="onCheckDay(i)" [disabled]="listView[0]" [checked]="listWorkTime[i].length !== 0" />
+                                    <label [for]="day">
                     {{ day }}
                   </label>
-                </div>
-                <div style="line-height: 2;" *ngIf="listWorkTime[i].length !== 0">
-                  Thời gian làm việc:
-                </div>
-                <div class="time-container">
-                  <div
-                    class="form-inline mb-2 justify-content-center"
-                    *ngFor="let time of listWorkTime[i]; let timeIndex = index"
-                  >
-                    <select
-                      class="custom-select mr-2 ml-2"
-                      [value]="time.sw_time_start"
-                      (change)="onChangeStart(i, timeIndex, $event)"
-                    >
+                                </div>
+                                <div style="line-height: 2;" *ngIf="listWorkTime[i].length !== 0">
+                                    Thời gian làm việc:
+                                </div>
+                                <div class="time-container">
+                                    <div class="form-inline mb-2 justify-content-center" *ngFor="let time of listWorkTime[i]; let timeIndex = index">
+                                        <select class="custom-select mr-2 ml-2" [value]="time.sw_time_start" (change)="onChangeStart(i, timeIndex, $event)">
                       <option
                         *ngFor="let time of timePeriod"
                         [disabled]="listView[0]"
@@ -235,12 +118,8 @@
                         >{{ time }}</option
                       >
                     </select>
-                    <div>-</div>
-                    <select
-                      class="custom-select ml-2"
-                      [value]="time.sw_time_end"
-                      (change)="onChangeEnd(i, timeIndex, $event)"
-                    >
+                                        <div>-</div>
+                                        <select class="custom-select ml-2" [value]="time.sw_time_end" (change)="onChangeEnd(i, timeIndex, $event)">
                       <option
                         *ngFor="let time of timePeriod"
                         [disabled]="listView[0]"
@@ -248,78 +127,46 @@
                         >{{ time }}</option
                       >
                     </select>
-                    <div class="ml-2" *ngIf="!listView[0]">
-                      <i
-                        class="fe-minus-circle"
-                        style="font-size: large; cursor: pointer;"
-                        (click)="onClickMinus(i, timeIndex)"
-                      ></i>
+                                        <div class="ml-2" *ngIf="!listView[0]">
+                                            <i class="fe-minus-circle" style="font-size: large; cursor: pointer;" (click)="onClickMinus(i, timeIndex)"></i>
+                                        </div>
+                                    </div>
+                                    <div class="row justify-content-center mb-2" *ngIf="!listView[0] && listWorkTime[i].length !== 0">
+                                        <i class="fe-plus-circle" style="font-size: large; cursor: pointer;" (click)="onClickPlus(i)"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                  </div>
-                  <div
-                    class="row justify-content-center mb-2"
-                    *ngIf="!listView[0] && listWorkTime[i].length !== 0"
-                  >
-                    <i
-                      class="fe-plus-circle"
-                      style="font-size: large; cursor: pointer;"
-                      (click)="onClickPlus(i)"
-                    ></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <div id="1" class="row title-section">
-            <h5>{{ menu[1] }}</h5>
-            <i
-              [ngClass]="listView[1] ? 'fe-edit ml-2' : 'fe-save ml-2'"
-              (click)="switchViewType(1)"
-            ></i>
-          </div>
-          <div [formGroup]="formProfile">
-            <div class="form-row">
-              <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Họ và tên <span>(*)</span></label>
-                <div class="col-6">
-                  <input
-                    class="form-control"
-                    [readonly]="listView[1]"
-                    formControlName="sta_fullname"
-                    [ngClass]="{
+                    <div id="1" class="row title-section">
+                        <h5>{{ menu[1] }}</h5>
+                        <i [ngClass]="listView[1] ? 'fe-edit ml-2' : 'fe-save ml-2'" (click)="switchViewType(1)"></i>
+                    </div>
+                    <div [formGroup]="formProfile">
+                        <div class="form-row">
+                            <div class="form-group row mb-3">
+                                <label class="col-4 col-form-label">Họ và tên <span>(*)</span></label>
+                                <div class="col-6">
+                                    <input class="form-control" [readonly]="listView[1]" formControlName="sta_fullname" [ngClass]="{
                       'is-invalid': submitted && formProfile.controls.sta_fullname.errors
-                    }"
-                  />
-                  <div
-                    *ngIf="submitted && formProfile.controls.sta_fullname.errors"
-                    class="invalid-feedback"
-                  >
-                    <span *ngIf="formProfile.controls.sta_fullname.errors.required"
-                      >Trường bắt buộc</span
+                    }" />
+                                    <div *ngIf="submitted && formProfile.controls.sta_fullname.errors" class="invalid-feedback">
+                                        <span *ngIf="formProfile.controls.sta_fullname.errors.required">Trường bắt buộc</span
                     >
                   </div>
                 </div>
               </div>
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Tên đăng nhập <span>(*)</span></label>
-                <div class="col-6">
-                  <input
-                    class="form-control"
-                    [readonly]="sta_id !== ''"
-                    formControlName="sta_username"
-                    [ngClass]="{
+                                        <div class="col-6">
+                                            <input class="form-control" [readonly]="sta_id !== ''" formControlName="sta_username" [ngClass]="{
                       'is-invalid':
                         submitted &&
                         (formProfile.controls.sta_username.errors || errorField === 'sta_username')
-                    }"
-                  />
-                  <div
-                    *ngIf="submitted && formProfile.controls.sta_username.errors"
-                    class="invalid-feedback"
-                  >
-                    <span *ngIf="formProfile.controls.sta_username.errors.required"
-                      >Trường bắt buộc</span
+                    }" />
+                                            <div *ngIf="submitted && formProfile.controls.sta_username.errors" class="invalid-feedback">
+                                                <span *ngIf="formProfile.controls.sta_username.errors.required">Trường bắt buộc</span
                     >
                   </div>
                 </div>
@@ -328,38 +175,26 @@
             <div class="form-row">
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Nhóm quyền <span>(*)</span></label>
-                <div class="col-6">
-                  <select
-                    class="custom-select"
-                    formControlName="group_role_id"
-                    [ngClass]="{
+                                                <div class="col-6">
+                                                    <select class="custom-select" formControlName="group_role_id" [ngClass]="{
                       'is-invalid': submitted && formProfile.controls.group_role_id.errors
-                    }"
-                  >
+                    }">
                     <option [disabled]="listView[1]" *ngFor="let role of roles" [value]="role.id">{{
                       role.name
                     }}</option>
                   </select>
-                  <div
-                    *ngIf="submitted && formProfile.controls.group_role_id.errors"
-                    class="invalid-feedback"
-                  >
-                    <span *ngIf="formProfile.controls.group_role_id.errors.required"
-                      >Trường bắt buộc</span
+                                                    <div *ngIf="submitted && formProfile.controls.group_role_id.errors" class="invalid-feedback">
+                                                        <span *ngIf="formProfile.controls.group_role_id.errors.required">Trường bắt buộc</span
                     >
                   </div>
                 </div>
               </div>
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Chức vụ <span>(*)</span></label>
-                <div class="col-6">
-                  <select
-                    class="custom-select"
-                    formControlName="position_id"
-                    [ngClass]="{
+                                                        <div class="col-6">
+                                                            <select class="custom-select" formControlName="position_id" [ngClass]="{
                       'is-invalid': submitted && formProfile.controls.position_id.errors
-                    }"
-                  >
+                    }">
                     <option
                       [disabled]="listView[1]"
                       *ngFor="let pos of positions"
@@ -367,12 +202,8 @@
                       >{{ pos.name }}</option
                     >
                   </select>
-                  <div
-                    *ngIf="submitted && formProfile.controls.position_id.errors"
-                    class="invalid-feedback"
-                  >
-                    <span *ngIf="formProfile.controls.position_id.errors.required"
-                      >Trường bắt buộc</span
+                                                            <div *ngIf="submitted && formProfile.controls.position_id.errors" class="invalid-feedback">
+                                                                <span *ngIf="formProfile.controls.position_id.errors.required">Trường bắt buộc</span
                     >
                   </div>
                 </div>
@@ -381,28 +212,20 @@
             <div class="form-row">
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Trạng thái <span>(*)</span></label>
-                <div class="col-6">
-                  <select
-                    class="custom-select"
-                    formControlName="sta_status"
-                    [ngClass]="{
+                                                                <div class="col-6">
+                                                                    <select class="custom-select" formControlName="sta_status" [ngClass]="{
                       'is-invalid': submitted && formProfile.controls.sta_status.errors
-                    }"
-                  >
+                    }">
                     <option [disabled]="listView[1]" [value]="1">Kích hoạt</option>
                     <option [disabled]="listView[1]" [value]="2">Khóa</option>
                   </select>
-                  <div
-                    *ngIf="submitted && submitted && formProfile.controls.sta_status.errors"
-                    class="invalid-feedback"
-                  >
-                    <span>Trường bắt buộc</span>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group row mb-3">
-                <label class="col-4 col-form-label"
-                  >Phòng ban
+                                                                    <div *ngIf="submitted && submitted && formProfile.controls.sta_status.errors" class="invalid-feedback">
+                                                                        <span>Trường bắt buộc</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row mb-3">
+                                                                <label class="col-4 col-form-label">Phòng ban
                   <span *ngIf="formContractType.value.sta_type_contact === 0">(*)</span></label
                 >
                 <div class="col-6">
@@ -434,129 +257,80 @@
             <div class="form-row">
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Giới tính <span>(*)</span></label>
-                <div class="col-6">
-                  <select
-                    class="custom-select"
-                    formControlName="sta_sex"
-                    [ngClass]="{
+                                                                <div class="col-6">
+                                                                    <select class="custom-select" formControlName="sta_sex" [ngClass]="{
                       'is-invalid': submitted && formProfile.controls.sta_sex.errors
-                    }"
-                  >
+                    }">
                     <option [disabled]="listView[1]" [value]="1">Nam</option>
                     <option [disabled]="listView[1]" [value]="2">Nữ</option>
                     <option [disabled]="listView[1]" [value]="3">Giới tính khác</option>
                   </select>
-                  <div
-                    *ngIf="submitted && formProfile.controls.sta_sex.errors"
-                    class="invalid-feedback"
-                  >
-                    <span>Trường bắt buộc</span>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Phương tiện đi lại</label>
-                <div class="col-6">
-                  <input
-                    class="form-control"
-                    [readonly]="listView[1]"
-                    formControlName="sta_traffic"
-                  />
-                </div>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Ngày bắt đầu làm việc</label>
-                <div class="col-6">
-                  <div class="input-group clockpicker mb-2 mr-1">
-                    <input
-                      ngbDatepicker
-                      readonly="true"
-                      class="form-control"
-                      placeholder="Chọn ngày"
-                      #start_work="ngbDatepicker"
-                      formControlName="sta_start_work_date"
-                     z
-                      [disabled]="listView[1]"
-                    />
-                    <div class="input-group-append" (click)="start_work.toggle()">
-                      <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Ngày sinh</label>
-                <div class="col-6">
-                  <div class="input-group clockpicker mb-2 mr-1">
-                    <input
-                      ngbDatepicker
-                      readonly="true"
-                      class="form-control"
-                      placeholder="Chọn ngày"
-                      #dob="ngbDatepicker"
-                      formControlName="sta_birthday"
-                      [disabled]="listView[1]"
-                   
-                    />
-                    <div class="input-group-append" (click)="dob.toggle()">
-                      <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Lương <span>(*)</span></label>
-                <div class="col-6">
-                  <input
-                    class="form-control"
-                    id="example-number"
-                    type="number"
-                    [readonly]="listView[1]"
-                    formControlName="sta_salary"
-                    style="width: 100%;"
-                    [ngClass]="{
+                                                                    <div *ngIf="submitted && formProfile.controls.sta_sex.errors" class="invalid-feedback">
+                                                                        <span>Trường bắt buộc</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row mb-3">
+                                                                <label class="col-4 col-form-label">Phương tiện đi lại</label>
+                                                                <div class="col-6">
+                                                                    <input class="form-control" [readonly]="listView[1]" formControlName="sta_traffic" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-row">
+                                                            <div class="form-group row mb-3">
+                                                                <label class="col-4 col-form-label">Ngày bắt đầu làm việc</label>
+                                                                <div class="col-6">
+                                                                    <div class="input-group clockpicker mb-2 mr-1">
+                                                                        <input ngbDatepicker readonly="true" class="form-control" placeholder="Chọn ngày" #start_work="ngbDatepicker" formControlName="sta_start_work_date" z [disabled]="listView[1]" />
+                                                                        <div class="input-group-append" (click)="start_work.toggle()">
+                                                                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row mb-3">
+                                                                <label class="col-4 col-form-label">Ngày sinh</label>
+                                                                <div class="col-6">
+                                                                    <div class="input-group clockpicker mb-2 mr-1">
+                                                                        <input ngbDatepicker readonly="true" class="form-control" placeholder="Chọn ngày" #dob="ngbDatepicker" formControlName="sta_birthday" [disabled]="listView[1]" />
+                                                                        <div class="input-group-append" (click)="dob.toggle()">
+                                                                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-row">
+                                                            <div class="form-group row mb-3">
+                                                                <label class="col-4 col-form-label">Lương <span>(*)</span></label>
+                                                                <div class="col-6">
+                                                                    <input class="form-control" id="example-number" type="number" [readonly]="listView[1]" formControlName="sta_salary" style="width: 100%;" [ngClass]="{
                       'is-invalid': submitted && formProfile.controls.sta_salary.errors
-                    }"
-                  />
-                  <div
-                    *ngIf="submitted && formProfile.controls.sta_salary.errors"
-                    class="invalid-feedback"
-                  >
-                    <span>Trường bắt buộc</span>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Trạng thái làm việc <span>(*)</span></label>
-                <div class="col-6">
-                  <select
-                    class="custom-select"
-                    formControlName="sta_working_status"
-                    (change)="onChangeWorkStatus($event)"
-                    [ngClass]="{
+                    }" />
+                                                                    <div *ngIf="submitted && formProfile.controls.sta_salary.errors" class="invalid-feedback">
+                                                                        <span>Trường bắt buộc</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row mb-3">
+                                                                <label class="col-4 col-form-label">Trạng thái làm việc <span>(*)</span></label>
+                                                                <div class="col-6">
+                                                                    <select class="custom-select" formControlName="sta_working_status" (change)="onChangeWorkStatus($event)" [ngClass]="{
                       'is-invalid': submitted && formProfile.controls.sta_working_status.errors
-                    }"
-                  >
+                    }">
                     <option [disabled]="listView[1]" [value]="1">Đang làm việc</option>
                     <option [disabled]="listView[1]" [value]="2">Nghỉ việc</option>
                   </select>
-                  <div
-                    *ngIf="submitted && formProfile.controls.sta_working_status.errors"
-                    class="invalid-feedback"
-                  >
-                    <span>Trường bắt buộc</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group row mb-3">
-                <label class="col-4 col-form-label"
-                  >Ngày nghỉ việc
+                                                                    <div *ngIf="submitted && formProfile.controls.sta_working_status.errors" class="invalid-feedback">
+                                                                        <span>Trường bắt buộc</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-row">
+                                                            <div class="form-group row mb-3">
+                                                                <label class="col-4 col-form-label">Ngày nghỉ việc
                   <span *ngIf="formProfile.value.sta_working_status === '2'">(*)</span></label
                 >
                 <div class="col-6">
@@ -628,61 +402,40 @@
             <div class="form-row">
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Bảo hiểm y tế</label>
-                <div class="col-6">
-                  <input
-                    class="form-control"
-                    [readonly]="listView[1]"
-                    formControlName="sta_social_insurance"
-                  />
-                </div>
-              </div>
-              <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Bảo hiểm xã hội</label>
-                <div class="col-6">
-                  <input
-                    class="form-control"
-                    [readonly]="listView[1]"
-                    formControlName="sta_health_card"
-                  />
-                </div>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Mã số thuế</label>
-                <div class="col-6">
-                  <input
-                    class="form-control"
-                    [readonly]="listView[1]"
-                    formControlName="sta_tax_code"
-                  />
-                </div>
-              </div>
-              <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Ghi chú</label>
-                <div class="col-6">
-                  <input class="form-control" [readonly]="listView[1]" formControlName="sta_note" />
-                </div>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Mã nhân viên <span>(*)</span></label>
-                <div class="col-6">
-                  <input
-                    class="form-control"
-                    [readonly]="sta_id !== '' || listView[1]"
-                    formControlName="sta_code"
-                    [ngClass]="{
+                                                                <div class="col-6">
+                                                                    <input class="form-control" [readonly]="listView[1]" formControlName="sta_social_insurance" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row mb-3">
+                                                                <label class="col-4 col-form-label">Bảo hiểm xã hội</label>
+                                                                <div class="col-6">
+                                                                    <input class="form-control" [readonly]="listView[1]" formControlName="sta_health_card" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-row">
+                                                            <div class="form-group row mb-3">
+                                                                <label class="col-4 col-form-label">Mã số thuế</label>
+                                                                <div class="col-6">
+                                                                    <input class="form-control" [readonly]="listView[1]" formControlName="sta_tax_code" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row mb-3">
+                                                                <label class="col-4 col-form-label">Ghi chú</label>
+                                                                <div class="col-6">
+                                                                    <input class="form-control" [readonly]="listView[1]" formControlName="sta_note" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-row">
+                                                            <div class="form-group row mb-3">
+                                                                <label class="col-4 col-form-label">Mã nhân viên <span>(*)</span></label>
+                                                                <div class="col-6">
+                                                                    <input class="form-control" [readonly]="sta_id !== '' || listView[1]" formControlName="sta_code" [ngClass]="{
                       'is-invalid': submitted && formProfile.controls.sta_code.errors
-                    }"
-                  />
-                  <div
-                    *ngIf="submitted && formProfile.controls.sta_code.errors"
-                    class="invalid-feedback"
-                  >
-                    <span *ngIf="formProfile.controls.sta_code.errors.required"
-                      >Trường bắt buộc</span
+                    }" />
+                                                                    <div *ngIf="submitted && formProfile.controls.sta_code.errors" class="invalid-feedback">
+                                                                        <span *ngIf="formProfile.controls.sta_code.errors.required">Trường bắt buộc</span
                     >
                   </div>
                 </div>
@@ -702,23 +455,14 @@
             <div class="form-row">
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Số điện thoại <span>(*)</span></label>
-                <div class="col-6">
-                  <input
-                    class="form-control"
-                    [readonly]="listView[2]"
-                    formControlName="sta_mobile"
-                    [ngClass]="{
+                                                                        <div class="col-6">
+                                                                            <input class="form-control" [readonly]="listView[2]" formControlName="sta_mobile" [ngClass]="{
                       'is-invalid':
                         submitted &&
                         (formContact.controls.sta_mobile.errors || errorField === 'sta_mobile')
-                    }"
-                  />
-                  <div
-                    *ngIf="submitted && formContact.controls.sta_mobile.errors"
-                    class="invalid-feedback"
-                  >
-                    <span *ngIf="formContact.controls.sta_mobile.errors.required"
-                      >Trường bắt buộc</span
+                    }" />
+                                                                            <div *ngIf="submitted && formContact.controls.sta_mobile.errors" class="invalid-feedback">
+                                                                                <span *ngIf="formContact.controls.sta_mobile.errors.required">Trường bắt buộc</span
                     >
                     <span *ngIf="formContact.controls.sta_mobile.errors.pattern"
                       >Số điện thoại chỉ được nhập số</span
@@ -729,37 +473,26 @@
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label"
                   >Email
-                  <span *ngIf="formContractType.value.sta_type_contact === 1">(*)</span></label
-                >
-                <div class="col-6">
-                  <input
-                    class="form-control"
-                    [readonly]="listView[2]"
-                    formControlName="sta_email"
-                    [ngClass]="{
+                  <span *ngIf="formContractType.value.sta_type_contact === 1">(*)</span></label>
+                                                                                <div class="col-6">
+                                                                                    <input class="form-control" [readonly]="listView[2]" formControlName="sta_email" [ngClass]="{
                       'is-invalid':
                         submitted &&
                         (formContact.controls.sta_email.errors ||
                           errorField === 'sta_email' ||
                           (formContractType.value.sta_type_contact === 1 &&
                             formContact.value.sta_email === ''))
-                    }"
-                  />
-                  <div
-                    *ngIf="
+                    }" />
+                                                                                    <div *ngIf="
                       submitted &&
                       (formContact.controls.sta_email.errors ||
                         (formContractType.value.sta_type_contact === 1 &&
                           formContact.value.sta_email === ''))
-                    "
-                    class="invalid-feedback"
-                  >
-                    <span
-                      *ngIf="
+                    " class="invalid-feedback">
+                                                                                        <span *ngIf="
                         formContractType.value.sta_type_contact === 1 &&
                         formContact.value.sta_email === ''
-                      "
-                      >Trường bắt buộc</span
+                      ">Trường bắt buộc</span
                     >
                     <span
                       *ngIf="
@@ -769,34 +502,25 @@
                     >
                       Email sai định dạng
                     </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
 
-          <div id="3" class="row title-section">
-            <h5>{{ menu[3] }}</h5>
-            <i
-              [ngClass]="listView[3] ? 'fe-edit ml-2' : 'fe-save ml-2'"
-              (click)="switchViewType(3)"
-            ></i>
-          </div>
-          <div [formGroup]="formIdentityCard">
-            <div class="form-row">
-              <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Số CMND/Thẻ căn cước</label>
-                <div class="col-6">
-                  <input
-                    class="form-control"
-                    [readonly]="listView[3]"
-                    formControlName="sta_identity_card"
-                    (change)="onChangeIdentityCard($event)"
-                    [ngClass]="{
+                                                                    <div id="3" class="row title-section">
+                                                                        <h5>{{ menu[3] }}</h5>
+                                                                        <i [ngClass]="listView[3] ? 'fe-edit ml-2' : 'fe-save ml-2'" (click)="switchViewType(3)"></i>
+                                                                    </div>
+                                                                    <div [formGroup]="formIdentityCard">
+                                                                        <div class="form-row">
+                                                                            <div class="form-group row mb-3">
+                                                                                <label class="col-4 col-form-label">Số CMND/Thẻ căn cước</label>
+                                                                                <div class="col-6">
+                                                                                    <input class="form-control" [readonly]="listView[3]" formControlName="sta_identity_card" (change)="onChangeIdentityCard($event)" [ngClass]="{
                       'is-invalid': submitted && formIdentityCard.controls.sta_identity_card.errors
-                    }"
-                  />
-                  <!-- <div
+                    }" />
+                                                                                    <!-- <div
                     *ngIf="submitted && formIdentityCard.controls.sta_identity_card.errors"
                     class="invalid-feedback"
                   >
@@ -804,81 +528,51 @@
                       >Chỉ chứa các chữ số</span
                     >
                   </div> -->
-                </div>
-              </div>
-              <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Ngày cấp</label>
-                <div class="col-6">
-                  <div class="input-group clockpicker mb-2 mr-1">
-                    <input
-                      ngbDatepicker
-                      readonly="true"
-                      class="form-control"
-                      placeholder="Chọn ngày"
-                      #icd="ngbDatepicker"
-                      formControlName="sta_identity_card_date"
-                     
-                      [disabled]="listView[3] || formIdentityCard.value.sta_identity_card === ''"
-                    />
-                    <div class="input-group-append" (click)="icd.toggle()">
-                      <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Nơi cấp</label>
-                <div class="col-6">
-                  <input
-                    class="form-control"
-                    [readonly]="listView[3] || formIdentityCard.value.sta_identity_card === ''"
-                    formControlName="sta_identity_card_location"
-                  />
-                </div>
-              </div>
-              <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Ngày hết hạn</label>
-                <div class="col-6">
-                  <div class="input-group clockpicker mb-2 mr-1">
-                    <input
-                      ngbDatepicker
-                      readonly="true"
-                      class="form-control"
-                      placeholder="Chọn ngày"
-                      #icde="ngbDatepicker"
-                   
-                      formControlName="sta_identity_card_date_end"
-                      [disabled]="listView[3] || formIdentityCard.value.sta_identity_card === ''"
-                    />
-                    <div class="input-group-append" (click)="icde.toggle()">
-                      <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group row mb-3">
+                                                                                <label class="col-4 col-form-label">Ngày cấp</label>
+                                                                                <div class="col-6">
+                                                                                    <div class="input-group clockpicker mb-2 mr-1">
+                                                                                        <input ngbDatepicker readonly="true" class="form-control" placeholder="Chọn ngày" #icd="ngbDatepicker" formControlName="sta_identity_card_date" [disabled]="listView[3] || formIdentityCard.value.sta_identity_card === ''" />
+                                                                                        <div class="input-group-append" (click)="icd.toggle()">
+                                                                                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-row">
+                                                                            <div class="form-group row mb-3">
+                                                                                <label class="col-4 col-form-label">Nơi cấp</label>
+                                                                                <div class="col-6">
+                                                                                    <input class="form-control" [readonly]="listView[3] || formIdentityCard.value.sta_identity_card === ''" formControlName="sta_identity_card_location" />
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group row mb-3">
+                                                                                <label class="col-4 col-form-label">Ngày hết hạn</label>
+                                                                                <div class="col-6">
+                                                                                    <div class="input-group clockpicker mb-2 mr-1">
+                                                                                        <input ngbDatepicker readonly="true" class="form-control" placeholder="Chọn ngày" #icde="ngbDatepicker" formControlName="sta_identity_card_date_end" [disabled]="listView[3] || formIdentityCard.value.sta_identity_card === ''" />
+                                                                                        <div class="input-group-append" (click)="icde.toggle()">
+                                                                                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
 
-          <div id="4" class="row title-section">
-            <h5>{{ menu[4] }}</h5>
-            <i
-              [ngClass]="listView[4] ? 'fe-edit ml-2' : 'fe-save ml-2'"
-              (click)="switchViewType(4)"
-            ></i>
-          </div>
-          <div [formGroup]="formPermanentAddress">
-            <div class="form-row">
-              <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Tỉnh/Thành phố <span>(*)</span></label>
-                <div class="col-6">
-                  <select
-                    class="custom-select"
-                    formControlName="unl_province_permanent"
-                    class="form-control"
-                    (change)="onChangeProvincePermanent($event)"
-                  >
+                                                                    <div id="4" class="row title-section">
+                                                                        <h5>{{ menu[4] }}</h5>
+                                                                        <i [ngClass]="listView[4] ? 'fe-edit ml-2' : 'fe-save ml-2'" (click)="switchViewType(4)"></i>
+                                                                    </div>
+                                                                    <div [formGroup]="formPermanentAddress">
+                                                                        <div class="form-row">
+                                                                            <div class="form-group row mb-3">
+                                                                                <label class="col-4 col-form-label">Tỉnh/Thành phố <span>(*)</span></label>
+                                                                                <div class="col-6">
+                                                                                    <select class="custom-select" formControlName="unl_province_permanent" class="form-control" (change)="onChangeProvincePermanent($event)">
                     <option
                       *ngFor="let province of provincePermanent"
                       [disabled]="listView[4]"
@@ -886,17 +580,12 @@
                       >{{ province.name }}</option
                     >
                   </select>
-                </div>
-              </div>
-              <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Quận/Huyện <span>(*)</span></label>
-                <div class="col-6">
-                  <select
-                    class="custom-select"
-                    formControlName="unl_district_permanent"
-                    class="form-control"
-                    (change)="onChangeDistrictPermanent($event)"
-                  >
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group row mb-3">
+                                                                                <label class="col-4 col-form-label">Quận/Huyện <span>(*)</span></label>
+                                                                                <div class="col-6">
+                                                                                    <select class="custom-select" formControlName="unl_district_permanent" class="form-control" (change)="onChangeDistrictPermanent($event)">
                     <option
                       *ngFor="let district of districtPermanent"
                       [disabled]="listView[4]"
@@ -904,18 +593,14 @@
                       >{{ district.name }}</option
                     >
                   </select>
-                </div>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Xã/Phường <span>(*)</span></label>
-                <div class="col-6">
-                  <select
-                    class="custom-select"
-                    formControlName="unl_ward_permanent"
-                    class="form-control"
-                  >
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-row">
+                                                                            <div class="form-group row mb-3">
+                                                                                <label class="col-4 col-form-label">Xã/Phường <span>(*)</span></label>
+                                                                                <div class="col-6">
+                                                                                    <select class="custom-select" formControlName="unl_ward_permanent" class="form-control">
                     <option
                       *ngFor="let ward of wardPermanent"
                       [disabled]="listView[4]"
@@ -923,26 +608,17 @@
                       >{{ ward.name }}</option
                     >
                   </select>
-                </div>
-              </div>
-              <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Địa chỉ <span>(*)</span></label>
-                <div class="col-6">
-                  <input
-                    class="form-control"
-                    [readonly]="listView[4]"
-                    formControlName="unl_detail_permanent"
-                    [ngClass]="{
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group row mb-3">
+                                                                                <label class="col-4 col-form-label">Địa chỉ <span>(*)</span></label>
+                                                                                <div class="col-6">
+                                                                                    <input class="form-control" [readonly]="listView[4]" formControlName="unl_detail_permanent" [ngClass]="{
                       'is-invalid':
                         submitted && formPermanentAddress.controls.unl_detail_permanent.errors
-                    }"
-                  />
-                  <div
-                    *ngIf="submitted && formPermanentAddress.controls.unl_detail_permanent.errors"
-                    class="invalid-feedback"
-                  >
-                    <span *ngIf="formPermanentAddress.controls.unl_detail_permanent.errors.required"
-                      >Trường bắt buộc</span
+                    }" />
+                                                                                    <div *ngIf="submitted && formPermanentAddress.controls.unl_detail_permanent.errors" class="invalid-feedback">
+                                                                                        <span *ngIf="formPermanentAddress.controls.unl_detail_permanent.errors.required">Trường bắt buộc</span
                     >
                   </div>
                 </div>
@@ -970,13 +646,8 @@
             <div class="form-row">
               <div class="form-group row mb-3">
                 <label class="col-4 col-form-label">Tỉnh/Thành phố <span>(*)</span></label>
-                <div class="col-6">
-                  <select
-                    class="custom-select"
-                    formControlName="unl_province_now"
-                    class="form-control"
-                    (change)="onChangeProvinceNow($event)"
-                  >
+                                                                                        <div class="col-6">
+                                                                                            <select class="custom-select" formControlName="unl_province_now" class="form-control" (change)="onChangeProvinceNow($event)">
                     <option
                       *ngFor="let province of provinceNow"
                       [disabled]="listView[5]"
@@ -984,17 +655,12 @@
                       >{{ province.name }}</option
                     >
                   </select>
-                </div>
-              </div>
-              <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Quận/Huyện <span>(*)</span></label>
-                <div class="col-6">
-                  <select
-                    class="custom-select"
-                    formControlName="unl_district_now"
-                    class="form-control"
-                    (change)="onChangeDistrictNow($event)"
-                  >
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row mb-3">
+                                                                                        <label class="col-4 col-form-label">Quận/Huyện <span>(*)</span></label>
+                                                                                        <div class="col-6">
+                                                                                            <select class="custom-select" formControlName="unl_district_now" class="form-control" (change)="onChangeDistrictNow($event)">
                     <option
                       *ngFor="let district of districtNow"
                       [disabled]="listView[5]"
@@ -1002,14 +668,14 @@
                       >{{ district.name }}</option
                     >
                   </select>
-                </div>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Xã/Phường <span>(*)</span></label>
-                <div class="col-6">
-                  <select class="custom-select" formControlName="unl_ward_now" class="form-control">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-row">
+                                                                                    <div class="form-group row mb-3">
+                                                                                        <label class="col-4 col-form-label">Xã/Phường <span>(*)</span></label>
+                                                                                        <div class="col-6">
+                                                                                            <select class="custom-select" formControlName="unl_ward_now" class="form-control">
                     <option
                       *ngFor="let ward of wardNow"
                       [disabled]="listView[5]"
@@ -1017,25 +683,16 @@
                       >{{ ward.name }}</option
                     >
                   </select>
-                </div>
-              </div>
-              <div class="form-group row mb-3">
-                <label class="col-4 col-form-label">Địa chỉ <span>(*)</span></label>
-                <div class="col-6">
-                  <input
-                    class="form-control"
-                    [readonly]="listView[5]"
-                    formControlName="unl_detail_now"
-                    [ngClass]="{
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="form-group row mb-3">
+                                                                                        <label class="col-4 col-form-label">Địa chỉ <span>(*)</span></label>
+                                                                                        <div class="col-6">
+                                                                                            <input class="form-control" [readonly]="listView[5]" formControlName="unl_detail_now" [ngClass]="{
                       'is-invalid': submitted && formNowAddress.controls.unl_detail_now.errors
-                    }"
-                  />
-                  <div
-                    *ngIf="submitted && formNowAddress.controls.unl_detail_now.errors"
-                    class="invalid-feedback"
-                  >
-                    <span *ngIf="formNowAddress.controls.unl_detail_now.errors.required"
-                      >Trường bắt buộc</span
+                    }" />
+                                                                                            <div *ngIf="submitted && formNowAddress.controls.unl_detail_now.errors" class="invalid-feedback">
+                                                                                                <span *ngIf="formNowAddress.controls.unl_detail_now.errors.required">Trường bắt buộc</span
                     >
                   </div>
                 </div>
@@ -1470,7 +1127,7 @@
                 !formAchieve.dirty &&
                 !isChange
               "
-              (click)="onSubmit()"
+              (click)="onSubmit(formContractType)"
             >
               Lưu lại
             </button>

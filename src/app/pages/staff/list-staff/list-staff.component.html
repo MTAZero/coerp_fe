@@ -1,100 +1,55 @@
 <app-main-container>
-  <div top class="card-body" style="height: 100%;">
-    <div class="row">
-      <div class="col-sm-8">
-        <form class="form-inline">
-          <div class="form-group ml-1 mr-1 mb-2">
-            <input
-              class="form-control"
-              name="textSearch"
-              placeholder="Tìm kiếm..."
-              [(ngModel)]="textSearch"
-              (input)="onChangeFilter()"
-            />
-          </div>
-          <select
-            class="custom-select mr-1"
-            name="type"
-            [(ngModel)]="typeSearch"
-            (change)="onChangeFilter()"
-          >
+    <div top class="card-body" style="height: 100%;">
+        <div class="row">
+            <div class="col-sm-8">
+                <form class="form-inline">
+                    <div class="form-group ml-1 mr-1 mb-2">
+                        <input class="form-control" name="textSearch" placeholder="Tìm kiếm..." [(ngModel)]="textSearch" (input)="onChangeFilter()" />
+                    </div>
+                    <select class="custom-select mr-1" name="type" [(ngModel)]="typeSearch" (change)="onChangeFilter()">
             <option value="">Chức danh</option>
             <option *ngFor="let type of types" [value]="type.id">{{ type.name }}</option>
           </select>
-          <select
-            class="custom-select mr-1 mb-2"
-            name="select"
-            [(ngModel)]="statusSearch"
-            (change)="onChangeFilter()"
-          >
+                    <select class="custom-select mr-1 mb-2" name="select" [(ngModel)]="statusSearch" (change)="onChangeFilter()">
             <option value="">Trạng thái</option>
             <option value="1">Kích hoạt</option>
             <option value="2">Khóa</option>
           </select>
-          <select
-            class="custom-select mr-1 mb-2"
-            name="select"
-            [(ngModel)]="workingStatusSearch"
-            (change)="onChangeFilter()"
-          >
+                    <select class="custom-select mr-1 mb-2" name="select" [(ngModel)]="workingStatusSearch" (change)="onChangeFilter()">
             <option value="">Trạng thái làm việc</option>
             <option value="1">Đang làm việc</option>
             <option value="2">Nghỉ việc</option>
           </select>
-          <div class="input-group clockpicker mb-2 mr-1">
-            <input
-              ngbDatepicker
-              readonly="true"
-              class="form-control"
-              placeholder="yyyy-mm-dd"
-              #from="ngbDatepicker"
-              name="from"
-              [maxDate]="toDate"
-              [(ngModel)]="fromDate"
-              (dateSelect)="onChangeFilter()"
-            />
-            <div class="input-group-append" (click)="from.toggle()">
-              <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                    <div class="input-group clockpicker mb-2 mr-1">
+                        <input ngbDatepicker readonly="true" class="form-control" placeholder="yyyy-mm-dd" #from="ngbDatepicker" name="from" [maxDate]="toDate" [(ngModel)]="fromDate" (dateSelect)="onChangeFilter()" />
+                        <div class="input-group-append" (click)="from.toggle()">
+                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                        </div>
+                    </div>
+                    <div class="input-group clockpicker mb-2">
+                        <input ngbDatepicker readonly="true" class="form-control" placeholder="yyyy-mm-dd" #to="ngbDatepicker" name="to" [minDate]="fromDate" [(ngModel)]="toDate" (dateSelect)="onChangeFilter()" />
+                        <div class="input-group-append" (click)="to.toggle()">
+                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                        </div>
+                    </div>
+                </form>
             </div>
-          </div>
-          <div class="input-group clockpicker mb-2">
-            <input
-              ngbDatepicker
-              readonly="true"
-              class="form-control"
-              placeholder="yyyy-mm-dd"
-              #to="ngbDatepicker"
-              name="to"
-              [minDate]="fromDate"
-              [(ngModel)]="toDate"
-              (dateSelect)="onChangeFilter()"
-            />
-            <div class="input-group-append" (click)="to.toggle()">
-              <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-            </div>
-          </div>
-        </form>
-      </div>
-      <div class="col-sm-4">
-        <div class="text-sm-right">
-          <label class="btn btn-info mb-2 mr-1">
+            <div class="col-sm-4">
+                <div class="text-sm-right">
+                    <label class="btn btn-info mb-2 mr-1">
             <input type="file" (change)="setFile($event)" style="display: none;" />
             <a mat-raised-button color="primary">
               Nhập
             </a>
           </label>
-          <button type="button" class="btn btn-info mb-2 mr-1" (click)="exportStaff()">
+                    <button type="button" class="btn btn-info mb-2 mr-1" (click)="exportStaff()">
             Xuất
           </button>
-          <button type="button" class="btn btn-info mb-2 mr-1" (click)="exportTemplate()">
+                    <button type="button" class="btn btn-info mb-2 mr-1" (click)="exportTemplate()">
             Xuất mẫu
           </button>
-          <a class="btn btn-success mb-2 mr-1 button-link" (click)="onRouteDetail()"> Thêm mới</a>
-          <a
-            class="btn btn-primary mb-2 mr-1 button-link"
-            [ngClass]="selectedStaff ? '' : 'attr.disabled'"
-            (click)="onRouteDetail(selectedStaff)"
-          >
+                    <a class="btn btn-success mb-2 mr-1 button-link" (click)="onRouteDetail()"> Thêm mới</a>
+                    <a class="btn btn-primary mb-2 mr-1 button-link" [ngClass]="selectedStaff ? '' : 'attr.disabled'" (click)="onRouteDetail(selectedStaff)">
             Xem & Sửa</a
           >
           <a
@@ -177,10 +132,8 @@
             </td>
             <td>
               <span
-                [ngClass]="
-                  staff.sta_type_contact === 4 ? 'badge badge-success' : 'badge badge-danger'
-                "
-                >{{ staff.sta_type_contact === 4 ? 'Parttime' : 'Fulltime' }}
+                [ngClass]="classTypeContact(staff.sta_type_contact)"
+                >{{typeContact(staff.sta_type_contact)}}
               </span>
             </td>
             <td>{{ staff.sta_identity_card }}</td>
