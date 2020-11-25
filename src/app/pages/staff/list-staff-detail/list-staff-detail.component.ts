@@ -163,7 +163,6 @@ export class ListStaffDetailComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(res : any) {
-    console.log(res);
     this.submitted = true;
     if (
       this.formContractType.invalid ||
